@@ -1,0 +1,477 @@
+---
+// Fiche produit complète du sweat GA brodé (base : SOL'S Comet 03574, disponible sur Printful en French Navy, brodable).
+// Caractéristiques reprises des fiches techniques SOL'S / revendeurs, sans rien inventer.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../../components/PartageReseaux.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import b from '../../../data/boutique.json';
+import CommandeBoutique from '../../../components/CommandeBoutique.astro';
+import { commandeOuverte } from '../../../data/vente';
+import coaches from '../../../data/coaches.js';
+const CODES = Object.fromEntries(coaches.map((c: any) => [c.slug, [c.codeBoutique, c.prenom]]));
+
+const p: any = b.collections.flatMap((c: any) => c.produits).find((x: any) => x.id === 'pull-ga');
+const path = '/boutique/sweat-ga-brode/';
+const porte: any[] = p.porte || [];
+const tousP: any[] = b.collections.flatMap((c: any) => c.produits);
+const duoAvec: any = p.duo ? tousP.find((x: any) => x.id === p.duo.avec) : null;
+const duoTotal = duoAvec ? p.prix + duoAvec.prix : 0;
+const eur = (n: number) => (n % 1 ? n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : String(n)) + '\u00a0€';
+const gourdeDansDuo = duoAvec ? p.duo.prix - p.prix : 0;
+// série limitée : affichée seulement quand les dates sont renseignées dans boutique.json
+const serie: any = p.serie && p.serie.fin ? p.serie : null;
+const fmtDate = (s: string) => new Date(s + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+// galerie du haut : photo studio, puis deux photos portées, puis le reste du studio
+const galerie = [p.images[0], ...porte.slice(2, 4), ...p.images.slice(1)];
+
+const tailles = [
+  { t: 'S', l: 68, w: 51 },
+  { t: 'M', l: 70, w: 54 },
+  { t: 'L', l: 72, w: 57 },
+  { t: 'XL', l: 74, w: 60 },
+  { t: 'XXL', l: 76, w: 63 },
+];
+
+const technique: [string, string][] = [
+  ['Modèle de base', "SOL'S Comet (réf. 03574), marque de textile parisienne"],
+  ['Composition', '80 % coton bio, 20 % polyester recyclé'],
+  ['Extérieur', '100 % coton bio, doux au toucher'],
+  ['Maille', 'Molleton French terry 280 g/m² : petites boucles à l\'intérieur, face lisse à l\'extérieur'],
+  ['Col', 'Rond, bord-côte 2x2, demi-lune en jersey et bande de propreté à l\'intérieur'],
+  ['Manches', 'Montées, poignets en bord-côte 2x2'],
+  ['Bas', 'Bord-côte 2x2'],
+  ['Coupe', 'Unisexe, droite'],
+  ['Coloris', 'Bleu marine (French Navy)'],
+  ['Tailles', 'S, M, L, XL, XXL'],
+  ['Marquage', 'Logo GA brodé côté cœur, fil bleu'],
+  ['Fabrication', 'Brodé à la commande dans ta taille, puis expédié chez toi'],
+  ['Engagement', 'Fabricant membre de la Fair Wear Foundation'],
+];
+
+const atouts = [
+  { i: '🧵', t: 'Brodé, pas imprimé', d: 'Le logo est cousu point par point dans le tissu. Il ne craquelle pas et ne se décolle pas comme un flocage.' },
+  { i: '🌱', t: 'Coton bio à l\'extérieur', d: 'La face visible est 100 % coton bio. Le mélange avec du polyester recyclé aide le sweat à garder sa forme.' },
+  { i: '🔥', t: 'Molleton 280 g/m²', d: 'Un vrai sweat qui tient chaud à l\'échauffement et après la séance, sans être lourd au quotidien.' },
+  { i: '📐', t: 'Finitions soignées', d: 'Bord-côtes 2x2 au col, aux poignets et en bas, bande de propreté au col : il tombe bien et reste net.' },
+];
+
+const faq = [
+  { q: 'Quelle taille choisir ?', r: 'La coupe est unisexe et droite. Le plus simple : pose à plat un sweat que tu aimes, mesure sa largeur d\'une aisselle à l\'autre et compare avec le guide des tailles. Entre deux tailles, prends la plus grande pour un porté plus ample.' },
+  { q: 'La broderie tient-elle au lavage ?', r: 'Oui, c\'est l\'avantage de la broderie : le logo fait partie du tissu. Lave le sweat à l\'envers et évite le fer directement sur la broderie, et il gardera son allure.' },
+  { q: 'Il est fabriqué où et quand ?', r: 'Chaque sweat est brodé à la commande par notre partenaire d\'impression, puis expédié chez toi. Pas de stock, pas d\'invendus. Le délai exact de livraison sera affiché à l\'ouverture de la boutique.' },
+  { q: 'Mon coach m\'a donné son code, ça change quoi ?', r: `Indique-le au moment de la commande : ton coach est remercié pour son conseil, et ton prix ne change pas.` },
+  { q: 'Quand pourrai-je le commander ?', r: 'La boutique ouvre bientôt. Laisse ton email et ta taille : on te prévient en premier le jour de l\'ouverture.' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: p.nom,
+    description: 'Sweat col rond bleu marine, logo GA Coachs brodé côté cœur. Molleton French terry 280 g/m², extérieur 100 % coton bio, coupe unisexe, tailles S à XXL.',
+    image: p.images.map((i: any) => 'https://gacoachs.fr' + i.src),
+    brand: { '@type': 'Brand', name: 'GA Coachs' },
+    color: 'Bleu marine',
+    material: '80 % coton bio, 20 % polyester recyclé',
+    size: tailles.map((x) => x.t),
+    offers: { '@type': 'Offer', price: p.prix, priceCurrency: 'EUR', url: 'https://gacoachs.fr' + path },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+];
+---
+<BaseLayout
+  title="Sweat GA brodé : le sweat des clients du coach sportif GA"
+  description="Sweat col rond bleu marine, logo GA brodé côté cœur. Molleton 280 g/m², extérieur coton bio, coupe unisexe du S au XXL. Fiche technique complète et guide des tailles."
+  path={path}
+  jsonLd={jsonLd}
+  image={p.images[0].src}
+  stickyCtaHref="#commander"
+  stickyCtaLabel="Être prévenu"
+>
+  <div class="container">
+    <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Boutique', href: '/boutique/' }, { label: p.nom, href: path }]} />
+  </div>
+
+  <section class="sw-hero">
+    <div class="container sw-hero__in">
+      <div class="sw-gal">
+        <div class="sw-gal__main">
+          <img id="sw-main" src={p.images[0].src} alt={p.images[0].alt} width="900" height="900" fetchpriority="high" />
+        </div>
+        <div class="sw-gal__thumbs" role="group" aria-label="Photos du sweat">
+          {galerie.map((im: any, k: number) => (
+            <button type="button" class="sw-th" data-src={im.src} data-alt={im.alt} aria-label={`Photo ${k + 1} : ${im.alt}`} aria-pressed={k === 0 ? 'true' : 'false'}>
+              <img src={im.src.replace(/\.webp$/, '-mini.webp')} alt="" width="120" height="120" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div class="sw-info">
+        {serie && <p class="sw-serie"><b>{serie.nom}</b> · commandes ouvertes {serie.ouverture ? `du ${fmtDate(serie.ouverture)} ` : ''}jusqu'au {fmtDate(serie.fin)}{serie.livraison ? `, livraison ${serie.livraison}` : ''}. Après, la série est fermée.</p>}
+        <span class="eyebrow">Collection clients · GA Coachs</span>
+        <h1>{p.nom}</h1>
+        <p class="sw-prix">{p.prix} €<small>prix indicatif, livraison en plus</small></p>
+        <p class="sw-lead">Le bleu GA, à porter à la salle et partout ailleurs. Un sweat bleu marine épais et doux, avec le logo GA brodé côté cœur. Discret, mais on le reconnaît.</p>
+        <ul class="sw-cles">
+          <li><b>Logo brodé</b> en fil bleu, côté cœur</li>
+          <li><b>Molleton 280 g/m²</b>, extérieur 100 % coton bio</li>
+          <li><b>Coupe unisexe</b>, du S au XXL</li>
+          <li><b>Brodé à la commande</b>, rien que pour toi</li>
+        </ul>
+        <div class="sw-tailles" aria-label="Tailles disponibles">
+          {tailles.map((x) => <span>{x.t}</span>)}
+          <a href="#tailles">Guide des tailles</a>
+        </div>
+        <div class="sw-ctas">
+          <a href="#commander" class="btn btn--primary">Être prévenu de l'ouverture</a>
+          <a href="#technique" class="btn btn--ghost">Fiche technique</a>
+        </div>
+        <p class="sw-cadeau-lien">🎁 <a href="#cadeau">Une idée cadeau pour Noël</a>{duoAvec && <> · <a href="#duo">la gourde à moitié prix avec ton sweat</a></>}</p>
+        <p class="sw-coach" id="sw-reco"><b>Ton coach te l'a conseillé ?</b> Indique son code à la commande : il est remercié, ton prix ne change pas.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sw-bleu">
+    <div class="container sw-bleu__in">
+      <div class="sw-bleu__txt">
+        <span class="sw-bleu__k">L'histoire du sweat</span>
+        <h2>Porte le bleu.</h2>
+        <p>Dans les salles Basic-Fit du réseau, un polo bleu, c'est un coach GA. On le reconnaît de loin, et on sait qu'on peut compter sur lui.</p>
+        <p>Ce sweat, c'est le même bleu, mais pour toi. Celui qui s'entraîne, qui progresse et qui fait partie de l'équipe. Le logo est brodé côté cœur, pas par hasard.</p>
+        <p class="sw-bleu__sig">GA Coachs, partenaire de Basic-Fit depuis 2018.</p>
+      </div>
+      <div class="sw-bleu__media">
+        {p.video
+          ? <video src={p.video} poster={porte[0]?.src} autoplay muted loop playsinline aria-label="Le sweat GA brodé en gros plan puis porté à la salle"></video>
+          : p.histoire ? <img class="sw-bleu__pay" src={p.histoire.src} alt={p.histoire.alt} width="760" height="502" loading="lazy" />
+          : porte[0] && <img src={porte[0].src} alt={porte[0].alt} width="800" height="1000" loading="lazy" />}
+      </div>
+    </div>
+  </section>
+
+  {porte.length > 0 && (
+    <section class="section sw-porte">
+      <div class="container">
+        <span class="eyebrow">Porté par la communauté GA</span>
+        <h2>À la salle, dehors, au quotidien.</h2>
+        <p class="lead">Un sweat qui suit toutes tes séances, et tout le reste de ta journée.</p>
+        <div class="sw-mur">
+          {porte.map((im: any, k: number) => <figure class={k === 0 || k === 7 ? 'sw-mur__big' : ''}><img src={im.src} alt={im.alt} width="800" height="1000" loading="lazy" /></figure>)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section section--tint">
+    <div class="container">
+      <span class="eyebrow">Pourquoi tu vas l'adorer</span>
+      <h2>Pensé pour l'avant et l'après-séance.</h2>
+      <div class="sw-atouts">
+        {atouts.map((a) => (
+          <article>
+            <span class="sw-ic" aria-hidden="true">{a.i}</span>
+            <h3>{a.t}</h3>
+            <p>{a.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {duoAvec && (
+    <section class="section" id="duo">
+      <div class="container sw-duo">
+        <div class="sw-duo__vis">
+          <img src={p.images[0].src} alt={p.images[0].alt} width="900" height="900" loading="lazy" />
+          <span class="sw-duo__plus" aria-hidden="true">+</span>
+          <div class="sw-duo__g">
+            <img src={duoAvec.images[0].src} alt={duoAvec.images[0].alt} width="800" height="800" loading="lazy" />
+            <span class="sw-duo__badge">Gourde<br />à moitié prix</span>
+          </div>
+        </div>
+        <div>
+          <span class="eyebrow">Le pack complet</span>
+          <h2>{p.duo.nom} : sweat + gourde.</h2>
+          <p class="lead">Le sweat pour l'avant et l'après-séance, la {duoAvec.nom.toLowerCase().includes('gourde') ? 'gourde' : duoAvec.nom} pour pendant. Deux essentiels, un seul bleu.</p>
+          <p class="sw-duo__prix"><s>{eur(duoTotal)}</s> {eur(p.duo.prix)}<small>Avec ton sweat, la gourde passe à {eur(gourdeDansDuo)} au lieu de {eur(duoAvec.prix)}. Prix indicatif.</small></p>
+          <a href="#commander" class="btn btn--primary" data-choix="duo">Je veux le duo</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section section--tint" id="cadeau">
+    <div class="container">
+      <span class="eyebrow">🎁 Idée cadeau</span>
+      <h2>Le cadeau parfait pour ceux qui s'entraînent.</h2>
+      <p class="lead">Utile, de qualité, et avec une vraie histoire. Pas un énième gadget qui finit dans un placard.</p>
+      <div class="sw-cadeaux">
+        <article><span aria-hidden="true">🏋️</span><h3>Ton partenaire d'entraînement</h3><p>Celui qui ne lâche jamais une séance. Vous portez le même bleu.</p></article>
+        <article><span aria-hidden="true">❤️</span><h3>Quelqu'un qui reprend le sport</h3><p>Un coup de pouce pour se sentir bien en arrivant à la salle.</p></article>
+        <article><span aria-hidden="true">⭐</span><h3>Toi, pour fêter tes progrès</h3><p>Tu as tenu tes objectifs ? Tu l'as mérité.</p></article>
+      </div>
+      <p class="sw-astuce">📦 Pour Noël, la date limite de commande sera annoncée à l'ouverture. Coche « C'est pour offrir » en t'inscrivant : on te prévient en priorité.</p>
+    </div>
+  </section>
+
+  <section class="section" id="technique">
+    <div class="container sw-tech">
+      <div>
+        <span class="eyebrow">Fiche technique</span>
+        <h2>Tout ce qu'il y a dans ce sweat.</h2>
+        <p class="lead">Les caractéristiques du modèle de base, telles que données par le fabricant.</p>
+        <img class="sw-tech__img" src={p.images[3]?.src ?? p.images[0].src} alt={p.images[3]?.alt ?? p.images[0].alt} width="900" height="900" loading="lazy" />
+      </div>
+      <table class="sw-table">
+        <caption class="visually-hidden">Caractéristiques techniques du sweat GA brodé</caption>
+        <tbody>
+          {technique.map(([k, v]) => <tr><th scope="row">{k}</th><td>{v}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section section--tint" id="tailles">
+    <div class="container">
+      <span class="eyebrow">Guide des tailles</span>
+      <h2>Trouve ta taille en 30 secondes.</h2>
+      <p class="lead">Mesures du vêtement posé à plat, en centimètres. Une tolérance de 1 à 2 cm est normale.</p>
+      <div class="sw-guide">
+        <table class="sw-table sw-table--tailles">
+          <caption class="visually-hidden">Guide des tailles du sweat GA brodé, en centimètres</caption>
+          <thead><tr><th scope="col">Taille</th><th scope="col">Largeur à plat (A)</th><th scope="col">Longueur (B)</th></tr></thead>
+          <tbody>{tailles.map((x) => <tr><th scope="row">{x.t}</th><td>{x.w} cm</td><td>{x.l} cm</td></tr>)}</tbody>
+        </table>
+        <figure class="sw-schema">
+          <svg viewBox="0 0 220 200" role="img" aria-labelledby="sw-schema-t">
+            <title id="sw-schema-t">Où prendre les mesures : A d'une aisselle à l'autre, B du haut de l'épaule jusqu'en bas</title>
+            <path d="M70 22 Q110 6 150 22 L196 44 L208 150 L186 154 L176 76 L170 186 L50 186 L44 76 L34 154 L12 150 L24 44 Z" fill="#13284F" />
+            <path d="M88 22 Q110 40 132 22" fill="none" stroke="#2F6FED" stroke-width="3" />
+            <line x1="46" y1="80" x2="174" y2="80" stroke="#7FB2FF" stroke-width="2.5" stroke-dasharray="5 4" />
+            <text x="110" y="74" fill="#fff" font-size="13" font-weight="700" text-anchor="middle">A</text>
+            <line x1="150" y1="26" x2="150" y2="184" stroke="#7FB2FF" stroke-width="2.5" stroke-dasharray="5 4" />
+            <text x="160" y="120" fill="#fff" font-size="13" font-weight="700">B</text>
+          </svg>
+          <figcaption><b>A</b> : d'une aisselle à l'autre, sweat à plat. <b>B</b> : du haut de l'épaule jusqu'au bas du sweat.</figcaption>
+        </figure>
+      </div>
+      <p class="sw-astuce">💡 Le plus fiable : mesure un sweat que tu portes déjà et que tu aimes, puis compare. Entre deux tailles, prends la plus grande pour un porté ample.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container sw-two">
+      <div>
+        <span class="eyebrow">Entretien</span>
+        <h2>Pour qu'il reste beau longtemps.</h2>
+        <ul class="sw-list">
+          <li>Lave-le à l'envers, à 30 °C, avec des couleurs proches</li>
+          <li>Évite le sèche-linge : laisse-le sécher à plat</li>
+          <li>Repasse à l'envers, jamais directement sur la broderie</li>
+          <li>Pas d'eau de Javel</li>
+        </ul>
+      </div>
+      <div>
+        <span class="eyebrow">Fabrication et livraison</span>
+        <h2>Fait pour toi, à la commande.</h2>
+        <ul class="sw-list">
+          <li>Ton sweat est brodé seulement quand tu le commandes : aucun stock qui dort, pas d'invendus</li>
+          <li>Il est ensuite expédié directement chez toi</li>
+          <li>Le délai et les frais de livraison exacts seront affichés à l'ouverture</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint" id="commander">
+    <div class="container sw-form-wrap">
+      <div>
+        <span class="eyebrow">{commandeOuverte(p) ? 'Commander' : 'Ouverture prochaine'}</span>
+        <h2>{commandeOuverte(p) ? 'Commande le tien.' : 'Réserve ta place pour le premier lot.'}</h2>
+        <p class="lead">{commandeOuverte(p) ? 'Choisis, ajoute le code de ton coach si tu en as un, et paie en ligne en toute sécurité.' : "Laisse ton email et ta taille : on te prévient en premier le jour de l'ouverture de la boutique."}</p>
+      </div>
+      {commandeOuverte(p) ? <CommandeBoutique produit={p} duoAvec={duoAvec} /> : (
+      <form class="sw-form" name="boutique-sweat" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-boutique/" aria-label="Être prévenu de l'ouverture pour le sweat GA brodé">
+        <input type="hidden" name="form-name" value="boutique-sweat" />
+        <input type="hidden" name="produit" value={p.nom} />
+        <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+        <label>Prénom<input name="prenom" autocomplete="given-name" required /></label>
+        <label>Email<input type="email" name="email" autocomplete="email" required /></label>
+        <label>Ta taille
+          <select name="taille" required>
+            <option value="">Choisis ta taille</option>
+            {tailles.map((x) => <option value={x.t}>{x.t}</option>)}
+            <option value="je-ne-sais-pas">Je ne sais pas encore</option>
+          </select>
+        </label>
+        {duoAvec && (
+          <label>Ce qui t'intéresse
+            <select name="choix" id="sw-choix">
+              <option value="sweat">Le sweat seul ({p.prix} €)</option>
+              <option value="duo">{p.duo.nom} : sweat + gourde à moitié prix ({eur(p.duo.prix)})</option>
+            </select>
+          </label>
+        )}
+        <label>Code de ton coach <small>(facultatif)</small><input name="coach" id="bq-coach" autocomplete="off" maxlength="40" /></label>
+        <label class="sw-check"><input type="checkbox" name="cadeau" value="oui" /> C'est pour offrir 🎁</label>
+        <button class="btn btn--primary" type="submit">Me prévenir</button>
+        <p class="sw-rgpd">Ton email sert uniquement à te prévenir de l'ouverture. <a href="/confidentialite/">Confidentialité</a></p>
+      </form>
+      )}
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2>Tes questions sur le sweat.</h2>
+      <div class="sw-faq">
+        {faq.map((f) => <details><summary>{f.q}</summary><p>{f.r}</p></details>)}
+      </div>
+      <p class="sw-retour"><a href="/boutique/">← Voir toute la boutique</a></p>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title={"Le sweat GA brodé"} label="Partager ce sweat" /></div></section>
+</BaseLayout>
+
+<script is:inline id="bq-codes" type="application/json" set:html={JSON.stringify(CODES)}></script>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-choix]').forEach((a) => a.addEventListener('click', () => {
+    const s = document.getElementById('sw-choix') as HTMLSelectElement | null; if (s) s.value = a.dataset.choix || 'sweat';
+  }));
+  // galerie : clic sur une vignette = grande photo
+  const main = document.getElementById('sw-main') as HTMLImageElement | null;
+  document.querySelectorAll<HTMLButtonElement>('.sw-th').forEach((b) => {
+    b.addEventListener('click', () => {
+      if (!main) return;
+      main.src = b.dataset.src || main.src; main.alt = b.dataset.alt || '';
+      document.querySelectorAll('.sw-th').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    });
+  });
+  // code du coach retenu depuis la boutique (?coach=) ou depuis cette page
+  (() => {
+    const CLE = 'ga_coach_boutique';
+    let slug = '';
+    try { slug = (new URLSearchParams(location.search).get('coach') || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 40); } catch (e) { /* rien */ }
+    try {
+      if (slug) localStorage.setItem(CLE, JSON.stringify({ s: slug, d: Date.now() }));
+      else { const v = JSON.parse(localStorage.getItem(CLE) || 'null'); if (v && Date.now() - v.d < 60 * 86400000) slug = v.s; }
+    } catch (e) { /* stockage indisponible */ }
+    let codes: Record<string, [string, string]> = {};
+    try { codes = JSON.parse(document.getElementById('bq-codes')?.textContent || '{}'); } catch (e) { /* rien */ }
+    if (!slug || !codes[slug]) return;
+    const [code, prenom] = codes[slug];
+    const champ = document.getElementById('bq-coach') as HTMLInputElement | null;
+    if (champ && !champ.value) champ.value = code;
+    const reco = document.getElementById('sw-reco');
+    if (reco) { reco.textContent = ''; const b = document.createElement('b'); b.textContent = 'Conseillé par ton coach ' + prenom + '.'; reco.append(b, ' Son code ' + code + ' sera retenu pour ta commande, sans rien changer à ton prix.'); }
+  })();
+</script>
+
+<style>
+  .sw-hero { padding: 20px 0 64px; }
+  .sw-serie { margin: 0 0 12px; padding: 10px 14px; border-radius: var(--radius-sm); background: #0B1E3D; color: #fff; font-size: 14px; line-height: 1.45; }
+  .sw-serie b { color: #9CC8FF; }
+  .sw-cadeau-lien { margin: 0 0 12px; font-size: 15px; color: #13284F; }
+  .sw-cadeau-lien a { font-weight: 700; color: #1F55C9; }
+  .sw-bleu { background: radial-gradient(120% 90% at 85% 10%, #1F4FBF 0%, #0B1E3D 55%, #07142B 100%); color: #fff; padding: 72px 0; overflow: hidden; }
+  .sw-bleu__in { display: grid; gap: 36px; align-items: center; }
+  @media (min-width: 900px) { .sw-bleu__in { grid-template-columns: 1.15fr 1fr; gap: 64px; } .sw-bleu { padding: 110px 0; } }
+  .sw-bleu__k { font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: #9CC8FF; }
+  .sw-bleu h2 { font-size: clamp(44px, 8vw, 92px); line-height: .95; margin: 10px 0 22px; color: #fff; letter-spacing: -.02em; }
+  .sw-bleu p { font-size: 18px; line-height: 1.65; color: #DCE7FF; max-width: 52ch; margin: 0 0 14px; }
+  .sw-bleu__sig { font-weight: 700; color: #fff !important; margin-top: 22px !important; }
+  .sw-bleu__media { border-radius: 22px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.35); max-width: 460px; justify-self: center; width: 100%; }
+  .sw-bleu__media img, .sw-bleu__media video { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
+  .sw-bleu__media img.sw-bleu__pay { aspect-ratio: 760 / 502; }
+  .sw-bleu__media:has(.sw-bleu__pay) { max-width: 620px; }
+  .sw-duo { display: grid; gap: 32px; align-items: center; }
+  @media (min-width: 900px) { .sw-duo { grid-template-columns: 1fr 1fr; gap: 56px; } }
+  .sw-duo__vis { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; }
+  .sw-duo__vis img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-md); background: #F3F5F9; }
+  .sw-duo__g { position: relative; }
+  .sw-duo__badge { position: absolute; top: -14px; right: -12px; display: grid; place-items: center; width: 92px; height: 92px; border-radius: 50%; background: #1F55C9; color: #fff; font-weight: 700; font-size: 13px; line-height: 1.15; text-align: center; transform: rotate(-10deg); box-shadow: 0 10px 22px rgba(11,30,61,.3); border: 3px solid #fff; }
+  @media (max-width: 520px) { .sw-duo__badge { width: 84px; height: 84px; font-size: 10.5px; top: -12px; right: -8px; padding: 0 6px; } }
+  .sw-duo__plus { font-size: 34px; font-weight: 700; color: #1F55C9; }
+  .sw-duo__prix { font-size: 30px; font-weight: 700; color: #0B1E3D; margin: 6px 0 18px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+  .sw-duo__prix s { font-size: 20px; color: #4A5878; font-weight: 600; }
+  .sw-duo__prix small { font-size: 13px; font-weight: 600; color: #1F55C9; width: 100%; }
+  .sw-cadeaux { display: grid; gap: 14px; margin-top: 26px; }
+  @media (min-width: 760px) { .sw-cadeaux { grid-template-columns: repeat(3, 1fr); } }
+  .sw-cadeaux article { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-md); padding: 22px; }
+  .sw-cadeaux span { font-size: 26px; }
+  .sw-cadeaux h3 { font-size: 18px; margin: 8px 0 6px; }
+  .sw-cadeaux p { margin: 0; color: #2A3756; line-height: 1.55; }
+  .sw-form .sw-check { display: flex; align-items: center; gap: 10px; font-weight: 600; min-height: 32px; }
+  .sw-form .sw-check input { min-height: auto; width: 20px; height: 20px; }
+  .sw-hero__in { display: grid; gap: 32px; }
+  @media (min-width: 960px) { .sw-hero__in { grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: start; } .sw-gal { position: sticky; top: 96px; } }
+  .sw-gal__main { border-radius: var(--radius-md); overflow: hidden; background: #F3F5F9; aspect-ratio: 1; }
+  .sw-gal__main img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sw-gal__thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+  .sw-mur { display: grid; grid-auto-flow: dense; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 28px; }
+  @media (min-width: 860px) { .sw-mur { grid-template-columns: repeat(4, 1fr); gap: 14px; } .sw-mur__big { grid-column: span 2; grid-row: span 2; } }
+  .sw-mur figure { margin: 0; border-radius: var(--radius-md); overflow: hidden; background: #0B1E3D; }
+  .sw-mur img { width: 100%; height: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
+  .sw-th { padding: 0; border: 2px solid transparent; border-radius: 10px; overflow: hidden; background: #F3F5F9; cursor: pointer; aspect-ratio: 1; }
+  .sw-th img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sw-th[aria-pressed="true"] { border-color: var(--blue); }
+  .sw-th:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .sw-info h1 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.05; margin: 8px 0 10px; }
+  .sw-prix { font-size: 32px; font-weight: 700; color: #0B1E3D; margin: 0 0 14px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .sw-prix small { font-size: 13px; font-weight: 600; color: #4A5878; }
+  .sw-lead { font-size: 17px; line-height: 1.6; color: #2A3756; margin: 0 0 18px; }
+  .sw-cles { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 8px; }
+  .sw-cles li { position: relative; padding-left: 28px; color: #2A3756; }
+  .sw-cles li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 20px; height: 20px; border-radius: 50%; background: #E3ECFF; color: #1F55C9; font-size: 12px; font-weight: 700; display: grid; place-items: center; }
+  .sw-tailles { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 20px; }
+  .sw-tailles span { min-width: 46px; height: 40px; padding: 0 10px; display: grid; place-items: center; border: 1.5px solid #C9D8F5; border-radius: 10px; font-weight: 700; color: #0B1E3D; }
+  .sw-tailles a { margin-left: 6px; font-weight: 700; color: #1F55C9; }
+  .sw-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+  .sw-coach { margin: 0; padding: 14px 16px; border-radius: var(--radius-sm); background: #EEF3FF; color: #13284F; font-size: 14px; line-height: 1.5; }
+  .sw-atouts { display: grid; gap: 16px; margin-top: 28px; }
+  @media (min-width: 760px) { .sw-atouts { grid-template-columns: repeat(4, 1fr); } }
+  .sw-atouts article { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-md); padding: 22px; }
+  .sw-atouts h3 { font-size: 18px; margin: 10px 0 6px; }
+  .sw-atouts p { margin: 0; color: #2A3756; line-height: 1.55; font-size: 15px; }
+  .sw-ic { font-size: 26px; }
+  .sw-tech { display: grid; gap: 32px; }
+  @media (min-width: 960px) { .sw-tech { grid-template-columns: 1fr 1.2fr; align-items: start; } }
+  .sw-tech__img { width: 100%; max-width: 420px; height: auto; border-radius: var(--radius-md); margin-top: 20px; display: block; }
+  .sw-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; font-size: 15px; }
+  .sw-table th, .sw-table td { text-align: left; padding: 13px 16px; border-bottom: 1px solid #E6ECF8; vertical-align: top; }
+  .sw-table tr:last-child th, .sw-table tr:last-child td { border-bottom: 0; }
+  .sw-table tbody th { width: 34%; color: #1F55C9; font-weight: 700; }
+  .sw-table td { color: #13203B; }
+  .sw-table thead th { background: #0B1E3D; color: #fff; font-size: 13px; text-transform: none; letter-spacing: .04em; }
+  .sw-table--tailles tbody th { width: auto; color: #0B1E3D; }
+  .sw-guide { display: grid; gap: 24px; margin-top: 24px; }
+  @media (min-width: 860px) { .sw-guide { grid-template-columns: 1.3fr 1fr; align-items: center; } }
+  .sw-schema { margin: 0; text-align: center; }
+  .sw-schema svg { width: 100%; max-width: 260px; height: auto; }
+  .sw-schema figcaption { font-size: 14px; color: #2A3756; line-height: 1.5; margin-top: 8px; }
+  .sw-astuce { margin: 20px 0 0; padding: 14px 16px; background: #fff; border-radius: var(--radius-sm); border: 1px solid var(--line); color: #13284F; }
+  .sw-two { display: grid; gap: 40px; }
+  @media (min-width: 860px) { .sw-two { grid-template-columns: 1fr 1fr; } }
+  .sw-list { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 10px; }
+  .sw-list li { padding: 12px 14px 12px 40px; position: relative; background: #F5F8FF; border-radius: var(--radius-sm); color: #13203B; line-height: 1.5; }
+  .sw-list li::before { content: ''; position: absolute; left: 16px; top: 19px; width: 10px; height: 10px; border-radius: 50%; background: var(--blue); }
+  .sw-form-wrap { display: grid; gap: 28px; }
+  @media (min-width: 860px) { .sw-form-wrap { grid-template-columns: 1fr 1fr; align-items: center; } }
+  .sw-form { display: grid; gap: 14px; padding: 24px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .sw-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; }
+  .sw-form input, .sw-form select { min-height: 46px; padding: 0 12px; border: 1px solid #B8C6E3; border-radius: var(--radius-sm); font: inherit; background: #fff; }
+  .sw-rgpd { margin: 0; font-size: 13px; color: #4A5878; }
+  .sw-faq { display: grid; gap: 10px; margin-top: 24px; max-width: 820px; }
+  .sw-faq details { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0 18px; }
+  .sw-faq summary { cursor: pointer; padding: 16px 0; font-weight: 700; color: #0B1E3D; }
+  .sw-faq details p { margin: 0 0 16px; color: #2A3756; line-height: 1.6; }
+  .sw-retour { margin-top: 28px; }
+  .sw-retour a { font-weight: 700; color: #1F55C9; }
+</style>

@@ -1,0 +1,69 @@
+---
+interface Formation {
+  nom: string;
+  organisme?: string;
+  logo?: string;
+}
+interface Props {
+  formations: Formation[];
+}
+const { formations } = Astro.props;
+const avecLogo = formations.filter((f) => f.logo);
+// On duplique la liste pour créer une boucle de défilement continue
+const track = [...avecLogo, ...avecLogo];
+---
+{avecLogo.length > 0 && (
+  <div class="logos-marquee" role="group" aria-label="Formations et certifications">
+    <div class="logos-marquee__track">
+      {track.map((f) => (
+        <div class="logos-marquee__item" title={f.organisme ? `${f.nom} · ${f.organisme}` : f.nom}>
+          <img src={f.logo} alt={f.organisme ? `Logo ${f.organisme}` : `Logo ${f.nom}`} loading="lazy" width="48" height="48" />
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  .logos-marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  }
+  .logos-marquee__track {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    width: max-content;
+    animation: logos-scroll 18s linear infinite;
+  }
+  .logos-marquee:hover .logos-marquee__track {
+    animation-play-state: paused;
+  }
+  .logos-marquee__item {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: var(--white);
+    border: 1px solid var(--line);
+  }
+  .logos-marquee__item img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  @keyframes logos-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logos-marquee__track { animation: none; }
+    .logos-marquee { overflow-x: auto; }
+  }
+</style>

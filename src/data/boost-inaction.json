@@ -1,0 +1,10 @@
+[
+  { "label": "Sédentarité", "emoji": "🪑", "texte": "Des journées passées majoritairement assis, sans rupture active." },
+  { "label": "Douleurs / TMS", "emoji": "🦴", "texte": "Première cause de maladie professionnelle reconnue en France." },
+  { "label": "Fatigue", "emoji": "🔋", "texte": "Une énergie qui baisse au fil de la journée et de la semaine." },
+  { "label": "Stress", "emoji": "😮‍💨", "texte": "Un quotidien professionnel sans réel temps de coupure." },
+  { "label": "Absentéisme", "emoji": "📅", "texte": "Un sujet suivi de près par toutes les directions RH." },
+  { "label": "Désengagement", "emoji": "🔌", "texte": "Des collaborateurs moins impliqués dans la vie collective." },
+  { "label": "Turn-over", "emoji": "🔄", "texte": "Un enjeu de fidélisation, notamment chez les jeunes actifs." },
+  { "label": "Attractivité employeur", "emoji": "🧲", "texte": "Un critère de plus en plus regardé par les candidats." }
+]

@@ -1,0 +1,76 @@
+---
+// Bloc « Commander » d'un produit de la boutique, relié à Shopify (qui transmet la commande à Printful).
+// Il ne s'affiche que quand la vente est ouverte dans boutique.json ("vente.ouverte": true) et que
+// les identifiants de variantes Shopify du produit sont remplis. Sinon la page garde le formulaire « Être prévenu ».
+// Le code du coach part avec la commande (attribut "coach" + ref), sans changer le prix.
+import b from '../data/boutique.json';
+import { commandeOuverte } from '../data/vente';
+const { produit, duoAvec = null } = Astro.props as { produit: any; duoAvec?: any };
+const vente: any = (b as any).vente || {};
+const v = produit?.shopify || {};
+const tailles = v.variantes ? Object.entries(v.variantes).filter(([, id]) => id) : [];
+const variante = v.variante || '';
+const duoVar = duoAvec?.shopify?.variante || '';
+const ok = commandeOuverte(produit);
+const eur = (n: number) => (n % 1 ? n.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) : String(n)) + ' €';
+---
+{ok && (
+  <div class="cmd" data-domaine={vente.domaine} data-variante={variante} data-duo={duoVar}>
+    {tailles.length > 0 && (
+      <label class="cmd-l">Ta taille
+        <select class="cmd-taille" required>
+          <option value="">Choisis ta taille</option>
+          {tailles.map(([t, id]) => <option value={String(id)}>{t}</option>)}
+        </select>
+      </label>
+    )}
+    <label class="cmd-l">Code de ton coach <small>(facultatif)</small><input class="cmd-coach" autocomplete="off" maxlength="40" /></label>
+    <button type="button" class="btn btn--primary cmd-go" data-quoi="seul">Commander · {eur(produit.prix)}</button>
+    {duoAvec && duoVar && produit.duo && (
+      <button type="button" class="btn btn--ghost cmd-go" data-quoi="duo">Commander le duo · {eur(produit.duo.prix)}</button>
+    )}
+    <p class="cmd-err" role="alert" hidden>Choisis d'abord ta taille.</p>
+    <p class="cmd-note">Paiement sécurisé. Fabriqué à la commande puis expédié chez toi.</p>
+  </div>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>('.cmd').forEach((box) => {
+    const dom = box.dataset.domaine || '';
+    const champ = box.querySelector<HTMLInputElement>('.cmd-coach');
+    // code du coach : lien ?coach= de la page, sinon celui retenu 60 jours par la boutique
+    const codeRetenu = () => {
+      try {
+        const codes = JSON.parse(document.getElementById('bq-codes')?.textContent || '{}');
+        const q = (new URLSearchParams(location.search).get('coach') || '').toLowerCase();
+        if (codes[q]) return codes[q][0];
+        const v = JSON.parse(localStorage.getItem('ga_coach_boutique') || 'null');
+        if (v && Date.now() - v.d < 60 * 86400000 && codes[v.s]) return codes[v.s][0];
+      } catch (e) { /* rien */ }
+      return '';
+    };
+    if (champ && !champ.value) champ.value = codeRetenu();
+    box.querySelectorAll<HTMLButtonElement>('.cmd-go').forEach((bt) => bt.addEventListener('click', () => {
+      const sel = box.querySelector<HTMLSelectElement>('.cmd-taille');
+      const err = box.querySelector<HTMLElement>('.cmd-err');
+      const id = sel ? sel.value : box.dataset.variante;
+      if (!id) { if (err) err.hidden = false; sel?.focus(); return; }
+      if (err) err.hidden = true;
+      const lignes = [`${id}:1`];
+      if (bt.dataset.quoi === 'duo' && box.dataset.duo) lignes.push(`${box.dataset.duo}:1`);
+      const code = (champ?.value || codeRetenu()).trim().toUpperCase().replace(/[^A-Z0-9-]/g, '').slice(0, 30);
+      const q = code ? `?attributes[coach]=${encodeURIComponent(code)}&ref=${encodeURIComponent(code.toLowerCase())}` : '';
+      (window as any).trackConversion?.('boutique_commande', { quoi: bt.dataset.quoi, coach: code || 'aucun' });
+      window.location.href = `https://${dom}/cart/${lignes.join(',')}${q}`;
+    }));
+  });
+</script>
+
+<style>
+  .cmd { display: grid; gap: 14px; padding: 24px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .cmd-l { display: grid; gap: 6px; font-weight: 600; font-size: 14px; }
+  .cmd select, .cmd input { min-height: 46px; padding: 0 12px; border: 1px solid #B8C6E3; border-radius: var(--radius-sm); font: inherit; background: #fff; }
+  .cmd-go { width: 100%; justify-content: center; }
+  .cmd-err { margin: 0; color: #13284F; font-weight: 700; }
+  .cmd-note { margin: 0; font-size: 13px; color: #4A5878; }
+</style>

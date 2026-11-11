@@ -1,0 +1,370 @@
+{
+  "coaching-sportif": {
+    "pourQui": "Pour toutes les équipes, quel que soit le niveau : chaque exercice a une version facile et une version plus difficile, et personne n'est mis en difficulté devant ses collègues.",
+    "deroule": [
+      {
+        "titre": "Accueil et échauffement",
+        "texte": "Quelques minutes pour préparer les articulations et le souffle, en tenue de sport ou en tenue souple."
+      },
+      {
+        "titre": "Bloc principal",
+        "texte": "Renforcement, cardio, circuit ou mobilité selon le thème de la semaine, adapté à l'espace disponible."
+      },
+      {
+        "titre": "Retour au calme",
+        "texte": "Étirements et respiration pour repartir au travail sans être épuisé."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Faut-il une salle de sport dans l'entreprise ?",
+        "r": "Non. Une salle de réunion dégagée, un espace extérieur ou un parc proche suffisent. Le coach apporte le petit matériel."
+      },
+      {
+        "q": "Combien de salariés par séance ?",
+        "r": "Le format s'adapte du petit groupe à plusieurs dizaines de participants. Le nombre se fixe avec vous selon l'espace."
+      },
+      {
+        "q": "Quelle durée choisir ?",
+        "r": "30 minutes tiennent facilement dans une pause déjeuner ; 45 ou 60 minutes permettent un travail plus complet. On peut commencer court et allonger ensuite."
+      },
+      {
+        "q": "Les séances peuvent-elles avoir lieu en extérieur ?",
+        "r": "Oui, quand le temps et l'environnement s'y prêtent. Le coach adapte la séance au lieu disponible."
+      },
+      {
+        "q": "Quelle différence avec un abonnement en salle de sport ?",
+        "r": "Le coach vient à vos équipes, sur votre site et sur un créneau fixe. Pas de trajet, pas de vestiaire à trouver : c'est ce qui rend la pratique régulière beaucoup plus simple à tenir."
+      },
+      {
+        "q": "Les séances conviennent-elles aux débutants ?",
+        "r": "Oui. Les séances sont pensées pour les non-sportifs comme pour les plus actifs : le coach propose une version plus douce ou plus intense de chaque exercice."
+      }
+    ],
+    "benefices": [
+      "Une habitude de sport qui s'installe, semaine après semaine",
+      "Des séances adaptées à tous les niveaux, dans vos locaux",
+      "Un moment partagé qui crée du lien entre les équipes"
+    ]
+  },
+  "marche-club": {
+    "pourQui": "Pour les salariés qui ne font pas de sport et ne se reconnaissent pas dans une séance de fitness : la marche est le format qui touche le plus de monde.",
+    "deroule": [
+      {
+        "titre": "Départ depuis l'entreprise",
+        "texte": "Le groupe part à pied, en tenue de travail et chaussures confortables, sans vestiaire nécessaire."
+      },
+      {
+        "titre": "Marche encadrée",
+        "texte": "Le coach donne le rythme, avec des variations d'allure et quelques arrêts pour des exercices simples."
+      },
+      {
+        "titre": "Retour et étirements",
+        "texte": "Quelques mouvements de mobilité au retour, puis chacun reprend sa journée."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Et s'il pleut ?",
+        "r": "La séance est maintenue avec un équipement adapté ou remplacée par une séance de mobilité en intérieur, selon ce qui est convenu avec vous."
+      },
+      {
+        "q": "Faut-il être sportif ?",
+        "r": "Non. C'est justement le format pensé pour ceux qui ne le sont pas. Le coach adapte l'allure au groupe."
+      },
+      {
+        "q": "À quel moment de la journée ?",
+        "r": "Le plus souvent à la pause déjeuner ou en fin de journée. Le créneau se choisit avec vos équipes."
+      },
+      {
+        "q": "Combien de personnes peuvent participer ?",
+        "r": "Le groupe s'adapte à vos équipes. Le coach ajuste l'encadrement et le parcours selon le nombre de participants."
+      },
+      {
+        "q": "Combien de temps dure une sortie ?",
+        "r": "La durée se cale sur votre pause déjeuner ou votre fin de journée. Le parcours est choisi pour revenir à l'heure au bureau."
+      },
+      {
+        "q": "Faut-il une tenue spéciale ?",
+        "r": "Non. Des chaussures confortables suffisent. Le rythme reste accessible pour que chacun puisse venir sans se changer entièrement."
+      }
+    ],
+    "benefices": [
+      "Le format qui touche ceux qui ne font jamais de sport",
+      "Aucun équipement, aucune tenue particulière",
+      "Un moment convivial, facile à rendre régulier"
+    ]
+  },
+  "reveil-musculaire": {
+    "pourQui": "Pour les équipes qui commencent la journée par un effort physique (logistique, production, chantier, soins) comme pour les équipes de bureau.",
+    "deroule": [
+      {
+        "titre": "Mobilité articulaire",
+        "texte": "Nuque, épaules, dos, hanches : on réveille les articulations en douceur."
+      },
+      {
+        "titre": "Activation",
+        "texte": "Quelques mouvements simples pour faire monter la température du corps et préparer les gestes du poste."
+      },
+      {
+        "titre": "Prise de poste",
+        "texte": "En 10 minutes, l'équipe est prête, sans transpirer ni se changer."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Faut-il se changer ?",
+        "r": "Non. Le réveil musculaire se fait en tenue de travail, debout, sans matériel."
+      },
+      {
+        "q": "Le coach doit-il venir chaque jour ?",
+        "r": "Le coach lance la routine et revient régulièrement. Entre ses passages, un référent de l'équipe peut la guider avec le support fourni."
+      },
+      {
+        "q": "Est-ce adapté aux métiers physiques ?",
+        "r": "Oui. Les exercices sont choisis en fonction des gestes réels du poste, vus avec vous au départ."
+      },
+      {
+        "q": "Les salariés peuvent-ils continuer seuls ?",
+        "r": "Oui, c'est l'objectif : le coach transmet une routine simple que les équipes peuvent reprendre les jours sans coach."
+      },
+      {
+        "q": "Combien de temps dure un réveil musculaire ?",
+        "r": "Environ 10 minutes, juste avant la prise de poste. C'est assez court pour devenir un rituel quotidien."
+      },
+      {
+        "q": "À quoi sert un réveil musculaire ?",
+        "r": "À préparer le corps aux gestes du poste : mobiliser les articulations, activer les muscles et commencer la journée avec plus d'énergie. Il ne remplace pas un avis médical en cas de douleur."
+      }
+    ],
+    "benefices": [
+      "Un corps échauffé avant l'effort physique",
+      "Une routine courte, facile à tenir au quotidien",
+      "Un temps collectif pour bien démarrer la journée"
+    ]
+  },
+  "pause-active": {
+    "pourQui": "Pour les équipes assises une grande partie de la journée : travail sur écran, centres d'appels, administrations, open spaces.",
+    "deroule": [
+      {
+        "titre": "Se lever",
+        "texte": "On quitte l'écran quelques minutes, sur place ou dans une salle voisine."
+      },
+      {
+        "titre": "Bouger",
+        "texte": "Mobilité du dos et des épaules, respiration, étirements actifs et renforcement léger."
+      },
+      {
+        "titre": "Reprendre",
+        "texte": "Retour au poste avec un dos détendu et l'esprit plus clair."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Combien de temps dure une pause active ?",
+        "r": "Entre 10 et 20 minutes, selon ce qui s'intègre le mieux dans l'organisation de vos équipes."
+      },
+      {
+        "q": "Faut-il un espace particulier ?",
+        "r": "Non. Un couloir large, une salle de réunion ou l'open space suffisent."
+      },
+      {
+        "q": "Les salariés doivent-ils se changer ?",
+        "r": "Non. Tout se fait en tenue de travail."
+      },
+      {
+        "q": "Peut-on la faire en visio ?",
+        "r": "Oui, pour les équipes en télétravail ou réparties sur plusieurs sites, la pause active se prête bien au format à distance."
+      },
+      {
+        "q": "À quel moment placer la pause active ?",
+        "r": "En milieu de matinée ou d'après-midi, quand l'attention baisse et que les heures assises s'accumulent. Le créneau se choisit avec vos équipes."
+      },
+      {
+        "q": "Quelle différence avec le réveil musculaire ?",
+        "r": "Le réveil musculaire prépare le corps avant la prise de poste. La pause active coupe une longue période assise en cours de journée. Les deux peuvent se combiner."
+      }
+    ],
+    "benefices": [
+      "Casser les longues périodes assises",
+      "Moins de raideurs en fin de journée",
+      "Une vraie pause, qui remet de l'énergie"
+    ]
+  },
+  "mal-de-dos": {
+    "pourQui": "Pour les entreprises où les douleurs de dos reviennent souvent dans les échanges, en bureau comme sur des postes physiques.",
+    "deroule": [
+      {
+        "titre": "Comprendre",
+        "texte": "Un temps court pour expliquer pourquoi le dos se fatigue et quels gestes le ménagent au quotidien."
+      },
+      {
+        "titre": "Bouger",
+        "texte": "Mobilité, gainage et renforcement progressif, adaptés au niveau de chacun."
+      },
+      {
+        "titre": "Ancrer",
+        "texte": "Des exercices simples à refaire au poste entre deux séances."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Ce programme soigne-t-il le mal de dos ?",
+        "r": "Non. Il ne remplace ni un avis médical ni une prise en charge par un professionnel de santé. Il aide à bouger mieux et plus souvent."
+      },
+      {
+        "q": "Et si un salarié a une douleur importante ?",
+        "r": "Il en parle d'abord à son médecin. Le coach adapte ou retire les exercices concernés."
+      },
+      {
+        "q": "Combien de temps faut-il suivre le programme ?",
+        "r": "C'est un programme régulier, sur plusieurs semaines : les effets viennent avec la régularité."
+      },
+      {
+        "q": "Qui anime le programme ?",
+        "r": "Un coach sportif diplômé du réseau GA. Il ne pose pas de diagnostic et oriente vers un professionnel de santé si besoin."
+      },
+      {
+        "q": "À qui s'adresse GA Dos Entreprise ?",
+        "r": "Aux équipes qui passent beaucoup de temps assises ou qui portent des charges, et à toute entreprise qui veut agir sur la prévention des douleurs de dos par le mouvement."
+      },
+      {
+        "q": "Peut-on le coupler à un atelier gestes et postures ?",
+        "r": "Oui. L'atelier gestes et postures travaille les bons gestes au poste, GA Dos Entreprise installe une pratique régulière. Les deux se complètent bien."
+      }
+    ],
+    "benefices": [
+      "Des gestes plus sûrs au quotidien",
+      "Un dos plus mobile et mieux renforcé",
+      "Des salariés qui savent quoi faire, même sans le coach"
+    ]
+  },
+  "team-building": {
+    "pourQui": "Pour souder une équipe, lancer une saison ou marquer un temps fort, avec des épreuves où tout le monde peut contribuer.",
+    "deroule": [
+      {
+        "titre": "Lancement",
+        "texte": "Constitution des équipes et échauffement collectif."
+      },
+      {
+        "titre": "Défis",
+        "texte": "Bootcamp, olympiades ou circuit par équipes, avec des épreuves de niveaux variés."
+      },
+      {
+        "titre": "Résultats",
+        "texte": "Classement, petite remise de prix et moment convivial."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Où se déroule l'événement ?",
+        "r": "Sur votre site, dans un parc ou un lieu que vous réservez. Le coach s'adapte à l'espace."
+      },
+      {
+        "q": "Et si certains ne sont pas sportifs ?",
+        "r": "Les épreuves mélangent force, adresse, réflexion et coopération : chacun trouve sa place."
+      },
+      {
+        "q": "Combien de temps dure un team building ?",
+        "r": "De une heure à une demi-journée, selon votre programme."
+      },
+      {
+        "q": "Peut-on le coupler à un séminaire ?",
+        "r": "Oui. Le team building s'intègre facilement à un séminaire ou à une journée d'entreprise, sur un créneau défini avec vous."
+      },
+      {
+        "q": "Combien de participants peut-on accueillir ?",
+        "r": "Le format s'adapte à la taille de votre équipe. Le nombre de coachs et d'ateliers se fixe avec vous selon l'effectif et le lieu."
+      },
+      {
+        "q": "Peut-on choisir le thème ou les épreuves ?",
+        "r": "Oui. Les épreuves se construisent avec vous selon vos objectifs : cohésion, intégration de nouveaux arrivants, lancement d'un projet ou simple moment ensemble."
+      }
+    ],
+    "benefices": [
+      "Des épreuves où chacun trouve sa place",
+      "Une équipe qui se découvre autrement",
+      "Un souvenir commun, qui marque la saison"
+    ]
+  },
+  "challenges": {
+    "pourQui": "Pour les entreprises qui veulent créer une dynamique collective sur la durée, y compris avec des équipes réparties sur plusieurs sites ou en télétravail.",
+    "deroule": [
+      {
+        "titre": "Lancement",
+        "texte": "Le coach présente le défi, ses règles et l'objectif collectif, puis chacun s'inscrit seul ou en équipe."
+      },
+      {
+        "titre": "Semaines de défi",
+        "texte": "Les participants cumulent pas, kilomètres, étages ou séances. Le coach relance l'équipe et propose des séances pour progresser."
+      },
+      {
+        "titre": "Clôture",
+        "texte": "On fait le bilan collectif et on célèbre ce qui a été accompli ensemble, avant de décider de la suite."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Faut-il une application ?",
+        "r": "Pas forcément. Le suivi peut se faire avec les outils que vos équipes utilisent déjà. Le format se décide ensemble au lancement."
+      },
+      {
+        "q": "Les salariés en télétravail peuvent-ils participer ?",
+        "r": "Oui. C'est l'un des intérêts du challenge : chacun avance où il est, et l'objectif reste collectif."
+      },
+      {
+        "q": "Combien de temps dure un challenge ?",
+        "r": "Plusieurs semaines, pour laisser le temps aux habitudes de s'installer. La durée exacte se fixe avec vous."
+      },
+      {
+        "q": "Faut-il être sportif pour participer ?",
+        "r": "Non. Les défis sont pensés pour que chacun puisse contribuer à l'objectif collectif, à son niveau."
+      }
+    ],
+    "benefices": [
+      "Une motivation qui tient sur plusieurs semaines",
+      "Un objectif collectif qui fédère tous les sites",
+      "Des habitudes qui restent après le défi"
+    ]
+  },
+  "journee-sante-sport": {
+    "pourQui": "Pour les entreprises qui veulent lancer une démarche santé, marquer un temps fort (semaine QVCT, rentrée, séminaire) ou toucher un grand nombre de salariés en une seule journée.",
+    "deroule": [
+      {
+        "titre": "Préparation",
+        "texte": "On définit avec vous les objectifs de la journée, les ateliers, les créneaux et les espaces disponibles."
+      },
+      {
+        "titre": "Ateliers tout au long de la journée",
+        "texte": "Les salariés passent d'un atelier à l'autre selon leur emploi du temps : bilan de forme, mobilité, gestes et postures, séance collective."
+      },
+      {
+        "titre": "Et après",
+        "texte": "La journée se termine par des pistes concrètes pour continuer, par exemple un format régulier si l'envie est là."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Faut-il un grand espace ?",
+        "r": "Non. Une salle de réunion libérée, un hall ou un espace extérieur suffisent. Les ateliers s'adaptent aux lieux disponibles."
+      },
+      {
+        "q": "Les salariés doivent-ils participer à toute la journée ?",
+        "r": "Non. Chacun vient aux ateliers qui l'intéressent, quand son planning le permet."
+      },
+      {
+        "q": "Peut-on l'organiser sur plusieurs sites ?",
+        "r": "Oui, sur le principe. L'organisation se construit avec vous selon le nombre de sites et de salariés."
+      },
+      {
+        "q": "Qui intervient pendant la journée ?",
+        "r": "Des coachs sportifs du réseau GA. Selon vos besoins, d'autres intervenants peuvent être associés à l'organisation."
+      }
+    ],
+    "benefices": [
+      "Un grand nombre de salariés touchés en une journée",
+      "Un temps fort qui lance votre démarche santé",
+      "Des pistes concrètes pour la suite"
+    ]
+  }
+}

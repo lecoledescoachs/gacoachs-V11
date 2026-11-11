@@ -1,0 +1,129 @@
+---
+/**
+ * Bulle "Exemple de parcours" — preuve sociale honnête.
+ * Contrairement à un bandeau d'activité en temps réel (qui nécessiterait
+ * de vrais événements horodatés), on affiche ici UN exemple illustratif,
+ * clairement étiqueté comme tel, inspiré de vrais profils de clients
+ * sans prétendre être un événement réel qui vient de se produire.
+ * Même logique que la section "Ils l'ont fait" de lecoledescoachs.fr :
+ * transparence plutôt que fausse preuve sociale.
+ */
+const exemples = [
+  {
+    prenom: 'Sophie',
+    age: 42,
+    ville: 'Olivet',
+    situation: 'reprise du sport après 5 ans de pause',
+    resultat: '3 séances par semaine, 2 mois après son bilan santé',
+  },
+  {
+    prenom: 'Karim',
+    age: 51,
+    ville: 'Saran',
+    situation: 'mal de dos chronique au bureau',
+    resultat: 'un programme de renforcement adapté, sans douleur au quotidien',
+  },
+  {
+    prenom: 'Léa',
+    age: 29,
+    ville: 'Fleury-les-Aubrais',
+    situation: 'préparation d\'un semi-marathon',
+    resultat: 'un plan d\'entraînement structuré avec son coach',
+  },
+];
+
+const exemple = exemples[Math.floor(Math.random() * exemples.length)];
+---
+<div class="ep-bubble" id="ep-bubble" role="status">
+  <button class="ep-bubble__close" aria-label="Fermer" id="ep-bubble-close">&times;</button>
+  <span class="ep-bubble__tag">Exemple illustratif</span>
+  <p class="ep-bubble__text">
+    <strong>{exemple.prenom}, {exemple.age} ans ({exemple.ville})</strong> : {exemple.situation}.
+    Résultat : {exemple.resultat}.
+  </p>
+  <a href="/score-sante/" class="ep-bubble__cta">Faire mon Score Santé →</a>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const KEY = 'ga_exemple_parcours_seen_at';
+    const COOLDOWN_H = 24;
+    const bubble = document.getElementById('ep-bubble');
+    if (!bubble) return;
+
+    function dejaVu() {
+      try {
+        const last = localStorage.getItem(KEY);
+        if (!last) return false;
+        return (Date.now() - parseInt(last, 10)) / 36e5 < COOLDOWN_H;
+      } catch (e) {
+        return false;
+      }
+    }
+    function marquerVu() {
+      try { localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
+    }
+
+    if (dejaVu()) return;
+
+    setTimeout(() => {
+      bubble.classList.add('ep-bubble--visible');
+      marquerVu();
+    }, 9000);
+
+    document.getElementById('ep-bubble-close')?.addEventListener('click', () => {
+      bubble.classList.remove('ep-bubble--visible');
+      bubble.classList.add('ep-bubble--leaving');
+      setTimeout(() => bubble.remove(), 300);
+    });
+
+    setTimeout(() => {
+      bubble.classList.remove('ep-bubble--visible');
+    }, 9000 + 9000);
+  });
+</script>
+
+<style>
+  .ep-bubble {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 998;
+    max-width: 320px;
+    background: var(--navy, #0f1b2d);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity .3s ease, transform .3s ease;
+  }
+  .ep-bubble--visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .ep-bubble--leaving { opacity: 0; transform: translateY(8px); }
+  .ep-bubble__tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: none;
+    color: rgba(255,255,255,.55);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 999px;
+    padding: 2px 8px;
+    margin-bottom: 8px;
+  }
+  .ep-bubble__text { margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: rgba(255,255,255,.9); }
+  .ep-bubble__cta { font-size: 13px; font-weight: 600; color: #fff; text-decoration: underline; }
+  .ep-bubble__close {
+    position: absolute; top: 8px; right: 10px;
+    background: transparent; border: none; color: rgba(255,255,255,.5);
+    font-size: 16px; line-height: 1; cursor: pointer; padding: 4px;
+  }
+  .ep-bubble__close:hover { color: #fff; }
+  @media (max-width: 480px) {
+    .ep-bubble { left: 12px; right: 12px; max-width: none; bottom: 80px; }
+  }
+</style>

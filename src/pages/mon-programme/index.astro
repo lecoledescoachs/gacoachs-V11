@@ -1,0 +1,1286 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+import FICHES from '../../data/exercices-fiches.json';
+import SALLES from '../../data/salles.json';
+import { coachesReseau } from '../../data/coaches.js';
+// salles du réseau et leurs coachs, pour présenter le coach de la salle de la personne
+const SALLES_PROG = SALLES.filter((s: any) => s.reseauOfficiel !== false).map((s: any) => ({
+  slug: s.slug, nom: s.nom, ville: s.ville,
+  coachs: s.coachs.map((c: string) => coachesReseau.find((x: any) => x.slug === c)).filter(Boolean).map((c: any) => ({ slug: c.slug, prenom: c.prenom, photo: c.photo, titre: c.slug === 'garry-babaud' ? 'Coach en chef' : 'Coach sportif' })),
+})).filter((s: any) => s.coachs.length);
+
+const Q = [
+  { id: 'objectif', l: 'Quel est ton objectif principal ?', o: [['perte-poids', 'Perdre du poids', 'Brûler du gras et te sentir plus léger'], ['prise-muscle', 'Prendre du muscle', 'Construire du volume, séance après séance'], ['force', 'Gagner en force', 'Soulever plus lourd, en sécurité'], ['forme', 'Me remettre en forme', 'Retrouver de l\'énergie et une bonne condition']] },
+  { id: 'zone', l: 'Une zone à travailler en priorité ?', o: [['equilibre', 'Tout le corps', 'Un développement équilibré'], ['fessiers', 'Fessiers et jambes', 'Galber et renforcer le bas du corps'], ['bras', 'Bras et épaules', 'Plus de tonus et de volume'], ['dos', 'Dos et posture', 'Un dos solide pour te tenir droit'], ['abdos', 'Abdos et gainage', 'Un ventre plus ferme, un tronc solide']] },
+  { id: 'niveau', l: 'Quel est ton niveau ?', o: [['debutant', 'Débutant', 'Moins de 6 mois de pratique'], ['intermediaire', 'Intermédiaire', 'Entre 6 mois et 2 ans'], ['avance', 'Avancé', 'Plus de 2 ans, régulier']] },
+  { id: 'jours', l: 'Combien de séances par semaine ?', o: [['2', '2 séances', 'Idéal pour démarrer'], ['3', '3 séances', 'Le bon équilibre'], ['4', '4 séances', 'Pour aller plus vite']] },
+  { id: 'duree', l: 'Combien de temps par séance ?', o: [['30', '30 minutes', 'Séance express, 4 exercices'], ['45', '45 minutes', '5 exercices'], ['60', '1 heure', '6 exercices'], ['75', '1 h 15', '7 exercices']] },
+  { id: 'materiel', l: 'Quel matériel as-tu à disposition ?', o: [['complet', 'Salle complète', 'Barres, haltères, poulies, machines'], ['machines', 'Machines guidées surtout', 'Parfait pour bien débuter'], ['minimal', 'Haltères et poids du corps', 'À la maison ou en petite salle']] },
+];
+const LIM = [['dos', 'Le dos'], ['genoux', 'Les genoux'], ['epaules', 'Les épaules']];
+const ETAPES = Q.length + 1;
+
+const faq = [
+  { q: 'Le programme est-il vraiment gratuit ?', r: 'Oui. Tu réponds aux questions, ton programme s\'affiche tout de suite, sans compte et sans carte bancaire. Tu peux aussi le recevoir par email si tu veux le garder.' },
+  { q: 'Comment les exercices sont-ils choisis ?', r: 'Chaque exercice est choisi selon ton niveau, ton matériel et les zones qui te gênent. Un débutant ne reçoit pas de mouvements techniques à la barre, et si tu signales ton dos, tes genoux ou tes épaules, les exercices qui les sollicitent le plus sont écartés.' },
+  { q: 'Comment fonctionne le mode séance ?', r: 'En salle, ouvre ta séance sur ton téléphone : tu coches chaque série et un minuteur lance ton temps de repos. Tu notes ta charge et ton ressenti, et la séance suivante te propose la charge à prendre. Ton programme reste enregistré sur ton téléphone.' },
+  { q: 'Le programme marche-t-il pour perdre du poids ?', r: 'Oui. Choisis « Perdre du poids » comme objectif : les séries et les temps de repos sont adaptés pour brûler du gras tout en préservant tes muscles. Associe-le à de l\'activité au quotidien et à une alimentation régulière.' },
+  { q: 'Puis-je m\'entraîner à la maison ?', r: 'Oui. Choisis « Haltères et poids du corps » comme matériel : le programme utilise uniquement des exercices faisables à la maison ou en petite salle.' },
+  { q: 'Je débute, par quoi commencer ?', r: 'Choisis le niveau débutant, 2 séances par semaine et des machines guidées si tu es en salle. Tu apprends les mouvements en sécurité, puis tu augmentes progressivement.' },
+  { q: 'Combien de séances par semaine choisir ?', r: 'Deux séances suffisent pour démarrer, trois offrent un bon équilibre, quatre permettent d\'aller plus vite si tu récupères bien. Mieux vaut un rythme que tu tiens qu\'un rythme trop ambitieux.' },
+  { q: 'Puis-je refaire un programme plus tard ?', r: 'Oui. Quand ton objectif ou ton niveau change, réponds de nouveau aux questions pour obtenir un nouveau programme adapté.' },
+  { q: 'Comment aller plus loin avec un coach ?', r: 'Fais ton Score Santé en 2 minutes, puis réserve ton bilan avec un coach GA en salle Basic-Fit à Orléans. Il corrige ta technique et ajuste ton programme semaine après semaine.' },
+  { q: 'Ce programme remplace-t-il un coach sportif ?', r: 'Non. C\'est un point de départ général. Un coach sportif te montre les mouvements, corrige ta technique et ajuste les charges et la progression selon tes résultats.' },
+  { q: 'Que faire si j\'ai une douleur ou un problème de santé ?', r: 'En cas de douleur, de malaise ou de doute, arrête et demande l\'avis d\'un médecin avant de reprendre. Si tu as une contre-indication connue, consulte avant de commencer.' },
+];
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+      { '@type': 'ListItem', position: 2, name: 'Programme de musculation personnalisé', item: 'https://gacoachs.fr/mon-programme/' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+];
+---
+<BaseLayout
+  title="Programme musculation gratuit personnalisé · coach sportif"
+  description="Crée ton programme de musculation gratuit en 2 minutes : adapté à ton objectif, ton niveau et ton matériel, avec un mode séance et un minuteur de repos."
+  path="/mon-programme/"
+  jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')}
+  stickyCtaHref={false}
+>
+<div class="rb pgx">
+  <Icones />
+  <script type="application/json" id="pgx-fiches" set:html={JSON.stringify(FICHES)}></script>
+  <script type="application/json" id="pgx-salles" set:html={JSON.stringify(SALLES_PROG)}></script>
+
+  <!-- haut de page -->
+  <section class="phero no-print" data-hero>
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Programme personnalisé', href: '/mon-programme/' }]} />
+      <div class="pgx-hero">
+        <div>
+          <span class="eyebrow eyebrow-dark" data-a="pop">Outil gratuit</span>
+          <h1 data-a="up">Ton programme de musculation, <span class="hl-text">fait pour toi.</span></h1>
+          <p class="phero-lead" data-a="up">Sept questions, deux minutes. Tu reçois un programme construit selon ton objectif, ta zone prioritaire, ton niveau, ton matériel et les zones qui te gênent. En salle, ouvre-le sur ton téléphone : tu coches tes séries et le minuteur gère tes temps de repos.</p>
+          <ul class="pgx-chips" data-a="up">
+            <li><svg class="ic" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2 minutes</li>
+            <li><svg class="ic" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Gratuit, sans compte</li>
+            <li><svg class="ic" aria-hidden="true" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>Mode séance sur téléphone</li>
+          </ul>
+          <div class="pgx-ctas" data-a="up">
+            <a class="btn btn-primary" href="#pgx-quiz">Créer mon programme</a>
+            <button type="button" class="btn btn-glass" id="pgx-reprendre" hidden>Reprendre mon programme</button>
+          </div>
+          <p class="pgx-asso" id="pgx-asso" hidden></p>
+        </div>
+        <div class="pgx-phone" aria-hidden="true" data-a="zoom">
+          <div class="pgx-phone-top"><span>Séance 1 · Corps entier A</span><b>Exemple</b></div>
+          <svg class="pgx-pic pgx-phone-pic" id="pgx-phone-pic"></svg>
+          <div class="pgx-phone-ex">
+            <small>Exercice 2 sur 6</small>
+            <strong>Développé machine convergente</strong>
+            <span class="pgx-phone-dose">3 x 10 à 12 · repos 1 min</span>
+            <div class="pgx-phone-sets"><i class="ok">1</i><i class="ok">2</i><i>3</i></div>
+          </div>
+          <div class="pgx-phone-timer">
+            <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="t-bg"/><circle cx="60" cy="60" r="52" class="t-fg"/></svg>
+            <div><b>0:42</b><small>repos</small></div>
+          </div>
+          <div class="pgx-phone-bar"><i></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- questionnaire -->
+  <section class="sec" id="pgx-quiz">
+    <div class="inner pgx-wrap">
+      <div class="pgx-progress no-print" aria-hidden="true"><span class="pgx-progress-txt" id="pgx-etape">Question 1 sur {ETAPES}</span><div class="pgx-progress-bar"><i id="pgx-bar"></i></div></div>
+      <form class="pgx-form" id="pgx-form" novalidate>
+        {Q.map((q, n) => (
+          <fieldset class="pgx-q" data-step={n}>
+            <legend>{q.l}</legend>
+            <div class="pgx-opts">
+              {q.o.map((o) => (
+                <label class="pgx-opt">
+                  <input type="radio" name={q.id} value={o[0]} required />
+                  <span><b>{o[1]}</b><small>{o[2]}</small></span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        ))}
+        <fieldset class="pgx-q" data-step={Q.length}>
+          <legend>Une zone te gêne parfois ? <small>Facultatif : les exercices qui la sollicitent le plus seront écartés.</small></legend>
+          <div class="pgx-opts">
+            {LIM.map((o) => (
+              <label class="pgx-opt pgx-opt-sm">
+                <input type="checkbox" name="limites" value={o[0]} />
+                <span><b>{o[1]}</b></span>
+              </label>
+            ))}
+          </div>
+          <label class="pgx-salle" for="pgx-salle-q">
+            <span>Ta salle Basic-Fit <small>(facultatif)</small></span>
+            <select id="pgx-salle-q" name="salle">
+              <option value="">Je ne sais pas encore, ou une autre salle</option>
+              {SALLES_PROG.map((s: any) => (<option value={s.slug}>{s.nom}</option>))}
+            </select>
+            <small>Pour te présenter le coach GA de ta salle.</small>
+          </label>
+          <label class="pgx-consent">
+            <input type="checkbox" id="pgx-ok" />
+            <span>Je confirme n'avoir aucune contre-indication connue à la pratique sportive. Si j'ai un doute, je demande l'avis de mon médecin avant de commencer.</span>
+          </label>
+          <p class="pgx-err" id="pgx-err" role="alert" hidden></p>
+          <button type="submit" class="btn btn-primary" id="pgx-go">Créer mon programme</button>
+          <p class="pgx-note">Tes réponses servent uniquement à construire ton programme. Elles ne sont pas enregistrées avec ton nom.</p>
+        </fieldset>
+        <div class="pgx-nav no-print">
+          <button type="button" class="pgx-back" id="pgx-prev" hidden>← Question précédente</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- résultat -->
+  <section class="sec pgx-res" id="pgx-res" hidden>
+    <div class="inner pgx-wrap">
+      <div class="pgx-res-head">
+        <span class="eyebrow" id="pgx-badge" data-wow="off">Ton programme</span>
+        <h2 class="h2" id="pgx-titre" tabindex="-1"></h2>
+        <p class="pgx-asso" id="pgx-asso2" hidden></p>
+        <p class="lead-p" id="pgx-resume"></p>
+        <ul class="pgx-tags" id="pgx-tags"></ul>
+      </div>
+      <div class="pgx-nudge no-print" id="pgx-nudge" hidden>
+        <div class="pgx-faces" data-faces></div>
+        <p><b id="pgx-nudge-t"></b> <span id="pgx-nudge-d"></span></p>
+        <div class="pgx-nudge-b">
+          <a class="btn btn-primary" href="/score-sante/" data-cta="bandeau" data-score>Faire mon Score Santé</a>
+          <button type="button" class="pgx-nudge-x" id="pgx-nudge-x">Plus tard</button>
+        </div>
+      </div>
+      <div class="pgx-stats" id="pgx-stats" hidden>
+        <div><b id="pgx-st-s">0</b><span id="pgx-st-sl">séances terminées</span></div>
+        <div><b id="pgx-st-r">0</b><span id="pgx-st-rl">séries cochées</span></div>
+        <div><b id="pgx-st-d">-</b><span>dernière séance</span></div>
+      </div>
+
+      <div class="pgx-now" id="pgx-now" hidden>
+        <div class="pgx-now-h"><b id="pgx-now-t"></b><small id="pgx-now-s"></small></div>
+        <ol class="pgx-now-bar" id="pgx-now-bar" aria-hidden="true"></ol>
+        <p id="pgx-now-d"></p>
+        <button type="button" class="btn btn-primary no-print" id="pgx-phase" hidden>Passer à la phase suivante</button>
+      </div>
+
+      <div class="pgx-week">
+        <p class="pgx-week-t">Exemple d'organisation de ta semaine</p>
+        <ol class="pgx-days" id="pgx-days"></ol>
+        <button type="button" class="pgx-ics no-print" id="pgx-ics">📅 Ajouter mes 8 semaines à mon agenda</button>
+      </div>
+
+      <div class="pgx-box pgx-avant" id="pgx-avant" hidden>
+        <h3>Avant ta première séance</h3>
+        <ul id="pgx-avant-l"></ul>
+      </div>
+
+      <div id="pgx-seances"></div>
+
+      <div class="pgx-bilan" id="pgx-bilan" hidden>
+        <h3 id="pgx-bilan-t">Ta progression</h3>
+        <p id="pgx-bilan-d"></p>
+        <div class="pgx-bilan-tab" role="table" aria-label="Évolution de tes charges">
+          <div class="pgx-bilan-h" role="row"><span role="columnheader">Exercice</span><span role="columnheader">Début</span><span role="columnheader">Actuel</span><span role="columnheader">Écart</span></div>
+          <div id="pgx-bilan-l"></div>
+        </div>
+        <div class="pgx-bilan-b no-print" id="pgx-bilan-cta" hidden><a class="btn btn-primary" href="/score-sante/" data-cta="bilan" data-score id="pgx-bilan-coach">Faire le point avec un coach GA</a><button type="button" class="btn-out" id="pgx-phase2">Créer ma phase 2</button></div>
+      </div>
+
+      <div class="pgx-plan" id="pgx-plan" hidden>
+        <h3>Ton plan sur 8 semaines</h3>
+        <p>Les mêmes séances pendant 8 semaines : c'est la répétition qui te fait progresser. Seule l'intensité évolue.</p>
+        <ol class="pgx-plan-l" id="pgx-plan-l"></ol>
+      </div>
+
+      <div class="pgx-mail no-print" id="pgx-mail">
+        <div>
+          <h3>Reçois ton programme par email</h3>
+          <p>Garde-le dans ta boîte mail, avec ton lien personnel : il te permet de retrouver ton programme et tes charges sur n'importe quel téléphone.</p>
+        </div>
+        <form name="programme-email" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="pgx-mailform" action="/mon-programme/">
+          <input type="hidden" name="form-name" value="programme-email" />
+          <p hidden><label>Ne pas remplir <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+          <input type="hidden" name="objectif" /><input type="hidden" name="niveau" /><input type="hidden" name="jours" /><input type="hidden" name="duree" /><input type="hidden" name="materiel" /><input type="hidden" name="limites" /><input type="hidden" name="zone" /><input type="hidden" name="suivi" /><input type="hidden" name="salle" />
+          <div class="pgx-mail-f">
+            <label for="pgx-prenom">Prénom<input id="pgx-prenom" name="prenom" type="text" autocomplete="given-name" required /></label>
+            <label for="pgx-email">Email<input id="pgx-email" name="email" type="email" autocomplete="email" required /></label>
+          </div>
+          <label class="pgx-mail-opt"><input type="checkbox" name="recontact" value="oui" /> <span>J'aimerais qu'un coach GA me recontacte pour m'aider à démarrer.</span></label>
+          <button type="submit" class="btn btn-primary">Recevoir mon programme</button>
+          <p class="pgx-err" id="pgx-mailerr" role="alert" hidden></p>
+          <p class="pgx-mail-ok" id="pgx-mailok" tabindex="-1" hidden></p>
+          <p class="pgx-note">Ton email sert uniquement à t'envoyer ce programme{' '}(et à te recontacter si tu as coché la case). Voir notre <a href="/confidentialite/">politique de confidentialité</a>.</p>
+        </form>
+      </div>
+
+      <div class="pgx-box">
+        <h3>Conseils pour bien démarrer</h3>
+        <ul id="pgx-conseils"></ul>
+        <h3>Pour progresser</h3>
+        <p id="pgx-prog"></p>
+        <div id="pgx-lex" hidden>
+          <h3>Les mots à connaître</h3>
+          <dl class="pgx-lex" id="pgx-lex-l"></dl>
+        </div>
+      </div>
+      <div class="pgx-coach no-print">
+        <div>
+          <div class="pgx-faces" data-faces></div>
+          <h3 id="pgx-coach-t">Tu veux être sûr de bien faire ?</h3>
+          <p id="pgx-coach-d">Un coach GA te montre chaque mouvement dans ta salle Basic-Fit, corrige ta technique et ajuste tes charges. Commence par ton Score Santé : 2 minutes pour faire le point.</p>
+          <label class="pgx-coach-salle" for="pgx-salle-r">
+            <span>Ta salle Basic-Fit</span>
+            <select id="pgx-salle-r">
+              <option value="">Choisis ta salle pour voir ton coach</option>
+              {SALLES_PROG.map((s: any) => (<option value={s.slug}>{s.nom}</option>))}
+            </select>
+          </label>
+        </div>
+        <div class="pgx-coach-b">
+          <a class="btn btn-primary" href="/score-sante/" data-cta="bloc" data-score>Faire mon Score Santé</a>
+          <a class="btn-out" href="/trouver-un-coach/" data-cta="bloc-coach" id="pgx-coach-fiche">Trouver un coach GA</a>
+        </div>
+      </div>
+      <p class="pgx-warn" id="pgx-warn"></p>
+      <div class="pgx-actions no-print">
+        <button type="button" class="btn-out" id="pgx-print">Imprimer ou enregistrer en PDF</button>
+        <button type="button" class="btn-out" id="pgx-redo">Refaire le questionnaire</button>
+        <button type="button" class="btn-out" id="pgx-lien">🔗 Copier mon lien pour un autre téléphone</button>
+        <a class="btn-out" href="/trouver-un-coach/">Trouver un coach GA près de chez moi</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- contenu -->
+  <section class="sec band no-print" id="pgx-infos">
+    <div class="inner">
+      <span class="eyebrow">Comment c'est construit</span>
+      <h2 class="h2">Un programme sérieux, pas une liste d'exercices au hasard.</h2>
+      <div class="pgx-how">
+        <div><b>Des exercices adaptés à ton niveau</b><p>Machines guidées et mouvements simples pour démarrer, exercices plus techniques quand tu as de l'expérience.</p></div>
+        <div><b>Des séries et des repos selon ton objectif</b><p>Perte de poids, prise de muscle, force ou remise en forme : le nombre de répétitions et les temps de repos changent avec ton but.</p></div>
+        <div><b>Chaque mouvement montré en animation</b><p>Un personnage animé montre chaque exercice, et sa fiche détaille les muscles travaillés et les étapes du geste.</p></div>
+        <div><b>Ta zone prioritaire mise en avant</b><p>Fessiers, bras, dos ou abdos : la zone que tu veux travailler passe en début de séance, avec un peu plus de volume.</p></div>
+        <div><b>Tes zones sensibles respectées</b><p>Si ton dos, tes genoux ou tes épaules te gênent, les exercices qui les sollicitent le plus sont écartés.</p></div>
+        <div><b>Un plan qui avance avec toi</b><p>Le programme sait où tu en es sur tes 8 semaines. Après chaque exercice, dis comment c'était : la charge à prendre la fois suivante t'est proposée.</p></div>
+        <div><b>Une organisation sur la semaine</b><p>Corps entier quand tu t'entraînes 2 ou 3 fois, haut et bas du corps quand tu passes à 4 séances.</p></div>
+      </div>
+      <h2 class="h2 pgx-faq-t">Questions fréquentes</h2>
+      <div class="faq-list">
+        {faq.map((f) => (<details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>))}
+      </div>
+    </div>
+  </section>
+
+  <!-- fiche exercice -->
+  <div class="pgx-sheet" id="pgx-sheet" role="dialog" aria-modal="true" aria-labelledby="pgx-sh-nom" hidden>
+    <div class="pgx-sheet-in">
+      <button type="button" class="pgx-sheet-x" id="pgx-sh-close" aria-label="Fermer la fiche">✕</button>
+      <svg class="pgx-pic pgx-sh-pic" id="pgx-sh-pic"></svg>
+      <h2 id="pgx-sh-nom" tabindex="-1"></h2>
+      <p class="pgx-sh-dose" id="pgx-sh-dose"></p>
+      <div class="pgx-sh-mus" id="pgx-sh-mus"></div>
+      <h3>Comment faire</h3>
+      <ol class="pgx-sh-steps" id="pgx-sh-steps"></ol>
+      <p class="pgx-sh-cue" id="pgx-sh-cue"></p>
+      <p class="pgx-sh-eff" id="pgx-sh-eff" hidden></p>
+      <p class="pgx-kg" id="pgx-sh-kg" hidden></p>
+      <div class="pgx-sh-alt" id="pgx-sh-alt" hidden>
+        <h3>Remplacer par</h3>
+        <div class="pgx-sh-altlist" id="pgx-sh-altlist"></div>
+        <p class="pgx-note">Mêmes séries, mêmes répétitions, mêmes repos. Seuls les exercices compatibles avec ton matériel, ton niveau et tes zones sensibles sont proposés.</p>
+      </div>
+      <div class="pgx-sh-btns"><button type="button" class="btn-out" id="pgx-sh-swap">Remplacer cet exercice</button></div>
+    </div>
+  </div>
+
+  <!-- mode séance -->
+  <div class="pgx-live" id="pgx-live" role="dialog" aria-modal="true" aria-labelledby="pgx-live-nom" hidden>
+    <div class="pgx-live-top">
+      <div><small id="pgx-live-seance"></small><b id="pgx-live-pos"></b></div>
+      <button type="button" class="pgx-live-x" id="pgx-live-close" aria-label="Quitter la séance">✕</button>
+    </div>
+    <div class="pgx-live-bar"><i id="pgx-live-bar"></i></div>
+    <div class="pgx-live-body" id="pgx-live-body">
+      <p class="pgx-live-sem" id="pgx-live-sem" hidden></p>
+      <svg class="pgx-pic pgx-live-pic" id="pgx-live-pic"></svg>
+      <h2 id="pgx-live-nom"></h2>
+      <p class="pgx-live-dose" id="pgx-live-dose"></p>
+      <p class="pgx-live-cue" id="pgx-live-cue"></p>
+      <p class="pgx-live-lbl">Coche chaque série terminée</p>
+      <div class="pgx-live-sets" id="pgx-live-sets"></div>
+      <div class="pgx-live-kg" id="pgx-live-kgw">
+        <label for="pgx-live-kg">Charge utilisée <small>(facultatif)</small></label>
+        <div><input id="pgx-live-kg" type="text" inputmode="decimal" pattern="[0-9]+([,.][0-9]+)?" maxlength="5" autocomplete="off" placeholder="0" /><span>kg</span></div>
+        <small id="pgx-live-last"></small>
+      </div>
+      <div class="pgx-live-rs" id="pgx-live-rs" hidden>
+        <p class="pgx-live-lbl" id="pgx-live-rs-l">Comment c'était ?</p>
+        <div role="group" aria-labelledby="pgx-live-rs-l">
+          <button type="button" data-r="facile" aria-pressed="false">😌<small>Trop facile</small></button>
+          <button type="button" data-r="parfait" aria-pressed="false">💪<small>Parfait</small></button>
+          <button type="button" data-r="dur" aria-pressed="false">🥵<small>Trop dur</small></button>
+        </div>
+        <small id="pgx-live-rs-m" aria-live="polite"></small>
+      </div>
+      <div class="pgx-timer" id="pgx-timer" hidden>
+        <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="t-bg"/><circle cx="60" cy="60" r="52" class="t-fg" id="pgx-timer-arc"/></svg>
+        <div class="pgx-timer-in"><b id="pgx-timer-txt" aria-live="polite">0:00</b><small>repos</small></div>
+        <div class="pgx-timer-btns"><button type="button" id="pgx-timer-plus">+15 s</button><button type="button" id="pgx-timer-skip">Passer</button></div>
+      </div>
+    </div>
+    <div class="pgx-live-end" id="pgx-live-end" hidden>
+      <span class="pgx-live-trophy" aria-hidden="true">🏆</span>
+      <h2>Séance terminée, bravo !</h2>
+      <p id="pgx-live-bilan"></p>
+      <div class="pgx-live-cta" id="pgx-live-coach" hidden>
+        <div class="pgx-faces" data-faces></div>
+        <b id="pgx-live-coach-t"></b>
+        <p id="pgx-live-coach-d"></p>
+        <a class="btn btn-primary" href="/score-sante/" data-cta="fin-seance" data-score>Faire mon Score Santé</a>
+      </div>
+      <div class="pgx-live-cta" id="pgx-live-mail" hidden>
+        <b>Ne perds pas ta progression</b>
+        <p>Reçois ton programme par email avec ton lien personnel : tu le retrouves sur n'importe quel téléphone.</p>
+        <button type="button" class="btn btn-primary" id="pgx-live-mailbtn">Recevoir par email</button>
+      </div>
+      <button type="button" class="btn-out pgx-live-retour" id="pgx-live-fin">Revenir à mon programme</button>
+    </div>
+    <div class="pgx-live-nav" id="pgx-live-nav">
+      <button type="button" id="pgx-live-prev">← Précédent</button>
+      <button type="button" class="pgx-live-next" id="pgx-live-next">Exercice suivant →</button>
+    </div>
+  </div>
+</div>
+</BaseLayout>
+
+<style is:global>
+  .pgx .phero { padding-block: 28px 64px; }
+  .pgx-hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 40px; align-items: center; margin-top: 8px; }
+  .pgx-chips { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .pgx-chips li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.22); font-size: 14px; font-weight: 700; color: #fff; }
+  .pgx-chips .ic { width: 18px; height: 18px; color: #9FD0FF; }
+  .pgx-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+  .pgx-asso { margin-top: 14px; font-weight: 700; color: #9FD0FF; }
+  .pgx-res .pgx-asso { color: var(--blue); }
+  /* aperçu téléphone */
+  .pgx-phone { justify-self: center; width: 100%; max-width: 300px; padding: 18px; border-radius: 34px; background: linear-gradient(160deg, #13284f, #0b1730); border: 1px solid rgba(160,205,255,.35); box-shadow: 0 40px 80px -30px rgba(0,0,0,.8), 0 0 0 8px rgba(255,255,255,.04); color: #fff; display: grid; gap: 14px; }
+  .pgx-phone-top { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; color: #BFE2FF; }
+  .pgx-phone-top b { padding: 2px 8px; border-radius: 999px; background: rgba(255,255,255,.14); font-size: 10.5px; text-transform: none; letter-spacing: .02em; color: #fff; }
+  .pgx-phone-ex { display: grid; gap: 4px; padding: 14px; border-radius: 18px; background: rgba(255,255,255,.07); }
+  .pgx-phone-ex small { font-size: 11.5px; font-weight: 700; color: #BFE2FF; }
+  .pgx-phone-ex strong { font-family: var(--display); font-size: 19px; line-height: 1.15; }
+  .pgx-phone-dose { font-size: 13px; font-weight: 700; color: #9FD0FF; }
+  .pgx-phone-sets { display: flex; gap: 8px; margin-top: 8px; }
+  .pgx-phone-sets i { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 12px; border: 2px solid rgba(255,255,255,.3); font-style: normal; font-weight: 700; font-size: 14px; }
+  .pgx-phone-sets i.ok { background: #2F6FED; border-color: #2F6FED; }
+  .pgx-phone-timer { position: relative; width: 128px; height: 128px; margin: 0 auto; }
+  .pgx-phone-timer svg, .pgx-timer svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .t-bg { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 10; }
+  .t-fg { fill: none; stroke: #57A8FF; stroke-width: 10; stroke-linecap: round; stroke-dasharray: 326.7; stroke-dashoffset: 120; }
+  .pgx-phone-timer > div { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+  .pgx-phone-timer b { font-family: var(--display); font-size: 30px; line-height: 1; }
+  .pgx-phone-timer small, .pgx-timer-in small { font-size: 11.5px; font-weight: 700; color: #BFE2FF; }
+  .pgx-phone-bar { height: 6px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; }
+  .pgx-phone-bar i { display: block; width: 34%; height: 100%; background: #57A8FF; }
+  @media (prefers-reduced-motion: no-preference) { .pgx-phone .t-fg { animation: pgx-tic 6s linear infinite; } }
+  @keyframes pgx-tic { from { stroke-dashoffset: 40; } to { stroke-dashoffset: 326.7; } }
+  /* questionnaire */
+  .pgx-wrap { max-width: 860px; }
+  #pgx-quiz, #pgx-res { scroll-margin-top: 90px; }
+  .pgx-progress { display: grid; gap: 8px; margin-bottom: 22px; }
+  .pgx-progress-txt { font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: none; color: var(--blue-deep); }
+  .pgx-progress-bar { height: 8px; border-radius: 99px; background: var(--pill); overflow: hidden; }
+  .pgx-progress-bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--blue), var(--volt)); transition: width .5s var(--ease); }
+  .pgx-form { display: grid; gap: 30px; }
+  .pgx-q { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 16px; }
+  .pgx-q legend { padding: 0; margin-bottom: 14px; font-family: var(--display); font-weight: 700; font-size: clamp(24px, 1.4vw + 16px, 32px); line-height: 1.15; color: var(--navy); }
+  .pgx-q legend small { display: block; margin-top: 6px; font-family: var(--body); font-size: 14px; font-weight: 600; color: var(--muted); }
+  .pgx-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .pgx-opt { position: relative; cursor: pointer; }
+  .pgx-opt input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .pgx-opt span { display: flex; flex-direction: column; justify-content: center; gap: 4px; height: 100%; min-height: 78px; padding: 16px 18px; border-radius: 18px; border: 2px solid var(--line); background: #fff; transition: border-color .2s, background-color .2s, transform .2s var(--ease), box-shadow .2s; }
+  .pgx-opt-sm span { min-height: 58px; }
+  .pgx-opt b { font-size: 16.5px; font-weight: 700; color: var(--navy); }
+  .pgx-opt small { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .pgx-opt:hover span { border-color: #BFD3FB; transform: translateY(-2px); }
+  .pgx-opt input:checked + span { border-color: var(--blue); background: #EEF4FF; box-shadow: 0 14px 28px -18px rgba(0, 55, 182, .8); }
+  .pgx-opt input:focus-visible + span { outline: 3px solid var(--sky); outline-offset: 2px; }
+  .pgx-consent { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.45; color: var(--navy); }
+  .pgx-consent input { width: 22px; height: 22px; margin-top: 1px; flex: none; accent-color: var(--blue); }
+  .pgx-err { margin: 0; padding: 12px 16px; border-radius: 12px; background: #EAF1FF; border: 2px solid var(--blue); color: var(--navy); font-weight: 700; }
+  .pgx-note { margin: 0; font-size: 12.5px; color: var(--muted); }
+  .pgx-note a { text-decoration: underline; }
+  .pgx-q .btn { justify-self: start; }
+  .pgx-back { justify-self: start; border: 0; background: none; padding: 6px 0; font: inherit; font-weight: 700; color: var(--blue); cursor: pointer; }
+  /* pas à pas (activé par le script) */
+  .pgx-steps .pgx-q { display: none; }
+  .pgx-steps .pgx-q.on { display: grid; }
+  @media (prefers-reduced-motion: no-preference) { .pgx-steps .pgx-q.on { animation: pgx-in .45s var(--ease); } }
+  @keyframes pgx-in { from { opacity: 0; transform: translateX(26px); } }
+  /* résultat */
+  .pgx-res-head { display: grid; gap: 12px; }
+  .pgx-res-head .h2 { margin: 0; outline: none; }
+  .pgx-tags { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .pgx-tags li { padding: 6px 12px; border-radius: 999px; background: var(--pill); color: var(--blue-deep); font-size: 13px; font-weight: 700; }
+  .pgx-week { margin-top: 26px; padding: 20px; border-radius: 22px; background: var(--navy); color: #fff; }
+  .pgx-week-t { margin: 0 0 12px; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: #BFE2FF; }
+  .pgx-days { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+  .pgx-days li { display: grid; gap: 6px; align-content: start; min-height: 86px; padding: 10px 8px; border-radius: 14px; background: rgba(255,255,255,.06); text-align: center; }
+  .pgx-days li b { font-size: 12.5px; color: #BFE2FF; }
+  .pgx-days li span { font-size: 12.5px; font-weight: 700; line-height: 1.25; color: rgba(255,255,255,.8); }
+  .pgx-days li.on { background: linear-gradient(160deg, #2F6FED, #1F55C9); }
+  .pgx-days li.on b, .pgx-days li.on span { color: #fff; }
+  .pgx-seance { margin-top: 18px; border: 2px solid var(--line); border-radius: 22px; background: #fff; overflow: hidden; break-inside: avoid; }
+  .pgx-seance-h { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 20px; border-bottom: 2px solid var(--line); background: #F9FBFF; }
+  .pgx-seance-h h3 { margin: 0; font-family: var(--display); font-size: 21px; line-height: 1.2; color: var(--navy); }
+  .pgx-seance-h small { display: block; font-size: 13px; font-weight: 700; color: var(--muted); }
+  .pgx-start { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 18px; border: 0; border-radius: 999px; background: var(--blue); color: #fff; font: inherit; font-weight: 700; font-size: 14.5px; cursor: pointer; box-shadow: 0 5px 0 var(--blue-deep); }
+  .pgx-start:hover { transform: translateY(2px); box-shadow: 0 3px 0 var(--blue-deep); }
+  .pgx-seance-b { padding: 6px 20px 18px; }
+  .pgx-seance-b > p { margin: 12px 0 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .pgx-seance-b > p b { color: var(--navy); }
+  .pgx-ex { list-style: none; margin: 6px 0 0; padding: 0; counter-reset: ex; }
+  .pgx-ex li { counter-increment: ex; display: grid; grid-template-columns: 34px 112px minmax(0, 1fr); gap: 14px; align-items: start; padding: 14px 0; border-top: 1px solid var(--line); }
+  .pgx-ex-t { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 14px; align-items: start; min-width: 0; }
+  .pgx-ex-nom:focus-visible, .pgx-mini:focus-visible, .pgx-alt:focus-visible, .pgx-sheet-x:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+  .pgx-ex-nom { padding: 0; border: 0; background: none; text-align: left; font: inherit; font-size: 15.5px; font-weight: 700; color: var(--navy); cursor: pointer; text-decoration: underline; text-decoration-color: #BFD3FB; text-underline-offset: 3px; }
+  .pgx-ex-nom:hover { color: var(--blue); }
+  .pgx-kg { grid-column: 1 / -1; font-size: 13px; font-weight: 700; color: var(--blue-deep); }
+  .pgx-ex-act { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .pgx-mini { min-height: 34px; padding: 6px 12px; border-radius: 999px; border: 2px solid var(--line); background: #fff; font: inherit; font-size: 13px; font-weight: 700; color: var(--blue-deep); cursor: pointer; }
+  .pgx-mini:hover { border-color: #BFD3FB; }
+  .pgx-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+  .pgx-stats > div { padding: 14px 16px; border-radius: 18px; background: #fff; border: 2px solid var(--line); }
+  .pgx-stats b { display: block; font-family: var(--display); font-size: 28px; line-height: 1.1; color: var(--blue-deep); }
+  .pgx-stats span { font-size: 13px; font-weight: 700; color: var(--muted); }
+  .pgx-sheet { position: fixed; inset: 0; z-index: 2147483200; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(5, 15, 40, .62); }
+  .pgx-sheet[hidden] { display: none; }
+  .pgx-sheet-in { position: relative; width: 100%; max-width: 580px; max-height: calc(100vh - 32px); overflow-y: auto; padding: 18px 20px 22px; border-radius: 24px; background: #fff; color: var(--ink); display: grid; gap: 12px; box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .6); }
+  .pgx-sheet-x { position: absolute; top: 12px; right: 12px; z-index: 2; width: 42px; height: 42px; border-radius: 50%; border: 0; background: rgba(5, 15, 40, .72); color: #fff; font-size: 17px; cursor: pointer; }
+  .pgx-sheet h2 { margin: 2px 0 0; font-family: var(--display); font-size: 26px; line-height: 1.15; color: var(--navy); outline: none; }
+  .pgx-sheet h3 { margin: 6px 0 0; font-family: var(--display); font-size: 18px; color: var(--navy); }
+  .pgx-sh-dose { font-weight: 700; color: var(--blue-deep); }
+  .pgx-sh-mus { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pgx-mu { padding: 5px 12px; border-radius: 999px; background: var(--pill); font-size: 13px; font-weight: 700; color: var(--muted); }
+  .pgx-mu.on { background: var(--blue); color: #fff; }
+  .pgx-sh-steps { margin: 0; padding-left: 22px; display: grid; gap: 8px; font-size: 15px; line-height: 1.5; }
+  .pgx-sh-cue { padding: 12px 14px; border-radius: 14px; background: #EEF4FF; font-size: 14.5px; line-height: 1.5; color: var(--navy) !important; }
+  .pgx-sh-altlist { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .pgx-pic { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 12px; background: #F1F6FF; }
+  .pgx-pic-btn { display: block; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 12px; }
+  .pgx-pic-btn:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+  .pgx-pic-btn:hover .pgx-pic { box-shadow: 0 0 0 2px #BFD3FB; }
+  .pgx-phone-pic { background: rgba(255, 255, 255, .95); border-radius: 18px; }
+  .pgx-sh-pic { border-radius: 16px; margin-bottom: 4px; }
+  .pgx-live-pic { width: min(100%, calc(30vh * 4 / 3)); align-self: center; border-radius: 18px; background: rgba(255, 255, 255, .96); }
+  .pgx-alt .pgx-pic { border-radius: 10px; }
+  .pgx-alt { display: grid; gap: 6px; padding: 8px; border-radius: 16px; border: 2px solid var(--line); background: #fff; font: inherit; text-align: left; cursor: pointer; }
+  .pgx-alt:hover { border-color: var(--blue); }
+  .pgx-alt-n { font-size: 14px; font-weight: 700; line-height: 1.25; color: var(--navy); }
+  .pgx-sh-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pgx-live-kg { display: grid; gap: 6px; margin-top: 6px !important; }
+  .pgx-live-kg[hidden] { display: none; }
+  .pgx-live-kg label small { text-transform: none; letter-spacing: 0; font-weight: 600; }
+  .pgx-live-kg label { font-size: 12.5px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: #BFE2FF; }
+  .pgx-live-kg > div { display: flex; align-items: center; gap: 10px; }
+  .pgx-live-kg input { width: 120px; min-height: 52px; padding: 0 14px; border-radius: 14px; border: 2px solid rgba(255, 255, 255, .35); background: rgba(255, 255, 255, .06); color: #fff; font: inherit; font-size: 22px; font-weight: 700; }
+  .pgx-live-kg input:focus { outline: 3px solid #9FD0FF; outline-offset: 1px; }
+  .pgx-live-kg span { font-weight: 700; color: #BFE2FF; }
+  .pgx-live-kg small { font-size: 13px; color: rgba(255, 255, 255, .82); }
+  .pgx-ex li:first-child { border-top: 0; }
+  .pgx-ex li::before { content: counter(ex); display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 10px; background: var(--pill); color: var(--blue-deep); font-weight: 700; font-size: 14px; }
+  .pgx-ex b { font-size: 15.5px; color: var(--navy); }
+  .pgx-dose { font-weight: 700; font-size: 14px; color: var(--blue); white-space: nowrap; text-align: right; }
+  .pgx-cue { grid-column: 1 / -1; font-size: 13.5px; line-height: 1.45; color: var(--muted); }
+  .pgx-done { font-size: 12.5px; font-weight: 700; color: var(--blue-deep); }
+  .pgx-mail { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 24px; margin-top: 26px; padding: 24px; border-radius: 22px; background: linear-gradient(150deg, #EEF4FF, #fff); border: 2px solid #CFDDFB; }
+  .pgx-mail h3 { margin: 0 0 6px; font-family: var(--display); font-size: 22px; color: var(--navy); }
+  .pgx-mail p { color: var(--muted); }
+  .pgx-mail form { display: grid; gap: 12px; }
+  .pgx-mail-f { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pgx-mail-f label { display: grid; gap: 4px; font-size: 13px; font-weight: 700; color: var(--navy); }
+  .pgx-mail-f input { min-height: 46px; padding: 0 14px; border-radius: 12px; border: 2px solid var(--line); background: #fff; font: inherit; font-size: 15px; color: var(--ink); }
+  .pgx-mail-f input:focus { outline: 3px solid var(--sky); outline-offset: 1px; border-color: var(--blue); }
+  .pgx-mail-opt { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--navy); }
+  .pgx-mail-opt input { width: 20px; height: 20px; margin-top: 1px; flex: none; accent-color: var(--blue); }
+  .pgx-mail .btn { justify-self: start; }
+  .pgx-mail-ok { margin: 0; padding: 12px 16px; border-radius: 12px; background: #fff; border: 2px solid var(--blue); color: var(--navy) !important; font-weight: 700; }
+  .pgx-box { margin-top: 26px; padding: 22px; border-radius: 22px; background: var(--band); }
+  .pgx-box h3 { margin: 0 0 10px; font-family: var(--display); font-size: 19px; color: var(--navy); }
+  .pgx-box h3:not(:first-child) { margin-top: 18px; }
+  .pgx-box ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+  .pgx-bloc { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .pgx-bloc b { color: var(--navy); }
+  .pgx-bloc ul { margin: 4px 0 0; padding-left: 20px; display: grid; gap: 2px; }
+  .pgx-bloc p { margin: 2px 0 0; }
+  .pgx-eff { margin: 12px 0 0; padding: 10px 14px; border-radius: 12px; background: var(--pill); font-size: 13.5px; line-height: 1.5; color: var(--navy); }
+  .pgx-eff b { color: var(--blue-deep); }
+  .pgx-sh-eff { margin: 10px 0 0; padding: 10px 14px; border-radius: 12px; background: var(--pill); font-size: 14px; line-height: 1.5; color: var(--navy); }
+  .pgx-alt-c { font-size: 12.5px; line-height: 1.4; color: var(--muted); }
+  .pgx-avant { margin-top: 22px; }
+  .pgx-plan { margin-top: 26px; padding: 22px; border-radius: 22px; border: 2px solid var(--line); background: #fff; }
+  .pgx-plan h3 { margin: 0 0 6px; font-family: var(--display); font-size: 21px; color: var(--navy); }
+  .pgx-plan > p { margin: 0 0 14px; font-size: 14px; color: var(--muted); }
+  .pgx-plan-l { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .pgx-plan-l li { position: relative; padding: 12px 14px 12px 18px; border-radius: 14px; background: var(--band); border-left: 4px solid var(--blue); }
+  .pgx-plan-l li:last-child { border-left-color: var(--blue-deep); }
+  .pgx-plan-l small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: none; color: var(--blue-deep); }
+  .pgx-plan-l b { display: block; margin-top: 2px; font-size: 16px; color: var(--navy); }
+  .pgx-plan-l p { margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  #pgx-lex h3 { margin-top: 18px; }
+  .pgx-lex { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 16px; font-size: 14px; line-height: 1.45; }
+  .pgx-lex dt { font-weight: 700; color: var(--navy); }
+  .pgx-lex dd { margin: 0; color: var(--muted); }
+  .pgx-coach { margin-top: 26px; padding: 24px; border-radius: 22px; background: var(--navy); color: #fff; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: center; }
+  .pgx-coach h3 { margin: 0 0 6px; font-family: var(--display); font-size: 21px; color: #fff; }
+  .pgx-coach p { margin: 0; font-size: 14.5px; line-height: 1.5; color: #D6E4FF; }
+  .pgx-coach-b { display: flex; flex-direction: column; gap: 10px; }
+  .pgx-coach .btn-out { background: transparent; color: #fff; border-color: rgba(214, 228, 255, .5); text-align: center; }
+  .pgx-coach .btn-out:hover { background: rgba(214, 228, 255, .12); }
+  @media (max-width: 720px) { .pgx-coach { grid-template-columns: 1fr; } .pgx-lex { grid-template-columns: 1fr; gap: 2px; } .pgx-lex dd { margin-bottom: 8px; } }
+  @media print { .pgx-plan, .pgx-box { break-inside: avoid; } }
+  .pgx-warn { margin-top: 18px; font-size: 13px; color: var(--muted); }
+  .pgx-now { margin-top: 20px; padding: 18px 20px; border-radius: 20px; border: 2px solid #BFD3FB; background: #fff; }
+  .pgx-now-h { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
+  .pgx-now-h b { font-family: var(--display); font-size: 19px; color: var(--navy); }
+  .pgx-now-h small { font-size: 13px; font-weight: 700; color: var(--blue-deep); }
+  .pgx-now-bar { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 5px; }
+  .pgx-now-bar li { height: 8px; border-radius: 99px; background: var(--pill); }
+  .pgx-now-bar li.ok { background: var(--blue); }
+  .pgx-now-bar li.cur { background: var(--blue-deep); box-shadow: 0 0 0 3px #BFD3FB; }
+  .pgx-now p { margin: 10px 0 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .pgx-ics { margin-top: 14px; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(191, 226, 255, .45); background: rgba(255, 255, 255, .08); color: #fff; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .pgx-ics:hover { background: rgba(255, 255, 255, .16); }
+  .pgx-ics:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+  .pgx-sug { grid-column: 1 / -1; font-size: 13px; font-weight: 700; color: var(--blue-deep); }
+  .pgx-live-sem { font-size: 13px; font-weight: 700; color: #BFE2FF; }
+  .pgx-live-rs { display: grid; gap: 8px; }
+  .pgx-live-rs[hidden] { display: none; }
+  .pgx-live-rs > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .pgx-live-rs button { display: grid; justify-items: center; gap: 2px; min-height: 64px; padding: 8px 4px; border-radius: 14px; border: 2px solid rgba(255, 255, 255, .3); background: rgba(255, 255, 255, .06); color: #fff; font: inherit; font-size: 22px; cursor: pointer; }
+  .pgx-live-rs button small { font-size: 12.5px; font-weight: 700; }
+  .pgx-live-rs button[aria-pressed=true] { background: #2F6FED; border-color: #9FD0FF; }
+  .pgx-live-rs button:focus-visible { outline: 3px solid #9FD0FF; outline-offset: 2px; }
+  .pgx-live-rs > small { font-size: 13.5px; line-height: 1.45; color: #D6E4FF; }
+  .pgx-nudge { margin-top: 20px; padding: 18px 20px; border-radius: 20px; background: var(--navy); color: #fff; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 20px; align-items: center; }
+  .pgx-nudge p { margin: 0; font-size: 14.5px; line-height: 1.5; color: #D6E4FF; }
+  .pgx-nudge p b { color: #fff; font-size: 16px; }
+  .pgx-nudge-b { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .pgx-nudge-x { min-height: 44px; padding: 8px 14px; border: 0; border-radius: 999px; background: transparent; color: #D6E4FF; font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; }
+  .pgx-nudge-x:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+  .pgx-bilan { margin-top: 26px; padding: 22px; border-radius: 22px; border: 2px solid #BFD3FB; background: #fff; }
+  .pgx-bilan h3 { margin: 0 0 6px; font-family: var(--display); font-size: 21px; color: var(--navy); }
+  .pgx-bilan > p { margin: 0 0 14px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .pgx-bilan-tab { display: grid; font-size: 14px; }
+  .pgx-bilan-h, .pgx-bilan-r { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, .8fr)); gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--line); align-items: center; }
+  .pgx-bilan-h { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: none; color: var(--blue-deep); }
+  .pgx-bilan-r span:first-child { font-weight: 700; color: var(--navy); }
+  .pgx-bilan-r span:not(:first-child) { color: var(--muted); }
+  .pgx-bilan-r b { color: var(--blue-deep); }
+  .pgx-bilan .btn { margin-top: 16px; }
+  .pgx-live-cta { display: grid; gap: 6px; justify-items: center; width: 100%; padding: 16px; border-radius: 18px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(191, 226, 255, .3); }
+  .pgx-live-cta[hidden] { display: none; }
+  .pgx-live-cta b { font-size: 16px; color: #fff; }
+  .pgx-live-cta p { margin: 0; font-size: 14px; line-height: 1.5; }
+  .pgx-live-cta .btn { margin-top: 6px; }
+  .pgx-live-retour { color: #fff; background: transparent; border-color: rgba(214, 228, 255, .5); }
+  @media (max-width: 720px) { .pgx-nudge { grid-template-columns: 1fr; } .pgx-bilan-h, .pgx-bilan-r { grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, .9fr)); font-size: 13px; } .pgx-bilan-h { font-size: 11px; letter-spacing: 0; } }
+  .pgx-salle, .pgx-coach-salle { display: grid; gap: 6px; margin-top: 16px; font-size: 14px; font-weight: 700; color: var(--navy); }
+  .pgx-salle small { font-weight: 600; color: var(--muted); }
+  .pgx-salle select, .pgx-coach-salle select { min-height: 46px; padding: 0 12px; border-radius: 12px; border: 2px solid var(--line); background: #fff; font: inherit; font-size: 15px; font-weight: 600; color: var(--ink); }
+  .pgx-salle select:focus, .pgx-coach-salle select:focus { outline: 3px solid var(--sky); outline-offset: 1px; }
+  .pgx-coach-salle { color: #D6E4FF; font-size: 13px; }
+  .pgx-faces { display: flex; align-items: center; margin-bottom: 10px; }
+  .pgx-faces:empty { display: none; }
+  .pgx-faces img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; background: #DCE6FB; }
+  .pgx-faces img + img { margin-left: -12px; }
+  .pgx-live-cta .pgx-faces { justify-content: center; margin-bottom: 4px; }
+  .pgx-bilan-b { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .pgx-bilan-b .btn { margin-top: 0; }
+  #pgx-phase { margin-top: 14px; }
+  .pgx-actions { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .pgx-how { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
+  .pgx-how > div { padding: 20px; border-radius: 20px; background: #fff; border: 2px solid var(--line); }
+  .pgx-how b { display: block; margin-bottom: 6px; font-family: var(--display); font-size: 18px; color: var(--navy); }
+  .pgx-how p { font-size: 14.5px; line-height: 1.55; color: var(--muted); }
+  .pgx-faq-t { margin-top: 44px; }
+  .pgx .faq-list { margin-top: 20px; }
+  /* mode séance */
+  .pgx-live { position: fixed; inset: 0; z-index: 2147483100; display: flex; flex-direction: column; background: #081632; color: #fff; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .pgx-live[hidden] { display: none; }
+  .pgx-live-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px max(18px, env(safe-area-inset-left, 0px)) 10px; }
+  .pgx-live-top small { display: block; font-size: 12.5px; font-weight: 700; color: #BFE2FF; }
+  .pgx-live-top b { font-size: 15px; }
+  .pgx-live-x { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.08); color: #fff; font-size: 18px; cursor: pointer; }
+  .pgx-live-bar { height: 6px; margin: 0 18px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; }
+  .pgx-live-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #2F6FED, #57A8FF); transition: width .4s var(--ease); }
+  .pgx-live-body, .pgx-live-end { flex: 1; overflow-y: auto; width: 100%; max-width: 560px; margin: 0 auto; padding: 22px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .pgx-live-body > * { flex: none; margin: 0; }
+  .pgx-live-end { align-items: center; justify-content: center; }
+  .pgx-live-body h2 { margin: 0; font-family: var(--display); font-size: clamp(26px, 5vw, 34px); line-height: 1.1; }
+  .pgx-live-dose { font-size: 18px; font-weight: 700; color: #9FD0FF; }
+  .pgx-live-cue { font-size: 15px; line-height: 1.5; color: rgba(255,255,255,.85); }
+  .pgx-live-lbl { margin-top: 8px !important; font-size: 12.5px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: #BFE2FF; }
+  .pgx-live-sets { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pgx-live-sets button { min-width: 64px; min-height: 64px; padding: 6px; border-radius: 18px; border: 2px solid rgba(255,255,255,.35); background: rgba(255,255,255,.05); color: #fff; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; display: grid; place-items: center; line-height: 1.1; }
+  .pgx-live-sets button small { font-size: 10.5px; font-weight: 700; color: #BFE2FF; }
+  .pgx-live-sets button[aria-pressed="true"] { background: #2F6FED; border-color: #2F6FED; }
+  .pgx-live-sets button[aria-pressed="true"] small { color: #fff; }
+  .pgx-timer { position: relative; display: grid; justify-items: center; gap: 12px; margin-top: 10px !important; }
+  .pgx-timer[hidden] { display: none; }
+  .pgx-timer svg { width: min(190px, 26vh); height: min(190px, 26vh); }
+  .pgx-timer-in { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: min(190px, 26vh); height: min(190px, 26vh); display: grid; place-content: center; text-align: center; }
+  .pgx-timer-in b { font-family: var(--display); font-size: clamp(30px, 5vh, 46px); line-height: 1; }
+  .pgx-timer .t-fg { stroke-dashoffset: 0; transition: stroke-dashoffset .9s linear; }
+  .pgx-timer-btns { display: flex; gap: 10px; }
+  .pgx-timer-btns button { min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.08); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+  .pgx-live-nav { display: flex; gap: 10px; padding: 12px max(18px, env(safe-area-inset-left, 0px)) 16px; border-top: 1px solid rgba(255,255,255,.12); }
+  .pgx-live-nav button { flex: 1; min-height: 52px; border-radius: 16px; border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.06); color: #fff; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; }
+  .pgx-live-nav .pgx-live-next { flex: 1.6; background: #2F6FED; border-color: #2F6FED; }
+  .pgx-live-nav button:disabled { opacity: .4; cursor: default; }
+  .pgx-live-end { text-align: center; justify-items: center; align-content: center; }
+  .pgx-live-trophy { font-size: 64px; }
+  .pgx-live-end h2 { margin: 0; font-family: var(--display); font-size: 32px; }
+  .pgx-live-end p { color: rgba(255,255,255,.85); }
+  .pgx-live :focus-visible { outline: 3px solid #9FD0FF; outline-offset: 2px; }
+  body.pgx-lock { overflow: hidden; }
+  @media (max-width: 900px) {
+    .pgx-hero { grid-template-columns: minmax(0, 1fr); }
+    .pgx-phone { max-width: 280px; }
+    .pgx-mail { grid-template-columns: minmax(0, 1fr); }
+    .pgx-how { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .pgx-sheet { align-items: flex-end; padding: 0; }
+    .pgx-sheet-in { max-height: 92vh; border-radius: 24px 24px 0 0; padding-bottom: max(22px, env(safe-area-inset-bottom, 0px)); }
+    .pgx-stats b { font-size: 22px; }
+    .pgx-days { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .pgx-days li { min-height: 0; }
+    .pgx-mail-f { grid-template-columns: minmax(0, 1fr); }
+    .pgx-ex li { grid-template-columns: 30px 88px minmax(0, 1fr); gap: 10px; }
+    .pgx-ex-t { grid-template-columns: minmax(0, 1fr); }
+    .pgx-dose { text-align: left; white-space: normal; }
+    .pgx-cue { font-size: 13px; }
+    .pgx-seance-h, .pgx-seance-b { padding-left: 16px; padding-right: 16px; }
+  }
+  @media print {
+    header, footer, .no-print, #pgx-quiz, .pgx-live, .pgx-start, [data-cookie], .cookie-banner, #bamboo-root { display: none !important; }
+    .pgx-week { background: #fff; color: #000; border: 1px solid #ccc; }
+    .pgx-res { padding-block: 0; }
+  }
+</style>
+
+<script>
+  import { animer } from '../../scripts/bonhomme.js';
+  type Ex = { nom: string; series: number; reps: string; repos: string; conseil: string; effort?: string };
+  type Seance = { nom: string; duree?: number; echauffement: string; echauffementEtapes?: string[]; exercices: Ex[]; finisher?: string; retourAuCalme: string; retourEtapes?: string[] };
+  type Prog = { titre: string; resume: string; seances: Seance[]; conseils: string[]; progression: string; avertissement: string; source?: string; semaines?: { s: string; t: string; d: string }[]; avant?: string[]; lexique?: [string, string][] };
+
+  const CLE = 'ga_programme_v1';
+  const $ = (id: string) => document.getElementById(id) as HTMLElement;
+  const lire = () => { try { const v = localStorage.getItem(CLE); return v ? JSON.parse(v) : null; } catch (e) { return null; } };
+  const ecrire = (v: any) => { try { localStorage.setItem(CLE, JSON.stringify(v)); } catch (e) { /* stockage indisponible */ } };
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  // pictogramme animé de l'exercice (rien n'est affiché si l'exercice n'a pas de pictogramme)
+  function picto(nom: string, cls = 'pgx-pic') { const s = document.createElementNS(SVGNS, 'svg'); s.setAttribute('class', cls); return animer(s, nom) ? s : null; }
+  function peindre(id: string, nom: string) { const s = document.getElementById(id) as unknown as SVGSVGElement; const ok = animer(s, nom); (s as any).style.display = ok ? '' : 'none'; }
+  const el = (tag: string, cls?: string, txt?: string) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; };
+
+  let FICHE: Record<string, { m: string[]; s: string[]; e: string[] }> = {};
+  try { FICHE = JSON.parse(($('pgx-fiches') as HTMLElement).textContent || '{}'); } catch (e) { FICHE = {}; }
+  // bloc titre + liste d'étapes (repli sur le texte pour les anciens programmes enregistrés)
+  function bloc(parent: HTMLElement, titre: string, etapes: string[] | undefined, texte: string) {
+    const w = el('div', 'pgx-bloc'); w.appendChild(el('b', '', titre));
+    if (etapes && etapes.length) { const u = el('ul'); etapes.forEach((t) => u.appendChild(el('li', '', t))); w.appendChild(u); }
+    else w.appendChild(el('p', '', texte));
+    parent.appendChild(w);
+  }
+  // ---------- où en est la personne sur ses 8 semaines ----------
+  const JOUR_MS = 86400000;
+  function semaineEnCours(): number { const d = etat && etat.date ? etat.date : Date.now(); return Math.floor((Date.now() - d) / (7 * JOUR_MS)) + 1; }
+  function etapeDe(p: Prog, n: number) {
+    const S = p.semaines || []; if (!S.length) return null;
+    const k = n <= 2 ? 0 : n <= 4 ? 1 : n <= 6 ? 2 : n === 7 ? 3 : 4;
+    return S[Math.min(k, S.length - 1)];
+  }
+  const recup = () => semaineEnCours() === 8;
+  const seriesDuJour = (e: Ex) => (recup() ? Math.max(1, e.series - 1) : e.series);
+  // ---------- charge conseillée selon la charge notée et le ressenti ----------
+  const arrondi = (v: number) => Math.round(v * 2) / 2;
+  function chargeConseillee(nom: string): { kg: number; txt: string } | null {
+    const c = etat && etat.charges && etat.charges[nom]; if (!c) return null;
+    const r = etat.ressenti && etat.ressenti[nom] ? etat.ressenti[nom].r : null;
+    const pas = c.kg < 20 ? 1 : 2.5;
+    const f = (v: number) => v.toLocaleString('fr-FR');
+    if (recup()) return { kg: c.kg, txt: 'Semaine de récupération : garde ' + f(c.kg) + ' kg, avec une série de moins.' };
+    if (semaineEnCours() <= 2) return { kg: c.kg, txt: 'Semaines d\'apprentissage : garde ' + f(c.kg) + ' kg et soigne ta technique.' };
+    if (r === 'facile') return { kg: arrondi(c.kg + pas), txt: 'C\'était trop facile : essaie ' + f(arrondi(c.kg + pas)) + ' kg aujourd\'hui.' };
+    if (r === 'dur') return { kg: Math.max(0, arrondi(c.kg - pas)), txt: 'C\'était trop dur : reprends à ' + f(Math.max(0, arrondi(c.kg - pas))) + ' kg et fais toutes tes répétitions.' };
+    if (r === 'parfait') return { kg: c.kg, txt: 'Garde ' + f(c.kg) + ' kg et vise une répétition de plus par série. Si tu fais le haut de la fourchette partout, ajoute ' + f(pas) + ' kg la prochaine fois.' };
+    return { kg: c.kg, txt: 'La dernière fois : ' + f(c.kg) + ' kg.' };
+  }
+  // ---------- mesure (Google Analytics, uniquement après accord des cookies) ----------
+  const suivre = (nom: string, d?: Record<string, any>) => { try { (window as any).trackConversion && (window as any).trackConversion(nom, d); } catch (e) { /* rien */ } };
+  document.addEventListener('click', (e) => { const a = (e.target as HTMLElement).closest && (e.target as HTMLElement).closest('[data-cta]'); if (a) suivre('programme_cta_coach', { source: a.getAttribute('data-cta') }); });
+
+  // ---------- le coach GA de la salle de la personne ----------
+  let SAL: any[] = [];
+  try { SAL = JSON.parse(($('pgx-salles') as HTMLElement).textContent || '[]'); } catch (e) { SAL = []; }
+  const salleDe = () => (etat && etat.rep && etat.rep.salle ? SAL.find((x) => x.slug === etat.rep.salle) || null : null);
+  const liste = (a: string[]) => (a.length > 1 ? a.slice(0, -1).join(', ') + ' et ' + a[a.length - 1] : a[0] || '');
+  const ville = (sa: any) => sa.nom.replace(/^Basic-Fit\s+/, '');
+  function phraseCoach(sa: any, debut: string) {
+    if (!sa) return debut + 'un coach GA de ta salle Basic-Fit peut vérifier ta technique et ajuster tes charges. Commence par ton Score Santé : 2 minutes, gratuit.';
+    const p = sa.coachs.map((c: any) => c.prenom), plus = p.length > 1;
+    return debut + liste(p) + (plus ? ', tes coachs GA à ' : ', ton coach GA à ') + ville(sa) + (plus ? ', peuvent' : ', peut') + ' vérifier ta technique et ajuster tes charges. Commence par ton Score Santé : 2 minutes, gratuit.';
+  }
+  function majCoach() {
+    const sa = salleDe();
+    document.querySelectorAll<HTMLElement>('[data-faces]').forEach((f) => {
+      f.textContent = '';
+      (sa ? sa.coachs : []).slice(0, 3).forEach((c: any) => { const im = document.createElement('img'); im.src = c.photo; im.alt = ''; im.width = 52; im.height = 52; im.decoding = 'async'; f.appendChild(im); });
+    });
+    document.querySelectorAll<HTMLAnchorElement>('[data-score]').forEach((a) => (a.href = '/score-sante/' + (sa ? '?coach=' + encodeURIComponent(sa.coachs[0].slug) : '')));
+    const fi = $('pgx-coach-fiche') as HTMLAnchorElement;
+    if (sa && sa.coachs.length === 1) { fi.href = '/coachs/' + sa.coachs[0].slug + '/'; fi.textContent = 'Voir le profil de ' + sa.coachs[0].prenom; }
+    else if (sa) { fi.href = '/salles/' + sa.slug + '/'; fi.textContent = 'Voir les coachs de ta salle'; }
+    else { fi.href = '/trouver-un-coach/'; fi.textContent = 'Trouver un coach GA'; }
+    if (sa) {
+      const p = sa.coachs.map((c: any) => c.prenom);
+      $('pgx-coach-t').textContent = p.length > 1 ? liste(p) + ', tes coachs GA à ' + ville(sa) : p[0] + ', ton coach GA à ' + ville(sa);
+      $('pgx-coach-d').textContent = (p.length > 1 ? 'Ils te montrent' : 'Il te montre') + ' chaque mouvement à ' + sa.nom + ', corrige' + (p.length > 1 ? 'nt' : '') + ' ta technique et ajuste' + (p.length > 1 ? 'nt' : '') + ' tes charges. Commence par ton Score Santé : 2 minutes pour faire le point.';
+      $('pgx-bilan-coach').textContent = 'Faire le point avec ' + (p.length > 1 ? 'un coach de ta salle' : p[0]);
+    } else {
+      $('pgx-coach-t').textContent = 'Tu veux être sûr de bien faire ?';
+      $('pgx-coach-d').textContent = 'Un coach GA te montre chaque mouvement dans ta salle Basic-Fit, corrige ta technique et ajuste tes charges. Commence par ton Score Santé : 2 minutes pour faire le point.';
+      $('pgx-bilan-coach').textContent = 'Faire le point avec un coach GA';
+    }
+    ($('pgx-salle-r') as HTMLSelectElement).value = sa ? sa.slug : '';
+    const mf2 = $('pgx-mailform') as HTMLFormElement; (mf2.elements.namedItem('salle') as HTMLInputElement).value = sa ? sa.slug : '';
+  }
+  $('pgx-salle-r').addEventListener('change', (e) => {
+    if (!etat || !etat.rep) return;
+    etat.rep.salle = (e.target as HTMLSelectElement).value; ecrire(etat);
+    majCoach(); renderNudge(); suivre('programme_salle', { salle: etat.rep.salle || 'aucune' });
+  });
+
+  // ---------- phase suivante : nouveaux exercices, charges conservées ----------
+  async function phaseSuivante(b: HTMLButtonElement) {
+    if (!etat || !etat.rep) return;
+    const nv = { ...etat.rep, phase: (etat.rep.phase || 1) + 1 };
+    const txt = b.textContent; b.disabled = true; b.textContent = 'Ta nouvelle phase se prépare…';
+    try {
+      const r = await fetch('/.netlify/functions/programme', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(nv) });
+      if (!r.ok) throw new Error('http');
+      const d = await r.json();
+      etat = { ...etat, rep: nv, prog: d.programme, date: Date.now(), faites: {}, swaps: [], nudgeVu: 0 };
+      ecrire(etat); suivre('programme_phase', { phase: nv.phase });
+      render(d.programme, nv);
+    } catch (e) { b.textContent = 'Impossible pour le moment, réessaie'; setTimeout(() => (b.textContent = txt), 3000); }
+    finally { b.disabled = false; }
+  }
+  $('pgx-phase').addEventListener('click', (e) => phaseSuivante(e.currentTarget as HTMLButtonElement));
+  $('pgx-phase2').addEventListener('click', (e) => phaseSuivante(e.currentTarget as HTMLButtonElement));
+
+  // ---------- lien personnel : retrouver son programme sur un autre téléphone ----------
+  const b64 = (t: string) => { const o = new TextEncoder().encode(t); let s2 = ''; o.forEach((c) => (s2 += String.fromCharCode(c))); return btoa(s2).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+  const deb64 = (t: string) => { const s2 = atob(t.replace(/-/g, '+').replace(/_/g, '/')); return new TextDecoder().decode(Uint8Array.from(s2, (c) => c.charCodeAt(0))); };
+  function jeton(): string {
+    if (!etat || !etat.rep) return '';
+    const kg: Record<string, number[]> = {};
+    Object.keys(etat.charges || {}).forEach((n) => { kg[n] = [etat.charges1 && etat.charges1[n] ? etat.charges1[n].kg : etat.charges[n].kg, etat.charges[n].kg]; });
+    const rs: Record<string, string> = {}; Object.keys(etat.ressenti || {}).forEach((n) => (rs[n] = etat.ressenti[n].r));
+    const h = (etat.historique || []).slice(-60).map((x: any) => [Math.round(x.d / 60000), x.s, x.f]);
+    return b64(JSON.stringify({ v: 1, r: etat.rep, d: Math.round((etat.date || Date.now()) / 60000), k: kg, s: rs, h, x: etat.swaps || [] }));
+  }
+  const lienSuivi = () => location.origin + '/mon-programme/?suivi=' + jeton();
+  const derniereCharge = (nom: string) => (etat && etat.charges && etat.charges[nom] ? Number(etat.charges[nom].kg).toLocaleString('fr-FR') : null);
+  const LIB_OBJ: Record<string, string> = { 'perte-poids': 'Perte de poids', 'prise-muscle': 'Prise de muscle', force: 'Force', forme: 'Remise en forme' };
+  const LIB_NIV: Record<string, string> = { debutant: 'Débutant', intermediaire: 'Intermédiaire', avance: 'Avancé' };
+  const LIB_ZONE: Record<string, string> = { fessiers: 'Priorité fessiers et jambes', bras: 'Priorité bras et épaules', dos: 'Priorité dos et posture', abdos: 'Priorité abdos et gainage' };
+  const LIB_MAT: Record<string, string> = { complet: 'Salle complète', machines: 'Machines guidées', minimal: 'Haltères et poids du corps' };
+  const JOURS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+  const PLAN: Record<number, number[]> = { 2: [0, 3], 3: [0, 2, 4], 4: [0, 1, 3, 4] };
+
+  peindre('pgx-phone-pic', 'Développé machine convergente');
+
+  // ---------- association éventuelle ----------
+  let asso = '';
+  try { asso = (new URLSearchParams(location.search).get('asso') || '').slice(0, 60); } catch (e) { /* rien */ }
+  // arrivée depuis une fiche coach : la salle du coach est déjà choisie
+  let salleUrl = '';
+  try { salleUrl = new URLSearchParams(location.search).get('salle') || ''; } catch (e) { /* rien */ }
+  if (salleUrl) {
+    const sq = document.getElementById('pgx-salle-q') as HTMLSelectElement | null;
+    if (sq && [...sq.options].some((o) => o.value === salleUrl)) sq.value = salleUrl;
+  }
+  if (asso) ['pgx-asso', 'pgx-asso2'].forEach((id) => { const n = $(id); n.textContent = 'Proposé par ' + asso; n.hidden = false; });
+
+  // ---------- questionnaire pas à pas ----------
+  const form = $('pgx-form') as HTMLFormElement;
+  const steps = Array.from(form.querySelectorAll<HTMLFieldSetElement>('.pgx-q'));
+  const prev = $('pgx-prev') as HTMLButtonElement;
+  const err = $('pgx-err');
+  let cur = 0;
+  form.classList.add('pgx-steps');
+  function montrer(i: number, focus = true) {
+    cur = Math.max(0, Math.min(steps.length - 1, i));
+    steps.forEach((s, k) => s.classList.toggle('on', k === cur));
+    $('pgx-etape').textContent = cur < steps.length - 1 ? 'Question ' + (cur + 1) + ' sur ' + steps.length : 'Dernière étape';
+    $('pgx-bar').style.width = ((cur + 1) / steps.length) * 100 + '%';
+    prev.hidden = cur === 0;
+    if (focus) { const q = $('pgx-quiz').getBoundingClientRect(); if (q.top < 70 || q.top > innerHeight * .5) $('pgx-quiz').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    if (focus) { const lg = steps[cur].querySelector('legend') as HTMLElement; lg.setAttribute('tabindex', '-1'); lg.focus({ preventScroll: true }); }
+  }
+  montrer(0, false);
+  steps.forEach((s, k) => {
+    s.querySelectorAll<HTMLInputElement>('input[type=radio]').forEach((r) => r.addEventListener('change', () => { if (k < steps.length - 1) setTimeout(() => montrer(k + 1), 260); }));
+  });
+  prev.addEventListener('click', () => montrer(cur - 1));
+
+  // ---------- rendu du programme ----------
+  let etat: any = lire();
+  if (etat && etat.rep && !etat.rep.salle && salleUrl && /^[a-z0-9-]{3,60}$/.test(salleUrl)) { etat.rep.salle = salleUrl; ecrire(etat); }
+  function render(p: Prog, rep: any, scroll = true) {
+    $('pgx-badge').textContent = p.source === 'ia' ? 'Personnalisé par IA' : 'Ton programme';
+    $('pgx-titre').textContent = p.titre;
+    $('pgx-resume').textContent = p.resume;
+    const tags = $('pgx-tags'); tags.textContent = '';
+    [LIB_OBJ[rep.objectif], LIB_ZONE[rep.zone], LIB_NIV[rep.niveau], rep.jours + ' séances par semaine', rep.duree + ' min par séance', LIB_MAT[rep.materiel]].forEach((t) => t && tags.appendChild(el('li', '', t)));
+    const sem = semaineEnCours(), et = etapeDe(p, sem), nw = $('pgx-now');
+    nw.hidden = !et;
+    if (et) {
+      const fini = sem > 8;
+      $('pgx-now-t').textContent = fini ? 'Tes 8 semaines sont terminées, bravo !' : 'Tu es en semaine ' + sem + ' sur 8';
+      $('pgx-now-s').textContent = fini ? 'Place à la phase suivante' : et.t;
+      $('pgx-now-d').textContent = fini ? 'Compare tes charges à celles de tes premières semaines, puis passe à la phase suivante : de nouveaux exercices, et tes charges sont conservées.' : et.d;
+      const ph = $('pgx-phase') as HTMLButtonElement; ph.hidden = !fini; ph.textContent = 'Créer ma phase ' + (((rep && rep.phase) || 1) + 1);
+      const nb = $('pgx-now-bar'); nb.textContent = '';
+      for (let k = 1; k <= 8; k++) nb.appendChild(el('li', k < sem ? 'ok' : k === sem ? 'cur' : ''));
+    }
+    const days = $('pgx-days'); days.textContent = '';
+    const plan = PLAN[p.seances.length] || [];
+    JOURS.forEach((j, d) => { const k = plan.indexOf(d); const li = el('li', k >= 0 ? 'on' : ''); li.appendChild(el('b', '', j)); li.appendChild(el('span', '', k >= 0 ? 'Séance ' + (k + 1) : 'Repos')); days.appendChild(li); });
+    const box = $('pgx-seances'); box.textContent = '';
+    const faites = (etat && etat.faites) || {};
+    // avant la première séance
+    const av = $('pgx-avant'); av.hidden = !(p.avant && p.avant.length);
+    const avl = $('pgx-avant-l'); avl.textContent = ''; (p.avant || []).forEach((t) => avl.appendChild(el('li', '', t)));
+    p.seances.forEach((s, i) => {
+      const c = el('section', 'pgx-seance');
+      const h = el('div', 'pgx-seance-h'); const t = el('div');
+      t.appendChild(el('h3', '', 'Séance ' + (i + 1) + ' : ' + s.nom));
+      t.appendChild(el('small', '', s.exercices.length + ' exercices · environ ' + (s.duree || rep.duree) + ' minutes'));
+      if (faites[i]) t.appendChild(el('span', 'pgx-done', 'Faite ' + faites[i] + ' fois'));
+      h.appendChild(t);
+      const b = el('button', 'pgx-start no-print', '▶ Démarrer cette séance') as HTMLButtonElement; b.type = 'button'; b.addEventListener('click', () => live(i));
+      h.appendChild(b); c.appendChild(h);
+      const body = el('div', 'pgx-seance-b');
+      bloc(body, 'Échauffement', s.echauffementEtapes, s.echauffement);
+      const eff = (s.exercices.find((x) => x.effort && !/seconde/.test(x.reps)) || {} as Ex).effort;
+      if (eff) { const ep = el('p', 'pgx-eff'); ep.appendChild(el('b', '', 'La bonne charge. ')); ep.appendChild(document.createTextNode(eff)); body.appendChild(ep); }
+      const ul = el('ol', 'pgx-ex');
+      s.exercices.forEach((e, j) => {
+        const li = el('li');
+        const fb = el('button', 'pgx-pic-btn') as HTMLButtonElement; fb.type = 'button'; fb.setAttribute('aria-label', 'Voir la fiche : ' + e.nom);
+        const pc = picto(e.nom); if (pc) fb.appendChild(pc); fb.addEventListener('click', () => fiche(i, j, false)); li.appendChild(fb);
+        const tx = el('div', 'pgx-ex-t');
+        const nb = el('button', 'pgx-ex-nom', e.nom) as HTMLButtonElement; nb.type = 'button'; nb.addEventListener('click', () => fiche(i, j, false)); tx.appendChild(nb);
+        tx.appendChild(el('span', 'pgx-dose', e.series + ' x ' + e.reps + ' · repos ' + e.repos));
+        tx.appendChild(el('span', 'pgx-cue', e.conseil));
+        const kg = derniereCharge(e.nom); if (kg) tx.appendChild(el('span', 'pgx-kg', 'Dernière charge : ' + kg + ' kg'));
+        const sg = chargeConseillee(e.nom); if (sg && etat.ressenti && etat.ressenti[e.nom]) tx.appendChild(el('span', 'pgx-sug', '→ ' + sg.txt));
+        const act = el('div', 'pgx-ex-act no-print');
+        const vb = el('button', 'pgx-mini', 'Voir la fiche') as HTMLButtonElement; vb.type = 'button'; vb.addEventListener('click', () => fiche(i, j, false)); act.appendChild(vb);
+        if (e.alt && e.alt.length) { const rb = el('button', 'pgx-mini', 'Remplacer') as HTMLButtonElement; rb.type = 'button'; rb.addEventListener('click', () => fiche(i, j, true)); act.appendChild(rb); }
+        tx.appendChild(act); li.appendChild(tx); ul.appendChild(li);
+      });
+      body.appendChild(ul);
+      if (s.finisher) { const f = el('p'); f.appendChild(el('b', '', 'Pour finir. ')); f.appendChild(document.createTextNode(s.finisher)); body.appendChild(f); }
+      bloc(body, 'Retour au calme', s.retourEtapes, s.retourAuCalme);
+      c.appendChild(body); box.appendChild(c);
+    });
+    const hist = (etat && etat.historique) || [];
+    $('pgx-stats').hidden = !hist.length;
+    if (hist.length) {
+      const nS = hist.length, nR = hist.reduce((a: number, h: any) => a + (h.f || 0), 0);
+      $('pgx-st-s').textContent = String(nS); $('pgx-st-sl').textContent = nS > 1 ? 'séances terminées' : 'séance terminée';
+      $('pgx-st-r').textContent = String(nR); $('pgx-st-rl').textContent = nR > 1 ? 'séries cochées' : 'série cochée';
+      $('pgx-st-d').textContent = new Date(hist[hist.length - 1].d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+    }
+    const cl = $('pgx-conseils'); cl.textContent = ''; (p.conseils || []).forEach((t) => cl.appendChild(el('li', '', t)));
+    $('pgx-prog').textContent = p.progression; $('pgx-warn').textContent = p.avertissement;
+    const pw = $('pgx-plan'); pw.hidden = !(p.semaines && p.semaines.length);
+    const pl = $('pgx-plan-l'); pl.textContent = '';
+    (p.semaines || []).forEach((w) => { const li = el('li'); li.appendChild(el('small', '', w.s)); li.appendChild(el('b', '', w.t)); li.appendChild(el('p', '', w.d)); pl.appendChild(li); });
+    const lx = $('pgx-lex'); lx.hidden = !(p.lexique && p.lexique.length);
+    const ll = $('pgx-lex-l'); ll.textContent = '';
+    (p.lexique || []).forEach(([m, d]) => { ll.appendChild(el('dt', '', m)); ll.appendChild(el('dd', '', d)); });
+    // champs du formulaire email
+    const mf = $('pgx-mailform') as HTMLFormElement;
+    ['objectif', 'niveau', 'jours', 'duree', 'materiel'].forEach((k) => { (mf.elements.namedItem(k) as HTMLInputElement).value = String(rep[k]); });
+    (mf.elements.namedItem('zone') as HTMLInputElement).value = rep.zone || 'equilibre';
+    (mf.elements.namedItem('suivi') as HTMLInputElement).value = jeton();
+    renderBilan(); renderNudge(); majCoach();
+    (mf.elements.namedItem('limites') as HTMLInputElement).value = (rep.limites || []).join(',');
+    $('pgx-quiz').hidden = true; $('pgx-res').hidden = false; $('pgx-reprendre').hidden = true;
+    if (scroll) { $('pgx-res').scrollIntoView({ behavior: 'smooth', block: 'start' }); setTimeout(() => $('pgx-titre').focus({ preventScroll: true }), 400); }
+  }
+
+  form.addEventListener('submit', (ev) => {
+    ev.preventDefault(); err.hidden = true;
+    const fd = new FormData(form);
+    const rep: any = { limites: fd.getAll('limites') };
+    let manque = -1;
+    ['objectif', 'zone', 'niveau', 'jours', 'duree', 'materiel'].forEach((k, i) => { const v = fd.get(k); if (!v && manque < 0) manque = i; rep[k] = v; });
+    rep.salle = String(fd.get('salle') || '');
+    const fin = (m: string) => { err.textContent = m; err.hidden = false; };
+    if (manque >= 0) { montrer(manque); return; }
+    if (!($('pgx-ok') as HTMLInputElement).checked) { fin('Coche la confirmation pour créer ton programme.'); return; }
+    const go = $('pgx-go') as HTMLButtonElement; go.disabled = true; go.textContent = 'Ton programme se prépare…';
+    fetch('/.netlify/functions/programme', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(rep) })
+      .then((r) => { if (!r.ok) throw new Error('http'); return r.json(); })
+      .then((d) => { etat = { rep, prog: d.programme, faites: {}, date: Date.now() }; ecrire(etat); render(d.programme, rep); suivre('programme_cree', { objectif: rep.objectif, zone: rep.zone, niveau: rep.niveau, jours: rep.jours }); })
+      .catch(() => fin('Impossible de créer ton programme pour le moment. Réessaie dans un instant.'))
+      .then(() => { go.disabled = false; go.textContent = 'Créer mon programme'; });
+  });
+
+  $('pgx-print').addEventListener('click', () => window.print());
+  // agenda : chaque séance revient chaque semaine pendant 8 semaines, à partir du lundi qui suit
+  $('pgx-ics').addEventListener('click', () => {
+    if (!etat || !etat.prog) return;
+    const p: Prog = etat.prog, plan = PLAN[p.seances.length] || [];
+    const esc = (t: string) => t.replace(/\\/g, '\\\\').replace(/[,;]/g, (m) => '\\' + m).replace(/\n/g, '\\n');
+    const ymd = (d: Date) => d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+    const now = new Date(), stamp = now.toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
+    const lignes: string[] = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//GA Coachs//Programme//FR', 'CALSCALE:GREGORIAN'];
+    p.seances.forEach((s, i) => {
+      const jour = plan[i]; if (jour == null) return;
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      while (d.getDay() !== 1) d.setDate(d.getDate() + 1);
+      d.setDate(d.getDate() + jour);
+      const fin = new Date(d); fin.setDate(fin.getDate() + 1);
+      const desc = s.exercices.map((e, k) => (k + 1) + '. ' + e.nom + ' : ' + e.series + ' x ' + e.reps + ', repos ' + e.repos).join('\n') + '\n\nMode séance : https://gacoachs.fr/mon-programme/';
+      lignes.push('BEGIN:VEVENT', 'UID:ga-prog-' + now.getTime() + '-' + i + '@gacoachs.fr', 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + ymd(d), 'DTEND;VALUE=DATE:' + ymd(fin), 'RRULE:FREQ=WEEKLY;COUNT=8',
+        'SUMMARY:' + esc('Séance ' + (i + 1) + ' : ' + s.nom + ' (' + (s.duree || etat.rep.duree) + ' min)'), 'DESCRIPTION:' + esc(desc), 'END:VEVENT');
+    });
+    lignes.push('END:VCALENDAR');
+    const a = document.createElement('a');
+    const plier = (l: string) => { const o: string[] = []; for (let k = 0; k < l.length; k += 70) o.push((k ? ' ' : '') + l.slice(k, k + 70)); return o.join('\r\n'); };
+    a.href = URL.createObjectURL(new Blob([lignes.map(plier).join('\r\n')], { type: 'text/calendar;charset=utf-8' }));
+    a.download = 'programme-ga-coachs.ics'; document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  });
+  $('pgx-redo').addEventListener('click', () => { $('pgx-res').hidden = true; $('pgx-quiz').hidden = false; montrer(0, false); $('pgx-quiz').scrollIntoView({ behavior: 'smooth' }); });
+  if (etat && etat.prog && etat.rep) {
+    const rb = $('pgx-reprendre') as HTMLButtonElement; rb.hidden = false;
+    rb.addEventListener('click', () => render(etat.prog, etat.rep));
+  }
+
+  // ---------- envoi par email ----------
+  const mf = $('pgx-mailform') as HTMLFormElement;
+  mf.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const me = $('pgx-mailerr'), ok = $('pgx-mailok');
+    const prenom = (mf.elements.namedItem('prenom') as HTMLInputElement).value.trim();
+    const email = (mf.elements.namedItem('email') as HTMLInputElement).value.trim();
+    if (!prenom || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { me.textContent = 'Indique ton prénom et une adresse email valide.'; me.hidden = false; return; }
+    me.hidden = true;
+    const btn = mf.querySelector('button[type=submit]') as HTMLButtonElement; btn.disabled = true;
+    (mf.elements.namedItem('suivi') as HTMLInputElement).value = jeton();
+    try {
+      const r = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(mf) as any).toString() });
+      if (!r.ok) throw new Error('http');
+      mf.querySelectorAll('.pgx-mail-f, .pgx-mail-opt, button[type=submit]').forEach((n) => ((n as HTMLElement).hidden = true));
+      ok.textContent = 'C\'est envoyé, ' + prenom + ' ! Ton programme arrive dans ta boîte mail dans quelques minutes. Pense à regarder dans les courriers indésirables.';
+      ok.hidden = false; ok.focus();
+      etat.email = Date.now(); ecrire(etat);
+      suivre('programme_email', { recontact: (mf.elements.namedItem('recontact') as HTMLInputElement).checked ? 'oui' : 'non' });
+    } catch (x) {
+      me.textContent = 'L\'envoi n\'a pas fonctionné. Réessaie dans un instant.'; me.hidden = false; btn.disabled = false;
+    }
+  });
+
+  // ---------- fiche exercice et remplacement ----------
+  const SH = $('pgx-sheet');
+  let shRetour: HTMLElement | null = null, shI = 0, shJ = 0;
+  function fiche(i: number, j: number, modeRempl: boolean) {
+    shI = i; shJ = j;
+    const e: any = etat.prog.seances[i].exercices[j];
+    const fd = FICHE[e.nom] || { m: [], s: [], e: [] };
+    peindre('pgx-sh-pic', e.nom);
+    $('pgx-sh-nom').textContent = e.nom;
+    $('pgx-sh-dose').textContent = e.series + ' séries de ' + e.reps + ' · repos ' + e.repos;
+    const mu = $('pgx-sh-mus'); mu.textContent = '';
+    fd.m.forEach((x) => mu.appendChild(el('span', 'pgx-mu on', x)));
+    fd.s.forEach((x) => mu.appendChild(el('span', 'pgx-mu', x)));
+    const st = $('pgx-sh-steps'); st.textContent = ''; fd.e.forEach((x) => st.appendChild(el('li', '', x)));
+    $('pgx-sh-cue').textContent = 'Le conseil du coach : ' + e.conseil;
+    const se = $('pgx-sh-eff'); se.hidden = !e.effort; se.textContent = e.effort ? 'La bonne charge : ' + e.effort : '';
+    const sg = chargeConseillee(e.nom); const kp = $('pgx-sh-kg'); kp.hidden = !sg; if (sg) kp.textContent = sg.txt;
+    const alts = e.alt || [];
+    const al = $('pgx-sh-altlist'); al.textContent = '';
+    alts.forEach((a: any) => {
+      const b = el('button', 'pgx-alt') as HTMLButtonElement; b.type = 'button';
+      const ap = picto(a.nom); if (ap) b.appendChild(ap);
+      b.appendChild(el('span', 'pgx-alt-n', a.nom)); if (a.conseil) b.appendChild(el('span', 'pgx-alt-c', a.conseil));
+      b.addEventListener('click', () => remplacer(a));
+      al.appendChild(b);
+    });
+    ($('pgx-sh-swap') as HTMLButtonElement).hidden = !alts.length || modeRempl;
+    $('pgx-sh-alt').hidden = !modeRempl || !alts.length;
+    shRetour = document.activeElement as HTMLElement;
+    SH.hidden = false; document.body.classList.add('pgx-lock');
+    (SH.querySelector('.pgx-sheet-in') as HTMLElement).scrollTop = 0;
+    if (modeRempl) $('pgx-sh-alt').scrollIntoView({ block: 'nearest' });
+    ($('pgx-sh-nom') as HTMLElement).focus({ preventScroll: modeRempl });
+  }
+  function fermerFiche() { SH.hidden = true; if (L.hidden) document.body.classList.remove('pgx-lock'); if (shRetour && document.contains(shRetour)) shRetour.focus(); }
+  function remplacer(a: any) {
+    const ex: any = etat.prog.seances[shI].exercices[shJ];
+    const ancien = { nom: ex.nom, conseil: ex.conseil };
+    ex.alt = [ancien].concat((ex.alt || []).filter((x: any) => x.nom !== a.nom));
+    ex.nom = a.nom; ex.conseil = a.conseil;
+    etat.swaps = (etat.swaps || []).concat([[shI, shJ, a.nom]]).slice(-40);
+    ecrire(etat);
+    SH.hidden = true; document.body.classList.remove('pgx-lock');
+    render(etat.prog, etat.rep, false);
+    const cible = document.querySelectorAll('.pgx-seance')[shI]?.querySelectorAll('.pgx-ex-nom')[shJ] as HTMLElement | undefined;
+    if (cible) { cible.scrollIntoView({ block: 'center' }); cible.focus({ preventScroll: true }); }
+  }
+  $('pgx-sh-close').addEventListener('click', fermerFiche);
+  $('pgx-sh-swap').addEventListener('click', () => { $('pgx-sh-alt').hidden = false; ($('pgx-sh-swap') as HTMLButtonElement).hidden = true; $('pgx-sh-alt').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
+  SH.addEventListener('click', (ev) => { if (ev.target === SH) fermerFiche(); });
+
+  // ---------- mode séance ----------
+  const L = $('pgx-live');
+  let si = 0, ei = 0, coches: boolean[][] = [], lock: any = null, retour: HTMLElement | null = null;
+  let tFin = 0, tTot = 0, tId = 0;
+  const secondes = (s: string) => { const m = /(\d+)\s*min(?:\s*(\d+))?/.exec(s); if (m) return +m[1] * 60 + (m[2] ? +m[2] : 0); const x = /(\d+)\s*s/.exec(s); return x ? +x[1] : 60; };
+  const fmt = (n: number) => Math.floor(n / 60) + ':' + String(n % 60).padStart(2, '0');
+  let audio: AudioContext | null = null;
+  function bip() {
+    try { navigator.vibrate && navigator.vibrate([180, 90, 180]); } catch (e) { /* rien */ }
+    try {
+      audio = audio || new (window.AudioContext || (window as any).webkitAudioContext)();
+      [0, 0.25].forEach((d) => { const o = audio!.createOscillator(), g = audio!.createGain(); o.frequency.value = 880; o.connect(g); g.connect(audio!.destination); g.gain.setValueAtTime(0.18, audio!.currentTime + d); g.gain.exponentialRampToValueAtTime(0.001, audio!.currentTime + d + 0.2); o.start(audio!.currentTime + d); o.stop(audio!.currentTime + d + 0.22); });
+    } catch (e) { /* son indisponible */ }
+  }
+  function stopTimer() { clearInterval(tId); tId = 0; $('pgx-timer').hidden = true; }
+  function tick() {
+    const reste = Math.max(0, Math.round((tFin - Date.now()) / 1000));
+    $('pgx-timer-txt').textContent = fmt(reste);
+    ($('pgx-timer-arc') as unknown as SVGCircleElement).style.strokeDashoffset = String(326.7 * (1 - reste / tTot));
+    if (reste <= 0) { stopTimer(); bip(); }
+  }
+  function lancerRepos(sec: number) { tTot = sec; tFin = Date.now() + sec * 1000; $('pgx-timer').hidden = false; clearInterval(tId); tick(); tId = window.setInterval(tick, 500); $('pgx-timer').scrollIntoView({ behavior: 'smooth', block: 'end' }); }
+  $('pgx-timer-plus').addEventListener('click', () => { tFin += 15000; tTot += 15; tick(); });
+  $('pgx-timer-skip').addEventListener('click', stopTimer);
+
+  function afficherEx() {
+    const s: Seance = etat.prog.seances[si], e = s.exercices[ei];
+    $('pgx-live-seance').textContent = 'Séance ' + (si + 1) + ' · ' + s.nom;
+    $('pgx-live-pos').textContent = 'Exercice ' + (ei + 1) + ' sur ' + s.exercices.length;
+    peindre('pgx-live-pic', e.nom);
+    $('pgx-live-nom').textContent = e.nom;
+    const nS = seriesDuJour(e);
+    $('pgx-live-dose').textContent = nS + (nS > 1 ? ' séries' : ' série') + ' de ' + e.reps + ' · repos ' + e.repos;
+    const sem = semaineEnCours(), et = etapeDe(etat.prog, sem), ls = $('pgx-live-sem');
+    ls.hidden = !et || sem > 8; if (et && sem <= 8) ls.textContent = 'Semaine ' + sem + ' sur 8 · ' + et.t + (recup() ? ' : une série de moins' : '');
+    const rir = (/t'en laisse (\d+)/.exec(e.effort || '') || [])[1];
+    const cible = /seconde/.test(e.reps) || !rir ? '' : semaineEnCours() <= 2 ? '3 à 4' : rir;
+    $('pgx-live-cue').textContent = e.conseil + (cible ? ' Objectif : finir chaque série avec ' + cible + ' répétitions en réserve. Descends en 2 à 3 secondes.' : '');
+    const sansCharge = /seconde/.test(e.reps);
+    $('pgx-live-kgw').hidden = sansCharge;
+    const kin = $('pgx-live-kg') as HTMLInputElement; kin.value = '';
+    const sg = chargeConseillee(e.nom);
+    $('pgx-live-last').textContent = sg ? sg.txt : 'Note ta charge : tu la retrouveras à la prochaine séance.';
+    kin.placeholder = sg ? String(sg.kg).replace('.', ',') : '0';
+    $('pgx-live-rs').hidden = sansCharge; majRessenti();
+    const sets = $('pgx-live-sets'); sets.textContent = '';
+    for (let k = 0; k < nS; k++) {
+      const b = el('button') as HTMLButtonElement; b.type = 'button';
+      b.setAttribute('aria-pressed', String(!!coches[ei][k]));
+      b.setAttribute('aria-label', 'Série ' + (k + 1) + (coches[ei][k] ? ', terminée' : ''));
+      b.appendChild(document.createTextNode(String(k + 1))); b.appendChild(el('small', '', 'série'));
+      b.addEventListener('click', () => {
+        coches[ei][k] = !coches[ei][k];
+        b.setAttribute('aria-pressed', String(coches[ei][k]));
+        b.setAttribute('aria-label', 'Série ' + (k + 1) + (coches[ei][k] ? ', terminée' : ''));
+        if (coches[ei][k] && k < nS - 1) lancerRepos(secondes(e.repos)); else if (!coches[ei][k]) stopTimer();
+        if (coches[ei].filter(Boolean).length === nS) { stopTimer(); const rs = $('pgx-live-rs'); if (!rs.hidden) { rs.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); (rs.querySelector('button') as HTMLButtonElement).focus({ preventScroll: true }); } else ($('pgx-live-next') as HTMLButtonElement).focus(); }
+        maj();
+      });
+      sets.appendChild(b);
+    }
+    ($('pgx-live-prev') as HTMLButtonElement).disabled = ei === 0;
+    $('pgx-live-next').textContent = ei === s.exercices.length - 1 ? 'Terminer la séance ✓' : 'Exercice suivant →';
+    maj();
+  }
+  function maj() {
+    const total = coches.reduce((a, c) => a + c.length, 0), faits = coches.reduce((a, c) => a + c.filter(Boolean).length, 0);
+    $('pgx-live-bar').style.width = (total ? (faits / total) * 100 : 0) + '%';
+  }
+  let sessionLive = 0;
+  async function live(i: number) {
+    si = i; ei = 0; sessionLive = Date.now();
+    coches = etat.prog.seances[i].exercices.map((e: Ex) => new Array(seriesDuJour(e)).fill(false));
+    retour = document.activeElement as HTMLElement;
+    $('pgx-live-body').hidden = false; $('pgx-live-end').hidden = true; $('pgx-live-nav').hidden = false;
+    L.hidden = false; document.body.classList.add('pgx-lock');
+    stopTimer(); afficherEx(); ($('pgx-live-close') as HTMLButtonElement).focus();
+    try { lock = await (navigator as any).wakeLock?.request('screen'); } catch (e) { lock = null; }
+  }
+  function fermer() {
+    stopTimer(); L.hidden = true; document.body.classList.remove('pgx-lock');
+    try { lock && lock.release(); } catch (e) { /* rien */ } lock = null;
+    if (retour) retour.focus();
+  }
+  ($('pgx-live-kg') as HTMLInputElement).addEventListener('change', (ev) => {
+    const v = parseFloat((ev.target as HTMLInputElement).value.replace(',', '.'));
+    if (!(v > 0) || v > 500) return;
+    const nom = etat.prog.seances[si].exercices[ei].nom;
+    etat.charges = etat.charges || {}; etat.charges[nom] = { kg: Math.round(v * 2) / 2, d: Date.now() };
+    etat.charges1 = etat.charges1 || {}; if (!etat.charges1[nom]) etat.charges1[nom] = { kg: Math.round(v * 2) / 2, d: Date.now() };
+    ecrire(etat);
+  });
+  // ressenti après l'exercice
+  const RS_TXT: Record<string, string> = { facile: 'Noté : la prochaine fois, on te proposera un peu plus lourd.', parfait: 'Noté : garde cette charge et vise une répétition de plus.', dur: 'Noté : la prochaine fois, on te proposera un peu plus léger.' };
+  function majRessenti() {
+    const nom = etat.prog.seances[si].exercices[ei].nom;
+    const r = etat.ressenti && etat.ressenti[nom] && etat.ressenti[nom].s === sessionLive ? etat.ressenti[nom].r : '';
+    $('pgx-live-rs').querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.getAttribute('data-r') === r)));
+    $('pgx-live-rs-m').textContent = r ? RS_TXT[r] : '';
+  }
+  $('pgx-live-rs').querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
+    const nom = etat.prog.seances[si].exercices[ei].nom;
+    etat.ressenti = etat.ressenti || {}; etat.ressenti[nom] = { r: b.getAttribute('data-r'), d: Date.now(), s: sessionLive }; ecrire(etat);
+    majRessenti();
+  }));
+  $('pgx-live-close').addEventListener('click', fermer);
+  $('pgx-live-prev').addEventListener('click', () => { if (ei > 0) { ei--; stopTimer(); afficherEx(); } });
+  $('pgx-live-next').addEventListener('click', () => {
+    const s: Seance = etat.prog.seances[si];
+    stopTimer();
+    if (ei < s.exercices.length - 1) { ei++; afficherEx(); $('pgx-live-body').scrollTop = 0; return; }
+    const faits = coches.reduce((a, c) => a + c.filter(Boolean).length, 0), total = coches.reduce((a, c) => a + c.length, 0);
+    etat.faites = etat.faites || {}; etat.faites[si] = (etat.faites[si] || 0) + 1;
+    etat.historique = (etat.historique || []).concat([{ d: Date.now(), s: si, f: faits }]).slice(-200); ecrire(etat);
+    $('pgx-live-bilan').textContent = faits + ' séries cochées sur ' + total + '. Pense à boire et à faire ton retour au calme. Ta charge conseillée pour la prochaine fois est prête dans ton programme.';
+    $('pgx-live-body').hidden = true; $('pgx-live-nav').hidden = true; $('pgx-live-end').hidden = false;
+    const nS = etat.historique.length;
+    suivre('seance_terminee', { numero: nS });
+    // le bon moment pour proposer un coach : après 2 ou 3 séances, ou quand plusieurs exercices ont été trop durs
+    const durs = s.exercices.filter((x) => etat.ressenti && etat.ressenti[x.nom] && etat.ressenti[x.nom].s === sessionLive && etat.ressenti[x.nom].r === 'dur').length;
+    const mc = $('pgx-live-coach');
+    mc.hidden = !(durs >= 2 || nS === 2 || nS === 3 || nS % 8 === 0);
+    if (!mc.hidden) {
+      $('pgx-live-coach-t').textContent = durs >= 2 ? 'Plusieurs exercices t\'ont paru durs aujourd\'hui' : nS + ' séances faites : tu es lancé !';
+      $('pgx-live-coach-d').textContent = phraseCoach(salleDe(), durs >= 2 ? 'Pour progresser sans te blesser, ' : 'Pour aller plus loin, ');
+      majCoach();
+    }
+    $('pgx-live-mail').hidden = !!etat.email || !mc.hidden;
+    ($('pgx-live-fin') as HTMLButtonElement).focus();
+  });
+  $('pgx-live-fin').addEventListener('click', () => { fermer(); render(etat.prog, etat.rep, false); });
+  $('pgx-live-mailbtn').addEventListener('click', () => {
+    fermer(); render(etat.prog, etat.rep, false);
+    $('pgx-mail').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => ($('pgx-prenom') as HTMLInputElement).focus({ preventScroll: true }), 450);
+  });
+
+  // ---------- bandeau coach dans le programme ----------
+  function renderNudge() {
+    const n = (etat && etat.historique || []).length, nd = $('pgx-nudge');
+    const vu = etat && etat.nudgeVu ? etat.nudgeVu : 0;
+    nd.hidden = !(n >= 2 && n >= vu + 4 || n >= 2 && !vu);
+    if (nd.hidden) return;
+    $('pgx-nudge-t').textContent = n + ' séances faites, bravo !';
+    $('pgx-nudge-d').textContent = phraseCoach(salleDe(), '');
+    const d0 = $('pgx-nudge-d'); d0.textContent = d0.textContent.charAt(0).toUpperCase() + d0.textContent.slice(1);
+  }
+  $('pgx-nudge-x').addEventListener('click', () => { etat.nudgeVu = (etat.historique || []).length; ecrire(etat); $('pgx-nudge').hidden = true; });
+
+  // ---------- progression et bilan des 8 semaines ----------
+  function renderBilan() {
+    const c1 = (etat && etat.charges1) || {}, c = (etat && etat.charges) || {};
+    const noms = Object.keys(c).filter((n) => c1[n]);
+    const box = $('pgx-bilan'); box.hidden = !noms.length;
+    if (!noms.length) return;
+    const fin = semaineEnCours() >= 8, nS = (etat.historique || []).length, prevu = (etat.prog.seances.length || 0) * 8;
+    $('pgx-bilan-t').textContent = fin ? 'Ton bilan de 8 semaines' : 'Ta progression';
+    $('pgx-bilan-d').textContent = nS + (nS > 1 ? ' séances faites' : ' séance faite') + ' sur ' + prevu + ' prévues. ' + (fin ? 'Compare tes charges de départ à celles d\'aujourd\'hui : c\'est le moment de faire le point.' : 'Tes charges notées depuis le début de ton programme.');
+    const l = $('pgx-bilan-l'); l.textContent = '';
+    const f = (v: number) => v.toLocaleString('fr-FR') + ' kg';
+    noms.forEach((n) => {
+      const a = c1[n].kg, b = c[n].kg, r = el('div', 'pgx-bilan-r'); r.setAttribute('role', 'row');
+      [n, f(a), f(b)].forEach((t) => { const x = el('span', '', t); x.setAttribute('role', 'cell'); r.appendChild(x); });
+      const ev = el('span'); ev.setAttribute('role', 'cell');
+      if (b > a) ev.appendChild(el('b', '', '+' + (b - a).toLocaleString('fr-FR') + ' kg' + (a > 0 ? ' (+' + Math.round(((b - a) / a) * 100) + ' %)' : ''))); else ev.textContent = b === a ? '=' : (b - a).toLocaleString('fr-FR') + ' kg';
+      r.appendChild(ev); l.appendChild(r);
+    });
+    $('pgx-bilan-cta').hidden = !fin;
+    $('pgx-phase2').textContent = 'Créer ma phase ' + ((etat.rep.phase || 1) + 1);
+  }
+
+  // ---------- lien personnel ----------
+  $('pgx-lien').addEventListener('click', async () => {
+    const b = $('pgx-lien'), lien = lienSuivi();
+    try { await navigator.clipboard.writeText(lien); b.textContent = '✓ Lien copié : ouvre-le sur ton autre téléphone'; }
+    catch (e) { window.prompt('Copie ce lien et ouvre-le sur ton autre téléphone :', lien); }
+    suivre('programme_lien_copie');
+    setTimeout(() => (b.textContent = '🔗 Copier mon lien pour un autre téléphone'), 4000);
+  });
+  (async () => {
+    let t = ''; try { t = new URLSearchParams(location.search).get('suivi') || ''; } catch (e) { /* rien */ }
+    if (!t || t.length > 6000 || !/^[A-Za-z0-9_-]+$/.test(t)) return;
+    try {
+      const j = JSON.parse(deb64(t)); if (!j || j.v !== 1 || !j.r) return;
+      const r = await fetch('/.netlify/functions/programme', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(j.r) });
+      if (!r.ok) return;
+      const d = await r.json(), prog = d.programme;
+      const now = Date.now();
+      const charges: any = {}, charges1: any = {}, ressenti: any = {};
+      Object.keys(j.k || {}).forEach((n) => { const v = j.k[n]; if (Array.isArray(v) && v.length === 2 && v.every((x: any) => typeof x === 'number' && x >= 0 && x < 1000)) { charges1[n] = { kg: v[0], d: now }; charges[n] = { kg: v[1], d: now }; } });
+      Object.keys(j.s || {}).forEach((n) => { if (['facile', 'parfait', 'dur'].includes(j.s[n])) ressenti[n] = { r: j.s[n], d: now, s: 0 }; });
+      const historique = (Array.isArray(j.h) ? j.h : []).filter((x: any) => Array.isArray(x) && x.length === 3).map((x: any) => ({ d: +x[0] * 60000, s: +x[1], f: +x[2] }));
+      const faites: any = {}; historique.forEach((x: any) => (faites[x.s] = (faites[x.s] || 0) + 1));
+      etat = { rep: j.r, prog, faites, historique, charges, charges1, ressenti, date: +j.d * 60000 || now, swaps: [] };
+      // remplacements d'exercices faits sur l'ancien téléphone
+      (Array.isArray(j.x) ? j.x : []).forEach((x: any) => {
+        const ex = prog.seances[x[0]] && prog.seances[x[0]].exercices[x[1]]; if (!ex) return;
+        const a = (ex.alt || []).find((y: any) => y.nom === x[2]); if (!a) return;
+        ex.alt = [{ nom: ex.nom, conseil: ex.conseil }].concat(ex.alt.filter((y: any) => y.nom !== a.nom)); ex.nom = a.nom; ex.conseil = a.conseil; etat.swaps.push(x);
+      });
+      ecrire(etat);
+      history.replaceState(null, '', location.pathname);
+      suivre('programme_restaure');
+      render(prog, j.r);
+    } catch (e) { /* lien abîmé : on ignore */ }
+  })();
+  document.addEventListener('keydown', (e) => { if (e.key !== 'Escape') return; if (!SH.hidden) fermerFiche(); else if (!L.hidden) fermer(); });
+</script>

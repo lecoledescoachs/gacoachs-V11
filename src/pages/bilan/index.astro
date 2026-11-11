@@ -1,0 +1,386 @@
+---
+import SanteChiffres from '../../components/SanteChiffres.astro';
+import BilanCarte from '../../components/BilanCarte.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import BilanExplique from '../../components/proto/BilanExplique.astro';
+import CoachingChange from '../../components/proto/CoachingChange.astro';
+import '../../styles/rebrand.css';
+import coaches from '../../data/coaches.js';
+import { coachesReseau as coachesPublic } from '../../data/coaches.js';
+import salles from '../../data/salles.json';
+const sallesPublic = salles.filter((s) => s.reseauOfficiel !== false);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+    { '@type': 'ListItem', position: 2, name: 'Bilan santé', item: 'https://gacoachs.fr/bilan/' },
+  ],
+};
+// Le bilan santé décrit comme un service (sans prix affiché)
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Bilan santé avec un coach sportif',
+  serviceType: 'Bilan de forme et coaching sportif',
+  description: "Une heure en salle Basic-Fit avec un coach GA : 30 minutes de coaching (analyse cardio-vasculaire, analyse posturale, analyse des habitudes de vie), puis 30 minutes de retour et une proposition d'accompagnement. Le premier pas vers ton objectif.",
+  provider: { '@type': 'Organization', '@id': 'https://gacoachs.fr/#organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' },
+  areaServed: { '@type': 'City', name: 'Orléans' },
+  availableChannel: salles.filter((s: any) => s.reseauOfficiel !== false).map((s: any) => ({ '@type': 'ServiceChannel', serviceLocation: { '@type': 'ExerciseGym', name: s.nom, address: s.adresse } })),
+  url: 'https://gacoachs.fr/bilan/',
+};
+
+const salleParSlug = Object.fromEntries(salles.map((s) => [s.slug, s]));
+// Liste complète : sert à retrouver un coach par lien direct ?coach=, même hors réseau officiel.
+const coachesData = coaches.map((c) => ({
+  slug: c.slug,
+  nom: `${c.prenom} ${c.nom}`,
+  calendlyUrl: c.calendlyUrl || null,
+  salleNom: salleParSlug[c.salleSlug]?.nom || '',
+}));
+const defaultCoach = coachesPublic.find((c) => c.calendlyUrl);
+const jourJ = [
+  ['Un daypass ou un abonnement Basic-Fit valide', 'sans ça, tu regardes le coach s\'entraîner à travers la vitre'],
+  ['Une bouteille d\'eau', 'l\'eau du robinet marche aussi, on n\'est pas sponsorisés par Evian'],
+  ['Une serviette', 'pour toi, pas pour le coach'],
+  ['Ton sourire', 'le seul élément qui ne se négocie pas'],
+];
+---
+<BaseLayout
+  title="Réserver mon bilan santé avec un coach sportif"
+  description="Le Bilan Santé, 1er pas vers ton objectif : 30 min de coaching, analyses cardio, posturale et habitudes de vie, 30 min de feedback et un programme pour toi."
+  path="/bilan/"
+  jsonLd={[jsonLd, serviceLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')}
+>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero bl-hero3">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Bilan santé', href: '/bilan/' }]} />
+      <span class="eyebrow eyebrow-dark">Bilan santé</span>
+      <h1>Réserve ton <span class="hl-text">bilan santé</span>.</h1>
+      <p class="phero-lead">Le 1<sup>er</sup> pas vers ton objectif : une heure en salle avec un coach GA pour faire le point sur ta forme, ton cœur, ta posture et tes habitudes, puis repartir avec un plan clair.</p>
+    </div>
+  </section>
+
+  <div class="bl-wrap"><div class="inner"><div class="bl-card">
+    <div class="bl-steps" aria-hidden="true"><span class="on" id="bl-s1"><i>1</i>Ton coach</span><span id="bl-s2"><i>2</i>Tes coordonnées</span></div>
+  <!-- Étape 0 : choix du coach, minimaliste, visible seulement si aucun coach n'est déjà précisé -->
+  <section id="bilan-picker-section">
+    <div class="container">
+      <h2>Choisis ton coach.</h2>
+      <p class="lead">Clique sur un coach pour continuer ta réservation avec lui.</p>
+      <div class="coach-picker">
+        {coachesPublic.map((c) => (
+          <button type="button" class="coach-picker__item" data-coach-slug={c.slug} data-coach-nom={`${c.prenom} ${c.nom}`}>
+            <img src={c.photo} alt={`${c.prenom} ${c.nom}`} width="600" height="800" loading="lazy" />
+            <span class="coach-picker__nom">{c.prenom} {c.nom}</span>
+            <span class="coach-picker__salle">{salleParSlug[c.salleSlug]?.nom}</span>
+            {c.avisGoogle && <span class="coach-picker__note">★ {c.avisGoogle.note.toFixed(1).replace('.', ',')}</span>}
+          </button>
+        ))}
+      </div>
+      <p class="coach-picker__skip">
+        <button type="button" id="bilan-skip-picker">Je ne sais pas encore, passer cette étape →</button>
+      </p>
+    </div>
+  </section>
+
+  <!-- Étape 2 : réservation, masquée tant qu'aucun coach n'est choisi ou l'étape passée -->
+  <section id="bilan-booking-section" hidden>
+    <div class="container">
+            <h2 id="bilan-booking-title">Réserve ton bilan santé.</h2>
+      <p class="lead">
+        Une heure en salle avec ton coach : 30 minutes de séance et d'analyses, puis 30 minutes
+        pour faire le point et te proposer un accompagnement.
+      </p>
+      <p id="bilan-coach-context" class="bilan-coach-context" hidden></p>
+      <p class="bilan-change-coach"><button type="button" id="bilan-change-coach">← Choisir un autre coach</button></p>
+
+      <!-- Widget Calendly : affiché uniquement si le coach demandé a un lien direct -->
+      <div class="bilan-calendly-wrap" id="bilan-calendly-wrap" hidden>
+        <div id="bilan-calendly-target" style="min-width:320px;height:750px;"></div>
+      </div>
+
+      <!-- Formulaire de secours : toujours disponible en alternative, même quand un coach a un lien Calendly actif -->
+      <div class="bilan-fallback" id="bilan-fallback">
+        <!-- La carte Bilan Santé, comme la carte papier des coachs : recto, puis verso à remplir -->
+        <BilanCarte />
+      </div>
+
+      <p class="bilan-checklist-link">
+        <a href="/merci-bilan/">Voir ce qu'il faut prévoir le jour J →</a>
+      </p>
+    </div>
+  </section>
+  </div></div></div>
+
+  <BilanExplique band cta={false} />
+  <CoachingChange cta={false} />
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Le jour J</span>
+      <h2 class="h2">Ce qu'il faut prévoir pour ton bilan santé.</h2>
+      <div class="jourj">
+        {jourJ.map((j) => <div class="tile"><span class="jj-ck" aria-hidden="true"><svg class="ic"><use href="#i-check"></use></svg></span><h3>{j[0]}</h3><p>{j[1]}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <SanteChiffres />
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">Pas encore prêt à réserver ?</h2>
+      <a class="btn-final" href="/score-sante/"><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Faire mon Score Santé<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+
+<!-- Formulaire caché en double, statique, pour que Netlify le détecte au build -->
+<form name="bilan-fallback" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="prenom" />
+  <input type="text" name="nom" />
+  <input type="email" name="email" />
+  <input type="tel" name="telephone" />
+  <input type="text" name="objectif" />
+  <input type="text" name="creneau" />
+  <input type="text" name="contact_par" />
+  <input type="text" name="salle" />
+  <input type="text" name="coach" />
+  <input type="text" name="bot-field" />
+</form>
+
+<style>
+  .bl-hero3 { padding-bottom: 130px; }
+  .bl-hero3 h1 { margin-top: 14px; }
+  .bl-wrap { position: relative; z-index: 2; margin-top: -100px; padding-bottom: 64px; }
+  .bl-card { padding: clamp(20px, 3vw, 32px); background: #fff; border-radius: 28px; border: 1px solid var(--line); box-shadow: 0 30px 60px -34px rgba(11,30,61,.55); }
+  .bl-steps { display: flex; gap: 8px; margin-bottom: 18px; }
+  .bl-steps span { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); font-size: 13.5px; font-weight: 700; color: var(--muted); }
+  .bl-steps i { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-style: normal; background: var(--line); color: var(--ink); font-size: 12.5px; }
+  .bl-steps span.on { background: var(--pill); color: var(--blue-deep); border-color: #D6E2FC; }
+  .bl-steps span.on i { background: var(--blue); color: #fff; }
+  #bilan-picker-section h2, #bilan-booking-section h2 { font-size: clamp(26px, 1.6vw + 16px, 34px); margin: 0; }
+  .coach-picker { margin-top: 20px !important; }
+  .coach-picker__item { border-width: 2px !important; border-radius: 20px !important; padding: 10px 10px 14px !important; background: var(--bg) !important; }
+  .coach-picker__item img { width: 100% !important; height: auto !important; aspect-ratio: 4 / 3.4; border-radius: 14px !important; object-position: top; }
+  .coach-picker__nom { font-family: var(--display); font-size: 17px !important; margin-top: 6px !important; }
+  .coach-picker__note { font-size: 13px; font-weight: 700; color: var(--blue-deep); }
+  .coach-picker__skip { text-align: center; }
+  .coach-picker__skip button { color: var(--blue-deep) !important; font-weight: 700 !important; text-decoration: none !important; }
+  .bl-quoi { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 28px 48px; align-items: start; }
+  .jourj { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+  .jourj h3 { font-family: var(--display); font-size: 19px; line-height: 1.25; margin: 12px 0 6px; }
+  .jourj p { font-size: 14px; color: var(--muted); }
+  .jj-ck { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--blue); color: #fff; }
+  .jj-ck .ic { width: 16px; height: 16px; stroke-width: 3; }
+  @media (max-width: 960px) { .bl-quoi { grid-template-columns: 1fr; } .jourj { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .jourj { grid-template-columns: 1fr; } }
+  .bilan-fallback { margin-top: 20px; }
+  .lead { margin-top: 16px; color: var(--text-muted); max-width: 62ch; }
+
+  .coach-picker {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .coach-picker__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    padding: 16px 10px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .coach-picker__item:hover {
+    border-color: var(--blue);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px -14px rgba(47,111,237,.4);
+  }
+  .coach-picker__item img {
+    width: 84px; height: 84px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--ice);
+  }
+  .coach-picker__nom { font-weight: 700; color: var(--navy); font-size: 14px; margin-top: 4px; }
+  .coach-picker__salle { font-size: 12px; color: var(--text-muted); }
+  .coach-picker__skip { margin-top: 24px; }
+  .coach-picker__skip button {
+    background: none; border: none; padding: 12px 4px; margin: -12px -4px; font-family: inherit;
+    font-size: 13.5px; color: var(--text-muted); text-decoration: underline; cursor: pointer;
+    min-height: 44px; display: inline-flex; align-items: center;
+  }
+
+  .bilan-change-coach { margin-top: 4px; }
+  .bilan-change-coach button {
+    background: none; border: none; padding: 0; font-family: inherit;
+    font-size: 13.5px; color: var(--blue); font-weight: 600; cursor: pointer;
+  }
+
+  .bilan-coach-context {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--ice);
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .bilan-calendly-wrap { margin-top: 32px; }
+  .bilan-checklist-link { margin-top: 20px; font-size: 14px; }
+  .bilan-checklist-link a { color: var(--blue); font-weight: 600; }
+
+  .bilan-fallback { margin-top: 32px; }
+
+  @media (min-width: 560px) {
+    .coach-picker { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 700px) {
+  }
+  @media (min-width: 900px) {
+    .coach-picker { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
+
+<script type="application/json" id="bilan-coaches-data" set:html={JSON.stringify(coachesData)} />
+<script type="application/json" id="bilan-default-coach" set:html={JSON.stringify(defaultCoach ? { slug: defaultCoach.slug, nom: `${defaultCoach.prenom} ${defaultCoach.nom}`, calendlyUrl: defaultCoach.calendlyUrl } : null)} />
+
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script define:vars={{}}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const coachSlug = params.get('coach');
+    const allCoaches = JSON.parse(document.getElementById('bilan-coaches-data').textContent || '[]');
+    const defaultCoach = JSON.parse(document.getElementById('bilan-default-coach').textContent || 'null');
+
+    const pickerSection = document.getElementById('bilan-picker-section');
+    const bookingSection = document.getElementById('bilan-booking-section');
+    const bookingTitle = document.getElementById('bilan-booking-title');
+    const contextEl = document.getElementById('bilan-coach-context');
+    const calendlyWrap = document.getElementById('bilan-calendly-wrap');
+    const calendlyTarget = document.getElementById('bilan-calendly-target');
+    const fallbackNote = document.getElementById('bilan-fallback-note');
+    const fallbackCoachSelect = document.getElementById('bilan-fallback-coach');
+    const fallbackSalleSelect = document.getElementById('bilan-fallback-salle');
+
+
+    // Comptage pour l'espace coach : agenda ouvert, puis bilan réellement réservé (message envoyé par Calendly).
+    let coachCourant = '';
+    function track(body) {
+      const data = JSON.stringify(body);
+      try {
+        if (navigator.sendBeacon && navigator.sendBeacon('/.netlify/functions/score-track', new Blob([data], { type: 'application/json' }))) return;
+      } catch (e) { /* on tente l'envoi classique */ }
+      fetch('/.netlify/functions/score-track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: data, keepalive: true }).catch(() => {});
+    }
+    window.addEventListener('message', (e) => {
+      if (!e.origin || !e.origin.endsWith('calendly.com')) return;
+      if (e.data && e.data.event === 'calendly.event_scheduled') track({ type: 'bilan', coach: coachCourant, source: 'agenda' });
+    });
+
+    function showCalendly(url, nom) {
+      calendlyWrap.hidden = false;
+      track({ type: 'agenda', coach: coachCourant, source: 'agenda' });
+      fallbackNote.textContent = "Tu préfères qu'on te rappelle plutôt que de réserver en ligne ? Remplis ta carte.";
+      if (window.Calendly) {
+        window.Calendly.initInlineWidget({
+          url: `${url}?hide_gdpr_banner=1&primary_color=0037b6`,
+          parentElement: calendlyTarget,
+        });
+      }
+      applyCoachContext(nom);
+    }
+
+    function showFallbackOnly(nom) {
+      calendlyWrap.hidden = true;
+      fallbackNote.textContent = "Ce coach n'a pas encore de créneaux en ligne directs. Remplis ta carte : l'équipe GA Coachs te recontacte rapidement pour fixer un horaire.";
+      applyCoachContext(nom);
+    }
+
+    function applyCoachContext(nom) {
+      if (nom) {
+        if (fallbackCoachSelect) fallbackCoachSelect.value = nom;
+        const opt = fallbackCoachSelect ? fallbackCoachSelect.querySelector(`option[value="${CSS.escape(nom)}"]`) : null;
+        if (opt && fallbackSalleSelect) {
+          const salle = opt.getAttribute('data-salle');
+          if (salle) fallbackSalleSelect.value = salle;
+        }
+        contextEl.textContent = `Tu réserves un bilan avec ${nom}`;
+        contextEl.hidden = false;
+        bookingTitle.textContent = `Réserve ton bilan santé avec ${nom.split(' ')[0]}.`;
+      } else {
+        if (fallbackCoachSelect) fallbackCoachSelect.value = '';
+        if (fallbackSalleSelect) fallbackSalleSelect.value = '';
+        contextEl.hidden = true;
+        bookingTitle.textContent = 'Réserve ton bilan santé.';
+      }
+      // la carte Bilan Santé reprend le coach et sa salle (niveau « salle » sauté, coach déjà choisi)
+      if (fallbackCoachSelect) fallbackCoachSelect.dispatchEvent(new Event('change'));
+    }
+
+    function goToBooking(target) {
+      coachCourant = target ? target.slug : (defaultCoach ? defaultCoach.slug : '');
+      pickerSection.hidden = true;
+      document.getElementById('bl-s1')?.classList.remove('on'); document.getElementById('bl-s2')?.classList.add('on');
+      bookingSection.hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (target && target.calendlyUrl) {
+        showCalendly(target.calendlyUrl, target.nom);
+      } else if (target && !target.calendlyUrl) {
+        showFallbackOnly(target.nom);
+      } else if (defaultCoach) {
+        showCalendly(defaultCoach.calendlyUrl, null);
+      } else {
+        showFallbackOnly(null);
+      }
+    }
+
+    // Coach déjà précisé dans l'URL (venu d'une fiche coach) : on saute directement à l'étape 2
+    let target = null;
+    if (coachSlug) {
+      target = allCoaches.find((c) => c.slug === coachSlug) || null;
+    }
+    if (target) {
+      goToBooking(target);
+    }
+
+    // Clic sur une carte coach dans le sélecteur minimaliste
+    document.querySelectorAll('.coach-picker__item').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const slug = btn.getAttribute('data-coach-slug');
+        const picked = allCoaches.find((c) => c.slug === slug) || null;
+        goToBooking(picked);
+        if (typeof window.gtag === 'function') window.gtag('event', 'bilan_coach_picked', { coach: slug });
+      });
+    });
+
+    // "Je ne sais pas encore" : passe direct à l'étape 2 sans coach précis
+    document.getElementById('bilan-skip-picker')?.addEventListener('click', () => {
+      goToBooking(null);
+    });
+
+    // "Choisir un autre coach" : retour à l'étape 1
+    document.getElementById('bilan-change-coach')?.addEventListener('click', () => {
+      bookingSection.hidden = true;
+      pickerSection.hidden = false;
+      document.getElementById('bl-s2')?.classList.remove('on'); document.getElementById('bl-s1')?.classList.add('on');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>

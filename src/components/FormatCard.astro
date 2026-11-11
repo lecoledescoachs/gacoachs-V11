@@ -1,0 +1,37 @@
+---
+interface Props {
+  nom: string;
+  duree: string;
+  positionnement: string;
+  details: string[];
+  href: string;
+  cta: string;
+}
+const { nom, duree, positionnement, details, href, cta } = Astro.props;
+---
+<div class="format-card card">
+  <span class="format-card__duree">{duree}</span>
+  <h3>{nom}</h3>
+  <p class="format-card__positionnement">{positionnement}</p>
+  <div class="format-card__tags">
+    {details.slice(0, 4).map((d) => <span class="tag">{d}</span>)}
+  </div>
+  <a href={href} class="format-card__cta">{cta} →</a>
+</div>
+
+<style>
+  .format-card { padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .format-card__duree {
+    align-self: flex-start;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue-dim);
+    background: var(--ice);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .format-card h3 { font-size: 19px; margin-top: 4px; }
+  .format-card__positionnement { color: var(--text-muted); font-size: 14px; }
+  .format-card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .format-card__cta { margin-top: 12px; font-weight: 600; font-size: 14px; color: var(--blue); }
+</style>

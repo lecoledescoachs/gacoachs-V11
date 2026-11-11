@@ -1,0 +1,139 @@
+---
+interface AvisGoogle {
+  note: number;
+  nombreAvis: number;
+  url: string;
+}
+interface TemoignageVideo {
+  titre: string;
+  url: string;
+  plateforme?: 'youtube' | 'tiktok' | 'instagram';
+}
+interface Props {
+  prenom: string;
+  avisGoogle?: AvisGoogle;
+  temoignagesVideo?: TemoignageVideo[];
+}
+const { prenom, avisGoogle, temoignagesVideo } = Astro.props;
+
+function getYoutubeEmbed(url: string) {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+}
+---
+<div class="avis-block">
+  {avisGoogle && (
+  <div class="avis-block__avis">
+    <h3>Avis Google</h3>
+    {avisGoogle ? (
+      <a href={avisGoogle.url} target="_blank" rel="noopener noreferrer" class="avis-google">
+        <span class="avis-google__note">{avisGoogle.note.toFixed(1)}</span>
+        <div class="avis-google__stars" aria-hidden="true">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span class={i < Math.round(avisGoogle.note) ? 'star star--filled' : 'star'}>★</span>
+          ))}
+        </div>
+        <span class="avis-google__count">{avisGoogle.nombreAvis} avis Google →</span>
+      </a>
+    ) : (
+      <p class="avis-empty">Les avis Google de {prenom} seront affichés ici dès qu'ils seront disponibles.</p>
+    )}
+  </div>
+
+  <div class="avis-block__videos">
+    <h3>Témoignages vidéo</h3>
+    {temoignagesVideo && temoignagesVideo.length > 0 ? (
+      <div class="avis-videos">
+        {temoignagesVideo.map((v) => {
+          const embed = v.plateforme !== 'tiktok' && v.plateforme !== 'instagram' ? getYoutubeEmbed(v.url) : null;
+          return embed ? (
+            <div class="avis-video">
+              <div class="avis-video__frame">
+                <iframe
+                  src={embed}
+                  title={v.titre}
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <p class="avis-video__titre">{v.titre}</p>
+            </div>
+          ) : (
+            <a href={v.url} target="_blank" rel="noopener noreferrer" class="avis-video avis-video--link">
+              <span class="avis-video__titre">{v.titre} →</span>
+            </a>
+          );
+        })}
+      </div>
+    ) : null}
+  </div>
+  )}
+</div>
+
+<style>
+  .avis-block { display: flex; flex-direction: column; gap: 32px; }
+  .avis-block__avis h3, .avis-block__videos h3 { font-size: 16px; margin-bottom: 14px; }
+
+  .avis-google {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    transition: border-color .25s var(--ease), transform .25s var(--ease);
+  }
+  .avis-google:hover { border-color: var(--blue); transform: translateY(-2px); }
+  .avis-google__note {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--navy);
+  }
+  .avis-google__stars { display: flex; gap: 1px; }
+  .star { color: var(--line); font-size: 16px; }
+  .star--filled { color: #F5A623; }
+  .avis-google__count { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+
+  .avis-videos {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .avis-video { flex: 0 0 auto; width: 200px; scroll-snap-align: start; }
+  .avis-video__frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--ice);
+    box-shadow: 0 8px 20px -10px rgba(11, 30, 61, 0.2);
+  }
+  .avis-video__frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .avis-video__titre { margin-top: 8px; font-size: 13px; color: var(--text-muted); font-weight: 600; }
+  .avis-video--link {
+    display: inline-block;
+    padding: 14px 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+  }
+  .avis-video--link:hover { border-color: var(--blue); }
+  .avis-video--link .avis-video__titre { margin-top: 0; color: var(--blue); }
+
+  .avis-empty { color: var(--text-muted); font-size: 14px; max-width: 42ch; }
+
+  @media (min-width: 700px) {
+    .avis-videos { overflow-x: visible; flex-wrap: wrap; }
+  }
+</style>

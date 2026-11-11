@@ -1,0 +1,378 @@
+---
+import expertises from '../data/expertises.json';
+import structures from '../data/nav-structures.json';
+
+const expertisesMenu = [
+  ...expertises.map((e) => ({ href: `/${e.slug}/`, label: e.nom })),
+  { href: '/preparation-course/', label: 'Préparation course' },
+  { href: '/mon-programme/', label: 'Programme musculation gratuit' },
+];
+const nav = [
+  { href: '/a-propos/', label: 'À propos' },
+  { href: '/rejoindre/', label: 'Rejoindre GA Coachs' },
+];
+---
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="logo" aria-label="GA Coachs, accueil">
+      <span class="logo__bounce">
+        <img src="/images/logos/ga-coachs-logo.webp" alt="GA Coachs" class="logo__img" width="240" height="237" fetchpriority="high" />
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Navigation principale">
+      <ul>
+        <li><a href="/trouver-un-coach/">Trouver un coach</a></li>
+        <li><a href="/salles/">Nos salles</a></li>
+        <li class="nav__dropdown">
+          <button type="button" class="nav__dropdown-toggle" id="expertises-toggle" aria-haspopup="true" aria-expanded="false">
+            Nos expertises
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="nav__dropdown-panel" id="expertises-panel" hidden>
+            <a href="/coaching-sportif/" class="nav__dropdown-item nav__dropdown-item--all">Toutes nos expertises</a>
+            {expertisesMenu.map((e) => (
+              <a href={e.href} class="nav__dropdown-item">{e.label}</a>
+            ))}
+          </div>
+        </li>
+        <li class="nav__dropdown">
+          <button type="button" class="nav__dropdown-toggle" id="structures-toggle" aria-haspopup="true" aria-expanded="false">
+            Programmes BOOST
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="nav__dropdown-panel nav__mega" id="structures-panel" hidden>
+            <div class="nav__mega-grid">
+              {structures.groupes.map((g) => (
+                <div class="nav__mega-col">
+                  <p class="nav__mega-titre">{g.titre}</p>
+                  {g.liens.map((l) => (
+                    <a href={l.href} class="nav__dropdown-item">{l.label}</a>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <a href={structures.tous.href} class="nav__mega-all">{structures.tous.label} →</a>
+          </div>
+        </li>
+        {nav.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a href="/score-sante/" class="btn btn--primary header-cta">Réserver mon bilan santé</a>
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="mobile-nav" aria-label="Ouvrir le menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav__raccourcis">
+      <a href="/trouver-un-coach/"><span aria-hidden="true">📍</span>Trouver un coach</a>
+      <a href="/score-sante/"><span aria-hidden="true">💙</span>Score Santé gratuit</a>
+      <a href="/mon-programme/"><span aria-hidden="true">💪</span>Programme gratuit</a>
+      <a href="/salles/"><span aria-hidden="true">🏋️</span>Nos salles</a>
+    </div>
+    <ul>
+      <li>
+        <details class="mobile-nav__groupe">
+          <summary>Nos expertises</summary>
+          <a href="/coaching-sportif/" class="mobile-nav__sub">Toutes nos expertises</a>
+          {expertisesMenu.map((e) => (
+            <a href={e.href} class="mobile-nav__sub">{e.label}</a>
+          ))}
+        </details>
+      </li>
+      <li>
+        <details class="mobile-nav__groupe">
+          <summary>Programmes BOOST</summary>
+          <a href={structures.tous.href} class="mobile-nav__sub">{structures.tous.label}</a>
+          {structures.groupes.flatMap((g) => g.liens).map((l) => (
+            <a href={l.href} class="mobile-nav__sub">{l.label}</a>
+          ))}
+        </details>
+      </li>
+      {nav.map((item) => (
+        <li><a href={item.href}>{item.label}</a></li>
+      ))}
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+    <a href="/score-sante/" class="btn btn--primary mobile-nav__cta">Réserver mon bilan santé</a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    color: #fff;
+  }
+  .logo__bounce {
+    display: inline-flex;
+    animation: none;
+  }
+  .logo__img {
+    height: 58px;
+    width: auto;
+    display: block;
+    transition: transform .6s var(--ease);
+  }
+  .logo:hover .logo__img {
+    transform: rotate(360deg);
+  }
+  @keyframes logo-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  .nav { display: none; }
+  .nav ul { list-style: none; display: flex; align-items: center; gap: 16px; margin: 0; padding: 0; }
+  .nav a { display: inline-flex; align-items: center; min-height: 28px; font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; }
+  .nav a:hover { color: var(--sky); }
+
+  .nav__dropdown { position: relative; }
+  .nav__dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+    min-height: 28px;
+    white-space: nowrap;
+  }
+  .nav__dropdown-toggle:hover, .nav__dropdown-toggle[aria-expanded="true"] { color: var(--sky); }
+  .nav__dropdown-toggle svg { transition: transform .2s var(--ease); flex-shrink: 0; }
+  .nav__dropdown-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+  .nav__dropdown-panel {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: 0 20px 40px -16px rgba(11, 30, 61, 0.35);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 220px;
+    z-index: 30;
+    animation: nav-dropdown-in .18s var(--ease);
+  }
+  .nav__dropdown-panel[hidden] { display: none !important; }
+  @keyframes nav-dropdown-in { from { opacity: 0; transform: translateX(-50%) translateY(6px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+
+  .nav__dropdown-item {
+    display: block;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--navy) !important;
+    white-space: nowrap;
+  }
+  .nav__dropdown-item:hover { background: var(--ice); color: var(--blue) !important; }
+  .nav__dropdown-item--all {
+    font-weight: 700;
+    color: var(--blue) !important;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    margin-bottom: 4px;
+    padding-bottom: 12px;
+  }
+
+  .nav__mega { left: 50%; min-width: 0; width: min(1060px, calc(100vw - 40px)); padding: 18px; gap: 10px; }
+  .nav__mega-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px 10px; }
+  .nav__mega-col { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .nav__mega-titre { margin: 0 0 4px; padding: 0 14px; font-size: 11px; font-weight: 700; text-transform: none; letter-spacing: .02em; color: var(--blue); }
+  .nav__mega .nav__dropdown-item { white-space: normal; padding: 8px 14px; }
+  .nav__mega-all { display: block; margin-top: 6px; padding: 12px 14px 2px; border-top: 1px solid var(--line); font-weight: 700; color: var(--blue) !important; }
+  .nav__mega-all:hover { color: var(--navy) !important; }
+
+  .header-actions { display: flex; align-items: center; gap: 12px; }
+  .header-cta { display: none; }
+
+  /* Effet de reflet lumineux qui balaie le bouton toutes les 4 secondes, pour le
+     distinguer visuellement de tous les autres boutons du site (statiques hors survol). */
+  .header-cta {
+    position: relative;
+    overflow: hidden;
+  }
+  .header-cta::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    transform: skewX(-20deg);
+    animation: none;
+  }
+  @keyframes header-cta-shine {
+    0% { left: -60%; }
+    35% { left: 130%; }
+    100% { left: 130%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .header-cta::after { animation: none; display: none; }
+  }
+
+  .burger {
+    width: 44px; height: 44px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    background: transparent; border: 1px solid rgba(255,255,255,0.25); border-radius: 10px;
+    cursor: pointer;
+    transition: border-color .25s var(--ease);
+  }
+  .burger:hover { border-color: rgba(255,255,255,0.5); }
+  .burger span {
+    width: 20px; height: 2px; background: #fff; border-radius: 2px;
+    transition: transform .3s var(--ease), opacity .2s var(--ease);
+  }
+  .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-nav {
+    border-top: 1px solid rgba(255,255,255,0.12);
+    background: var(--navy);
+    padding: 0 20px;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: max-height .4s var(--ease), opacity .3s var(--ease), padding .4s var(--ease);
+  }
+  .mobile-nav.mobile-nav--open {
+    max-height: calc(100dvh - 74px);
+    height: calc(100dvh - 74px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    opacity: 1;
+    padding: 16px 20px calc(24px + env(safe-area-inset-bottom));
+    pointer-events: auto;
+  }
+  .mobile-nav__raccourcis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .mobile-nav .mobile-nav__raccourcis a {
+    display: flex; flex-direction: column; justify-content: center; gap: 6px; min-height: 84px; padding: 14px;
+    border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; background: rgba(255,255,255,0.06);
+    font-size: 15px; line-height: 1.2;
+  }
+  .mobile-nav__raccourcis span { font-size: 22px; }
+  .mobile-nav a.mobile-nav__cta { display: flex; justify-content: center; align-items: center; text-align: center; width: 100%; margin-top: 16px; border-bottom: 0; min-height: 52px; }
+  :global(html.menu-ouvert) { overflow: hidden; }
+  :global(html.menu-ouvert .sticky-cta), :global(html.menu-ouvert #bamboo-root) { display: none !important; }
+  .mobile-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .mobile-nav a { display: block; padding: 12px 4px; font-weight: 600; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); min-height: 44px; }
+  .mobile-nav a:hover { color: var(--sky); }
+  .mobile-nav__expertises-label {
+    padding: 12px 4px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: .02em;
+    color: rgba(255,255,255,0.45);
+  }
+  .mobile-nav__groupe summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; padding: 12px 4px; font-weight: 600; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; list-style: none; }
+  .mobile-nav__groupe summary::-webkit-details-marker { display: none; }
+  .mobile-nav__groupe summary::after { content: '+'; font-size: 20px; color: var(--sky); }
+  .mobile-nav__groupe[open] summary::after { content: '−'; }
+  .mobile-nav a.mobile-nav__sub {
+    padding-left: 18px;
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+  }
+
+  @media (min-width: 1024px) {
+    .nav { display: block; }
+    .header-cta { display: inline-flex; }
+    .burger { display: none; }
+    .mobile-nav { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo__bounce { animation: none; }
+    .logo:hover .logo__img { transform: none; }
+    .mobile-nav { transition: none; }
+    .burger span { transition: none; }
+  }
+</style>
+
+<script>
+  const burger = document.getElementById('burger');
+  const mobileNav = document.getElementById('mobile-nav');
+  if (mobileNav) (mobileNav as any).inert = true;
+  burger?.addEventListener('click', () => {
+    const isOpen = mobileNav?.classList.contains('mobile-nav--open');
+    if (isOpen) {
+      mobileNav?.classList.remove('mobile-nav--open');
+      document.documentElement.classList.remove('menu-ouvert');
+      if (mobileNav) (mobileNav as any).inert = true;
+      burger.setAttribute('aria-expanded', 'false');
+      burger.setAttribute('aria-label', 'Ouvrir le menu');
+    } else {
+      mobileNav?.classList.add('mobile-nav--open');
+      document.documentElement.classList.add('menu-ouvert');
+      if (mobileNav) (mobileNav as any).inert = false;
+      burger.setAttribute('aria-expanded', 'true');
+      burger.setAttribute('aria-label', 'Fermer le menu');
+    }
+  });
+
+  const menus = ['expertises', 'structures'].map((id) => ({
+    t: document.getElementById(`${id}-toggle`),
+    p: document.getElementById(`${id}-panel`),
+  })).filter((m) => m.t && m.p);
+  const fermer = (m: { t: HTMLElement | null; p: HTMLElement | null }) => {
+    m.p?.setAttribute('hidden', '');
+    m.t?.setAttribute('aria-expanded', 'false');
+  };
+  menus.forEach((m) => {
+    m.t?.addEventListener('click', () => {
+      const ouvert = !m.p?.hasAttribute('hidden');
+      menus.forEach(fermer);
+      if (!ouvert) {
+        m.p?.removeAttribute('hidden');
+        m.t?.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+  document.addEventListener('click', (e) => {
+    menus.forEach((m) => {
+      if (!m.t?.contains(e.target as Node) && !m.p?.contains(e.target as Node)) fermer(m);
+    });
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') menus.forEach(fermer);
+  });
+</script>

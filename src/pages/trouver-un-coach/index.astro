@@ -1,0 +1,256 @@
+---
+import SanteChiffres from '../../components/SanteChiffres.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+import Etapes from '../../components/rb/Etapes.astro';
+import Reserver3Clics from '../../components/Reserver3Clics.astro';
+import CoachCard from '../../components/CoachCard.astro';
+import { coachesReseau as coaches } from '../../data/coaches.js';
+import sallesData from '../../data/salles.json';
+const salles = sallesData.filter((s) => s.reseauOfficiel !== false);
+
+const salleParSlug = Object.fromEntries(salles.map((s) => [s.slug, s]));
+const objectifs = Array.from(new Set(coaches.flatMap((c) => c.tags)));
+
+const faqTrouverCoach = [
+  { q: 'Comment choisir entre plusieurs coachs qui me correspondent ?', r: "Regarde en priorité la salle où il intervient (proximité, horaires), puis sa présentation et sa méthode : chaque coach a un style différent, même sur un objectif similaire. Le bilan santé permet aussi de discuter directement avec lui avant de t'engager." },
+  { q: 'Puis-je changer de coach après avoir commencé ?', r: "Oui. Si le courant ne passe pas ou que tes besoins évoluent, parles-en à ton coach ou écris-nous : on t'oriente vers un autre coach du réseau." },
+  { q: 'Tous les coachs sont-ils dans la même salle ?', r: "Non, chaque coach est rattaché à une salle Basic-Fit précise du réseau (Olivet, Orléans Sud, Orléans Libération, Saran, Fleury-les-Aubrais). Utilise le filtre par salle pour trouver un coach proche de chez toi." },
+  { q: 'Le filtre par objectif est-il fiable pour trouver le bon coach ?', r: "Tous les coachs du réseau accompagnent chacun de ces objectifs, donc tu les retrouves tous quel que soit ton choix. Pour trouver celui qui te correspond, regarde surtout sa salle et sa présentation : le bilan santé permet ensuite de vérifier que le courant passe vraiment." },
+  { q: 'Comment réserver avec un coach ?', r: "Fais d'abord ton Score Santé en 2 minutes, puis réserve ton bilan avec le coach choisi. Ce premier rendez-vous sert à faire le point sur ta situation et à fixer ton objectif." },
+  { q: 'Les coachs sont-ils diplômés ?', r: "Oui. Tous les coachs du réseau GA sont des coachs sportifs diplômés, formés et accompagnés par GA Coachs, partenaire officiel de Basic-Fit depuis 2018." },
+  { q: 'Quel coach choisir pour perdre du poids ?', r: "La perte de poids est l'objectif le plus demandé, et tous les coachs du réseau t'accompagnent sur cet objectif. Choisis d'abord la salle Basic-Fit la plus pratique pour toi, puis le coach dont la présentation te parle." },
+  { q: 'Le coach peut-il venir dans une autre salle ?', r: "Non. Chaque coach GA intervient uniquement dans sa salle Basic-Fit de rattachement. Choisis donc un coach dans la salle où tu t'entraînes ou comptes t'entraîner." },
+  { q: 'Je débute complètement, est-ce un problème ?', r: "Pas du tout. Les coachs du réseau accompagnent tous les niveaux, y compris les vrais débutants et les reprises après une longue pause." },
+  { q: 'Combien coûte un coach sportif GA ?', r: "Le tarif dépend de la formule choisie avec ton coach. Commence par ton Score Santé et ton bilan : ton coach te présente les options adaptées à ton objectif." },
+  { q: 'Que faire si aucun coach ne semble correspondre à mon besoin précis ?', r: "Contacte-nous directement : les spécialités affichées ne couvrent pas toujours toutes les nuances, et on peut t'orienter vers le coach le plus adapté même si le filtre ne le fait pas ressortir clairement." },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+      { '@type': 'ListItem', position: 2, name: 'Trouver un coach', item: 'https://gacoachs.fr/trouver-un-coach/' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: coaches.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `https://gacoachs.fr/coachs/${c.slug}/`,
+      name: `${c.prenom} ${c.nom}`,
+    })),
+  },
+];
+const nbAvis = coaches.reduce((a: number, c: any) => a + (c.avisGoogle?.nombreAvis || 0), 0);
+const goals = [
+  { id: 'poids', label: 'Perdre du poids', ic: 'flame', tags: ['Perte de Poids', 'Perte de Poids en Douceur', 'Perte de gras'] },
+  { id: 'muscle', label: 'Prendre du muscle', ic: 'dumbbell', tags: ['Renforcement Musculaire', 'Musculation Ciblée', 'Transformation Physique', 'Sculpter & Tonifier'] },
+  { id: 'forme', label: 'Me remettre en forme', ic: 'battery', tags: ['Remise en Forme', 'Reprise Sportive', 'Spécial Débutants', 'Sport Plaisir'] },
+  { id: 'zen', label: 'Bien-être et moins de stress', ic: 'leaf', tags: ['Gestion du Stress', 'Bien-être au Quotidien', 'Sport-Santé'] },
+  { id: 'mesure', label: 'Un suivi 100 % sur mesure', ic: 'target', tags: ['Suivi Personnalisé', 'Objectifs Sur Mesure', 'Stratégie Personnalisée', 'Coaching Flexible', 'Accompagnement Bienveillant'] },
+];
+---
+<BaseLayout
+  title="Trouver un coach sportif à Orléans · GA Coachs"
+  description="Filtre les coachs sportifs du réseau GA par salle ou par objectif et trouve celui qui te correspond à Orléans."
+  path="/trouver-un-coach/"
+  stickyCtaHref={false}
+  jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')}
+>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero tc-hero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Trouver un coach', href: '/trouver-un-coach/' }]} />
+      <span class="eyebrow eyebrow-dark">Trouver un coach</span>
+      <h1>Le bon <span class="hl-text">coach</span>, pour<br />le bon <span class="hl-text">objectif</span>.</h1>
+      <p class="phero-lead tc-lead">Choisis ta salle Basic-Fit et ton objectif : perte de poids, muscle, remise en forme ou bien-être. Tous les coachs GA sont diplômés et commencent par un bilan pour construire ton programme.</p>
+      <ul class="tc-meta">
+        <li><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg>{coaches.length} coachs du réseau</li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg>{salles.length} salles partenaires</li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-star"></use></svg>{nbAvis} avis Google</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="tc-wrap">
+    <div class="inner">
+      <div class="tc-panel" role="group" aria-label="Filtrer les coachs">
+        <div class="tc-row">
+          <span class="tc-lab">Salle</span>
+          <div class="tc-chips" data-f="salle">
+            <button type="button" class="tc-chip" aria-pressed="true" data-v="">Toutes les salles</button>
+            {salles.map((s) => <button type="button" class="tc-chip" aria-pressed="false" data-v={s.slug}><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg>{s.nom}</button>)}
+          </div>
+        </div>
+        <div class="tc-row">
+          <span class="tc-lab">Objectif</span>
+          <div class="tc-chips" data-f="goal">
+            <button type="button" class="tc-chip" aria-pressed="true" data-v="">Tous les objectifs</button>
+            {goals.map((g) => <button type="button" class="tc-chip" aria-pressed="false" data-v={g.id}><svg class="ic" aria-hidden="true"><use href={`#i-${g.ic}`}></use></svg>{g.label}</button>)}
+          </div>
+        </div>
+        <div class="tc-search">
+          <label class="visually-hidden" for="tc-q">Rechercher un coach</label>
+          <input id="tc-q" type="search" placeholder="Un prénom, une spécialité, une salle…" autocomplete="off" />
+          <p class="tc-count" aria-live="polite"><b id="tc-n">{coaches.length}</b> coachs</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <Reserver3Clics />
+  <section class="sec tc-list">
+    <div class="inner">
+      <div class="tc-grid" id="coach-grid">
+        {coaches.map((c) => (
+          <div class="coach-grid__item" data-salle={c.salleSlug} data-tags={c.tags.join('|')} data-q={`${c.prenom} ${c.nom} ${c.tags.join(' ')} ${c.specialites.join(' ')} ${salleParSlug[c.salleSlug]?.nom ?? ''}`.toLowerCase()}>
+            <CoachCard slug={c.slug} prenom={c.prenom} nom={c.nom} salleNom={salleParSlug[c.salleSlug]?.nom ?? ''} tags={c.tags} photo={c.photo} avisGoogle={c.avisGoogle} role={c.role} />
+          </div>
+        ))}
+      </div>
+      <p id="empty-state" class="note-soft" hidden>Aucun coach ne correspond à cette combinaison pour l'instant. Élargis un peu tes critères et on trouvera ton coach.</p>
+
+      <a href="/score-sante/" class="tc-score">
+        <span class="tc-score-ic" aria-hidden="true">🎯</span>
+        <span><b>Tu hésites encore ?</b> Fais ton Score Santé gratuit en 2 minutes pour voir où tu en es.</span>
+        <span class="tc-go" aria-hidden="true"><svg class="ic"><use href="#i-arrow"></use></svg></span>
+      </a>
+    </div>
+  </section>
+
+  <Etapes eyebrow="Le bon choix" titre="Comment choisir ton coach sportif." lead="Tous les coachs du réseau sont diplômés et interviennent en salle Basic-Fit. Ce qui les distingue, c'est leur spécialité et leur façon de travailler. Trois repères pour bien choisir." items={[
+    { t: 'Pars de ton objectif', p: "Perte de poids, reprise du sport, prise de muscle, bien-être : chaque coach affiche ses spécialités et le public avec qui il travaille le mieux sur sa fiche." },
+    { t: 'Choisis la bonne salle', p: "Chaque coach intervient dans une salle Basic-Fit précise. Prends celle qui est proche de chez toi ou de ton travail : c'est ce qui te fera tenir dans la durée." },
+    { t: 'Rencontre-le au bilan santé', p: "Une heure en salle pour faire le point sur ta forme et ton objectif, et voir si le courant passe, avant de t'engager." },
+  ]} />
+  <section class="sec">
+    <div class="inner vb2">
+      <div>
+        <span class="eyebrow">En bref</span>
+        <h2 class="h2">Trouver ton coach à Orléans en 30 secondes.</h2>
+      </div>
+      <ul class="vb-list">
+        <li>{coaches.length} coachs sportifs diplômés, dans {salles.length} salles Basic-Fit autour d'Orléans.</li>
+        <li>Chaque coach intervient dans sa salle de rattachement : choisis d'abord la salle qui te convient.</li>
+        <li>Objectif le plus demandé : la perte de poids. Tous les coachs t'accompagnent dessus.</li>
+        <li>Pour démarrer : ton Score Santé en 2 minutes, puis ton bilan avec le coach choisi.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Questions fréquentes.</h2>
+      <div class="faq-list">
+        {faqTrouverCoach.map((f) => <details class="faq-item" data-up><summary>{f.q}</summary><p>{f.r}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <SanteChiffres />
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">Prêt à trouver le coach qui te correspond ?</h2>
+      <a class="btn-final" href="/score-sante/"><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Réserver mon bilan santé<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+
+<style>
+  .tc-hero { padding-bottom: 150px; }
+  .tc-hero h1 { margin-top: 14px; }
+  .tc-meta { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 4px 0 0; padding: 0; list-style: none; font-size: 14.5px; font-weight: 700; color: rgba(255,255,255,.8); }
+  .tc-meta li { display: inline-flex; align-items: center; gap: 8px; }
+  .tc-meta .ic { width: 17px; height: 17px; color: #7CC4FF; }
+  .tc-wrap { position: relative; z-index: 2; margin-top: -110px; }
+  .tc-panel { display: grid; gap: 16px; padding: 24px; background: #fff; border-radius: 26px; border: 1px solid var(--line); box-shadow: 0 30px 60px -34px rgba(11,30,61,.55); }
+  .tc-row { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; align-items: start; }
+  .tc-lab { padding-top: 10px; font-size: 12.5px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: var(--muted); }
+  .tc-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tc-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 14px; border-radius: 999px; border: 2px solid var(--line); background: #fff; font: inherit; font-size: 14px; font-weight: 700; color: var(--ink); cursor: pointer; transition: border-color .2s ease, background .2s ease; }
+  .tc-chip .ic { width: 16px; height: 16px; color: var(--blue); }
+  .tc-chip:hover { border-color: #BFD3FB; }
+  .tc-chip[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); color: #fff; box-shadow: 0 6px 0 var(--blue-deep); }
+  .tc-chip[aria-pressed="true"] .ic { color: #fff; }
+  .tc-search { display: flex; align-items: center; gap: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .tc-search input { flex: 1; min-height: 50px; padding: 0 18px 0 44px; border-radius: 999px !important; background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235A6785' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") 16px center / 18px no-repeat; font-size: 15px; }
+  .tc-count { margin: 0; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  .tc-count b { font-family: var(--display); font-size: 28px; color: var(--blue); margin-right: 4px; }
+  .tc-list { padding-top: 32px; }
+  .tc-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+  .tc-score { display: flex; align-items: center; gap: 16px; margin-top: 40px; padding: 22px 26px; border-radius: 24px; background: linear-gradient(120deg, #2F6FED, #1F55C9); color: #fff; font-size: 16px; line-height: 1.5; font-weight: 700; box-shadow: 0 24px 50px -28px rgba(47,111,237,.9); transition: transform .25s ease; }
+  .tc-score:hover { transform: translateY(-3px); }
+  .tc-score span:nth-child(2) { flex: 1; }
+  .tc-score-ic { font-size: 28px; flex-shrink: 0; }
+  .tc-go { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #fff; color: var(--blue); flex-shrink: 0; }
+  .tc-go .ic { width: 20px; height: 20px; }
+  @media (max-width: 960px) { .tc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
+  @media (max-width: 640px) {
+    .tc-panel { padding: 18px; }
+    .tc-row { grid-template-columns: 1fr; gap: 8px; }
+    .tc-lab { padding-top: 0; }
+    .tc-chips { flex-wrap: nowrap; overflow-x: auto; margin: 0 -18px; padding: 2px 18px 8px; scrollbar-width: none; }
+    .tc-chip { white-space: nowrap; flex-shrink: 0; }
+    .tc-search { flex-wrap: wrap; }
+  }
+</style>
+
+<style is:global>
+  @media (max-width: 640px) {
+    body .rb .tc-hero { padding-top: 16px; padding-bottom: 96px; }
+    body .rb .tc-hero h1 { font-size: clamp(30px, 9vw, 36px); margin: 10px 0 8px; }
+    body .rb .tc-hero .tc-lead { font-size: 15px; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    body .rb .tc-meta li:nth-child(3) { display: none; }
+    body .rb .tc-wrap { margin-top: -74px; }
+    body .rb .tc-panel { padding: 14px 16px; gap: 10px; border-radius: 22px; }
+    body .rb .tc-chips { flex-wrap: nowrap !important; overflow-x: auto !important; -webkit-mask-image: linear-gradient(90deg, #000 90%, transparent); mask-image: linear-gradient(90deg, #000 90%, transparent); margin: 0 -16px; padding: 2px 16px 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    body .rb .tc-chips::-webkit-scrollbar { display: none; }
+    body .rb .tc-chip { white-space: nowrap; flex-shrink: 0; min-height: 44px; }
+    body .rb .tc-search { padding-top: 10px; gap: 10px; flex-wrap: nowrap; }
+    body .rb .tc-count b { font-size: 24px; }
+    body .rb .tc-list { padding-top: 20px; }
+  }
+</style>
+
+<script define:vars={{ goals }}>
+  const items = Array.from(document.querySelectorAll('.coach-grid__item'));
+  const empty = document.getElementById('empty-state');
+  const n = document.getElementById('tc-n');
+  const q = document.getElementById('tc-q');
+  const etat = { salle: '', goal: '' };
+  function appliquer() {
+    const g = goals.find((x) => x.id === etat.goal);
+    const txt = (q.value || '').trim().toLowerCase();
+    let vus = 0;
+    items.forEach((it) => {
+      const tags = (it.dataset.tags || '').split('|');
+      const ok = (!etat.salle || it.dataset.salle === etat.salle) && (!g || tags.some((t) => g.tags.includes(t))) && (!txt || (it.dataset.q || '').includes(txt));
+      it.style.display = ok ? '' : 'none';
+      if (ok) vus++;
+    });
+    empty.hidden = vus !== 0;
+    n.textContent = String(vus);
+  }
+  document.querySelectorAll('.tc-chips').forEach((grp) => {
+    grp.addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      grp.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+      etat[grp.dataset.f] = b.dataset.v || '';
+      appliquer();
+    });
+  });
+  q.addEventListener('input', appliquer);
+</script>

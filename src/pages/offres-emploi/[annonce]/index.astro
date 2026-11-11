@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Crumbs from '../../../components/rb/Crumbs.astro';
+import Icones from '../../../components/rb/Icones.astro';
+import '../../../styles/rebrand.css';
+import salles from '../../../data/salles.json';
+import villes from '../../../data/villes.json';
+import coaches from '../../../data/coaches.js';
+import data from '../../../data/offres-emploi.json';
+
+const CALENDLY = 'https://calendly.com/ga-coachs/candidature-coach-sportif';
+export function getStaticPaths() {
+  const salleParSlug: any = Object.fromEntries((salles as any[]).map((x) => [x.slug, x]));
+  return (data.offres as any[]).map((o) => ({ params: { annonce: o.slug }, props: { salle: o.type === 'salle' ? salleParSlug[o.salleSlug] : null, territoire: o.territoire, dep: o.dep } }));
+}
+const { salle, territoire, dep } = Astro.props as any;
+const path = `/offres-emploi/${Astro.params.annonce}/`;
+const domicile = !salle;
+const coachsSalle = salle ? (coaches as any[]).filter((c) => c.salleSlug === salle.slug) : [];
+const communes = salle ? (villes as any[]).filter((v) => v.salleSlugs.includes(salle.slug)).map((v) => v.nom) : [];
+const titre = domicile ? `Coach sportif à domicile, ${territoire}` : `Coach sportif indépendant, ${salle.nom}`;
+const description = domicile
+  ? `GA Coachs se lance dans le coaching à domicile et recherche des coachs sportifs indépendants autour de ${territoire} (${dep}) : formation, bilan santé comme porte d\'entrée, vous facturez vos clients.`
+  : `GA Coachs recherche un coach sportif indépendant pour ${salle.nom} (${salle.adresse}) : accès au flux de clients Basic-Fit, formation et accompagnement, vous fixez vos tarifs.`;
+const profil = [
+  'Carte professionnelle d\'éducateur sportif en cours de validité',
+  'Assurance responsabilité civile professionnelle',
+  'Statut permettant de facturer (auto-entrepreneur ou équivalent)',
+  domicile ? 'Envie de coacher chez les gens : seniors, débutants, personnes qui n\'iraient pas en salle' : 'Envie de construire une clientèle en salle de sport',
+];
+const apporte = domicile
+  ? ['Une formation au coaching à domicile', 'Le Bilan Santé à domicile comme porte d\'entrée vers vos premiers clients', 'Un accompagnement pour votre déclaration en service à la personne et vos démarches', 'Vous fixez votre tarif et vous encaissez vos séances, sans part prélevée sur chaque séance']
+  : ['L\'accès au flux de clients de la salle Basic-Fit', 'Un cadre prêt à l\'emploi : contrat coach/client, fiche coach, Score Santé', 'Un suivi rapproché des premières semaines', 'Vous fixez vos tarifs et vous facturez vos clients'];
+const cta = domicile ? `/coach-sportif-a-domicile/devenir-coach/?zone=${encodeURIComponent(territoire)}#candidature` : CALENDLY;
+const ctaLabel = domicile ? 'Candidater pour cette ville' : 'Candidater : réserver un échange';
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', name: titre, description, url: `https://gacoachs.fr${path}` },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' }, { '@type': 'ListItem', position: 2, name: 'Offres d\'emploi', item: 'https://gacoachs.fr/offres-emploi/' }, { '@type': 'ListItem', position: 3, name: titre, item: `https://gacoachs.fr${path}` }] },
+];
+---
+<BaseLayout title={`${titre} : rejoindre GA Coachs`} description={description} path={path} jsonLd={jsonLd.filter((x) => x['@type'] !== 'BreadcrumbList')} stickyCtaHref={cta} stickyCtaLabel="Candidater">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Offres d\'emploi', href: '/offres-emploi/' }, { label: titre, href: path }]} />
+      <span class="eyebrow eyebrow-dark">Offre d'emploi</span>
+      <h1>{titre}.</h1>
+      <p class="phero-lead">{description}</p>
+      <div class="ctas"><a class="btn btn-primary" href={cta} {...(domicile ? {} : { target: '_blank', rel: 'noopener noreferrer' })}>{ctaLabel}</a></div>
+    </div>
+  </section>
+  <section class="sec">
+    <div class="inner rc-two">
+      <div>
+        <span class="eyebrow">Le poste</span>
+        <h2 class="h2">Coach sportif indépendant, pas salarié.</h2>
+        <p>{domicile ? `Vous rejoignez le réseau GA Coachs en tant que coach indépendant, pour proposer des séances à domicile autour de ${territoire} (${dep}) et dans les communes voisines. Les clients arrivent notamment par le Bilan Santé à domicile réservé sur gacoachs.fr.` : `Vous rejoignez le réseau GA Coachs en tant que coach indépendant, rattaché à ${salle.nom}, ${salle.adresse}. Vous y accompagnez vos clients dans votre salle de rattachement.`}</p>
+        {!domicile && coachsSalle.length > 0 && <p>{coachsSalle.length === 1 ? 'Un coach du réseau y est déjà présent.' : `${coachsSalle.length} coachs du réseau y sont déjà présents.`}{communes.length > 0 ? ` La salle sert notamment ${communes.slice(0, 6).join(', ')}.` : ''}</p>}
+        <h3 class="rc-h3">Ce que le réseau vous apporte</h3>
+        <ul class="rc-ul">{apporte.map((a) => <li>{a}</li>)}</ul>
+        <h3 class="rc-h3">Ce qu'il faut</h3>
+        <ul class="rc-ul">{profil.map((a) => <li>{a}</li>)}</ul>
+        <p class="rc-n">Les conditions (droit d'entrée, cotisation, durée du contrat) sont présentées sans détour lors de l'échange et sur la page <a href="/rejoindre/">Rejoindre GA Coachs</a>.</p>
+      </div>
+    </div>
+  </section>
+  <section class="sec band">
+    <div class="inner">
+      <h2 class="h2">Prêt à candidater ?</h2>
+      <div class="ctas"><a class="btn btn-primary" href={cta} {...(domicile ? {} : { target: '_blank', rel: 'noopener noreferrer' })}>{ctaLabel}</a><a class="btn-out" href="/offres-emploi/">Toutes les offres d'emploi</a></div>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+<style is:global>
+  .rc-two { max-width: 760px; }
+  .rc-h3 { margin: 22px 0 8px; }
+  .rc-ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: #0B1E3D; line-height: 1.5; }
+  .rc-n { margin-top: 18px; color: #2A3756; }
+</style>

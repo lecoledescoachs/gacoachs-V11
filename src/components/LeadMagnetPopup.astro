@@ -1,0 +1,212 @@
+---
+// Popup lead magnet : propose le Score Santé après un délai sur le site, ou en cas d'intention
+// de sortie (souris qui remonte vers le haut de la fenêtre). Ne s'affiche qu'une fois toutes les
+// 7 jours par visiteur, et jamais sur les pages où ce serait hors-propos ou redondant.
+---
+<div id="lead-magnet-overlay" class="lead-magnet-overlay" hidden>
+  <div class="lead-magnet-card" role="dialog" aria-modal="true" aria-labelledby="lead-magnet-title">
+    <button type="button" class="lead-magnet-close" id="lead-magnet-close" aria-label="Fermer">✕</button>
+
+    <div class="lead-magnet-visual" aria-hidden="true">
+      <svg viewBox="0 0 200 200" class="lead-magnet-gauge">
+        <circle cx="100" cy="100" r="80" class="lead-magnet-gauge-track" />
+        <circle cx="100" cy="100" r="80" class="lead-magnet-gauge-fill" />
+      </svg>
+      <span class="lead-magnet-gauge-number">?<small>/100</small></span>
+    </div>
+
+    <span class="lead-magnet-badge">🎯 Outil gratuit · 2 minutes · Résultat immédiat</span>
+    <h2 id="lead-magnet-title">Où en es-tu vraiment, physiquement ?</h2>
+    <p class="lead-magnet-text">
+      Réponds à 10 questions simples et découvre ton Score Santé sur 100, ton âge métabolique estimé,
+      et un conseil personnalisé sur ce qui compte le plus pour toi en ce moment.
+    </p>
+    <a href="/score-sante/" class="btn btn--primary lead-magnet-cta">Découvrir mon Score Santé</a>
+    <p class="lead-magnet-reassure">Gratuit · Aucune carte bancaire · Tes réponses restent confidentielles</p>
+    <button type="button" class="lead-magnet-dismiss" id="lead-magnet-dismiss">Non merci, plus tard</button>
+
+    <div class="lead-magnet-trust">
+      <span>⭐ Coachs notés 5/5 sur Google</span>
+      <span class="lead-magnet-trust__dot">·</span>
+      <span>Partenaire Basic-Fit depuis 2018</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const CLE_STOCKAGE = 'ga_lead_magnet_vu';
+    const DELAI_MS = 25000; // 25 secondes sur le site
+    const COOLDOWN_JOURS = 7;
+
+    const pagesExclues = ['/score-sante/', '/bilan/', '/merci', '/admin/', '/espace-coach/', '/rejoindre/'];
+    const cheminActuel = window.location.pathname;
+    if (pagesExclues.some((p) => cheminActuel.startsWith(p))) return;
+
+    const dernierAffichage = localStorage.getItem(CLE_STOCKAGE);
+    if (dernierAffichage) {
+      const joursEcoules = (Date.now() - parseInt(dernierAffichage, 10)) / (1000 * 60 * 60 * 24);
+      if (joursEcoules < COOLDOWN_JOURS) return;
+    }
+
+    const overlay = document.getElementById('lead-magnet-overlay') as HTMLElement;
+    let dejaAffiche = false;
+
+    function afficherPopup() {
+      if (dejaAffiche) return;
+      dejaAffiche = true;
+      overlay.hidden = false;
+      requestAnimationFrame(() => overlay.classList.add('lead-magnet-overlay--visible'));
+      localStorage.setItem(CLE_STOCKAGE, String(Date.now()));
+      document.removeEventListener('mouseleave', onMouseLeave);
+      clearTimeout(minuteur);
+    }
+
+    function fermerPopup() {
+      overlay.classList.remove('lead-magnet-overlay--visible');
+      setTimeout(() => { overlay.hidden = true; }, 250);
+    }
+
+    function onMouseLeave(e: MouseEvent) {
+      if (e.clientY <= 0) afficherPopup();
+    }
+
+    const minuteur = setTimeout(afficherPopup, DELAI_MS);
+    document.addEventListener('mouseleave', onMouseLeave);
+
+    document.getElementById('lead-magnet-close')?.addEventListener('click', fermerPopup);
+    document.getElementById('lead-magnet-dismiss')?.addEventListener('click', fermerPopup);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) fermerPopup(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !overlay.hidden) fermerPopup();
+    });
+  });
+</script>
+
+<style>
+  .lead-magnet-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(11, 30, 61, 0.55);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s var(--ease);
+  }
+  .lead-magnet-overlay[hidden] { display: none !important; }
+  .lead-magnet-overlay--visible { opacity: 1; pointer-events: auto; }
+
+  .lead-magnet-card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: linear-gradient(160deg, var(--navy), var(--navy-soft));
+    border-radius: var(--radius-lg);
+    padding: 36px 24px 24px;
+    text-align: center;
+    color: #fff;
+    transform: scale(0.92) translateY(10px);
+    transition: transform .3s cubic-bezier(.16,1,.3,1);
+  }
+  .lead-magnet-overlay--visible .lead-magnet-card { transform: scale(1) translateY(0); }
+
+  @media (min-width: 480px) {
+    .lead-magnet-card { padding: 40px 32px 32px; }
+  }
+
+  .lead-magnet-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background .2s var(--ease), transform .2s var(--ease);
+  }
+  .lead-magnet-close:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
+
+  .lead-magnet-visual { position: relative; width: 100px; height: 100px; margin: 0 auto 16px; }
+  .lead-magnet-gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .lead-magnet-gauge-track { fill: none; stroke: rgba(255,255,255,0.15); stroke-width: 10; }
+  .lead-magnet-gauge-fill {
+    fill: none;
+    stroke: var(--sky);
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 502.4;
+    stroke-dashoffset: 502.4;
+    animation: lead-magnet-fill 1.4s cubic-bezier(.16,1,.3,1) .3s forwards;
+  }
+  @keyframes lead-magnet-fill {
+    to { stroke-dashoffset: 150; }
+  }
+  .lead-magnet-gauge-number {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 26px; font-weight: 700; color: #fff;
+  }
+  .lead-magnet-gauge-number small { font-size: 12px; opacity: .7; margin-left: 2px; }
+
+  .lead-magnet-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .lead-magnet-card h2 { margin-top: 14px; color: #fff; font-size: 20px; line-height: 1.3; }
+  .lead-magnet-text { margin-top: 10px; color: rgba(255,255,255,0.75); font-size: 14px; line-height: 1.5; }
+  .lead-magnet-cta {
+    display: block;
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+    transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .lead-magnet-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -8px rgba(30, 161, 255, 0.5); }
+  .lead-magnet-reassure { margin-top: 10px; font-size: 11.5px; color: rgba(255,255,255,0.55); line-height: 1.4; }
+  .lead-magnet-dismiss {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin-top: 4px;
+    padding: 0 8px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.55);
+    font-size: 12.5px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .lead-magnet-trust {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .lead-magnet-trust__dot { opacity: .5; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lead-magnet-gauge-fill { animation: none; stroke-dashoffset: 150; }
+    .lead-magnet-card, .lead-magnet-overlay { transition: none; }
+  }
+</style>

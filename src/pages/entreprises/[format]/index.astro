@@ -1,0 +1,213 @@
+---
+import StatsBoost from '../../../components/StatsBoost.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import EntrepriseLeadForm from '../../../components/EntrepriseLeadForm.astro';
+import Crumbs from '../../../components/rb/Crumbs.astro';
+import Icones from '../../../components/rb/Icones.astro';
+import '../../../styles/rebrand.css';
+import formats from '../../../data/entreprises-formats.json';
+import detailsFormats from '../../../data/entreprises-formats-details.json';
+
+export function getStaticPaths() {
+  // Pages SEO ciblées explicitement dans le brief
+  const ciblees = ['coaching-sportif', 'marche-club', 'team-building', 'mal-de-dos', 'reveil-musculaire', 'pause-active'];
+  return formats
+    .filter((f) => ciblees.includes(f.slug))
+    .map((f) => ({ params: { format: f.slug }, props: { format: f } }));
+}
+
+const { format } = Astro.props;
+const details: any = (detailsFormats as any)[format.slug] || null;
+
+const autres = formats.filter((f) => f.slug !== format.slug && ['coaching-sportif', 'marche-club', 'team-building', 'mal-de-dos', 'reveil-musculaire', 'pause-active'].includes(f.slug));
+const mots = format.nom.split(' ');
+const fin = mots.pop();
+const enBref = [
+  `${format.nom} est un format BOOST ENTREPRISE™ de GA Coachs : ${format.positionnement.charAt(0).toLowerCase() + format.positionnement.slice(1)}`,
+  `Durée : ${format.duree.charAt(0).toLowerCase() + format.duree.slice(1)}.`,
+  details ? details.pourQui : '',
+  details ? `Une séance se déroule en ${details.deroule.length} temps : ${details.deroule.map((d: any) => d.titre.toLowerCase()).join(', ')}.` : '',
+  `Les séances ont lieu sur votre site, à Orléans et dans sa métropole, animées par un coach sportif GA diplômé.`,
+  `Pour tester avant de vous engager : BOOST 30, une séance découverte de 30 minutes offerte à votre équipe.`,
+].filter(Boolean);
+const titres: Record<string, string> = {
+  'coaching-sportif': 'Coach sportif en entreprise chaque semaine à Orléans',
+  'marche-club': 'Marche en entreprise avec un coach sportif à Orléans',
+  'team-building': 'Team building sportif avec un coach sportif à Orléans',
+  'mal-de-dos': 'Mal de dos au travail : coach sportif en entreprise',
+  'reveil-musculaire': 'Réveil musculaire : coach sportif en entreprise Orléans',
+  'pause-active': 'Pause active au bureau avec un coach sportif à Orléans',
+};
+const descs: Record<string, string> = {
+  'coaching-sportif': 'Un coach sportif diplômé dans vos locaux chaque semaine, 30 à 60 minutes, pour tous les niveaux. Orléans et métropole. Séance BOOST 30 offerte.',
+  'marche-club': 'GA Marche Club : un coach sportif encadre la marche de vos salariés à la pause déjeuner. Simple, accessible aux non-sportifs. Orléans et métropole.',
+  'team-building': 'Team building sportif animé par un coach diplômé : épreuves de cohésion pour tous les niveaux, sur votre site ou un lieu choisi. Orléans et Loiret.',
+  'mal-de-dos': 'GA Dos Entreprise : un coach sportif aide vos équipes à bouger mieux et plus souvent pour prévenir le mal de dos. Sans promesse médicale. Orléans.',
+  'reveil-musculaire': '10 minutes avant la prise de poste, en tenue de travail : un coach sportif installe le réveil musculaire dans vos équipes. Orléans et métropole.',
+  'pause-active': '10 à 20 minutes de mouvement au bureau, sans se changer : la pause active animée par un coach sportif diplômé. Sur site ou en visio, Orléans.',
+};
+const accroches: Record<string, string> = {
+  'coaching-sportif': "Un rendez-vous fixe dans la semaine, dans vos locaux : vos équipes bougent sans trajet, sans vestiaire et sans y penser.",
+  'marche-club': "Pas besoin d'être sportif : on marche ensemble, on parle, on revient au bureau l'esprit plus clair.",
+  'team-building': "Des épreuves où chacun trouve sa place, et des souvenirs communs qui restent bien après la journée.",
+  'mal-de-dos': "Moins d'heures figées, de meilleurs gestes et une pratique régulière : la prévention commence au bureau.",
+  'reveil-musculaire': "Un rituel court, en tenue de travail, pour préparer le corps aux gestes de la journée.",
+  'pause-active': "Remplacez un quart d'heure assis par un quart d'heure de mouvement, directement au bureau.",
+};
+const faqCommune = [
+  { q: `Qu'est-ce que ${format.nom} ?`, r: `${format.nom} est un format BOOST ENTREPRISE™ de GA Coachs : ${format.positionnement.charAt(0).toLowerCase() + format.positionnement.slice(1)} Durée : ${format.duree.charAt(0).toLowerCase() + format.duree.slice(1)}. Les séances sont animées sur votre site par un coach sportif diplômé du réseau GA.` },
+  ...(format.slug === 'mal-de-dos' ? [] : [{ q: 'Qui anime les séances ?', r: 'Un coach sportif diplômé du réseau GA Coachs, partenaire officiel de Basic-Fit à Orléans depuis 2018. Les diplômes de chaque coach sont indiqués sur sa fiche.' }]),
+  { q: 'La participation est-elle obligatoire ?', r: 'Non. La participation repose sur le volontariat. Les séances sont pensées pour donner envie de venir, pas pour contraindre.' },
+  { q: 'Peut-on tester avant de s\'engager ?', r: 'Oui. BOOST 30 est une séance découverte de 30 minutes offerte à votre équipe, dans vos locaux, sans engagement.' },
+  { q: 'Que se passe-t-il si le coach est absent ?', r: "L'avantage du réseau GA Coachs : un remplacement peut être organisé, lorsque les conditions le permettent, plutôt que d'annuler la séance." },
+  { q: 'Ce format entre-t-il dans une démarche QVCT ou RSE ?', r: 'Oui. C\'est une action concrète et visible sur la santé et le bien-être des salariés. Le CSE peut être associé à la réflexion et au financement.' },
+  { q: 'Où intervenez-vous ?', r: 'Sur votre site, à Orléans et dans sa métropole en priorité. Un déploiement sur plusieurs sites peut être étudié selon les zones couvertes par le réseau.' },
+  { q: 'Comment obtenir un devis ?', r: 'Remplissez le formulaire de cette page. Nous revenons vers vous sous 48 h ouvrées. Le devis dépend de la fréquence, du nombre de groupes et du nombre de sites.' },
+];
+const faqAll = details ? [...details.faq, ...faqCommune] : faqCommune;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: `${format.nom} en entreprise`,
+  name: `${format.nom} en entreprise à Orléans`,
+  url: `https://gacoachs.fr/entreprises/${format.slug}/`,
+  provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' },
+  areaServed: ['Orléans', 'Orléans Métropole', 'Loiret'],
+  description: format.positionnement,
+};
+const jsonLdAll: any[] = [jsonLd];
+jsonLdAll.push({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqAll.map((f: any) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) });
+---
+<BaseLayout
+  title={titres[format.slug] || `${format.nom} : coach sportif en entreprise`}
+  description={descs[format.slug] || `${format.positionnement} Un format BOOST ENTREPRISE™ de GA Coachs à Orléans.`}
+  path={`/entreprises/${format.slug}/`}
+  jsonLd={jsonLdAll}
+  image="/images/og-entreprises.jpg"
+  stickyCtaHref="#lead-form"
+  stickyCtaLabel="Créer mon programme entreprise"
+>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Entreprises', href: '/entreprises/' }, { label: format.nom, href: `/entreprises/${format.slug}/` }]} />
+      <div class="hgrid">
+        <div>
+          <span class="eyebrow eyebrow-dark">BOOST ENTREPRISE™ · {format.duree}</span>
+          <h1>{mots.join(' ')} <span class="hl-text">{fin}</span></h1>
+          <p class="phero-lead">{format.positionnement} {accroches[format.slug]}</p>
+          {format.slug === 'mal-de-dos' && <p class="fm-disc">Ce programme ne remplace pas un avis médical et ne constitue pas une promesse de guérison.</p>}
+          <div class="ctas">
+            <a class="btn btn-primary" href="#lead-form">Créer mon programme entreprise</a>
+            <a class="btn btn-glass" href="/entreprises/#e-form">Tester avec BOOST 30 offert</a>
+          </div>
+        </div>
+        <div role="note" class="hcard">
+          <span class="bt-k">Ce que comprend ce format</span>
+          <div class="pchips">{format.details.map((d: string) => <span>{d}</span>)}</div>
+          {details && <><span class="bt-k" style="margin-top: 20px;">Pour qui ?</span><p class="fm-pq">{details.pourQui}</p></>}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner vb2">
+      <div>
+        <span class="eyebrow">En bref</span>
+        <h2 class="h2">{format.nom} en entreprise, en 30 secondes.</h2>
+      </div>
+      <ul class="vb-list">{enBref.map((t) => <li>{t}</li>)}</ul>
+    </div>
+  </section>
+
+  {details?.benefices && (
+    <section class="sec band">
+      <div class="inner">
+        <span class="eyebrow">Les bénéfices</span>
+        <h2 class="h2">Ce que ça change pour vos équipes.</h2>
+        <div class="fm-ben">{details.benefices.map((b: string, i: number) => <div class="fm-b" data-up><span class="fm-bn">0{i + 1}</span><p>{b}</p></div>)}</div>
+      </div>
+    </section>
+  )}
+
+  {details && (
+    <section class="sec navy">
+      <div class="lightning-bg" aria-hidden="true"></div>
+      <div class="inner">
+        <span class="eyebrow">Sur place</span>
+        <h2 class="h2">Comment se déroule une séance.</h2>
+        <div class="steps3">{details.deroule.map((d: any, i: number) => <div class="st"><div class="st-n">{i + 1}</div><h3>{d.titre}</h3><p>{d.texte}</p></div>)}</div>
+      </div>
+    </section>
+  )}
+
+  {(
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">FAQ</span>
+        <h2 class="h2">{format.nom} : vos questions.</h2>
+        <div class="faq-list">{faqAll.map((f: any) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="sec band" id="lead-form">
+    <div class="inner">
+      <div class="lc">
+        <div class="lc-l">
+          <div class="lightning-bg" aria-hidden="true"></div>
+          <span class="eyebrow eyebrow-dark">Étape suivante</span>
+          <h2 class="h2">Parlons de votre équipe.</h2>
+          <p class="lead-p">Réponse sous 48 h ouvrées. Ce format fait partie de <a href="/entreprises/" style="text-decoration: underline;">BOOST ENTREPRISE™</a>, pensé pour s'adapter à votre organisation.</p>
+          <ul class="bt-list"><li>Un interlocuteur unique</li><li>Des coachs diplômés</li><li>BOOST 30 offert pour tester</li></ul>
+        </div>
+        <div class="lc-r"><EntrepriseLeadForm /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Les autres formats</span>
+      <h2 class="h2">D'autres façons de faire bouger vos équipes.</h2>
+      <div class="fm-aut">
+        {autres.map((f) => <a class="tile" href={`/entreprises/${f.slug}/`}><small>{f.duree}</small><b>{f.nom}</b><p>{f.positionnement}</p><em>Découvrir →</em></a>)}
+      </div>
+      <div class="chips-row" style="margin-top: 26px;">
+        <a class="chip-link" href="/entreprises/">BOOST ENTREPRISE™ <small>Le programme</small></a>
+        <a class="chip-link" href="/entreprises/qvct/">QVCT et bien-être au travail <small>Démarche QVCT</small></a>
+        <a class="chip-link" href="/services-sur-mesure/atelier-gestes-et-postures/">Gestes et postures <small>Atelier</small></a>
+      </div>
+    </div>
+  </section>
+
+  <StatsBoost />
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">Prêt à lancer {format.nom} ?</h2>
+      <a class="btn-final" href="#lead-form"><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Créer mon programme entreprise<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+
+<style>
+  .fm-disc { margin: -6px 0 22px; font-size: 13.5px; color: rgba(255,255,255,.7); }
+  .fm-pq { font-size: 15px; line-height: 1.6; }
+  .fm-aut { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 28px; }
+  .fm-aut a { display: flex !important; flex-direction: column; gap: 6px; color: var(--ink); transition: transform .25s ease, border-color .25s ease; }
+  .fm-aut a:hover { transform: translateY(-4px); border-color: #BFD3FB; }
+  .fm-aut small { font-size: 12.5px; font-weight: 700; color: var(--blue-deep); }
+  .fm-aut b { font-family: var(--display); font-size: 20px; line-height: 1.2; }
+  .fm-aut p { font-size: 14.5px; color: var(--muted); flex: 1; }
+  .fm-aut em { font-style: normal; font-weight: 700; font-size: 14px; color: var(--blue-deep); }
+  .fm-ben { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 26px; }
+  .fm-b { background: #fff; border: 2px solid #E1E8FA; border-radius: 20px; padding: 22px 22px 24px; }
+  .fm-bn { display: inline-block; font-family: 'Baloo 2', system-ui, sans-serif; font-weight: 700; font-size: 28px; line-height: 1; color: #0037B6; }
+  .fm-b p { margin: 10px 0 0; font-weight: 700; font-size: 16.5px; line-height: 1.45; color: #13203B; }
+  @media (max-width: 760px) { .fm-ben { grid-template-columns: 1fr; } }
+</style>

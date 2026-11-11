@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+---
+<BaseLayout noindex={true} title="Demande reçue · GA Coachs" description="Votre demande de Bilan Santé à domicile a bien été reçue." path="/merci-domicile/" stickyCtaHref={false}>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'BOOST DOMICILE', href: '/coach-sportif-a-domicile/' }, { label: 'Demande reçue', href: '/merci-domicile/' }]} />
+      <h1>C'est noté, <span class="hl-text">merci</span>.</h1>
+      <p class="phero-lead">Votre demande de Bilan Santé à domicile est bien arrivée. Un coach de votre commune vous rappelle très vite pour fixer le rendez-vous.</p>
+      <div class="ctas"><a class="btn btn-primary" href="/score-sante/">Faire mon Score Santé en attendant</a><a class="btn btn-glass" href="/">Retour à l'accueil</a></div>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+<script>if ((window as any).trackConversion) (window as any).trackConversion('domicile_lead_envoye');</script>

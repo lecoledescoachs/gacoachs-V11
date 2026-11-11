@@ -1,0 +1,150 @@
+---
+interface Props {
+  id: string;
+  kind: 'ehpad' | 'asso';
+  simulateur: any;
+  href: string;
+}
+const { id, kind, simulateur, href } = Astro.props as Props;
+
+type Ctl =
+  | { t: 'range'; id: string; l: string; u: string; min: number; max: number; step: number; def: number }
+  | { t: 'ch'; id: string; l: string; def: number; o: [number, string][] };
+
+const CTLS: Record<string, Ctl[]> = {
+  ehpad: [
+    { t: 'range', id: 'res', l: 'Nombre de résidents', u: 'résidents', min: 20, max: 200, step: 5, def: 60 },
+    { t: 'ch', id: 'part', l: 'Part de résidents qui pourraient participer', def: 33, o: [[25, '1 sur 4'], [33, '1 sur 3'], [50, '1 sur 2']] },
+    { t: 'ch', id: 'freq', l: 'Séances collectives par semaine, pour chaque groupe', def: 1, o: [[1, '1 par semaine'], [2, '2 par semaine']] },
+    { t: 'ch', id: 'ind', l: 'Séances individuelles par mois (résidents fragiles)', def: 0, o: [[0, 'Aucune'], [2, '2'], [4, '4'], [8, '8']] },
+  ],
+  asso: [
+    { t: 'range', id: 'adh', l: "Nombre d'adhérents", u: 'adhérents', min: 20, max: 1000, step: 10, def: 120 },
+    { t: 'range', id: 'cot', l: 'Cotisation annuelle moyenne', u: '€ par an', min: 50, max: 300, step: 10, def: 150 },
+    { t: 'ch', id: 'cren', l: 'Créneaux encadrés de 2 h', def: 4, o: [[2, '2 par mois'], [4, '1 par semaine'], [8, '2 par semaine']] },
+    { t: 'ch', id: 'mois', l: 'Durée de la saison', def: 10, o: [[9, '9 mois'], [10, '10 mois'], [12, '12 mois']] },
+  ],
+};
+const ctls = CTLS[kind];
+---
+<section class="section section--tint" id={id}>
+  <div class="container">
+    <span class="eyebrow">{simulateur.eyebrow}</span>
+    <h2>{simulateur.titre}</h2>
+    <p class="lead">{simulateur.intro}</p>
+
+    <div class="sim" data-sim>
+      <div class="sim__left">
+        {ctls.map((c) => (
+          c.t === 'range' ? (
+            <div class="sim__f">
+              <label class="sim__k" for={`sim-${c.id}`}>{c.l}</label>
+              <div class="sim__val"><b data-ov={c.id}></b><small>{c.u}</small></div>
+              <input class="sim__range" type="range" id={`sim-${c.id}`} data-oc={c.id} min={c.min} max={c.max} step={c.step} value={c.def} />
+              <div class="sim__scale"><span>{c.min}</span><span>{c.max}</span></div>
+            </div>
+          ) : (
+            <div class="sim__f">
+              <span class="sim__k" id={`siml-${c.id}`}>{c.l}</span>
+              <div class="sim__ch" role="radiogroup" aria-labelledby={`siml-${c.id}`} data-oc={c.id}>
+                {c.o.map(([v, l]) => (
+                  <button type="button" role="radio" class="sim__chip" data-v={v} aria-checked={String(v === c.def)}>{l}</button>
+                ))}
+              </div>
+            </div>
+          )
+        ))}
+      </div>
+      <div class="sim__right" aria-live="polite">
+        <span class="sim__tag">Votre estimation</span>
+        <div class="sim__big"><b data-or="main"></b><small>€ par mois</small></div>
+        <p class="sim__sub" data-or="sub"></p>
+        <ul class="sim__list" data-or="list"></ul>
+        <p class="sim__reco">Formule la plus proche : <b data-or="reco"></b></p>
+        <a href={href} class="btn btn--primary">Recevoir ma proposition chiffrée</a>
+        <p class="sim__note">{simulateur.note}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sim { margin-top: 30px; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); border-radius: var(--radius-lg); overflow: hidden; background: var(--white); border: 2px solid var(--line); box-shadow: 0 30px 60px -36px rgba(11, 30, 61, 0.45); }
+  .sim__left { padding: 28px; display: grid; gap: 26px; align-content: start; min-width: 0; }
+  .sim__right { padding: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; min-width: 0; color: #fff; background: radial-gradient(circle at 90% 0%, #1C46C8 0%, #0E2A5C 38%, var(--navy) 75%); }
+  .sim__f { min-width: 0; }
+  .sim__k { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--text-muted); }
+  .sim__val { display: flex; align-items: baseline; gap: 8px; }
+  .sim__val b { font-family: var(--font-display); font-size: 42px; line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--navy); }
+  .sim__val small { font-size: 14px; font-weight: 700; color: var(--text-muted); }
+  .sim__range { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 10px; margin: 18px 0 6px; border-radius: 999px; outline: none; cursor: pointer; background: linear-gradient(90deg, var(--blue) 0 var(--p, 20%), #E3EBFD var(--p, 20%) 100%); }
+  .sim__range::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: 5px solid var(--blue); box-shadow: 0 6px 14px -4px rgba(0, 55, 182, 0.6); cursor: grab; }
+  .sim__range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 5px solid var(--blue); cursor: grab; }
+  .sim__range:focus-visible { outline: 3px solid var(--sky); outline-offset: 6px; }
+  .sim__scale { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #8a96b2; }
+  .sim__ch { display: flex; flex-wrap: wrap; gap: 8px; }
+  .sim__chip { min-height: 48px; padding: 0 20px; border-radius: 999px; border: 2px solid var(--line); background: #fff; color: var(--navy); font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.15s; }
+  .sim__chip:hover { border-color: #bfd3fb; }
+  .sim__chip:active { transform: scale(0.96); }
+  .sim__chip:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+  .sim__chip[aria-checked='true'] { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .sim__tag { font-size: 12.5px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: var(--sky); }
+  .sim__big { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 10px; }
+  .sim__big b { font-family: var(--font-display); font-size: clamp(54px, 4vw + 28px, 78px); line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .sim__big small { font-size: 16px; font-weight: 700; color: rgba(255, 255, 255, 0.75); }
+  .sim__sub { margin: 0; font-size: 16px; font-weight: 700; color: #cfe5ff; }
+  .sim__list { list-style: none; margin: 0; padding: 14px 0 0; border-top: 1px solid rgba(124, 196, 255, 0.28); display: grid; gap: 8px; width: 100%; }
+  .sim__list li { position: relative; padding-left: 20px; font-size: 15.5px; line-height: 1.4; font-weight: 700; }
+  .sim__list li::before { content: ''; position: absolute; left: 0; top: 0.5em; width: 8px; height: 8px; border-radius: 50%; background: #7cc4ff; }
+  .sim__reco { margin: 0; width: 100%; padding: 12px 16px; border-radius: 16px; background: rgba(255, 255, 255, 0.1); font-size: 14.5px; font-weight: 700; color: rgba(255, 255, 255, 0.8); }
+  .sim__reco b { display: block; margin-top: 2px; font-size: 17px; font-weight: 700; color: #fff; }
+  .sim__note { margin: 0; font-size: 12.5px; line-height: 1.45; font-weight: 600; color: rgba(255, 255, 255, 0.65); }
+  @media (max-width: 820px) { .sim { grid-template-columns: minmax(0, 1fr); } .sim__val b { font-size: 36px; } }
+</style>
+
+<script define:vars={{ kind, tarifs: simulateur.tarifs }}>
+  (function () {
+    var root = document.querySelector('[data-sim]'); if (!root) return;
+    var fr = function (n) { return Math.round(n).toLocaleString('fr-FR'); };
+    function calc(s) {
+      if (kind === 'ehpad') {
+        var p = Math.max(1, Math.round(s.res * s.part / 100)), g = Math.ceil(p / tarifs.groupe), col = g * s.freq * tarifs.semaines, cout = col * tarifs.collective + s.ind * tarifs.individuelle;
+        return {
+          main: cout, sub: 'Soit environ ' + fr(cout / p) + ' € par résident participant et par mois.',
+          list: [p + ' résidents participants', g + (g > 1 ? ' groupes' : ' groupe') + ' de ' + tarifs.groupe + ' résidents maximum', col + (col > 1 ? ' séances collectives' : ' séance collective') + ' par mois' + (s.ind ? ', ' + s.ind + ' individuelles' : '')],
+          reco: (col <= 4 && s.ind === 0) ? 'EHPAD ESSENTIEL' : (col <= 8 && s.ind <= 2) ? 'EHPAD ACTIF' : 'EHPAD RÉSIDENCE (sur devis)'
+        };
+      }
+      var mens = s.cren * tarifs.creneau + tarifs.forfait, saison = mens * s.mois, par = saison / s.adh, pct = par / s.cot * 100;
+      var pc = pct < 1 ? 'moins de 1 %' : (Math.round(pct * 10) / 10).toLocaleString('fr-FR') + ' %';
+      return {
+        main: mens, sub: 'Soit ' + fr(saison) + ' € sur la saison.',
+        list: ['Environ ' + (Math.round(par * 10) / 10).toLocaleString('fr-FR') + ' € par adhérent et par saison', 'Soit ' + pc + ' de la cotisation moyenne', 'Pour tout financer : ' + Math.ceil(par) + ' € de cotisation en plus'],
+        reco: s.cren === 2 ? 'ASSO ESSENTIEL' : s.cren === 4 ? 'ASSO SAISON' : 'ASSO CLUB COMPLET (sur devis)'
+      };
+    }
+    function q(k) { return root.querySelector('[data-or="' + k + '"]'); }
+    function upd() {
+      var st = {};
+      root.querySelectorAll('[data-oc]').forEach(function (el) {
+        var id = el.getAttribute('data-oc');
+        if (el.tagName === 'INPUT') {
+          st[id] = +el.value; el.style.setProperty('--p', ((el.value - el.min) / (el.max - el.min) * 100) + '%');
+          var v = root.querySelector('[data-ov="' + id + '"]'); if (v) v.textContent = fr(+el.value);
+        } else { st[id] = +el.querySelector('[aria-checked="true"]').getAttribute('data-v'); }
+      });
+      var r = calc(st);
+      q('main').textContent = fr(r.main); q('sub').textContent = r.sub; q('reco').textContent = r.reco;
+      q('list').innerHTML = ''; r.list.forEach(function (x) { var li = document.createElement('li'); li.textContent = x; q('list').appendChild(li); });
+      var inp = document.querySelector('input[name="simulation"]');
+      if (inp) inp.value = r.reco + ' | ' + fr(r.main) + ' EUR/mois | ' + JSON.stringify(st);
+    }
+    root.addEventListener('input', upd);
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('.sim__chip'); if (!b) return;
+      b.parentNode.querySelectorAll('.sim__chip').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
+      upd();
+    });
+    upd();
+  })();
+</script>

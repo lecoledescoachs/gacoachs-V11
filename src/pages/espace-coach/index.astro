@@ -1,0 +1,795 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+import boutique from '../../data/boutique.json';
+// commission de 10 % sur chaque article client vendu avec le code du coach
+const taux = (boutique as any).parrainage?.taux ?? 10;
+const articles = (boutique as any).collections.find((c: any) => c.id === 'clients').produits.filter((p: any) => p.prix).map((p: any) => ({ nom: p.nom, prix: p.prix, com: Math.round(p.prix * taux) / 100 }));
+const fr = (n: number) => n.toLocaleString('fr-FR', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+---
+<BaseLayout
+  title="Espace coach · GA Coachs"
+  description="L'espace des coachs GA : KPI du Score Santé, suivi des contacts, QR code et Score Santé en présentiel."
+  path="/espace-coach/"
+  stickyCtaHref={false}
+  noindex={true}
+  manifest="/espace-coach.webmanifest"
+>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero no-print">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Espace coach', href: '/espace-coach/' }]} />
+      <span class="eyebrow eyebrow-dark">Espace coach</span>
+      <h1>Ton espace, <span class="hl-text">tes chiffres.</span></h1>
+      <p class="phero-lead">Tes KPI, tes contacts à rappeler et le Score Santé en présentiel, au même endroit.</p>
+    </div>
+  </section>
+
+  <section class="section dashboard-section no-print">
+    <div class="container">
+
+      <!-- État 1 : non connecté -->
+      <div id="dashboard-login" class="dashboard-card">
+        <span class="dashboard-card__icon">📊</span>
+        <h2>Connecte-toi à ton espace.</h2>
+        <p class="lead">Connecte-toi avec ton email pour retrouver tes KPI, tes contacts à rappeler et le Score Santé en présentiel.</p>
+        <button type="button" id="btn-login" class="btn btn--primary">Se connecter</button>
+      </div>
+
+      <!-- État 2 : chargement -->
+      <div id="dashboard-loading" class="dashboard-card" hidden>
+        <div class="dashboard-spinner"></div>
+        <p class="lead">Chargement de tes statistiques...</p>
+      </div>
+
+      <!-- État 3 : erreur -->
+      <div id="dashboard-error" class="dashboard-card" hidden>
+        <span class="dashboard-card__icon">⚠️</span>
+        <p class="lead" id="dashboard-error-text"></p>
+        <button type="button" id="btn-logout-error" class="btn btn--ghost">Se déconnecter</button>
+      </div>
+
+      <!-- État 4 : l'espace d'un coach (le sien, ou celui qu'un admin consulte) -->
+      <div id="dashboard-content" hidden>
+        <div class="dashboard-adminbar" id="dashboard-adminbar" hidden>
+          <span>🛡️ Vue admin : tu consultes l'espace de <strong id="dashboard-adminbar-nom"></strong></span>
+          <button type="button" id="btn-back-reseau">← Retour au réseau</button>
+        </div>
+
+        <div class="dashboard-topbar">
+          <div class="dashboard-who">
+            <img id="dashboard-coach-photo" src="" alt="" width="56" height="56" />
+            <div>
+              <p class="dashboard-welcome" id="dashboard-coach-titre"></p>
+              <p class="dashboard-salle" id="dashboard-coach-salle"></p>
+            </div>
+          </div>
+          <div class="dashboard-tools">
+            <a href="/admin/" class="dashboard-tool" id="btn-fiche">✏️ Modifier ma fiche</a>
+            <button type="button" class="dashboard-tool" data-install hidden>📲 Installer l'appli</button>
+            <button type="button" id="btn-logout" class="dashboard-logout">Se déconnecter</button>
+          </div>
+        </div>
+        <p class="install-tip" data-install-tip hidden>Sur iPhone : touche le bouton Partager de Safari, puis « Sur l'écran d'accueil ».</p>
+
+        <button type="button" class="dashboard-alert" id="dashboard-alert" hidden></button>
+
+        <!-- Raccourci : le Score Santé en présentiel, sur le téléphone ou la tablette du coach -->
+        <div class="presentiel-card">
+          <div>
+            <p class="presentiel-card__k">⚡ Raccourci</p>
+            <p class="presentiel-card__titre">Score Santé en présentiel</p>
+            <p class="presentiel-card__texte" id="presentiel-texte">Fais passer le test à ton client sur ton téléphone ou ta tablette. Son résultat arrive directement dans ton espace.</p>
+          </div>
+          <div class="presentiel-card__btns">
+            <a href="/score-sante/" id="presentiel-link" class="btn btn--primary presentiel-card__btn">Lancer un Score Santé</a>
+            <button type="button" class="presentiel-card__qr" data-qr-open>▦ Afficher mon QR code</button>
+          </div>
+        </div>
+
+        <div class="periode-bar">
+          <div class="periode" role="group" aria-label="Période">
+            <button type="button" data-periode="7">7 jours</button>
+            <button type="button" data-periode="30">30 jours</button>
+            <button type="button" data-periode="90">90 jours</button>
+          </div>
+          <p class="periode-note" id="periode-note"></p>
+        </div>
+        <div class="kpi-grid" id="kpi-grid"></div>
+
+        <div class="dash-duo">
+          <div class="dash-box">
+            <div class="dash-box__head">
+              <p class="dash-box__title">🎯 Objectifs du mois</p>
+              <button type="button" class="dash-link" id="btn-objectif">Modifier</button>
+            </div>
+            <div id="objectifs"></div>
+            <form id="objectif-form" class="objectif-form" hidden>
+              <label>Tests en présentiel<input type="number" min="0" max="500" name="testsPresentiel" /></label>
+              <label>Bilans<input type="number" min="0" max="500" name="bilans" /></label>
+              <button type="submit" class="dashboard-share__btn">Enregistrer</button>
+            </form>
+          </div>
+          <div class="dash-box">
+            <p class="dash-box__title">🔁 Du contact au client</p>
+            <div id="entonnoir"></div>
+          </div>
+        </div>
+
+        <div class="dashboard-chart-card">
+          <p class="dashboard-chart-card__title">Activité jour par jour</p>
+          <div class="chart-legend">
+            <span class="chart-legend__item"><span class="chart-legend__dot chart-legend__dot--visites"></span>Scans</span>
+            <span class="chart-legend__item"><span class="chart-legend__dot chart-legend__dot--leads"></span>Tests via le lien</span>
+            <span class="chart-legend__item"><span class="chart-legend__dot chart-legend__dot--presentiel"></span>Tests en présentiel</span>
+          </div>
+          <div class="dashboard-chart" id="dashboard-chart"></div>
+        </div>
+
+        <div class="dashboard-share">
+          <p class="dashboard-share__label">📤 Le lien à partager</p>
+          <div class="dashboard-share__row">
+            <code class="dashboard-share__link" id="dashboard-share-link"></code>
+            <button type="button" id="btn-copy-link" class="dashboard-share__btn">Copier</button>
+            <button type="button" class="dashboard-share__btn dashboard-share__btn--ghost" data-qr-open>QR code</button>
+          </div>
+          <p class="dashboard-share__note">Chaque personne qui passe par ce lien compte comme un scan. Les tests en présentiel sont suivis à part.</p>
+        </div>
+
+        <div class="shop-card">
+          <div class="shop-card__head">
+            <div>
+              <p class="presentiel-card__k">🛍️ Ta boutique</p>
+              <p class="presentiel-card__titre">{taux} % sur chaque article vendu avec ton code</p>
+              <p class="shop-card__texte">Conseille le sweat brodé, la gourde ou la serviette à tes clients : à chaque commande passée avec ton code, tu touches {taux} % du prix. Ton client ne paie pas plus cher.</p>
+            </div>
+            <div class="shop-card__code"><small>Ton code</small><b id="shop-code">GA</b></div>
+          </div>
+          <div class="dashboard-share__row">
+            <code class="dashboard-share__link" id="shop-link"></code>
+            <button type="button" id="btn-copy-shop" class="dashboard-share__btn">Copier le lien</button>
+          </div>
+          <table class="shop-table">
+            <caption>Ce que tu touches par article</caption>
+            <thead><tr><th scope="col">Article</th><th scope="col">Prix</th><th scope="col">Ta commission</th></tr></thead>
+            <tbody>{articles.map((a: any) => <tr><td>{a.nom}</td><td>{fr(a.prix)} €</td><td><b>{fr(a.com)} €</b></td></tr>)}</tbody>
+          </table>
+          <p class="dashboard-share__note">La boutique ouvre bientôt : tes ventes et tes commissions apparaîtront ici. Les modalités de versement te seront précisées à l'ouverture.</p>
+        </div>
+
+        <div class="leads-head">
+          <h2 class="dashboard-leads-title">À recontacter</h2>
+          <button type="button" class="dash-link" id="btn-export">⬇︎ Exporter (tableur)</button>
+        </div>
+        <div class="leads-filtres" id="leads-filtres" role="group" aria-label="Filtrer les contacts"></div>
+        <div id="dashboard-leads-list" class="dashboard-leads-list"></div>
+        <p id="dashboard-leads-empty" class="dashboard-leads-empty" hidden>Aucun contact dans cette liste pour l'instant.</p>
+      </div>
+
+      <!-- État 5 : vue admin (tout le réseau, accès à l'espace de chaque coach) -->
+      <div id="dashboard-admin" hidden>
+        <div class="dashboard-topbar">
+          <div>
+            <p class="dashboard-welcome">📊 Vue d'ensemble du réseau</p>
+            <p class="dashboard-salle">Ouvre l'espace de chaque coach pour voir ses KPI et ses contacts. Un rapport t'est envoyé par email chaque lundi matin.</p>
+          </div>
+          <div class="dashboard-tools">
+            <button type="button" class="dashboard-tool" data-install hidden>📲 Installer l'appli</button>
+            <button type="button" id="btn-logout-admin" class="dashboard-logout">Se déconnecter</button>
+          </div>
+        </div>
+        <div class="periode-bar">
+          <div class="periode" role="group" aria-label="Période">
+            <button type="button" data-periode="7">7 jours</button>
+            <button type="button" data-periode="30">30 jours</button>
+            <button type="button" data-periode="90">90 jours</button>
+          </div>
+          <p class="periode-note" id="periode-note-admin"></p>
+        </div>
+        <div class="kpi-grid kpi-grid--net" id="dashboard-admin-totaux"></div>
+        <div class="admin-alertes" id="admin-alertes"></div>
+        <div class="leads-head">
+          <h2 class="dashboard-leads-title">Les espaces des coachs</h2>
+          <button type="button" class="dash-link" id="btn-export-admin">⬇︎ Exporter tous les contacts</button>
+        </div>
+        <div class="admin-coachs" id="dashboard-admin-list"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QR code du lien du coach : plein écran, et flyer imprimable -->
+  <div class="qr-modal" id="qr-modal" hidden>
+    <div class="qr-modal__card" role="dialog" aria-modal="true" aria-labelledby="qr-titre">
+      <button type="button" class="qr-modal__close no-print" data-qr-close aria-label="Fermer">✕</button>
+      <div id="qr-flyer" class="qr-flyer">
+        <p class="qr-flyer__k">GA Coachs · Score Santé</p>
+        <h2 id="qr-titre" class="qr-flyer__titre">Fais ton Score Santé en 2 minutes</h2>
+        <p class="qr-flyer__texte" id="qr-texte"></p>
+        <div class="qr-flyer__code" id="qr-code"></div>
+        <p class="qr-flyer__url" id="qr-url"></p>
+        <p class="qr-flyer__note">10 questions, un score sur 100 et ton âge métabolique estimé. Gratuit, sans engagement.</p>
+      </div>
+      <div class="qr-modal__btns no-print">
+        <button type="button" class="btn btn--primary" id="btn-print">🖨️ Imprimer le flyer</button>
+        <button type="button" class="btn btn--ghost" data-qr-close>Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+</BaseLayout>
+
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  import qrcode from 'qrcode-generator';
+
+  // ---------- Petits outils ----------
+  const $ = (id: string) => document.getElementById(id)!;
+  const esc = (v: unknown) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
+  const STATUTS: [string, string][] = [['a-appeler', 'À appeler'], ['appele', 'Appelé'], ['bilan-reserve', 'Bilan réservé'], ['client', 'Client'], ['pas-interesse', 'Pas intéressé']];
+  const LIB = Object.fromEntries(STATUTS);
+  const SOURCES: Record<string, string> = { presentiel: 'Présentiel', lien: 'Lien', site: 'Site', bilan: 'Demande de bilan' };
+  const fr = (n: number) => String(n).replace('.', ',');
+  const dateFr = (d: string) => new Date(d).toLocaleDateString('fr-FR');
+
+  // Numéro français vers format international (+33...)
+  function telIntl(t: string) {
+    const d = String(t || '').replace(/[^\d+]/g, '');
+    if (/^0\d{9}$/.test(d)) return '+33' + d.slice(1);
+    return d;
+  }
+
+  // Messages déjà rédigés pour recontacter un client en un clic
+  function messageContact(l: any, coachPrenom: string) {
+    return l.type === 'bilan'
+      ? `Bonjour ${l.prenom}, c'est ${coachPrenom} de GA Coachs. J'ai bien reçu ta demande de bilan santé. Quand es-tu disponible pour qu'on fixe un créneau ?`
+      : `Bonjour ${l.prenom}, c'est ${coachPrenom}, coach GA. Merci d'avoir fait ton Score Santé (${l.score}/100) ! Je te propose qu'on en parle lors d'un bilan santé. Quand es-tu disponible ?`;
+  }
+  function messageAvis(l: any, url: string) {
+    return `Bonjour ${l.prenom}, merci pour ta confiance ! Si tu as 30 secondes, ton avis Google m'aiderait beaucoup : ${url}`;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const identity = (window as any).netlifyIdentity;
+    const loginEl = $('dashboard-login'), loadingEl = $('dashboard-loading'), errorEl = $('dashboard-error'), errorTextEl = $('dashboard-error-text');
+    const contentEl = $('dashboard-content'), adminEl = $('dashboard-admin');
+    const showOnly = (el: HTMLElement) => [loginEl, loadingEl, errorEl, contentEl, adminEl].forEach((e) => (e.hidden = e !== el));
+
+    if (!identity) {
+      errorTextEl.textContent = "La connexion n'a pas pu s'initialiser. Vérifie ta connexion internet et recharge la page.";
+      showOnly(errorEl);
+      return;
+    }
+
+    let user: any = null;
+    let data: any = null;         // dernière réponse de la fonction coach-kpis
+    let courant: any = null;      // coach affiché
+    let vueAdmin = false;
+    let periode = 30;
+    let filtre = 'tous';
+
+    async function api(path: string, opts: RequestInit = {}) {
+      const token = await user.jwt();
+      const res = await fetch(path, { ...opts, headers: { ...(opts.headers || {}), Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(body.error || 'Une erreur est survenue.');
+      return body;
+    }
+
+    // ---------- Tuiles KPI avec comparaison à la période précédente ----------
+    function delta(a: number | null, b: number | null, suffixe = '') {
+      if (a === null || b === null) return '';
+      const d = a - b;
+      if (d === 0) return '<span class="kpi-delta">= stable</span>';
+      return `<span class="kpi-delta ${d > 0 ? 'kpi-delta--up' : 'kpi-delta--down'}">${d > 0 ? '↑ +' : '↓ '}${d}${suffixe}</span>`;
+    }
+    function tuiles(k: any, p: any, liste: [string, string, string, string?][]) {
+      return liste.map(([cle, label, cls, suffixe]) => {
+        const v = k[cle];
+        return `<div class="kpi-tile ${cls}"><span class="kpi-tile__value">${v === null || v === undefined ? '-' : v + (suffixe || '')}</span><span class="kpi-tile__label">${label}</span>${delta(v ?? null, p[cle] ?? null, cle === 'passage' ? ' pts' : '')}</div>`;
+      }).join('');
+    }
+    function majPeriode() {
+      document.querySelectorAll<HTMLButtonElement>('[data-periode]').forEach((b) => b.classList.toggle('is-on', Number(b.dataset.periode) === periode));
+      const txt = `Comparé aux ${periode} jours précédents`;
+      $('periode-note').textContent = txt;
+      $('periode-note-admin').textContent = txt;
+    }
+
+    // ---------- Graphique d'activité (SVG) ----------
+    function renderChart(container: HTMLElement, a: any) {
+      const n = a.jours.length;
+      const max = Math.max(1, ...a.scans, ...a.testsLien.map((v: number, i: number) => v + a.testsPresentiel[i]));
+      const w = 100 / n;
+      const fmt = (j: string) => new Date(j + 'T12:00:00').toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
+      const bars = a.jours.map((jour: string, i: number) => {
+        const hV = (a.scans[i] / max) * 100, hL = (a.testsLien[i] / max) * 100, hP = (a.testsPresentiel[i] / max) * 100, x = i * w;
+        return `<g class="chart-bar-group">
+          <rect x="${x + w * 0.14}" y="${100 - hV}" width="${w * 0.32}" height="${hV}" class="chart-bar chart-bar--visites" rx="0.8"><title>${fmt(jour)} : ${a.scans[i]} scan(s)</title></rect>
+          <rect x="${x + w * 0.54}" y="${100 - hP}" width="${w * 0.32}" height="${hP}" class="chart-bar chart-bar--presentiel" rx="0.8"><title>${fmt(jour)} : ${a.testsPresentiel[i]} test(s) en présentiel</title></rect>
+          <rect x="${x + w * 0.54}" y="${100 - hP - hL}" width="${w * 0.32}" height="${hL}" class="chart-bar chart-bar--leads" rx="0.8"><title>${fmt(jour)} : ${a.testsLien[i]} test(s) via le lien</title></rect>
+        </g>`;
+      }).join('');
+      const pas = n <= 7 ? 1 : n <= 30 ? 3 : 10;
+      const labels = a.jours.filter((_: string, i: number) => i % pas === 0).map((j: string) => `<span>${fmt(j)}</span>`).join('');
+      container.innerHTML = `<svg viewBox="0 0 100 100" preserveAspectRatio="none" class="chart-svg">${bars}</svg><div class="chart-labels">${labels}</div>`;
+    }
+
+    // ---------- Objectifs du mois et parcours du contact au client ----------
+    function jauge(label: string, fait: number, cible: number) {
+      const pct = cible > 0 ? Math.min(100, Math.round((fait / cible) * 100)) : 0;
+      return `<div class="jauge"><div class="jauge__head"><span>${label}</span><b>${fait}${cible ? ' / ' + cible : ''}</b></div>
+        <div class="jauge__bar"><i style="width:${cible ? pct : 0}%"></i></div>
+        <p class="jauge__note">${cible ? (fait >= cible ? 'Objectif atteint, bravo !' : `Encore ${cible - fait} pour atteindre ton objectif.`) : 'Fixe-toi un objectif avec « Modifier ».'}</p></div>`;
+    }
+    function renderObjectifs(c: any) {
+      $('objectifs').innerHTML = jauge('Tests en présentiel', c.mois.testsPresentiel, c.objectif.testsPresentiel) + jauge('Bilans', c.mois.bilans, c.objectif.bilans);
+      const f = $('objectif-form') as HTMLFormElement;
+      (f.elements.namedItem('testsPresentiel') as HTMLInputElement).value = String(c.objectif.testsPresentiel || '');
+      (f.elements.namedItem('bilans') as HTMLInputElement).value = String(c.objectif.bilans || '');
+    }
+    function renderEntonnoir(c: any) {
+      const cs = c.contacts;
+      const etapes: [string, number][] = [
+        ['Contacts', cs.length],
+        ['Rappelés', cs.filter((x: any) => x.statut !== 'a-appeler').length],
+        ['Bilans réservés', cs.filter((x: any) => x.statut === 'bilan-reserve' || x.statut === 'client').length],
+        ['Clients', cs.filter((x: any) => x.statut === 'client').length],
+      ];
+      const max = Math.max(1, etapes[0][1]);
+      $('entonnoir').innerHTML = etapes.map(([l, v], i) => {
+        const taux = i > 0 && etapes[i - 1][1] ? Math.round((v / etapes[i - 1][1]) * 100) + ' %' : '';
+        return `<div class="funnel"><div class="funnel__head"><span>${l}</span><b>${v}</b>${taux ? `<small>${taux}</small>` : ''}</div><div class="funnel__bar"><i style="width:${Math.round((v / max) * 100)}%"></i></div></div>`;
+      }).join('');
+    }
+
+    // ---------- Contacts : filtres, cartes, suivi ----------
+    function retard(l: any) {
+      const j = Math.floor((Date.now() - new Date(l.date).getTime()) / 864e5);
+      return l.statut === 'a-appeler' && Date.now() - new Date(l.date).getTime() > 48 * 3600 * 1000 ? `⏰ À rappeler depuis ${j} j` : '';
+    }
+    // Âge réel et âge métabolique estimé, avec l'écart entre les deux
+    function agesTexte(l: any) {
+      const a = Number(l.age), m = Number(l.ageMetabolique);
+      const d = a && m ? m - a : null;
+      const ecart = d === null ? '' : d === 0 ? ' (identique)' : ` <span class="lead-card__ecart${d < 0 ? ' lead-card__ecart--moins' : ''}">(${Math.abs(d)} an${Math.abs(d) > 1 ? 's' : ''} de ${d < 0 ? 'moins' : 'plus'})</span>`;
+      return `${a ? `Âge réel : <b>${a} ans</b> · ` : ''}Âge métabolique estimé : <b>${l.ageMetabolique ? esc(l.ageMetabolique) + ' ans' : 'non renseigné'}</b>${ecart}`;
+    }
+    function carte(l: any) {
+      const tel = telIntl(l.telephone);
+      const msg = messageContact(l, courant.prenom);
+      const avisUrl = courant.avis && courant.avis.url ? courant.avis.url : '';
+      const r = retard(l);
+      return `<div class="lead-card${r ? ' lead-card--late' : ''}" data-lead="${esc(l.id)}">
+        <div class="lead-card__top">
+          <span class="lead-card__prenom">${esc(l.prenom)}${l.nom ? ' ' + esc(l.nom) : ''}</span>
+          <span class="lead-card__src${l.source === 'presentiel' ? ' lead-card__src--p' : ''}">${SOURCES[l.source] || 'Lien'}</span>
+          ${l.score ? `<span class="lead-card__score">${esc(l.score)}/100</span>` : ''}
+        </div>
+        <p class="lead-card__contact">${esc(l.email)}${l.telephone ? ' · ' + esc(l.telephone) : ''}</p>
+        <p class="lead-card__meta">${l.type === 'bilan' ? `Objectif : ${esc(l.objectif || 'non précisé')}${l.creneau ? ' · créneau : ' + esc(l.creneau) : ''}` : agesTexte(l)} · ${dateFr(l.date)}${r ? ` · <b class="lead-card__late">${r}</b>` : ''}</p>
+        <div class="lead-card__actions">
+          ${tel ? `<a href="https://wa.me/${tel.replace('+', '')}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a href="sms:${tel}?&body=${encodeURIComponent(msg)}">✉️ SMS</a>
+          <a href="tel:${tel}">📞 Appeler</a>` : ''}
+          ${l.email ? `<a href="mailto:${esc(l.email)}?subject=${encodeURIComponent(l.type === 'bilan' ? 'Ta demande de bilan santé' : 'Ton Score Santé avec GA Coachs')}&body=${encodeURIComponent(msg)}">📧 Email</a>` : ''}
+          ${avisUrl ? `<a href="${tel ? `https://wa.me/${tel.replace('+', '')}?text=${encodeURIComponent(messageAvis(l, avisUrl))}` : `mailto:${esc(l.email)}?subject=${encodeURIComponent('Ton avis compte')}&body=${encodeURIComponent(messageAvis(l, avisUrl))}`}" target="_blank" rel="noopener">⭐ Demander un avis</a>` : ''}
+        </div>
+        <form class="lead-suivi" data-suivi>
+          <label>Statut<select name="statut">${STATUTS.map(([v, t]) => `<option value="${v}"${v === l.statut ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+          <label>Relance le<input type="date" name="relance" value="${esc(l.relance)}" /></label>
+          <label class="lead-suivi__note">Note<textarea name="note" rows="2" placeholder="Ex. rappeler après 18 h, objectif mariage en juin...">${esc(l.note)}</textarea></label>
+          <div class="lead-suivi__save"><button type="submit">Enregistrer</button><span data-ok></span></div>
+        </form>
+      </div>`;
+    }
+    function renderContacts() {
+      const cs = courant.contacts;
+      const n = (s: string) => cs.filter((x: any) => x.statut === s).length;
+      $('leads-filtres').innerHTML = [['tous', 'Tous', cs.length], ...STATUTS.map(([v, t]) => [v, t, n(v)])]
+        .map(([v, t, c]) => `<button type="button" data-filtre="${v}" class="${v === filtre ? 'is-on' : ''}">${t} <small>${c}</small></button>`).join('');
+      const liste = filtre === 'tous' ? cs : cs.filter((x: any) => x.statut === filtre);
+      $('dashboard-leads-list').innerHTML = liste.map(carte).join('');
+      $('dashboard-leads-empty').hidden = liste.length > 0;
+      const alertes = cs.filter((x: any) => retard(x)).length;
+      const al = $('dashboard-alert');
+      al.hidden = !alertes;
+      al.textContent = `🔔 ${alertes} contact${alertes > 1 ? 's attendent' : ' attend'} ton appel depuis plus de 48 h. Voir la liste`;
+      renderEntonnoir(courant);
+    }
+
+    // ---------- Espace d'un coach ----------
+    function renderCoach(c: any, admin: boolean) {
+      courant = c; vueAdmin = admin;
+      $('dashboard-adminbar').hidden = !admin;
+      $('dashboard-adminbar-nom').textContent = c.prenom;
+      const photo = $('dashboard-coach-photo') as HTMLImageElement;
+      if (c.photo) { photo.src = c.photo; photo.hidden = false; } else { photo.hidden = true; }
+      $('dashboard-coach-titre').textContent = admin ? `L'espace de ${c.nom}` : `👋 Salut ${c.prenom}`;
+      $('dashboard-coach-salle').textContent = c.salle + (c.avis ? ` · ★ ${fr(Number(c.avis.note).toFixed(1))} · ${c.avis.nombre} avis Google` : '');
+      $('btn-fiche').hidden = admin;
+      $('presentiel-texte').textContent = admin
+        ? `Lance un test au nom de ${c.prenom} : le résultat arrive dans son espace.`
+        : 'Fais passer le test à ton client sur ton téléphone ou ta tablette. Son résultat arrive directement dans ton espace.';
+      ($('presentiel-link') as HTMLAnchorElement).href = `/score-sante/?coach=${encodeURIComponent(c.slug)}&mode=presentiel`;
+      $('kpi-grid').innerHTML = tuiles(c.kpis, c.precedent, [
+        ['scans', 'Scans du lien', 'kpi-tile--primary'], ['tests', 'Tests terminés', ''], ['testsPresentiel', 'En présentiel', 'kpi-tile--soft'], ['contacts', 'Contacts captés', ''],
+        ['passage', 'Taux de passage', '', '%'], ['scoreMoyen', 'Score moyen', ''], ['bilans', 'Bilans', ''], ['clients', 'Clients', ''],
+      ]);
+      renderObjectifs(c);
+      renderChart($('dashboard-chart'), c.activite);
+      $('dashboard-share-link').textContent = `${window.location.origin}/score-sante/?coach=${c.slug}`;
+      $('shop-code').textContent = c.codeBoutique || String(c.slug).split('-')[0].toUpperCase();
+      $('shop-link').textContent = `${window.location.origin}/boutique/?coach=${c.slug}`;
+      renderContacts();
+      majPeriode();
+      showOnly(contentEl);
+    }
+
+    // ---------- Vue réseau (admin) ----------
+    function renderReseau(d: any) {
+      const t = d.totaux;
+      $('dashboard-admin-totaux').innerHTML = tuiles(t.kpis, t.precedent, [
+        ['scans', 'Scans des liens', 'kpi-tile--primary'], ['tests', 'Tests terminés', ''], ['testsPresentiel', 'En présentiel', 'kpi-tile--soft'],
+        ['contacts', 'Contacts captés', ''], ['bilans', 'Bilans', ''], ['clients', 'Clients', ''],
+      ]);
+      const enRetard = d.coachs.filter((c: any) => c.alertes > 0);
+      $('admin-alertes').innerHTML = enRetard.length
+        ? `<p class="admin-alertes__t">🔔 ${t.alertes} contact${t.alertes > 1 ? 's' : ''} en attente d'appel depuis plus de 48 h</p><div class="admin-alertes__list">${enRetard.map((c: any) => `<button type="button" data-slug="${esc(c.slug)}">${esc(c.nom)} <b>${c.alertes}</b></button>`).join('')}</div>`
+        : '<p class="admin-alertes__ok">✓ Aucun contact en attente depuis plus de 48 h.</p>';
+      $('dashboard-admin-list').innerHTML = d.coachs.map((c: any, i: number) => `
+        <button type="button" class="admin-coach-card" data-slug="${esc(c.slug)}">
+          <span class="admin-coach-card__rank">${i + 1}</span>
+          <span class="admin-coach-card__head">
+            ${c.photo ? `<img src="${esc(c.photo)}" alt="" width="52" height="52" />` : ''}
+            <span><strong>${esc(c.nom)}</strong><small>${esc(c.salle)}${c.codeBoutique ? ` · code boutique ${esc(c.codeBoutique)}` : ''}</small></span>
+          </span>
+          <span class="admin-coach-card__stats">
+            <span><b>${c.kpis.tests}</b>tests</span><span><b>${c.kpis.testsPresentiel}</b>présentiel</span>
+            <span><b>${c.kpis.contacts}</b>contacts</span><span><b>${c.kpis.clients}</b>clients</span>
+          </span>
+          ${c.alertes ? `<span class="admin-coach-card__alert">🔔 ${c.alertes} en attente</span>` : ''}
+          <span class="admin-coach-card__go">Ouvrir son espace →</span>
+        </button>`).join('');
+      majPeriode();
+      showOnly(adminEl);
+    }
+
+    // L'admin navigue entre la vue réseau et l'espace d'un coach (#coach=slug), le bouton retour fonctionne.
+    function route() {
+      if (!data) return;
+      if (!data.admin) { renderCoach(data.coach, false); return; }
+      const m = window.location.hash.match(/^#coach=([a-z0-9-]+)$/);
+      const c = m ? data.coachs.find((x: any) => x.slug === m[1]) : null;
+      if (c) renderCoach(c, true); else renderReseau(data);
+    }
+    window.addEventListener('hashchange', route);
+
+    async function load(premier = false) {
+      if (premier) showOnly(loadingEl);
+      try {
+        data = await api(`/.netlify/functions/coach-kpis?jours=${periode}`);
+        route();
+      } catch (err: any) {
+        errorTextEl.textContent = err.message || 'Impossible de charger tes statistiques pour le moment.';
+        showOnly(errorEl);
+      }
+    }
+
+    // ---------- Interactions ----------
+    document.addEventListener('click', async (e) => {
+      const t = e.target as HTMLElement;
+      const p = t.closest<HTMLElement>('[data-periode]');
+      if (p) { periode = Number(p.dataset.periode); majPeriode(); load(); return; }
+      const f = t.closest<HTMLElement>('[data-filtre]');
+      if (f) { filtre = f.dataset.filtre || 'tous'; renderContacts(); return; }
+      const card = t.closest<HTMLElement>('#dashboard-admin-list [data-slug], #admin-alertes [data-slug]');
+      if (card) {
+        if (t.closest('#admin-alertes')) filtre = 'a-appeler';
+        window.location.hash = 'coach=' + card.getAttribute('data-slug');
+        window.scrollTo({ top: 0 });
+        return;
+      }
+      if (t.closest('#dashboard-alert')) { filtre = 'a-appeler'; renderContacts(); $('leads-filtres').scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+      if (t.closest('[data-qr-open]')) { ouvrirQr(); return; }
+      if (t.closest('[data-qr-close]') || t.id === 'qr-modal') { $('qr-modal').hidden = true; return; }
+      if (t.closest('#btn-print')) { window.print(); return; }
+      if (t.closest('#btn-objectif')) { const fo = $('objectif-form'); fo.hidden = !fo.hidden; return; }
+      if (t.closest('#btn-export')) { exporter(courant ? courant.contacts.map((l: any) => ({ ...l, coachNom: courant.nom })) : [], courant ? courant.slug : 'contacts'); return; }
+      if (t.closest('#btn-export-admin')) { exporter(data.coachs.flatMap((c: any) => c.contacts.map((l: any) => ({ ...l, coachNom: c.nom }))), 'reseau'); return; }
+    });
+    $('btn-back-reseau').addEventListener('click', () => { history.pushState(null, '', window.location.pathname); filtre = 'tous'; route(); });
+
+    // Suivi d'un contact : statut, date de relance, note
+    document.addEventListener('submit', async (e) => {
+      const form = e.target as HTMLFormElement;
+      if (form.id === 'objectif-form') {
+        e.preventDefault();
+        const v = { testsPresentiel: (form.elements.namedItem('testsPresentiel') as HTMLInputElement).value, bilans: (form.elements.namedItem('bilans') as HTMLInputElement).value };
+        try {
+          const r = await api('/.netlify/functions/coach-update', { method: 'POST', body: JSON.stringify({ action: 'objectif', coach: courant.slug, ...v }) });
+          courant.objectif = r.objectif; renderObjectifs(courant); form.hidden = true;
+        } catch (err: any) { alert(err.message); }
+        return;
+      }
+      if (!form.hasAttribute('data-suivi')) return;
+      e.preventDefault();
+      const card = form.closest<HTMLElement>('[data-lead]')!;
+      const id = card.dataset.lead!;
+      const l = courant.contacts.find((x: any) => String(x.id) === id);
+      const ok = form.querySelector<HTMLElement>('[data-ok]')!;
+      const body = { action: 'statut', coach: courant.slug, leadId: id,
+        statut: (form.elements.namedItem('statut') as HTMLSelectElement).value,
+        relance: (form.elements.namedItem('relance') as HTMLInputElement).value,
+        note: (form.elements.namedItem('note') as HTMLTextAreaElement).value };
+      ok.textContent = 'Enregistrement...';
+      try {
+        const r = await api('/.netlify/functions/coach-update', { method: 'POST', body: JSON.stringify(body) });
+        Object.assign(l, { statut: r.statut, relance: r.relance, note: r.note, maj: r.maj });
+        renderContacts();
+        const again = document.querySelector<HTMLElement>(`[data-lead="${CSS.escape(id)}"] [data-ok]`);
+        if (again) again.textContent = '✓ Enregistré';
+      } catch (err: any) { ok.textContent = err.message; }
+    });
+
+    // Export tableur (CSV, séparateur point-virgule pour Excel en français)
+    function exporter(lignes: any[], nom: string) {
+      const cols: [string, (l: any) => string][] = [
+        ['Date', (l) => dateFr(l.date)], ['Coach', (l) => l.coachNom || ''], ['Type', (l) => (l.type === 'bilan' ? 'Demande de bilan' : 'Score Santé')],
+        ['Prénom', (l) => l.prenom], ['Nom', (l) => l.nom || ''], ['Email', (l) => l.email], ['Téléphone', (l) => l.telephone],
+        ['Score', (l) => l.score], ['Âge réel', (l) => l.age || ''], ['Âge métabolique', (l) => l.ageMetabolique], ['Origine', (l) => SOURCES[l.source] || ''],
+        ['Statut', (l) => LIB[l.statut] || ''], ['Relance', (l) => l.relance], ['Note', (l) => l.note],
+      ];
+      const cell = (v: string) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+      const csv = '﻿' + [cols.map((c) => cell(c[0])).join(';'), ...lignes.map((l) => cols.map((c) => cell(c[1](l))).join(';'))].join('\r\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+      a.download = `ga-coachs-contacts-${nom}.csv`;
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+
+    // QR code du lien personnel, en plein écran et en flyer imprimable
+    function ouvrirQr() {
+      if (!courant) return;
+      const url = `${window.location.origin}/score-sante/?coach=${courant.slug}`;
+      const qr = qrcode(0, 'M');
+      qr.addData(url);
+      qr.make();
+      $('qr-code').innerHTML = qr.createSvgTag({ cellSize: 8, margin: 2, scalable: true });
+      $('qr-texte').textContent = `Scanne ce code avec ton téléphone et fais le test avec ${courant.prenom}, ton coach GA.`;
+      $('qr-url').textContent = url.replace(/^https?:\/\//, '');
+      $('qr-modal').hidden = false;
+    }
+
+    // Installer l'espace comme une appli (Android : invite du navigateur ; iPhone : explication)
+    let invite: any = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault(); invite = e;
+      document.querySelectorAll<HTMLElement>('[data-install]').forEach((b) => (b.hidden = false));
+    });
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) && !(window.navigator as any).standalone;
+    if (ios) document.querySelectorAll<HTMLElement>('[data-install]').forEach((b) => (b.hidden = false));
+    document.querySelectorAll<HTMLElement>('[data-install]').forEach((b) => b.addEventListener('click', async () => {
+      if (invite) { invite.prompt(); invite = null; return; }
+      document.querySelectorAll<HTMLElement>('[data-install-tip]').forEach((x) => (x.hidden = !x.hidden));
+    }));
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/espace-coach-sw.js', { scope: '/espace-coach/' }).catch(() => {});
+
+    // ---------- Connexion ----------
+    identity.on('init', (u: any) => { user = u; if (u) load(true); else showOnly(loginEl); });
+    identity.on('login', (u: any) => { user = u; identity.close(); load(true); });
+    identity.on('logout', () => { user = null; data = null; showOnly(loginEl); });
+    $('btn-login').addEventListener('click', () => identity.open('login'));
+    ['btn-logout', 'btn-logout-admin', 'btn-logout-error'].forEach((id) => $(id).addEventListener('click', () => identity.logout()));
+    $('btn-copy-shop').addEventListener('click', () => {
+      navigator.clipboard.writeText($('shop-link').textContent || '');
+      const b = $('btn-copy-shop'); const o = b.textContent; b.textContent = '✓ Copié'; setTimeout(() => (b.textContent = o), 1500);
+    });
+    $('btn-copy-link').addEventListener('click', () => {
+      navigator.clipboard.writeText($('dashboard-share-link').textContent || '');
+      const b = $('btn-copy-link'); const o = b.textContent; b.textContent = '✓ Copié'; setTimeout(() => (b.textContent = o), 1500);
+    });
+    identity.init();
+  });
+</script>
+
+<style is:global>
+  .dashboard-section { padding-top: 24px; }
+  .lead { margin-top: 12px; color: var(--text-muted); max-width: 60ch; }
+  .dashboard-card { margin-top: 16px; padding: 36px 28px; background: var(--ice); border-radius: var(--radius-lg); max-width: 520px; text-align: center; }
+  .dashboard-card__icon { font-size: 36px; display: block; margin-bottom: 12px; }
+  .dashboard-card h1 { font-size: 24px; }
+  .dashboard-card .lead { margin-inline: auto; }
+  .dashboard-card .btn { margin-top: 20px; }
+  .dashboard-spinner { width: 32px; height: 32px; margin: 0 auto; border: 3px solid var(--line); border-top-color: var(--blue); border-radius: 50%; animation: dashboard-spin 0.8s linear infinite; }
+  @keyframes dashboard-spin { to { transform: rotate(360deg); } }
+
+  .dashboard-adminbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; padding: 10px 10px 10px 16px; background: var(--ice); border: 1px solid var(--line); border-radius: 999px; font-size: 14px; color: var(--navy); }
+  .dashboard-adminbar[hidden] { display: none; }
+  .dashboard-adminbar button { background: var(--navy); color: #fff; border: none; border-radius: 999px; padding: 8px 16px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+
+  .dashboard-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .dashboard-who { display: flex; align-items: center; gap: 14px; }
+  .dashboard-who img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: top center; flex: 0 0 56px; }
+  .dashboard-welcome { font-size: 20px; font-weight: 700; color: var(--navy); }
+  .dashboard-salle { margin-top: 2px; font-size: 13.5px; color: var(--text-muted); }
+  .dashboard-tools { display: flex; flex-wrap: wrap; gap: 8px; }
+  .dashboard-tool { background: var(--ice); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--navy); cursor: pointer; }
+  .dashboard-tool[hidden] { display: none; }
+  .dashboard-logout { background: none; border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; }
+  .dashboard-logout:hover, .dashboard-tool:hover { border-color: var(--blue); color: var(--blue); }
+  .install-tip { margin-top: 10px; padding: 10px 14px; background: var(--ice); border-radius: var(--radius-sm); font-size: 13px; color: var(--navy); }
+
+  .dashboard-alert { display: block; width: 100%; margin-top: 16px; padding: 12px 16px; text-align: left; background: #E8F0FF; border: 1px solid var(--blue); border-radius: var(--radius-md); font-family: inherit; font-size: 14px; font-weight: 700; color: var(--blue-dim); cursor: pointer; }
+  .dashboard-alert[hidden] { display: none; }
+
+  .presentiel-card { margin-top: 20px; padding: 22px 20px; display: grid; gap: 16px; align-items: center; background: var(--navy); color: #fff; border-radius: var(--radius-lg); }
+  .presentiel-card__k { font-size: 12px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: var(--sky); }
+  .presentiel-card__titre { margin-top: 4px; font-family: var(--font-display); font-size: 22px; font-weight: 700; }
+  .presentiel-card__texte { margin-top: 6px; font-size: 14.5px; color: rgba(255,255,255,.78); max-width: 52ch; }
+  .presentiel-card__btns { display: flex; flex-direction: column; gap: 8px; }
+  .presentiel-card__btn { justify-content: center; text-align: center; font-size: 16px; }
+  .presentiel-card__qr { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 10px 16px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+  .periode-bar { margin-top: 26px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .periode { display: inline-flex; padding: 4px; background: var(--ice); border-radius: 999px; }
+  .periode button { border: 0; background: transparent; padding: 8px 14px; border-radius: 999px; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--text-muted); cursor: pointer; }
+  .periode button.is-on { background: var(--navy); color: #fff; }
+  .periode-note { font-size: 12.5px; color: var(--text-muted); }
+
+  .kpi-grid { margin-top: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .kpi-tile { padding: 18px 14px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); text-align: center; }
+  .kpi-tile--primary { background: var(--navy); border-color: var(--navy); }
+  .kpi-tile--primary .kpi-tile__value, .kpi-tile--primary .kpi-tile__label { color: #fff; }
+  .kpi-tile--soft { background: var(--ice); }
+  .kpi-tile__value { display: block; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--navy); line-height: 1; }
+  .kpi-tile__label { display: block; margin-top: 6px; font-size: 12px; color: var(--text-muted); }
+  .kpi-delta { display: inline-block; margin-top: 8px; padding: 2px 8px; border-radius: 999px; background: var(--ice); font-size: 11.5px; font-weight: 700; color: var(--text-muted); }
+  .kpi-delta--up { background: #DCE8FF; color: var(--blue); }
+  .kpi-delta--down { color: var(--text-muted); }
+  .kpi-tile--primary .kpi-delta { background: rgba(255,255,255,.14); color: #fff; }
+
+  .dash-duo { margin-top: 20px; display: grid; gap: 14px; }
+  .dash-box { padding: 18px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .dash-box__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .dash-box__title { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .dash-link { background: none; border: 0; padding: 0; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--blue); cursor: pointer; }
+  .jauge { margin-top: 14px; }
+  .jauge__head, .funnel__head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-size: 13.5px; color: var(--navy); }
+  .jauge__bar, .funnel__bar { margin-top: 6px; height: 10px; background: var(--ice); border-radius: 999px; overflow: hidden; }
+  .jauge__bar i, .funnel__bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--blue), var(--sky)); border-radius: 999px; transition: width .6s var(--ease); }
+  .jauge__note { margin-top: 4px; font-size: 12px; color: var(--text-muted); }
+  .objectif-form { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+  .objectif-form[hidden] { display: none; }
+  .objectif-form label { display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; font-weight: 600; color: var(--navy); }
+  .objectif-form input { width: 110px; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--radius-sm); font: inherit; }
+  .funnel { margin-top: 12px; }
+  .funnel__head small { margin-left: auto; font-size: 11.5px; color: var(--text-muted); }
+  .funnel__head b { margin-left: 8px; }
+
+  .dashboard-chart-card { margin-top: 20px; padding: 20px 18px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .dashboard-chart-card__title { font-size: 13.5px; font-weight: 700; color: var(--navy); }
+  .chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; }
+  .chart-legend__item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+  .chart-legend__dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .chart-legend__dot--visites { background: var(--sky); opacity: .55; }
+  .chart-legend__dot--leads { background: var(--blue); }
+  .chart-legend__dot--presentiel { background: var(--navy); }
+  .dashboard-chart { margin-top: 16px; }
+  .chart-svg { width: 100%; height: 120px; display: block; }
+  .chart-bar--visites { fill: var(--sky); opacity: 0.45; }
+  .chart-bar--leads { fill: var(--blue); }
+  .chart-bar--presentiel { fill: var(--navy); }
+  .chart-labels { display: flex; justify-content: space-between; margin-top: 6px; }
+  .chart-labels span { font-size: 10px; color: var(--text-muted); }
+
+  .shop-card { margin-top: 20px; padding: 18px; border-radius: var(--radius-md); background: #fff; border: 2px solid #DCE6FB; }
+  .shop-card .presentiel-card__k { color: #1F55C9; }
+  .shop-card__head { display: flex; gap: 16px; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; margin-bottom: 12px; }
+  .shop-card__texte { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: #5A6785; max-width: 60ch; }
+  .shop-card__code { display: grid; justify-items: center; padding: 10px 18px; border-radius: 14px; background: #0B1E3D; color: #fff; }
+  .shop-card__code small { font-size: 11px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: #BFE2FF; }
+  .shop-card__code b { font-size: 22px; letter-spacing: .02em; }
+  .shop-table { width: 100%; margin-top: 14px; border-collapse: collapse; font-size: 14px; }
+  .shop-table caption { text-align: left; font-weight: 700; color: #0B1E3D; padding-bottom: 6px; }
+  .shop-table th { text-align: left; font-size: 12px; text-transform: none; letter-spacing: .04em; color: #1F55C9; padding: 6px 4px; border-bottom: 1px solid #E1E8FA; }
+  .shop-table td { padding: 8px 4px; border-bottom: 1px solid #E1E8FA; color: #13203B; }
+  .dashboard-share { margin-top: 20px; padding: 16px 18px; background: var(--ice); border-radius: var(--radius-md); }
+  .dashboard-share__label { font-size: 13px; font-weight: 600; color: var(--navy); margin: 0; }
+  .dashboard-share__row { display: flex; gap: 8px; margin-top: 10px; align-items: center; flex-wrap: wrap; }
+  .dashboard-share__link { flex: 1 1 220px; font-size: 11.5px; color: var(--blue-dim); background: var(--white); padding: 8px 10px; border-radius: 6px; word-break: break-all; }
+  .dashboard-share__btn { flex-shrink: 0; background: var(--blue); color: #fff; border: 1px solid var(--blue); border-radius: 999px; padding: 8px 16px; font-family: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+  .dashboard-share__btn--ghost { background: var(--white); color: var(--blue); }
+  .dashboard-share__note { margin-top: 8px; font-size: 12px; color: var(--text-muted); }
+
+  .leads-head { margin-top: 32px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .dashboard-leads-title { font-size: 18px; margin: 0; }
+  .leads-filtres { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .leads-filtres button { border: 1px solid var(--line); background: var(--white); border-radius: 999px; padding: 6px 12px; font-family: inherit; font-size: 12.5px; font-weight: 600; color: var(--navy); cursor: pointer; }
+  .leads-filtres button small { color: var(--text-muted); font-weight: 700; }
+  .leads-filtres button.is-on { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .leads-filtres button.is-on small { color: rgba(255,255,255,.7); }
+  .dashboard-leads-list { margin-top: 14px; display: grid; gap: 10px; }
+  .lead-card { padding: 14px 16px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-sm); }
+  .lead-card--late { border-color: var(--blue); box-shadow: 0 0 0 3px #E8F0FF; }
+  .lead-card__top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .lead-card__prenom { font-weight: 700; color: var(--navy); font-size: 15px; }
+  .lead-card__src { padding: 2px 8px; border-radius: 999px; background: var(--ice); color: var(--blue-dim); font-size: 11px; font-weight: 700; }
+  .lead-card__src--p { background: var(--navy); color: #fff; }
+  .lead-card__score { margin-left: auto; font-family: var(--font-display); font-weight: 700; color: var(--blue-dim); font-size: 14px; }
+  .lead-card__contact { margin-top: 4px; font-size: 13px; color: var(--navy); overflow-wrap: anywhere; }
+  .lead-card__meta { margin-top: 2px; font-size: 11.5px; color: var(--text-muted); }
+  .lead-card__meta b { color: var(--navy); }
+  .lead-card__ecart { font-weight: 700; color: var(--navy); }
+  .lead-card__ecart--moins { color: #1d4ed8; }
+  .lead-card__late { color: var(--blue); }
+  .lead-card__actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .lead-card__actions a { padding: 6px 11px; border: 1px solid var(--line); border-radius: 999px; font-size: 12.5px; font-weight: 600; color: var(--navy); }
+  .lead-card__actions a:hover { border-color: var(--blue); color: var(--blue); }
+  .lead-suivi { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
+  .lead-suivi label { display: flex; flex-direction: column; gap: 4px; font-size: 11.5px; font-weight: 700; color: var(--text-muted); }
+  .lead-suivi select, .lead-suivi input, .lead-suivi textarea { padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 13px; color: var(--navy); background: var(--white); }
+  .lead-suivi__note { grid-column: 1 / -1; }
+  .lead-suivi__save { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; }
+  .lead-suivi__save button { background: var(--blue); color: #fff; border: 0; border-radius: 999px; padding: 7px 14px; font-family: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+  .lead-suivi__save span { font-size: 12px; color: var(--blue); font-weight: 600; }
+  .dashboard-leads-empty { margin-top: 16px; color: var(--text-muted); font-size: 14px; }
+
+  .admin-alertes { margin-top: 16px; padding: 14px 16px; background: var(--ice); border-radius: var(--radius-md); }
+  .admin-alertes__t { font-size: 14px; font-weight: 700; color: var(--blue-dim); }
+  .admin-alertes__ok { font-size: 13.5px; color: var(--navy); }
+  .admin-alertes__list { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .admin-alertes__list button { background: var(--white); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-family: inherit; font-size: 12.5px; color: var(--navy); cursor: pointer; }
+  .admin-alertes__list b { color: var(--blue); }
+  .admin-coachs { margin-top: 16px; display: grid; gap: 12px; grid-template-columns: 1fr; }
+  .admin-coach-card { position: relative; display: flex; flex-direction: column; gap: 12px; width: 100%; padding: 18px; text-align: left; font: inherit; color: inherit; cursor: pointer; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); transition: border-color .2s var(--ease), transform .2s var(--ease); }
+  .admin-coach-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+  .admin-coach-card__rank { position: absolute; top: 14px; right: 14px; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--ice); color: var(--blue-dim); font-size: 13px; font-weight: 700; }
+  .admin-coach-card:first-child .admin-coach-card__rank { background: var(--blue); color: #fff; }
+  .admin-coach-card__head { display: flex; align-items: center; gap: 12px; padding-right: 36px; }
+  .admin-coach-card__head img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; object-position: top center; flex: 0 0 52px; }
+  .admin-coach-card__head span { display: flex; flex-direction: column; }
+  .admin-coach-card__head strong { color: var(--navy); font-size: 15.5px; }
+  .admin-coach-card__head small { color: var(--text-muted); font-size: 12.5px; }
+  .admin-coach-card__stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .admin-coach-card__stats span { display: flex; flex-direction: column; align-items: center; padding: 8px 4px; background: var(--ice); border-radius: var(--radius-sm); font-size: 11px; color: var(--text-muted); }
+  .admin-coach-card__stats b { font-family: var(--font-display); font-size: 18px; color: var(--navy); }
+  .admin-coach-card__alert { font-size: 12.5px; font-weight: 700; color: var(--blue); }
+  .admin-coach-card__go { font-size: 13.5px; font-weight: 700; color: var(--blue); }
+
+  .qr-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(11,30,61,.72); }
+  .qr-modal[hidden] { display: none; }
+  .qr-modal__card { position: relative; width: min(460px, 100%); max-height: 100%; overflow: auto; padding: 28px 22px 22px; background: var(--white); border-radius: var(--radius-lg); text-align: center; }
+  .qr-modal__close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--white); font-size: 15px; cursor: pointer; }
+  .qr-flyer__k { font-size: 12px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: var(--blue); }
+  .qr-flyer__titre { margin-top: 6px; font-size: 24px; }
+  .qr-flyer__texte { margin-top: 8px; font-size: 14.5px; color: var(--text-muted); }
+  .qr-flyer__code { width: min(300px, 80vw); margin: 18px auto 0; }
+  .qr-flyer__code svg { display: block; width: 100%; height: auto; }
+  .qr-flyer__url { margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--blue-dim); word-break: break-all; }
+  .qr-flyer__note { margin-top: 10px; font-size: 12.5px; color: var(--text-muted); }
+  .qr-modal__btns { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+  @media (min-width: 700px) {
+    .kpi-grid { grid-template-columns: repeat(4, 1fr); }
+    .kpi-grid--net { grid-template-columns: repeat(3, 1fr); }
+    .dashboard-card { padding: 48px; }
+    .presentiel-card { grid-template-columns: 1fr auto; padding: 26px 28px; }
+    .dash-duo { grid-template-columns: 1fr 1fr; }
+    .dashboard-leads-list { grid-template-columns: repeat(2, 1fr); }
+    .admin-coachs { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1000px) { .admin-coachs { grid-template-columns: repeat(3, 1fr); } }
+
+  /* Impression : seul le flyer QR code sort sur la feuille */
+  @media print {
+    body * { visibility: hidden !important; }
+    #qr-flyer, #qr-flyer * { visibility: visible !important; }
+    #qr-flyer { position: absolute; left: 0; top: 0; width: 100%; padding: 40px; text-align: center; }
+    .qr-flyer__code { width: 340px !important; }
+  }
+</style>

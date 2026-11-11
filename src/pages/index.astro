@@ -1,0 +1,186 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AccueilContenu from '../components/proto/AccueilContenu.astro';
+import '../styles/proto-home.css';
+import '../styles/home-v2.css';
+import { coachesReseau as coaches } from '../data/coaches.js';
+const coachParSlug = Object.fromEntries(coaches.map((c) => [c.slug, c]));
+import sallesData from '../data/salles.json';
+const salles = sallesData.filter((s) => s.reseauOfficiel !== false);
+import expertises from '../data/expertises.json';
+import villes from '../data/villes.json';
+
+const salleParSlug = Object.fromEntries(salles.map((s) => [s.slug, s]));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': 'https://gacoachs.fr/#organization',
+  name: 'GA Coachs',
+  alternateName: 'GA Coachs Orléans',
+  url: 'https://gacoachs.fr',
+  foundingDate: '2018',
+  founder: { '@type': 'Person', '@id': 'https://gacoachs.fr/coachs/garry-babaud/#person', name: 'Garry Babaud', url: 'https://gacoachs.fr/coachs/garry-babaud/', sameAs: ['https://garrybabaud.com/'] },
+  address: { '@type': 'PostalAddress', streetAddress: '11 rue des Hauts Champs', postalCode: '45380', addressLocality: 'La Chapelle-Saint-Mesmin', addressRegion: 'Centre-Val de Loire', addressCountry: 'FR' },
+  slogan: 'Le bon coach, pour le bon objectif.',
+  knowsAbout: ['Coaching sportif', 'Perte de poids', 'Remise en forme', 'Sport-santé', 'Préparation physique', 'Mal de dos', 'Sport en entreprise', 'Activité physique adaptée en EHPAD'],
+  member: coaches.map((c: any) => ({ '@type': 'Person', '@id': `https://gacoachs.fr/coachs/${c.slug}/#person`, name: `${c.prenom} ${c.nom}`, url: `https://gacoachs.fr/coachs/${c.slug}/` })),
+  logo: 'https://gacoachs.fr/images/logos/ga-coachs-logo-google.png',
+  telephone: '+33769859256',
+  description: "Réseau de coachs sportifs, partenaire officiel de Basic-Fit depuis 2018, à Orléans et sa métropole.",
+  areaServed: villes.map((v) => v.nom),
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Expertises GA Coachs',
+    itemListElement: expertises.map((e) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: e.nom, description: e.resume },
+    })),
+  },
+};
+const noteMoy = (() => { const n = coaches.filter((c: any) => c.avisGoogle); return n.length ? (n.reduce((a: number, c: any) => a + c.avisGoogle.note, 0) / n.length) : null; })();
+const nbAvis = coaches.reduce((a: number, c: any) => a + (c.avisGoogle?.nombreAvis || 0), 0);
+
+const quizData = coaches.map((c: any) => ({ slug: c.slug, prenom: c.prenom, nom: `${c.prenom} ${c.nom}`, salle: salleParSlug[c.salleSlug]?.nom ?? '', tags: c.tags, note: c.avisGoogle ? c.avisGoogle.note.toFixed(1) : '', avis: c.avisGoogle?.nombreAvis ?? 0, photo: c.photo }));
+
+---
+<BaseLayout
+  title="Coach sportif à Orléans · GA Coachs, partenaire Basic-Fit"
+  description="GA Coachs est un réseau de coachs sportifs partenaire officiel de Basic-Fit depuis 2018. Trouve le coach adapté à ton objectif, dans sa salle Basic-Fit, près de chez toi à Orléans."
+  path="/"
+  jsonLd={jsonLd}
+>
+<div class="proto">
+  <AccueilContenu />
+</div>
+<script type="application/json" id="qz-data" set:html={JSON.stringify(quizData)} />
+</BaseLayout>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* --- bloc programme : les pictogrammes animés ne sont chargés qu'à l'approche du bloc --- */
+  const hp = document.getElementById('h-prog');
+  if (hp && 'IntersectionObserver' in window) {
+    const ioP = new IntersectionObserver((es) => {
+      if (!es.some((e) => e.isIntersecting)) return;
+      ioP.disconnect();
+      import('../scripts/bonhomme.js').then(({ animer }) => hp.querySelectorAll<SVGSVGElement>('svg[data-picto]').forEach((s) => animer(s, s.dataset.picto || '')));
+    }, { rootMargin: '300px' });
+    ioP.observe(hp);
+  }
+  const $ = (id: string) => document.getElementById(id) as HTMLElement;
+
+  /* --- l'éventail des coachs : distribution, carte mise en avant, mélange --- */
+  const fan = $('fan'), fanWrap = $('fanWrap');
+  if (fan && fanWrap) {
+    const cards = Array.from(fan.querySelectorAll<HTMLElement>('a.card')).map((el) => ({ el, lift: el.querySelector<HTMLElement>('.card-lift')!, flip: el.querySelector<HTMLElement>('.card-flip')! }));
+    let order = cards.map((_, i) => i), dealt = false, ready = false, hovered = -1, spot = -1, step = 7.8;
+    let timers: number[] = [];
+    const later = (fn: () => void, ms: number) => timers.push(window.setTimeout(fn, ms));
+    const clear = () => { timers.forEach(clearTimeout); timers = []; };
+    const sizeFan = () => {
+      const w = fanWrap.clientWidth || 1000;
+      step = w >= 900 ? 7.8 : 5.4;
+      const tmax = (cards.length - 1) / 2 * step * Math.PI / 180;
+      const need = 2 * (88 * Math.cos(tmax) + 870 * Math.sin(tmax)) + 70;
+      fanWrap.style.setProperty('--fan-s', Math.min(1, w / need).toFixed(3));
+    };
+    const render = () => {
+      const n = cards.length, lifted = hovered >= 0 ? hovered : (ready ? spot : -1);
+      order.forEach((ci, pos) => {
+        const c = cards[ci], angle = (pos - (n - 1) / 2) * step, jitter = (((pos * 37) % 7) - 3) * 0.4, isLifted = lifted === pos;
+        const dur = reduce ? '0s' : (ready ? '.45s' : '.75s');
+        const delay = (ready || reduce) ? '0ms' : (dealt ? (pos * 90) + 'ms' : ((n - 1 - pos) * 40) + 'ms');
+        c.el.style.transition = `transform ${dur} cubic-bezier(.2,.8,.2,1) ${delay}`;
+        c.flip.style.transition = `transform ${dur} ease ${delay}`;
+        c.el.style.transform = dealt ? `rotate(${angle.toFixed(2)}deg)` : `rotate(${jitter.toFixed(2)}deg) translateY(30px)`;
+        c.flip.style.transform = dealt ? 'rotateY(0deg)' : 'rotateY(180deg)';
+        c.lift.style.transform = isLifted ? 'translateY(-60px)' : 'translateY(0)';
+        c.el.style.zIndex = String(isLifted ? 50 : pos + 1);
+        c.el.classList.toggle('is-lifted', isLifted);
+      });
+    };
+    cards.forEach((c, i) => {
+      const on = () => { if (ready) { hovered = order.indexOf(i); render(); } };
+      const off = () => { hovered = -1; render(); };
+      c.el.addEventListener('mouseenter', on); c.el.addEventListener('focus', on);
+      c.el.addEventListener('mouseleave', off); c.el.addEventListener('blur', off);
+    });
+    const deal = () => { clear(); dealt = true; ready = false; render(); later(() => { ready = true; render(); }, cards.length * 90 + 800); };
+    setInterval(() => { if (!ready || hovered >= 0 || reduce) return; spot = (spot + 1) % cards.length; render(); }, 2400);
+    $('shuffle')?.addEventListener('click', () => {
+      if (!ready && !reduce) return;
+      const o = order.slice();
+      for (let i = o.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [o[i], o[j]] = [o[j], o[i]]; }
+      if (reduce) { order = o; render(); return; }
+      clear(); dealt = false; ready = false; hovered = -1; spot = -1; render();
+      later(() => { order = o; dealt = true; render(); }, 1000);
+      later(() => { ready = true; render(); }, 1000 + cards.length * 90 + 800);
+    });
+    window.addEventListener('resize', () => { sizeFan(); render(); });
+    sizeFan();
+    if (reduce) { dealt = true; ready = true; render(); } else { render(); later(deal, 250); }
+  }
+
+  /* --- test « ton coach idéal » : la salle, l'objectif, puis les coachs recommandés --- */
+  const quiz = $('quiz');
+  if (quiz) {
+    const GRID = JSON.parse(document.getElementById('qz-data')?.textContent || '[]');
+    const GOALS: Record<string, string[]> = {
+      poids: ['Perte de Poids', 'Perte de Poids en Douceur', 'Perte de gras'],
+      muscle: ['Renforcement Musculaire', 'Musculation Ciblée', 'Transformation Physique', 'Sculpter & Tonifier'],
+      forme: ['Remise en Forme', 'Reprise Sportive', 'Spécial Débutants', 'Sport Plaisir'],
+      zen: ['Gestion du Stress', 'Bien-être au Quotidien', 'Sport-Santé'],
+      mesure: ['Suivi Personnalisé', 'Objectifs Sur Mesure', 'Stratégie Personnalisée', 'Coaching Flexible', 'Accompagnement Bienveillant'],
+      tout: [],
+    };
+    const esc = (s: string) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    let state: { salle: string | null; goal: string | null } = { salle: null, goal: null };
+    const steps = quiz.querySelectorAll<HTMLElement>('.qz-step'), dots = quiz.querySelectorAll('.dots span');
+    const go = (n: number, focus: boolean) => {
+      steps.forEach((s) => { const on = s.dataset.step === String(n); s.hidden = !on; if (on && focus) s.querySelector<HTMLElement>('h3')?.focus({ preventScroll: true }); });
+      dots.forEach((d, i) => d.classList.toggle('on', i < n));
+      $('qzK').textContent = n < 3 ? `Étape ${n} sur 3` : 'Ton résultat';
+    };
+    const press = (b: HTMLElement) => b.parentElement?.querySelectorAll('[aria-pressed]').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    const result = () => {
+      const tags = GOALS[state.goal || 'tout'] || [];
+      const inSalle = (g: any) => !state.salle || g.salle === state.salle;
+      const hits = (g: any) => g.tags.filter((t: string) => tags.includes(t));
+      let list = GRID.filter((g: any) => inSalle(g) && (!tags.length || hits(g).length > 0)), note = '';
+      if (!list.length && tags.length) { list = GRID.filter(inSalle); note = 'Aucun coach ne correspond exactement à cet objectif dans cette salle : voici les coachs disponibles sur place.'; }
+      if (!list.length) { list = GRID.slice(); note = 'Voici les coachs de tout le réseau, disponibles pour t\'accompagner.'; }
+      const total = list.length;
+      const top = list.map((g: any) => ({ g, h: hits(g) })).sort((a: any, b: any) => (b.h.length - a.h.length) || (b.g.avis - a.g.avis)).slice(0, 4);
+      $('qzTitle').textContent = total > 1 ? `${total} coachs te correspondent` : 'Voici ton coach recommandé';
+      const qn = $('qzNote'); qn.hidden = !note && total <= 4; qn.textContent = note || `Voici les 4 premiers. Retrouve les ${total} coachs dans la partie « Nos coachs ».`;
+      $('qzRes').innerHTML = top.map((x: any, i: number) => {
+        const g = x.g;
+        return `<div class="qz-card" style="--i:${i}"><div class="qz-photo"><div class="qz-flip"><img class="face" src="${g.photo}" alt="${esc(g.nom)}" width="86" height="115"><span class="bk"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="60" height="59"></span></div></div>` +
+          `<div class="qz-info"><b>${esc(g.nom)}</b><span class="qz-salle">${esc(g.salle)}</span>` +
+          (g.note ? `<span class="qz-stars"><svg class="ic fill" aria-hidden="true"><use href="#i-star"></use></svg>${g.note.replace('.', ',')} · ${g.avis} avis Google</span>` : '') +
+          `<div class="qz-tags">${g.tags.map((t: string) => { const ok = x.h.includes(t); return `<span${ok ? ' class="ok"' : ''}>${ok ? '✓ ' : ''}${esc(t)}</span>`; }).join('')}</div></div>` +
+          `<div class="qz-acts"><a class="qz-pick" href="/score-sante/?coach=${g.slug}">Réserver avec ${esc(g.prenom)}</a><a class="qz-prof" href="/coachs/${g.slug}/">Voir le profil</a></div></div>`;
+      }).join('');
+      $('qzLead').innerHTML = '';
+      go(3, true);
+    };
+    quiz.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest('button') as HTMLElement | null;
+      if (!b) return;
+      quiz.classList.add('touched');
+      if (b.classList.contains('chip')) { press(b); state.salle = b.dataset.v || null; setTimeout(() => go(2, true), 240); }
+      else if (b.classList.contains('goal')) { press(b); state.goal = b.dataset.v || null; setTimeout(result, 240); }
+      else if (b.hasAttribute('data-back')) go(1, true);
+      else if (b.hasAttribute('data-restart')) { state = { salle: null, goal: null }; quiz.querySelectorAll('[aria-pressed]').forEach((x) => x.setAttribute('aria-pressed', 'false')); $('qzRes').innerHTML = ''; go(1, true); }
+    });
+    go(1, false);
+  }
+
+  /* --- Score Santé : la première question se joue ici, la suite sur la page du test --- */
+  $('scQ1')?.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest('button');
+    if (b) window.location.href = '/score-sante/?q1=' + [...b.parentElement!.children].indexOf(b);
+  });
+</script>

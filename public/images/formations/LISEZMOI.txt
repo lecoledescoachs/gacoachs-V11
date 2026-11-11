@@ -1,0 +1,2 @@
+Un dossier par coach, nom = slug du coach : brice-chopin, garry-babaud, nathan-sapin, thomas-das-neves, fabien-rakotoarimanana, yanis-trepy-lujien, alexis-fernandez.
+Le logo GA Coachs est ajouté automatiquement à tous. Y déposer les autres logos (webp, png, svg, jpg). Ordre d'affichage = ordre alphabétique (préfixer 1-, 2-...). Nom du fichier = texte alternatif.

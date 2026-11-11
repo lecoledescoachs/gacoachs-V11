@@ -1,0 +1,252 @@
+{
+ "orleans": [
+  "https://fr.wikipedia.org/wiki/Orléans",
+  "https://www.francevelotourisme.com/itineraire/la-loire-a-velo-eurovelo-6/jargeau-orleans",
+  "https://www.tourisme-orleansmetropole.com/en/visit-orleans-get-inspired/nature-and-vegetal/orleans-green-metropolis/",
+  "https://fr.wikipedia.org/wiki/Cath%C3%A9drale_Sainte-Croix_d%27Orl%C3%A9ans"
+ ],
+ "olivet": [
+  "https://fr.wikipedia.org/wiki/Olivet_(Loiret)",
+  "https://www.olivet.fr/fr/espaces-verts",
+  "https://www.olivet.fr",
+  "https://www.tourisme-orleansmetropole.com/en/visit-orleans-get-inspired/towns-orleans-metropole/"
+ ],
+ "saint-jean-le-blanc": [
+  "https://fr.wikipedia.org/wiki/Saint-Jean-le-Blanc_(Loiret)",
+  "https://www.francevelotourisme.com/etape/97",
+  "https://www.orleans-metropole.fr/fileadmin/orleans-metropole/MEDIA/document/urbanisme/parc-de-loire/PLAQUETTE_PEDAGOGIQUE_2021_parc-de-loire.pdf",
+  "https://www.tourisme-orleansmetropole.com/en/visit-orleans-get-inspired/towns-orleans-metropole/"
+ ],
+ "saint-cyr-en-val": [
+  "https://fr.wikipedia.org/wiki/Saint-Cyr-en-Val",
+  "https://www.tourisme-orleansmetropole.com/en/visit-orleans-get-inspired/towns-orleans-metropole/"
+ ],
+ "saint-hilaire-saint-mesmin": [
+  "https://www.francevelotourisme.com/boucle/146",
+  "https://www.francevelotourisme.com/itineraire/la-loire-a-velo-eurovelo-6/orleans-st-hilaire-st-mesmin",
+  "https://www.francevelotourisme.com/itineraire/la-loire-a-velo-eurovelo-6/st-hilaire-st-mesmin-beaugency",
+  "https://fr.wikipedia.org/wiki/Saint-Denis-en-Val"
+ ],
+ "saint-pryve-saint-mesmin": [
+  "https://fr.wikipedia.org/wiki/Saint-Pryvé-Saint-Mesmin",
+  "https://www.francevelotourisme.com/boucle/146",
+  "https://www.tourisme-orleansmetropole.com/en/visit-orleans-get-inspired/towns-orleans-metropole/"
+ ],
+ "saint-denis-en-val": [
+  "https://fr.wikipedia.org/wiki/Saint-Denis-en-Val",
+  "https://www.orleans-metropole.fr/fileadmin/orleans-metropole/MEDIA/document/urbanisme/parc-de-loire/PLAQUETTE_PEDAGOGIQUE_2021_parc-de-loire.pdf"
+ ],
+ "ardon": [
+  "https://www.loiret.fr/sites/default/files/media/documents/2019/08/Cirkwi%20Ardon.pdf",
+  "https://www.loiret.fr/sites/loiret/files/media/documents/2020/05/CP-%20Parcs%20Departementaux.pdf",
+  "https://fr.wikipedia.org/wiki/Ardon_(Loiret)"
+ ],
+ "mezieres-lez-clery": [
+  "https://fr.wikipedia.org/wiki/Mézières-lez-Cléry"
+ ],
+ "la-ferte-saint-aubin": [
+  "https://www.tourisme-portesdesologne.fr/decouvrir/les-villages-de-sologne/commune-la-ferte-saint-aubin/",
+  "https://www.tourisme-portesdesologne.fr/nature-et-loisirs/randonnees/",
+  "https://fr.wikipedia.org/wiki/La_Ferté-Saint-Aubin"
+ ],
+ "marcilly-en-villette": [
+  "https://www.tourisme-portesdesologne.fr/decouvrir/les-villages-de-sologne/commune-marcilly-en-villette/",
+  "https://www.tourisme-portesdesologne.fr/nature-et-loisirs/randonnees/",
+  "https://fr.wikipedia.org/wiki/Marcilly-en-Villette"
+ ],
+ "jouy-le-potier": [
+  "https://www.tourisme-portesdesologne.fr/decouvrir/les-villages-de-sologne/commune-jouy-le-potier/",
+  "https://www.tourisme-portesdesologne.fr/nature-et-loisirs/randonnees/",
+  "https://fr.wikipedia.org/wiki/Jouy-le-Potier"
+ ],
+ "ligny-le-ribault": [
+  "https://www.tourisme-portesdesologne.fr/decouvrir/les-villages-de-sologne/commune-ligny-le-ribault/",
+  "https://www.tourisme-portesdesologne.fr/nature-et-loisirs/randonnees/",
+  "https://fr.wikipedia.org/wiki/Ligny-le-Ribault"
+ ],
+ "menestreau-en-villette": [
+  "https://www.tourisme-portesdesologne.fr/decouvrir/nos-incontournables/domaine-du-ciran/",
+  "https://www.tourisme-portesdesologne.fr/decouvrir/les-villages-de-sologne/commune-menestreau-en-villette/",
+  "https://fr.wikipedia.org/wiki/Ménestreau-en-Villette"
+ ],
+ "sandillon": [
+  "https://www.francevelotourisme.com/etape/97",
+  "https://fr.wikipedia.org/wiki/Sandillon"
+ ],
+ "mareau-aux-pres": [
+  "https://ofb.gouv.fr/territoires-engages-nature/mareau-aux-pres",
+  "https://www.francevelotourisme.com/sites/default/files/itineraire/boucle/plaquette/fiche-velo-2025-boucle-02-entre-vignes-et-vergers-de-la-loire-au-loiret.pdf",
+  "https://fr.wikipedia.org/wiki/Mareau-aux-Prés",
+  "https://en.wikipedia.org/wiki/Mareau-aux-Pr%C3%A9s"
+ ],
+ "vannes-sur-cosson": [
+  "https://fr.wikipedia.org/wiki/Vannes-sur-Cosson"
+ ],
+ "vouzon": [
+  "https://www.coeurdesologne.com/je-bouge/tourisme/les-villages/",
+  "https://www.vouzon.fr/",
+  "https://www.vouzon.fr/randonnee",
+  "https://fr.wikipedia.org/wiki/Vouzon",
+  "https://fr.wikipedia.org/wiki/%C3%89glise_Saint-Pierre_de_Vouzon"
+ ],
+ "yvoy-le-marron": [
+  "https://www.yvoy-le-marron.fr/decouvrir",
+  "https://www.yvoy-le-marron.fr/decouvrir/10360",
+  "https://www.routard.com/fr/guide/france/chateaux-de-la-loire/loir-et-cher/yvoy-le-marron"
+ ],
+ "lamotte-beuvron": [
+  "https://fr.wikipedia.org/wiki/Lamotte-Beuvron",
+  "https://www.cirkwi.com/fr/circuit/142093-sologne-a-velo-lamotte-beuvron-a-vouzon",
+  "https://www.coeurdesologne.com/je-bouge/tourisme/les-villages/"
+ ],
+ "chaumont-sur-tharonne": [
+  "https://chaumont-sur-tharonne.fr/decouverte/les-promenades-du-mardelay/",
+  "https://chaumont-sur-tharonne.fr/decouverte/les-chemins-de-randonnees/"
+ ],
+ "saran": [
+  "https://fr.wikipedia.org/wiki/Saran"
+ ],
+ "ingre": [
+  "https://fr.wikipedia.org/wiki/Ingré",
+  "https://www.Ingre.fr/sites/default/files/public/media/environnement/sentier_bernard_janvier.pdf",
+  "https://www.Ingre.fr/sites/default/files/public/media/environnement/livret_chivache_1.3.pdf"
+ ],
+ "gidy": [
+  "https://fr.wikipedia.org/wiki/Gidy"
+ ],
+ "ormes": [
+  "https://fr.wikipedia.org/wiki/Ormes_(Loiret)",
+  "https://www.ville-ormes.fr/download/29/guide-pratique/9946/guide-pratique-2026.pdf"
+ ],
+ "chanteau": [
+  "https://fr.wikipedia.org/wiki/Chanteau"
+ ],
+ "artenay": [
+  "https://fr.wikipedia.org/wiki/Artenay"
+ ],
+ "cercottes": [
+  "https://fr.wikipedia.org/wiki/Cercottes",
+  "https://fr.wikipedia.org/wiki/Forêt_d'Orléans"
+ ],
+ "bricy": [
+  "https://fr.wikipedia.org/wiki/Bricy"
+ ],
+ "chevilly": [
+  "https://fr.wikipedia.org/wiki/Chevilly_(Loiret)"
+ ],
+ "boulay-les-barres": [
+  "https://fr.wikipedia.org/wiki/Boulay-les-Barres"
+ ],
+ "bucy-saint-liphard": [
+  "https://fr.wikipedia.org/wiki/Bucy-Saint-Liphard",
+  "https://fr.wikipedia.org/wiki/Mauve_de_Saint-Ay"
+ ],
+ "sougy": [
+  "https://fr.wikipedia.org/wiki/Sougy"
+ ],
+ "huetre": [
+  "https://fr.wikipedia.org/wiki/Huêtre",
+  "https://en.wikipedia.org/wiki/Hu%C3%AAtre",
+  "https://fr.wikipedia.org/wiki/Liste_des_%C3%A9glises_du_Loiret"
+ ],
+ "rebrechien": [
+  "https://fr.wikipedia.org/wiki/Rebréchien"
+ ],
+ "saint-lye-la-foret": [
+  "https://fr.wikipedia.org/wiki/Saint-Lyé-la-Forêt"
+ ],
+ "neuville-aux-bois": [
+  "https://fr.wikipedia.org/wiki/Neuville-aux-Bois_(Loiret)"
+ ],
+ "chilleurs-aux-bois": [
+  "https://fr.wikipedia.org/wiki/Chilleurs-aux-Bois",
+  "https://fr.wikipedia.org/wiki/Château_de_Chamerolles"
+ ],
+ "loury": [
+  "https://fr.wikipedia.org/wiki/Loury"
+ ],
+ "trainou": [
+  "https://fr.wikipedia.org/wiki/Traînou"
+ ],
+ "vennecy": [
+  "https://fr.wikipedia.org/wiki/Vennecy",
+  "https://fr.wikipedia.org/wiki/Traînou"
+ ],
+ "ascheres-le-marche": [
+  "https://fr.wikipedia.org/wiki/Aschères-le-Marché"
+ ],
+ "fleury-les-aubrais": [
+  "https://fr.wikipedia.org/wiki/Fleury-les-Aubrais"
+ ],
+ "semoy": [
+  "https://fr.wikipedia.org/wiki/Semoy_(Loiret)"
+ ],
+ "saint-jean-de-braye": [
+  "https://fr.wikipedia.org/wiki/Saint-Jean-de-Braye"
+ ],
+ "saint-jean-de-la-ruelle": [
+  "https://fr.wikipedia.org/wiki/Saint-Jean-de-la-Ruelle",
+  "https://www.ville-saintjeandelaruelle.fr/images/3-cadre-de-vie/grands-projets/Les_berges_dHoulippe/Notice_descriptive.pdf"
+ ],
+ "boigny-sur-bionne": [
+  "https://fr.wikipedia.org/wiki/Boigny-sur-Bionne"
+ ],
+ "mardie": [
+  "https://fr.wikipedia.org/wiki/Mardié"
+ ],
+ "bou": [
+  "https://fr.wikipedia.org/wiki/Bou_(Loiret)"
+ ],
+ "la-source": [
+  "https://fr.wikipedia.org/wiki/Orléans-la-Source"
+ ],
+ "tavers": [
+  "https://fr.wikipedia.org/wiki/Tavers",
+  "https://www.francevelotourisme.com/itineraire/la-loire-a-velo-eurovelo-6/beaugency-muides-sur-loire",
+  "https://fr.wikipedia.org/wiki/Pierre_tournante_(Tavers)"
+ ],
+ "beaugency": [
+  "https://fr.wikipedia.org/wiki/Beaugency"
+ ],
+ "jargeau": [
+  "https://fr.wikipedia.org/wiki/Jargeau",
+  "https://fr.wikipedia.org/wiki/Tigy",
+  "https://www.francevelotourisme.com/itineraire/la-loire-a-velo-eurovelo-6/jargeau-orleans"
+ ],
+ "chateauneuf-sur-loire": [
+  "https://fr.wikipedia.org/wiki/Châteauneuf-sur-Loire",
+  "https://fr.wikipedia.org/wiki/Mus%C3%A9e_de_la_marine_de_Loire"
+ ],
+ "tigy": [
+  "https://fr.wikipedia.org/wiki/Tigy",
+  "https://www.guide-tourisme-france.com/VISITER/musee-artisanat-rural-ancien--tigy-36407.htm",
+  "https://fr.wikipedia.org/wiki/Liste_des_itin%C3%A9raires_de_randonn%C3%A9e_du_Loiret"
+ ],
+ "pithiviers": [
+  "https://www.routard.com/fr/guide/france/chateaux-de-la-loire/loiret/pithiviers",
+  "https://www.cartes-2-france.com/activites/I452520004/parc-de-bellecour.php"
+ ],
+ "saint-marceau": [
+  "https://www.routard.com/fr/guide/france/chateaux-de-la-loire/loiret/orleans/jardin-des-plantes"
+ ],
+ "la-chapelle-saint-mesmin": [
+  "https://fr.wikipedia.org/wiki/La_Chapelle-Saint-Mesmin"
+ ],
+ "saint-ay": [
+  "https://fr.wikipedia.org/wiki/Saint-Ay",
+  "https://fr.wikipedia.org/wiki/Liste_des_%C3%A9glises_du_Loiret",
+  "https://fr.wikipedia.org/wiki/Ay_(saint)"
+ ],
+ "chaingy": [
+  "https://fr.wikipedia.org/wiki/Chaingy"
+ ],
+ "checy": [
+  "https://fr.wikipedia.org/wiki/Chécy"
+ ],
+ "combleux": [
+  "https://fr.wikipedia.org/wiki/Combleux"
+ ],
+ "marigny-les-usages": [
+  "https://fr.wikipedia.org/wiki/Marigny-les-Usages"
+ ]
+}

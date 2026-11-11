@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Espace coach · GA Coachs</title>
+  <link rel="icon" href="data:," />
+</head>
+<body>
+  <!-- Decap CMS (anciennement Netlify CMS) : espace de connexion pour que chaque
+       coach modifie sa propre fiche, sans repasser par le code du site. -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    // Redirige vers la page de connexion si quelqu'un arrive sur /admin/ sans être
+    // passé par le lien d'invitation, et gère le retour après confirmation d'email.
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', (user) => {
+        if (!user) {
+          window.netlifyIdentity.on('login', () => {
+            document.location.href = '/admin/';
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+---
+const agenda = [
+  { heure: '08:30', label: 'Arrivée', boost: false },
+  { heure: '09:00', label: 'Réunion', boost: false },
+  { heure: '10:30', label: 'Travail', boost: false },
+  { heure: '12:00', label: 'Déjeuner', boost: false },
+  { heure: '12:30', label: 'BOOST 30', boost: true },
+  { heure: '13:00', label: 'Reprise', boost: false },
+  { heure: '14:00', label: 'Réunion', boost: false },
+];
+---
+<div class="agenda">
+  {agenda.map((item) => (
+    <div class={`agenda__item ${item.boost ? 'agenda__item--boost' : ''}`}>
+      <span class="agenda__heure">{item.heure}</span>
+      <span class="agenda__label">{item.boost && '⚡ '}{item.label}</span>
+    </div>
+  ))}
+</div>
+<p class="agenda__caption">30 minutes, toujours au même moment si l'organisation le permet.</p>
+
+<style>
+  .agenda {
+    display: flex;
+    flex-direction: column;
+    border-left: 2px solid var(--line);
+    margin-left: 8px;
+  }
+  .agenda__item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 0 10px 20px;
+    position: relative;
+  }
+  .agenda__item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--line);
+  }
+  .agenda__heure { font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--text-muted); min-width: 48px; }
+  .agenda__label { font-size: 14px; color: var(--navy); }
+  .agenda__item--boost::before { background: var(--blue); width: 14px; height: 14px; left: -8px; box-shadow: 0 0 0 4px rgba(47,111,237,0.15); }
+  .agenda__item--boost .agenda__heure, .agenda__item--boost .agenda__label { color: var(--blue); font-weight: 700; }
+  .agenda__caption { margin-top: 20px; font-size: 13px; font-style: italic; color: var(--text-muted); }
+</style>

@@ -1,0 +1,8 @@
+[
+  { "num": "01", "titre": "Échange", "texte": "Nous découvrons votre entreprise, vos collaborateurs et vos contraintes." },
+  { "num": "02", "titre": "Diagnostic", "texte": "Nombre de salariés, espaces disponibles, horaires, objectifs et sites concernés." },
+  { "num": "03", "titre": "Programme", "texte": "Nous définissons la fréquence, généralement 1 ou 2 séances de 30 minutes par semaine." },
+  { "num": "04", "titre": "Coach", "texte": "GA Coachs sélectionne l'intervenant adapté à votre entreprise." },
+  { "num": "05", "titre": "Lancement", "texte": "Les premières séances commencent directement sur votre site." },
+  { "num": "06", "titre": "Suivi", "texte": "Nous ajustons le programme selon la participation et les retours." }
+]

@@ -1,0 +1,40 @@
+---
+const year = new Date().getFullYear();
+---
+<div class="label-card card">
+  <div class="label-card__badge">
+    <span class="label-card__badge-text">ENTREPRISE BOOST</span>
+    <span class="label-card__badge-year">{year}</span>
+  </div>
+  <div class="label-card__text">
+    <h3>Entreprise BOOST</h3>
+    <p>
+      Les entreprises engagées durablement dans le programme pourront valoriser leur participation
+      grâce à ce badge.
+    </p>
+    <p class="label-card__disclaimer">
+      Ce badge est une reconnaissance privée du programme BOOST ENTREPRISE™, décernée par GA Coachs.
+      Il ne constitue en aucun cas une certification officielle, une certification santé, un label
+      gouvernemental ou une certification QVCT.
+    </p>
+  </div>
+</div>
+
+<style>
+  .label-card { padding: 26px; display: flex; flex-direction: column; gap: 20px; max-width: 480px; }
+  .label-card__badge {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--navy), var(--blue-dim));
+    color: #fff;
+  }
+  .label-card__badge-text { font-family: var(--font-display); font-weight: 700; font-size: 12px; letter-spacing: 0.03em; }
+  .label-card__badge-year { font-size: 12px; color: var(--sky); font-weight: 700; }
+  .label-card__text h3 { font-size: 17px; }
+  .label-card__text p { margin-top: 10px; color: var(--text-muted); font-size: 13.5px; }
+  .label-card__disclaimer { font-size: 12px; font-style: italic; }
+</style>

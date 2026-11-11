@@ -1,0 +1,42 @@
+{
+  "slug": "alexis-fernandez",
+  "prenom": "Alexis",
+  "codeBoutique": "ALEXIS",
+  "niveau": 1,
+  "nom": "Fernandez",
+  "salleSlug": "basic-fit-orleans-liberation",
+  "role": "Coach sportif",
+  "tags": [
+    "Perte de Poids",
+    "Gestion du Stress",
+    "Bien-être au Quotidien"
+  ],
+  "photo": "/images/coachs/alexis-fernandez.webp",
+  "presentation": "Remise en forme, prise de muscle, perte de poids ou simplement une meilleure hygiène de vie : peu importe ton point de départ, je construis avec toi un accompagnement fait pour toi, pas un programme standard.",
+  "publicCible": "Toute personne qui veut se remettre en forme, prendre du muscle, perdre du poids ou simplement reprendre de bonnes habitudes, quel que soit son niveau de départ.",
+  "specialites": [
+    "Sculpter & Tonifier",
+    "Remise en Forme",
+    "Perte de Poids"
+  ],
+  "diplomes": [
+    "CQP IF"
+  ],
+  "formations": [],
+  "methode": "Je pars toujours de ton niveau réel et de tes vrais objectifs. Chaque séance est pensée pour être motivante, avec un suivi sérieux et humain, parce que les résultats qui durent se construisent sur la longueur, pas sur un coup d'accélérateur.",
+  "resultats": "Ce que mes clients recherchent le plus souvent : une vraie transformation physique, mais aussi un rapport plus serein au sport et au quotidien.",
+  "temoignages": [],
+  "rcPro": "N°RCPH278495865",
+  "cartePro": "07525ED0959",
+  "sourceNote": "Présentation, spécialités, assurance RC Pro et carte professionnelle vérifiés sur la fiche officielle Basic-Fit (basic-fit.com/fr-fr/fitness/personal-trainer/alexis-fernandez).",
+  "email": "fitbyalexis@outlook.com",
+  "guides": [
+    "sport-et-stress-ce-que-ca-change",
+    "premiere-seance-avec-un-coach-sportif-a-quoi-s-attendre",
+    "se-muscler-et-perdre-du-gras-en-meme-temps"
+  ],
+  "reseauSocial": {
+    "type": "instagram",
+    "url": "https://www.instagram.com/fa._.coaching/"
+  }
+}

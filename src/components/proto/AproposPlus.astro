@@ -1,0 +1,87 @@
+---
+// À propos : ce qui distingue le réseau, le fondateur, FAQ (contenu vérifié, aucun chiffre inventé)
+const piliers = [
+  { ic: 'i-check', t: 'Des coachs diplômés et assurés', p: "Chaque coach du réseau est diplômé (CQP Instructeur Fitness, BPJEPS ou STAPS), avec une carte professionnelle et une assurance responsabilité civile professionnelle." },
+  { ic: 'i-target', t: 'Un coach, une salle', p: "Chaque coach est rattaché à une des 5 salles Basic-Fit de l'agglomération orléanaise et y coache uniquement : tu le retrouves toujours au même endroit, avec ton abonnement Basic-Fit." },
+  { ic: 'i-users', t: 'Le polo bleu, notre signe', p: "Dans une salle Basic-Fit, un coach en polo bleu, c'est un coach de l'équipe GA. Un repère simple, pour savoir à qui t'adresser." },
+  { ic: 'i-bolt', t: 'Un réseau qui forme ses coachs', p: "Avec L'École des Coachs, organisme certifié Qualiopi, GA Coachs forme au CQP Instructeur Fitness la prochaine génération de coachs." },
+];
+const faq = [
+  { q: 'GA Coachs est-il lié à Basic-Fit ?', r: "Oui. GA Coachs est partenaire officiel de Basic-Fit à Orléans depuis 2018. Les coachs du réseau interviennent dans 5 salles Basic-Fit de l'agglomération : Olivet, Orléans Sud, Orléans Libération, Saran et Fleury-les-Aubrais." },
+  { q: 'Les coachs GA sont-ils salariés de GA Coachs ?', r: "Non. Ce sont des coachs sportifs indépendants : chacun facture lui-même ses clients. GA Coachs leur apporte la formation, l'accompagnement professionnel et la visibilité pour développer leur activité." },
+  { q: 'Comment reconnaître un coach GA en salle ?', r: "À son polo bleu. C'est la tenue de l'équipe : polo bleu GA, jogging ou short bleu marine, et chaussures blanches. Tu peux aller le voir directement, ou réserver un bilan santé en ligne." },
+  { q: 'Où intervient GA Coachs ?', r: "Dans les salles Basic-Fit partenaires autour d'Orléans, pour les habitants de 63 villes du Loiret et des environs. Le réseau intervient aussi auprès des entreprises, des EHPAD, des associations, des clubs et des professionnels de santé." },
+  { q: 'Qui est Garry Babaud ?', r: "Garry Babaud est le fondateur et Coach en chef de GA Coachs. Diplômé en STAPS à l'Université d'Orléans, il a créé le réseau en 2018, puis L'École des Coachs. Il coache toujours en salle Basic-Fit à Olivet." },
+  { q: 'Quels objectifs accompagnent les coachs GA ?', r: "La perte de poids en premier, c'est l'objectif le plus demandé. Mais aussi la remise en forme, la prise de muscle, la préparation de courses, le bien-être et le sport-santé. Chaque coach a ses spécialités, visibles sur sa fiche." },
+  { q: 'Comment commencer avec un coach GA ?', r: "Fais ton Score Santé en 2 minutes, puis réserve ton bilan avec le coach de ta salle Basic-Fit. Ce premier rendez-vous sert à faire le point et à construire ton programme." },
+  { q: 'GA Coachs travaille-t-il aussi avec les entreprises et les organisations ?', r: "Oui, avec la gamme BOOST : BOOST ENTREPRISE pour les salariés, BOOST CLUB pour les clubs sportifs, des offres pour les EHPAD, les collectivités et les professionnels de santé, et des offres pour les artistes, les personnalités et les médias." },
+  { q: 'GA Coachs est-il déjà passé dans les médias ?', r: "Oui. Garry Babaud est intervenu sur RCF Loiret et sur Réunion La 1ère, et des coachs du réseau sont passés sur France 3. Toutes les demandes presse passent par l'Espace médias." },
+  { q: 'Comment devenir coach GA ?', r: "Tu es coach sportif diplômé, ou tu veux le devenir ? Toutes les infos sont sur la page Rejoindre GA Coachs : le fonctionnement du réseau, l'accompagnement et la formation." },
+];
+---
+<section class="sec">
+  <div class="inner ap-bref">
+    <span class="eyebrow">En bref</span>
+    <ul class="vb-list">
+      <li>GA Coachs est un réseau de coachs sportifs diplômés, partenaire officiel de Basic-Fit à Orléans depuis 2018.</li>
+      <li>Les coachs interviennent dans 5 salles Basic-Fit de l'agglomération, chacun dans sa salle de rattachement.</li>
+      <li>Objectif le plus demandé : la perte de poids, avec aussi la remise en forme, le muscle et la préparation de courses.</li>
+      <li>Fondé par Garry Babaud, Coach en chef, qui a aussi créé L'École des Coachs pour former les coachs de demain.</li>
+    </ul>
+  </div>
+</section>
+<section class="sec">
+  <div class="inner">
+    <span class="eyebrow" data-a="pop">Ce qui nous distingue</span>
+    <h2 class="h2">Un réseau de coachs, pas des coachs isolés.</h2>
+    <p class="lead-p ap-lead">Un coach GA, c'est un professionnel indépendant qui garde sa liberté, avec derrière lui un réseau, un cadre et une exigence commune. Concrètement, voici ce que ça change pour toi.</p>
+    <div class="grid g4 ap-pil">
+      {piliers.map((x) => (
+        <div class="tile" data-a="up">
+          <span class="tic"><svg class="ic" aria-hidden="true" focusable="false"><use href={`#${x.ic}`}></use></svg></span>
+          <h3>{x.t}</h3>
+          <p>{x.p}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<section class="sec band">
+  <div class="inner ap-fond">
+    <img src="/images/fondateur/garry-babaud-fondateur.webp" alt="Portrait de Garry Babaud, fondateur de GA Coachs, en chemise bleue au logo GA" width="800" height="1200" loading="lazy" />
+    <div>
+      <span class="eyebrow" data-a="pop">Le fondateur</span>
+      <h2 class="h2">Garry Babaud, Coach en chef et fondateur.</h2>
+      <p>Formé en STAPS à l'Université d'Orléans, Garry est coach sportif avant d'être chef d'entreprise. Il crée GA Coachs pour donner aux coachs indépendants le cadre qui leur manquait, et aux adhérents un accompagnement sérieux, directement dans leur salle.</p>
+      <p>Il fonde ensuite L'École des Coachs, à Olivet, pour former au CQP Instructeur Fitness. Et il reste sur le terrain : il coache toujours à Basic-Fit Olivet.</p>
+      <div class="ap-fond-l">
+        <a href="/coachs/garry-babaud/">Voir sa fiche coach →</a>
+        <a href="https://garrybabaud.com/" target="_blank" rel="noopener">garrybabaud.com ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec">
+  <div class="inner">
+    <span class="eyebrow">FAQ</span>
+    <h2 class="h2">Questions fréquentes.</h2>
+    <div class="faq-list">
+      {faq.map((x) => (
+        <details class="faq-item"><summary>{x.q}</summary><p>{x.r}</p></details>
+      ))}
+    </div>
+  </div>
+</section>
+<style is:global>
+  .proto .ap-bref .vb-list { list-style: none; margin: 12px 0 0; padding: 22px 24px; display: grid; gap: 10px; background: #fff; border: 2px solid #DCE7FF; border-radius: 22px; max-width: 860px; }
+  .proto .ap-bref .vb-list li { font-weight: 600; line-height: 1.5; padding-left: 22px; position: relative; }
+  .proto .ap-bref .vb-list li::before { content: ''; position: absolute; left: 4px; top: .6em; width: 8px; height: 8px; border-radius: 50%; background: #1D5BD8; }
+  .proto .ap-lead { max-width: 720px; margin-top: 12px; }
+  .proto .ap-pil .tile h3 { font-size: 20px; }
+  .proto .ap-fond { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 40px; align-items: center; }
+  .proto .ap-fond img { width: 100%; height: auto; border-radius: 24px; box-shadow: 0 24px 50px -30px rgba(0, 55, 182, .6); }
+  .proto .ap-fond p { color: var(--muted); font-size: 16px; line-height: 1.65; margin: 12px 0 0; max-width: 640px; }
+  .proto .ap-fond-l { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 18px; font-weight: 700; }
+  .proto .ap-fond-l a { color: var(--cta); }
+  @media (max-width: 760px) { .proto .ap-fond { grid-template-columns: 1fr; } .proto .ap-fond img { max-width: 220px; } }
+</style>

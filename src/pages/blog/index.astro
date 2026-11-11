@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogSprite from '../../components/proto/BlogSprite.astro';
+import ArCard from '../../components/proto/ArCard.astro';
+import ArCover from '../../components/proto/ArCover.astro';
+import ProtoFinal from '../../components/proto/ProtoFinal.astro';
+import { BLOG_CATS, EX_IC, arCats } from '../../data/blog-cats';
+import '../../styles/proto-blog.css';
+import articles from '../../data/articles.json';
+
+const sorted = [...articles].sort((a, b) => b.datePublication.localeCompare(a.datePublication));
+
+const categories = [
+  { slug: 'coaching-sportif', label: 'Coaching sportif' },
+  { slug: 'mal-de-dos', label: 'Mal de dos' },
+  { slug: 'sport-sante', label: 'Sport Santé' },
+  { slug: 'preparation-physique', label: 'Préparation physique' },
+  { slug: 'preparation-concours', label: 'Préparation concours' },
+  { slug: 'entreprises', label: 'Entreprises' },
+  { slug: 'structures-evenements', label: 'Structures et événements' },
+];
+// Articles destinés aux structures (EHPAD, associations, services sur mesure, santé) et aux événements
+const estStructure = (a: { ctaHref?: string }) => /ehpad|associations-de-musculation|services-sur-mesure|professionnels-de-sante/.test(a.ctaHref ?? '');
+
+const une = sorted[0];
+const tps = sorted.map((a) => a.tempsLecture);
+const STEP = 12;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://gacoachs.fr/blog/' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Blog GA Coachs',
+    url: 'https://gacoachs.fr/blog/',
+    blogPost: sorted.slice(0, 20).map((a) => ({
+      '@type': 'BlogPosting',
+      headline: a.titre,
+      url: `https://gacoachs.fr/blog/${a.slug}/`,
+      datePublished: a.datePublication,
+    })),
+  },
+];
+---
+<BaseLayout
+  title="Blog : conseils de coachs sportifs à Orléans"
+  description="Conseils et actualités du réseau GA Coachs, coachs sportifs partenaires de Basic-Fit à Orléans."
+  path="/blog/"
+  jsonLd={jsonLd}
+>
+<div class="proto">
+<BlogSprite />
+<section class="phero bl-hero"><div class="lightning-bg" aria-hidden="true"></div><div class="inner"><nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span aria-hidden="true">›</span><span>Blog</span></nav><div class="phero-grid"><div><span class="eyebrow eyebrow-dark">Blog</span><h1>Le blog de nos <span class="w hl"><span>coachs sportifs.</span></span></h1><p class="phero-lead">{sorted.length} articles pour t'aider à avancer, quelle que soit ta situation de départ.</p><ul class="facts-dark"><li><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-watch"></use></svg>Des lectures de {Math.min(...tps)} à {Math.max(...tps)} minutes</li><li><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-target"></use></svg>{BLOG_CATS.length} grands thèmes</li></ul></div><div class="visual"><h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">À la une</h2><a class="ar-une" href={`/blog/${une.slug}/`}><span class="ar-flag"><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-bolt"></use></svg>À la une</span><ArCover a={une} big /><div class="ar-txt"><h3>{une.titre}</h3><p>{une.extrait}</p><span class="more">Lire l'article →</span></div></a></div></div></div></section>
+<section class="tf-wrap"><div class="inner"><div class="tf-console bl-console"><div class="tf-foot" style="border: 0; padding: 0;"><label class="tf-search"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg><span class="sr">Rechercher un article</span><input type="search" id="blQ" placeholder="Rechercher un article (ex. mal de dos, prix, motivation...)" autocomplete="off"></label><span class="tf-count" id="blCount" aria-live="polite"><b>{sorted.length}</b> articles</span></div><div class="tf-chips" id="blCats" role="radiogroup" aria-label="Filtrer par thème"><button type="button" role="radio" aria-checked="true" data-v="">Tous <small>{sorted.length}</small></button>{BLOG_CATS.map((c) => <button type="button" role="radio" aria-checked="false" data-v={c[0]}><svg class="ic" aria-hidden="true" focusable="false"><use href={`#i-${EX_IC[c[0]] || 'building'}`}></use></svg>{c[1]} <small>{sorted.filter((a) => arCats(a).includes(c[0])).length}</small></button>)}</div></div></div></section>
+<section class="sec" style="padding-top: 30px;"><div class="inner"><a class="score-strip" href="/score-sante/" style="margin-top: 0;"><span class="em" aria-hidden="true">🎯</span><p>Envie de savoir où tu en es, concrètement ? Fais ton Score Santé gratuit en 2 minutes.</p><span class="go" aria-hidden="true">→</span></a><p class="tf-empty bl-empty" id="blEmpty" hidden>Aucun article ne correspond à ta recherche. Essaie un autre mot-clé, ou <a href="/score-sante/">pose directement ta question à un coach</a>.</p><h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Tous les articles</h2><div class="ar-grid" id="blGrid">{sorted.map((a, i) => <ArCard a={a} i={i} off={i >= STEP} />)}</div><div class="bl-more"><button type="button" class="btn btn-ghost" id="blMore">Voir plus d'articles ({sorted.length - STEP} restants)</button></div></div></section>
+<ProtoFinal titre="Prêt à trouver le coach qui te correspond ?" label="Trouver mon coach" href="/trouver-un-coach/" />
+</div>
+</BaseLayout>
+
+<script>
+  const STEP = 12, reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('#blGrid .ar-card'));
+  const hay = cards.map((c) => norm(c.querySelector('h3')!.textContent + ' ' + c.querySelector('p')!.textContent));
+  const qi = document.getElementById('blQ') as HTMLInputElement, more = document.getElementById('blMore') as HTMLButtonElement;
+  const st = { cat: '', q: '', n: STEP };
+  const cat0 = new URLSearchParams(location.search).get('theme');
+  function apply(animate: boolean) {
+    const q = norm(st.q.trim()); let hits = 0, k = 0;
+    cards.forEach((card, i) => {
+      const ok = (!st.cat || (card.dataset.cats || '').split(' ').includes(st.cat)) && (!q || hay[i].includes(q)), on = ok && hits < st.n;
+      if (ok) hits++;
+      card.classList.toggle('is-off', !on);
+      if (on && animate && !reduce) { card.classList.remove('re-in'); void card.offsetWidth; card.style.setProperty('--rd', k++ * 45 + 'ms'); card.classList.add('re-in'); }
+    });
+    document.getElementById('blCount')!.innerHTML = `<b>${hits}</b>${hits > 1 ? ' articles' : ' article'}`;
+    document.getElementById('blEmpty')!.hidden = hits > 0;
+    more.hidden = hits <= st.n;
+    more.textContent = `Voir plus d'articles (${hits - st.n} restants)`;
+  }
+  const chips = document.getElementById('blCats')!;
+  const pick = (b: HTMLElement) => { chips.querySelectorAll('button').forEach((x) => x.setAttribute('aria-checked', String(x === b))); st.cat = b.dataset.v || ''; st.n = STEP; };
+  chips.addEventListener('click', (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>('button'); if (!b) return; pick(b); apply(true); });
+  let qt = 0;
+  qi.addEventListener('input', () => { clearTimeout(qt); qt = window.setTimeout(() => { st.q = qi.value; st.n = STEP; apply(true); }, 160); });
+  more.addEventListener('click', () => { const before = document.querySelectorAll('#blGrid .ar-card:not(.is-off)').length; st.n += STEP; apply(false); (document.querySelectorAll<HTMLElement>('#blGrid .ar-card:not(.is-off)')[before])?.focus({ preventScroll: true }); });
+  if (cat0) { const b = chips.querySelector<HTMLElement>(`button[data-v="${CSS.escape(cat0)}"]`); if (b) pick(b); }
+  apply(false);
+</script>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+---
+<BaseLayout noindex={true} title="Demande de carte cadeau reçue · GA Coachs" description="Ta demande de carte cadeau GA Coachs a bien été reçue." path="/merci-carte-cadeau/" stickyCtaHref={false}>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Carte cadeau', href: '/carte-cadeau/' }, { label: 'Merci', href: '/merci-carte-cadeau/' }]} />
+      <h1>Merci, ta demande de carte cadeau est bien reçue.</h1>
+      <p class="phero-lead">GA Coachs te répond sous 48 h ouvrées avec le lien de paiement ou la facture. Dès le paiement reçu, la carte part par email, à la date que tu as choisie.</p>
+      <div class="ctas"><a class="btn btn-primary" href="/trouver-un-coach/">Trouver un coach</a><a class="btn btn-glass" href="/">Retour à l'accueil</a></div>
+    </div>
+  </section>
+</div>
+</BaseLayout>

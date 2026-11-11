@@ -1,0 +1,993 @@
+---
+import SanteChiffres from '../../components/SanteChiffres.astro';
+import BoostPCQ from '../../components/BoostPCQ.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import articles from '../../data/articles.json';
+import '../../styles/rebrand.css';
+import CoachCard from '../../components/CoachCard.astro';
+import LogoMarquee from '../../components/LogoMarquee.astro';
+import expertisesData from '../../data/expertises.json';
+import { coachesReseau as coaches } from '../../data/coaches.js';
+import salles from '../../data/salles.json';
+import villes from '../../data/villes.json';
+import objectifsData from '../../data/objectifs.json';
+import clubsClients from '../../data/clubs-clients.json';
+import courseData from '../../data/course.json';
+
+export function getStaticPaths() {
+  return expertisesData.map((e) => ({ params: { expertise: e.slug }, props: { expertise: e } }));
+}
+
+const { expertise } = Astro.props;
+const salleParSlug = Object.fromEntries(salles.map((s) => [s.slug, s]));
+const coachsSpecialises = coaches.filter((c) =>
+  c.specialites.some((s: string) => expertise.sousThemes.includes(s)) || c.tags.some((t: string) => expertise.sousThemes.includes(t))
+);
+
+// Villes où cette expertise est réellement disponible (au moins un coach spécialisé rattaché)
+const coachsBase = coachsSpecialises.length ? coachsSpecialises : coaches;
+const sallesConcernees = new Set(coachsBase.map((c) => c.salleSlug));
+const villesConcernees = villes.filter((v) => v.salleSlugs.some((s: string) => sallesConcernees.has(s)));
+
+// Objectifs enfants de cette expertise, uniquement ceux réellement générés (au moins un coach rattaché)
+const objectifsEnfants = objectifsData.filter(
+  (o) => o.expertiseParente === expertise.slug && coaches.some((c) => c.tags.includes(o.sousTheme) || c.specialites.includes(o.sousTheme))
+);
+
+const relatedLinks = [
+  ...objectifsEnfants.map((o) => ({ label: o.nom, href: `/objectifs/${o.slug}/`, meta: 'Objectif' })),
+  ...villesConcernees.map((v) => ({ label: `${expertise.nom} à ${v.nom}`, href: `/coach-sportif-${v.slug}/`, meta: 'Disponible dans cette zone' })),
+  { label: 'Toutes les expertises', href: '/#expertises', meta: 'Vue d\'ensemble' },
+];
+
+const methodeParExpertise: Record<string, { titre: string; texte: string }[]> = {
+  'mal-de-dos': [
+    { titre: 'Un premier échange sur ta situation', texte: "Ton historique, ta douleur actuelle, ce que ton médecin ou ton kiné a déjà indiqué : le point de départ, pas un questionnaire générique." },
+    { titre: 'Une évaluation de ta mobilité réelle', texte: "Ce que ton corps peut faire aujourd'hui, sans forcer, pour construire un programme réaliste plutôt qu'un objectif théorique." },
+    { titre: 'Un renforcement progressif du gainage', texte: "Le cœur du travail : renforcer les muscles profonds qui soutiennent la colonne, étape par étape, jamais dans la douleur." },
+    { titre: 'Un travail de mobilité complémentaire', texte: "Hanches, épaules, posture générale : pour reporter moins de contrainte sur le bas du dos au quotidien." },
+    { titre: 'Un suivi qui s\'adapte à chaque séance', texte: "La douleur du jour n'est jamais ignorée : le programme s'ajuste séance après séance, pas figé à l'avance." },
+  ],
+  'coaching-sportif': [
+    { titre: 'Le bilan santé, point de départ', texte: "Ton objectif réel, ton niveau actuel, tes contraintes de temps et d'emploi du temps : le programme part de ta situation, jamais d'un modèle standard." },
+    { titre: 'Un programme construit pour toi', texte: "Perte de poids, prise de muscle, remise en forme : chaque objectif appelle une méthode différente. Ton coach construit une progression qui te ressemble." },
+    { titre: 'Des séances en salle, avec un vrai suivi', texte: "Chaque séance s'appuie sur ce qui a fonctionné, ou pas, la fois précédente. Le programme évolue avec toi, pas l'inverse." },
+    { titre: 'Des ajustements réguliers', texte: "Ton coach observe tes progrès, corrige ta technique, et adapte l'intensité selon ta forme du jour et ton évolution dans le temps." },
+    { titre: 'Un objectif qui reste réaliste', texte: "Pas de promesse de résultat en un temps record : une progression mesurée, pensée pour durer au-delà des premières semaines." },
+  ],
+  'preparation-physique': [
+    { titre: 'Un bilan de tes qualités physiques actuelles', texte: "Force, vitesse, endurance, mobilité : un point de départ précis, propre à ton sport et à ton niveau, pas un standard générique." },
+    { titre: 'Une programmation adaptée à ta discipline', texte: "Les qualités à travailler pour un sportif de combat ne sont pas celles d'un coureur de fond. Le programme cible ce qui compte vraiment pour ta pratique." },
+    { titre: 'Un travail calé sur ton calendrier sportif', texte: "Pré-saison, période de compétition, trêve : l'intensité et les objectifs s'ajustent selon le moment de la saison où tu te trouves." },
+    { titre: 'Une prévention intégrée dès le départ', texte: "Le renforcement et la mobilité ne sont pas des options : ils font partie du programme pour réduire le risque de blessure, pas juste la performance pure." },
+    { titre: 'Un suivi qui accompagne toute la saison', texte: "Les qualités physiques évoluent : le programme est réajusté au fil des semaines, pas figé sur un plan initial." },
+  ],
+  'preparation-concours': [
+    { titre: 'Identifier précisément le concours visé', texte: "CQP IF, Police, Gendarmerie, Armée, Pompiers : chaque concours a ses épreuves et ses barèmes propres. Le point de départ, c'est de savoir exactement ce qui t'attend." },
+    { titre: 'Un bilan de ton niveau sur chaque épreuve', texte: "Course, tractions, natation selon le concours : on mesure où tu en es aujourd'hui par rapport aux exigences réelles, pas approximatives." },
+    { titre: 'Une programmation ciblée sur les épreuves', texte: "Le travail se concentre sur les qualités physiques précisément testées, pas sur un entraînement général qui disperse l'effort." },
+    { titre: 'Des tests blancs réguliers', texte: "Se mettre en situation dans les conditions du concours, pour arriver le jour J sans découvrir le format des épreuves." },
+    { titre: 'Un ajustement jusqu\'à la date des épreuves', texte: "Le programme évolue en fonction de tes progrès et du temps restant avant les épreuves officielles, pour arriver prêt, pas épuisé." },
+  ],
+};
+const methodeExpertise = methodeParExpertise[expertise.slug];
+
+const causesParExpertise: Record<string, string[]> = {
+  'mal-de-dos': [
+    '🪑 Sédentarité et position assise prolongée (bureau, voiture, écrans)',
+    '💪 Manque de renforcement des muscles profonds du dos et de la sangle abdominale',
+    "🧍 Mauvaises postures répétées au quotidien (debout, assis, au sommeil)",
+    '📦 Port répété de charges lourdes ou gestes mal exécutés (métier physique, déménagement, enfants en bas âge)',
+    '⚖️ Surpoids, qui augmente la contrainte mécanique sur la colonne vertébrale',
+    '🔗 Manque de mobilité générale (hanches, épaules), qui reporte la contrainte sur le bas du dos',
+    '😖 Stress et tensions musculaires chroniques',
+    '🤰 Grossesse et changements posturaux associés',
+    '⏳ Vieillissement naturel des disques intervertébraux',
+    '🏃 Reprise du sport trop brutale après une longue pause, sans progression adaptée',
+  ],
+  'sport-sante': [
+    '🪑 Mode de vie sédentaire : métiers de bureau, temps de trajet passif, temps d\'écran élevé',
+    "⏰ Manque de temps perçu, réel ou non, qui repousse indéfiniment la reprise",
+    "❌ Une ou plusieurs tentatives de reprise ratées par le passé, avec un programme trop intense",
+    "⚖️ Prise de poids progressive, qui rend l'idée de reprendre le sport plus intimidante",
+    "🧒 Absence d'activité physique régulière depuis l'enfance ou l'adolescence",
+    "🩺 Une pathologie chronique (diabète, hypertension) découverte récemment",
+    "🤰 Une grossesse, un accouchement, ou une période de convalescence prolongée",
+    "⏳ Le vieillissement naturel, avec une perte progressive de masse musculaire et de mobilité",
+    "😶 Un manque de confiance en soi ou une appréhension du regard des autres en salle de sport",
+    "📦 Un déménagement ou changement de vie qui a interrompu une pratique sportive antérieure",
+  ],
+  'coaching-sportif': [
+    "🎯 Un objectif précis (perte de poids, prise de muscle, remise en forme) jamais vraiment atteint seul",
+    "😓 Plusieurs tentatives en solo, souvent avec un programme trouvé en ligne, jamais tenues dans la durée",
+    "🪑 Une sédentarité progressive liée au travail, aux trajets, ou à un mode de vie qui a changé",
+    "❓ Un manque de repères techniques : ne pas savoir par où commencer, ni comment progresser",
+    "⏰ Un emploi du temps chargé, qui laisse peu de place à une organisation sportive autonome",
+    "💔 Une perte de motivation après un abandon précédent, en salle ou ailleurs",
+    "🏃 Une reprise après une pause longue, sans savoir par où recommencer sans se blesser",
+    "📉 Un plateau de résultats malgré des efforts réguliers, sans comprendre pourquoi",
+  ],
+  'preparation-physique': [
+    "🤕 Des blessures qui reviennent régulièrement, liées à un manque de préparation physique en amont",
+    "📉 Une performance qui plafonne malgré un entraînement technique sérieux",
+    "🏃 Un manque de vitesse, d'explosivité ou d'endurance par rapport à la concurrence",
+    "⏰ Un entraîneur qui manque de temps pour intégrer un vrai travail physique aux séances techniques",
+    "🎯 Un jeune sportif qui vise un niveau supérieur et doit structurer sa préparation",
+    "🩹 Une reprise après blessure sans structure claire pour retrouver son niveau",
+    "🏆 Une équipe ou un club qui veut professionnaliser sa préparation avant la saison",
+  ],
+  'preparation-concours': [
+    "❌ Un échec à un premier passage des tests physiques, souvent par manque de préparation ciblée",
+    "📋 Une méconnaissance des épreuves et barèmes précis du concours visé",
+    "⏰ Un concours qui approche sans préparation physique sérieuse encore engagée",
+    "😰 Un doute sur ses propres capacités face aux exigences physiques annoncées",
+    "🏃 Un niveau de forme insuffisant après une période sans pratique sportive régulière",
+    "🎯 Une préparation en solo, sans repère sur ce qui est vraiment attendu le jour J",
+  ],
+};
+
+const consequencesParExpertise: Record<string, string[]> = {
+  'mal-de-dos': [
+    '⏳ Une douleur qui s\'installe : si elle dure plus de quelques semaines, parles-en à ton médecin',
+    '🚫 Diminution progressive de la mobilité, par appréhension du mouvement',
+    "🔗 Compensations posturales qui peuvent créer des tensions ailleurs (nuque, épaules, hanches)",
+    "😴 Impact sur le sommeil, quand la douleur empêche de trouver une position confortable",
+    "📉 Réduction de l'activité physique globale, par peur d'aggraver la situation, ce qui affaiblit encore plus le dos",
+    "😔 Retentissement sur le moral et l'énergie au quotidien",
+    "💼 Un impact sur le travail : la lombalgie chronique est la première cause d'inaptitude médicale chez les salariés de moins de 45 ans",
+    "🔁 Risque de récidive plus élevé une fois un premier épisode installé, sans travail de fond derrière",
+  ],
+  'sport-sante': [
+    "📉 Perte progressive de masse musculaire et de force, qui s'accélère avec l'âge en l'absence d'activité",
+    "😮‍💨 Essoufflement et fatigue accrue dans les gestes simples du quotidien (monter des escaliers, porter des courses)",
+    "⚖️ Prise de poids progressive, difficile à inverser sans modification durable des habitudes",
+    "❤️‍🩹 Augmentation du risque de maladies cardiovasculaires, de diabète de type 2 et de certains cancers, identifiée par l'OMS",
+    "😴 Dégradation de la qualité du sommeil et de l'énergie disponible dans la journée",
+    "😔 Impact sur le moral : la sédentarité est associée à un risque accru de troubles anxieux et dépressifs",
+    "🚪 Isolement social progressif quand l'activité physique, souvent collective, disparaît du quotidien",
+    "🪞 Perte de confiance en son propre corps, qui rend chaque tentative de reprise plus difficile psychologiquement",
+  ],
+  'coaching-sportif': [
+    "🔁 Cycle « motivation, abandon, culpabilité » qui se répète à chaque tentative en solo",
+    "🤕 Risque de blessure plus élevé, lié à une technique non corrigée ou une progression trop rapide",
+    "📉 Stagnation des résultats malgré les efforts, sans comprendre ce qui bloque réellement",
+    "💸 Temps et argent investis dans des programmes ou abonnements jamais menés à terme",
+    "😔 Perte de confiance progressive dans sa capacité à atteindre ses objectifs",
+    "⏳ Un objectif qui recule d'année en année, toujours repoussé au « mois prochain »",
+    "🏋️ Une pratique en salle sans réelle progression, par manque de structure et de suivi",
+  ],
+  'preparation-physique': [
+    "🤕 Un risque de blessure plus élevé en compétition ou à l'entraînement, faute de préparation adaptée",
+    "📉 Un décrochage progressif par rapport à des concurrents mieux préparés physiquement",
+    "😮‍💨 Une fatigue excessive en fin de match, de course ou de saison, qui pèse sur la performance",
+    "⏳ Une progression technique qui stagne, freinée par un physique qui ne suit pas",
+    "🔁 Un risque accru de rechute après une blessure mal réhabilitée",
+  ],
+  'preparation-concours': [
+    "❌ Un échec aux épreuves physiques, éliminatoire selon les concours, qui repousse d'un an la suite du projet",
+    "😰 Un stress accru le jour des épreuves, faute de s'être déjà mis en situation réelle",
+    "🤕 Une blessure de dernière minute, liée à une préparation improvisée et trop tardive",
+    "⏳ Une année de perdue à retenter le concours, faute d'une préparation structurée dès le départ",
+  ],
+};
+
+const capacitesParExpertise: Record<string, string[]> = {
+  'mal-de-dos': [
+    'Te baisser pour ramasser quelque chose sans appréhension',
+    'Porter tes enfants ou tes courses sans redouter la douleur qui suit',
+    'Rester assis toute une journée de travail sans finir la journée le dos bloqué',
+    'Gagner en confort au quotidien, au lit comme au bureau',
+    'Faire une longue marche, du vélo ou du jardinage sans y penser à chaque geste',
+    'Reprendre une activité que tu avais mise de côté à cause de ton dos',
+  ],
+  'sport-sante': [
+    'Monter plusieurs étages sans être essoufflé dès le premier',
+    'Jouer avec tes enfants ou petits-enfants sans être à bout de souffle',
+    'Porter tes courses ou un carton sans que ce soit un effort marquant',
+    'Reprendre une activité physique que tu pensais avoir abandonnée pour de bon',
+    'Te sentir à l\'aise dans une salle de sport, sans regard extérieur qui pèse',
+    'Retrouver une vraie énergie dans ta journée, pas juste au réveil',
+  ],
+  'coaching-sportif': [
+    'Voir une vraie progression concrète, mesurable, séance après séance',
+    'Savoir exactement quoi faire en arrivant en salle, sans improviser',
+    'Tenir un programme sur plusieurs mois, pas juste les trois premières semaines',
+    'Exécuter chaque mouvement avec la bonne technique, sans te faire mal',
+    'Atteindre l\'objectif que tu t\'étais fixé, celui que tu repousses depuis des mois',
+    'Te sentir enfin fier du chemin parcouru, pas juste du poids sur la balance',
+  ],
+  'preparation-physique': [
+    'Tenir ton intensité jusqu\'à la fin d\'un match, d\'une course ou d\'une compétition',
+    'Progresser plus vite dans ta pratique technique, portée par un physique qui suit',
+    'Réduire concrètement ton risque de blessure à l\'entraînement et en compétition',
+    'Retrouver ton niveau après une blessure, sans te précipiter ni traîner en longueur',
+    'Franchir un palier que tu n\'arrivais pas à passer seul, malgré tes efforts',
+  ],
+  'preparation-concours': [
+    'Mettre toutes les chances de ton côté aux épreuves physiques',
+    'Aborder le jour J sans découvrir le barème ou le format des épreuves',
+    'Progresser précisément sur chaque épreuve testée, pas dans le flou',
+    'Éviter la blessure de dernière minute liée à une préparation improvisée',
+    'Te présenter aux épreuves en toute confiance, préparé plutôt qu\'inquiet',
+  ],
+};
+const capacitesExpertise = capacitesParExpertise[expertise.slug];
+
+const changementsConcretsParExpertise: Record<string, { titre: string; texte: string }[]> = {
+  'mal-de-dos': [
+    { titre: '💪 Un dos plus fort, progressivement', texte: "Un renforcement ciblé et progressif du gainage et des muscles profonds du dos, construit pour ta situation, pas un programme générique trouvé en ligne." },
+    { titre: '🧍 Des postures corrigées au quotidien', texte: "Un travail sur les postures qui aggravent la douleur au quotidien (assis, debout, gestes répétés), pour réduire les contraintes qui s'accumulent chaque jour." },
+    { titre: '🚶 Une reprise du mouvement sans appréhension', texte: "Un accompagnement pas à pas qui aide à sortir de la peur de bouger, souvent plus handicapante à terme que la douleur elle-même." },
+    { titre: '🔗 Une meilleure mobilité globale', texte: "Un travail sur les hanches et les épaules, pour reporter moins de contrainte sur le bas du dos au quotidien." },
+    { titre: '🛡️ Une prévention active des récidives', texte: "Au-delà de l'épisode actuel, un travail de fond pour réduire le risque que la douleur revienne dans les mois qui suivent." },
+  ],
+  'sport-sante': [
+    { titre: '🎯 Une reprise sans te blesser', texte: "Une progression pensée pour ton corps aujourd'hui, pas pour un niveau théorique : intensité et mouvements adaptés à ta condition physique réelle." },
+    { titre: '⚡ De l\'énergie retrouvée au quotidien', texte: "Une activité régulière qui, en général, améliore progressivement le souffle, l'énergie et la qualité du sommeil, dès les premières semaines." },
+    { titre: '⚖️ Une gestion du poids plus réaliste', texte: "Un accompagnement qui s'inscrit dans la durée, loin des régimes ou programmes extrêmes qui ne tiennent jamais plus de quelques semaines." },
+    { titre: '❤️ Une réduction des risques liés à la sédentarité', texte: "Un mouvement régulier qui agit sur plusieurs facteurs de risque à la fois (cardiovasculaire, métabolique), en complément de ton suivi médical existant." },
+    { titre: '🌟 Une vraie confiance retrouvée dans ton corps', texte: "Un accompagnement individualisé, sans jugement, pensé pour reconstruire une relation positive avec l'activité physique, pas juste enchaîner des séances." },
+  ],
+  'coaching-sportif': [
+    { titre: '🎯 Un objectif clair, pas une intention floue', texte: "Ton programme se construit autour d'un objectif précis et mesurable, avec des étapes concrètes pour l'atteindre, pas un vague « se remettre en forme »." },
+    { titre: '📈 Une progression que tu peux suivre', texte: "Charges, répétitions, mensurations : des repères concrets pour voir noir sur blanc que tu avances, séance après séance." },
+    { titre: '🧠 Une technique corrigée en temps réel', texte: "Chaque mouvement est observé et ajusté sur le moment, pour progresser plus vite et réduire le risque de blessure." },
+    { titre: '🔥 Une régularité qui tient dans la durée', texte: "Un rendez-vous fixe qui transforme l'effort de volonté en habitude. Sur la durée, la régularité compte plus que l'intensité." },
+    { titre: '🤝 Un accompagnement humain, pas un algorithme', texte: "Quelqu'un qui remarque quand tu stagnes, ajuste quand ça coince, et reste à tes côtés quand la motivation flanche." },
+  ],
+  'preparation-physique': [
+    { titre: '⚡ Des qualités physiques ciblées', texte: "Force, vitesse, explosivité, endurance : le travail cible précisément ce qui compte pour ta discipline, pas un entraînement générique." },
+    { titre: '🛡️ Une vraie prévention des blessures', texte: "Renforcement et mobilité intégrés dès le départ, pour réduire le risque de blessure à l'entraînement comme en compétition." },
+    { titre: '📅 Une programmation calée sur ta saison', texte: "Pré-saison, période de compétition, trêve : l'intensité s'ajuste au bon moment, pas de façon uniforme toute l'année." },
+    { titre: '🤝 Une vraie complémentarité avec ton entraîneur', texte: "Le préparateur physique ne remplace pas le travail technique : il vient renforcer ce que ton entraîneur ne peut pas toujours intégrer, faute de temps." },
+    { titre: '📈 Des progrès mesurables sur le terrain', texte: "Une meilleure endurance en fin de match, plus d'explosivité au sprint : des effets concrets, pas juste théoriques." },
+  ],
+  'preparation-concours': [
+    { titre: '🎯 Une préparation calée sur les vraies épreuves', texte: "Le travail cible précisément les épreuves et barèmes du concours visé, pas un entraînement physique généraliste." },
+    { titre: '📋 Une connaissance fine des exigences', texte: "Ton coach connaît les barèmes et spécificités de chaque concours (Police, Gendarmerie, Armée, Pompiers, CQP IF), pour préparer exactement ce qui sera testé." },
+    { titre: '🧪 Des mises en situation réelles', texte: "Des tests blancs réguliers dans les conditions du concours, pour ne rien découvrir le jour des épreuves officielles." },
+    { titre: '📈 Une progression suivie épreuve par épreuve', texte: "Course, tractions, natation : chaque épreuve est suivie individuellement pour identifier précisément où concentrer l'effort." },
+    { titre: '🛡️ Une préparation qui évite la blessure de dernière minute', texte: "Une montée en charge progressive, pensée pour arriver aux épreuves en forme, pas épuisé par une préparation précipitée." },
+  ],
+};
+
+const pathologiesParExpertise: Record<string, { nom: string; description: string; roleCoach: string }[]> = {
+  'mal-de-dos': [
+    {
+      nom: '🦴 Lombalgie chronique',
+      description: "La douleur lombaire la plus fréquente : diffuse, souvent liée à la sédentarité, aux mauvaises postures répétées ou à un manque de renforcement des muscles profonds du dos.",
+      roleCoach: "Le coach travaille le renforcement progressif du gainage et de la mobilité, en s'appuyant sur le diagnostic déjà posé par ton médecin ou ton kinésithérapeute.",
+    },
+    {
+      nom: '⚡ Sciatique / lombosciatique',
+      description: "Une douleur qui irradie le long du nerf sciatique, du bas du dos jusqu'à la jambe, souvent liée à une compression nerveuse.",
+      roleCoach: "Un avis médical est indispensable avant toute reprise. Une fois le feu vert obtenu, le coach adapte les mouvements pour éviter tout ce qui pourrait comprimer à nouveau le nerf.",
+    },
+    {
+      nom: '🩻 Hernie discale (diagnostiquée)',
+      description: "Un déplacement du disque intervertébral, qui peut comprimer une racine nerveuse. Le diagnostic et le suivi relèvent exclusivement d'un médecin ou d'un chirurgien.",
+      roleCoach: "Le coach n'intervient qu'après feu vert médical explicite, et construit le programme en fonction des consignes données par le praticien qui suit la pathologie.",
+    },
+    {
+      nom: '🧍 Déséquilibres posturaux (hyperlordose, dos rond)',
+      description: "Des courbures naturelles du dos accentuées par des années de mauvaises positions, souvent liées à un métier sédentaire ou à un manque de renforcement musculaire global.",
+      roleCoach: "Un travail ciblé de renforcement et de mobilité peut aider à corriger progressivement ces déséquilibres, sans promesse de résultat garanti.",
+    },
+    {
+      nom: '🪑 Douleurs liées à la position assise prolongée',
+      description: "Très fréquentes chez les métiers de bureau : tensions dans le bas du dos et les cervicales après plusieurs heures assises, sans réel épisode de blessure.",
+      roleCoach: "Le coach propose des exercices de mobilité et de renforcement pensés pour contrebalancer les effets d'une journée passée assis.",
+    },
+  ],
+  'sport-sante': [
+    {
+      nom: '⚖️ Surpoids et obésité',
+      description: "Un excès de masse grasse qui augmente le risque de plusieurs maladies chroniques (cardiovasculaires, diabète, articulaires), et qui rend souvent la reprise du sport plus difficile physiquement et psychologiquement.",
+      roleCoach: "Le coach adapte l'intensité et le choix des mouvements pour ménager les articulations, et construit une progression réaliste, sans jugement.",
+    },
+    {
+      nom: '🛋️ Sédentarité prolongée',
+      description: "Un mode de vie avec très peu de mouvement au quotidien, identifié par l'OMS comme un facteur de risque majeur, indépendant du poids ou de l'âge.",
+      roleCoach: "L'objectif n'est pas de tout changer d'un coup, mais de réintroduire du mouvement régulier, à un rythme que le corps peut vraiment absorber.",
+    },
+    {
+      nom: '🩸 Diabète de type 2 (ou pré-diabète)',
+      description: "Une maladie métabolique où l'activité physique régulière est reconnue comme un levier important de gestion, en complément du suivi médical et parfois du traitement.",
+      roleCoach: "Le coach construit le programme en cohérence avec les recommandations du médecin traitant, sans jamais se substituer au suivi médical de la pathologie.",
+    },
+    {
+      nom: '❤️ Hypertension artérielle',
+      description: "Une pression artérielle durablement trop élevée, qui nécessite un avis médical avant toute reprise d'activité physique intense.",
+      roleCoach: "Après feu vert médical, le coach privilégie une progression prudente de l'intensité, avec une attention particulière portée aux ressentis pendant l'effort.",
+    },
+    {
+      nom: '🔬 Syndrome métabolique',
+      description: "La combinaison de plusieurs facteurs de risque (tour de taille, tension, glycémie, lipides) qui augmente significativement le risque cardiovasculaire.",
+      roleCoach: "L'activité physique régulière fait partie des leviers reconnus pour agir sur plusieurs de ces facteurs à la fois, toujours en lien avec le suivi médical existant.",
+    },
+  ],
+};
+const pathologiesExpertise = pathologiesParExpertise[expertise.slug];
+const causesExpertise = causesParExpertise[expertise.slug];
+const consequencesExpertise = consequencesParExpertise[expertise.slug];
+const changementsExpertise = changementsConcretsParExpertise[expertise.slug];
+
+const statsParExpertise: Record<string, { chiffre: string; description: string; source: string; url: string }[]> = {
+  'sport-sante': [
+    {
+      chiffre: '47%',
+      description: "des femmes et 29% des hommes sont physiquement inactifs en région Centre-Val de Loire, notre région.",
+      source: 'Conférence régionale du Sport Centre-Val de Loire, 2024',
+      url: 'https://www.prefectures-regions.gouv.fr/centre-val-de-loire/Actualites/Principales/Presentation-et-signature-de-la-strategie-regionale-Sport-Sante',
+    },
+    {
+      chiffre: 'Plus d\'1 sur 5',
+      description: "c'est le nombre d'habitants du Centre-Val de Loire qui passent plus de 7 heures par jour assis, au-delà des recommandations de l'OMS.",
+      source: 'Santé publique France, bulletin régional Centre-Val de Loire, 2024',
+      url: 'https://www.santepubliquefrance.fr/regions/centre-val-de-loire/documents/bulletin-regional/2024/activite-physique-sedentarite-et-corpulence-en-centre-val-de-loire.-resultats-du-barometre-de-sante-de-publique-france-2021',
+    },
+    {
+      chiffre: 'Moins de 3 sur 10',
+      description: "des habitants de la région pratiquent des activités de renforcement musculaire chaque semaine.",
+      source: 'Santé publique France, bulletin régional Centre-Val de Loire, 2024',
+      url: 'https://www.santepubliquefrance.fr/regions/centre-val-de-loire/documents/bulletin-regional/2024/activite-physique-sedentarite-et-corpulence-en-centre-val-de-loire.-resultats-du-barometre-de-sante-de-publique-france-2021',
+    },
+  ],
+  'mal-de-dos': [
+    {
+      chiffre: '1ère cause',
+      description: "d'inaptitude médicale chez les salariés de moins de 45 ans en France, c'est la place qu'occupe la lombalgie chronique.",
+      source: 'INRS',
+      url: 'https://www.inrs.fr/risques/lombalgies/statistique.html',
+    },
+    {
+      chiffre: '4 sur 5',
+      description: "C'est le nombre de Français qui connaîtront au moins un épisode de lombalgie au cours de leur vie.",
+      source: 'Assurance Maladie',
+      url: 'https://www.pourquoidocteur.fr/Articles/Question-d-actu/43716-Mal-dos-de-800-millions-de-personnes-touchees-2050',
+    },
+    {
+      chiffre: '9 sur 10',
+      description: "des lombalgies communes aiguës guérissent en 4 à 6 semaines. Un chiffre rassurant, souvent méconnu, qui remet la plupart des épisodes en perspective.",
+      source: 'Assurance Maladie',
+      url: 'https://www.caducee.net/DossierSpecialises/rhumatologie/mal-de-dos.asp',
+    },
+    {
+      chiffre: '2 Français sur 3',
+      description: "ayant rapporté une douleur physique dans l'année déclarent avoir souffert du dos : la douleur la plus fréquente, à égalité avec les maux de tête.",
+      source: 'Statista, Consumer Insights, 2023',
+      url: 'https://fr.statista.com/infographie/amp/31968/prevalence-douleurs-physiques-adultes-france-mal-de-dos',
+    },
+    {
+      chiffre: '70%',
+      description: "des personnes souffrant de douleur chronique présentent des répercussions sur le sommeil, l'anxiété ou le moral, bien au-delà de la douleur elle-même.",
+      source: 'SFETD / Fondation APICIL',
+      url: 'https://www.guichetdusavoir.org/question/voir/140719',
+    },
+  ],
+  'coaching-sportif': [
+    {
+      chiffre: '61%',
+      description: "des Français de 15 ans et plus déclarent une pratique sportive régulière en 2025, un niveau record porté par la recherche de santé et de bien-être.",
+      source: 'INJEP, Baromètre national des pratiques sportives, 2025',
+      url: 'https://injep.fr/publication/barometre-national-des-pratiques-sportives-2025/',
+    },
+    {
+      chiffre: '1 sur 2',
+      description: "C'est la part des pratiquants sportifs qui exercent leur activité principale le plus souvent seuls, sans aucun encadrement.",
+      source: 'INJEP / CRÉDOC, Baromètre national des pratiques sportives, 2022',
+      url: 'https://injep.fr/wp-content/uploads/2024/03/Chiffres-cles-sport-2023.pdf',
+    },
+    {
+      chiffre: '16%',
+      description: "seulement des Français se font accompagner par un coach professionnel dans leur pratique sportive, contre 40% qui pratiquent seuls en extérieur.",
+      source: 'Ifop pour Urban Sports Club',
+      url: 'https://www.sportmag.fr/le-coaching-sportif-personnel-un-marche-en-plein-essor/',
+    },
+  ],
+  'preparation-physique': [
+    {
+      chiffre: '30 à 50%',
+      description: "C'est la baisse du taux de blessures observée avec un programme d'échauffement structuré type FIFA 11+, appliqué régulièrement par une équipe.",
+      source: 'FIFA',
+      url: 'https://www.dkmfootballconsulting.com/blog/generale/fifa-11-5',
+    },
+    {
+      chiffre: '32%',
+      description: "Réduction des blessures de cheville mesurée sur plus de 3 000 joueurs (5 essais randomisés), grâce à un programme de renforcement et de proprioception.",
+      source: 'Méta-analyse, revue systématique',
+      url: 'https://www.kinesport.fr/blog/effets-des-programmes-de-prevention-fifa-sur-les-blessures-aux-chevilles',
+    },
+    {
+      chiffre: '2 à 4x',
+      description: "Une augmentation du volume d'entraînement supérieure à 10% par semaine multiplie par 2 à 4 le risque de blessure chez les sportifs.",
+      source: 'Institut de Kinésithérapie Paris',
+      url: 'https://www.institut-kinesitherapie.paris/actualites/prevenir-blessures-sportives-ce-que-science-montre/',
+    },
+  ],
+  'preparation-concours': [
+    {
+      chiffre: '80%',
+      description: "des personnes qui reprennent une activité physique intense se blessent au cours de leur première année, souvent faute d'une préparation progressive et adaptée.",
+      source: 'Institut de Kinésithérapie Paris',
+      url: 'https://www.institut-kinesitherapie.paris/actualites/prevenir-blessures-sportives-ce-que-science-montre/',
+    },
+    {
+      chiffre: '2 à 4x',
+      description: "Une augmentation du volume d'entraînement supérieure à 10% par semaine multiplie par 2 à 4 le risque de blessure, un point critique à l'approche d'un concours.",
+      source: 'Institut de Kinésithérapie Paris',
+      url: 'https://www.institut-kinesitherapie.paris/actualites/prevenir-blessures-sportives-ce-que-science-montre/',
+    },
+  ],
+};
+
+const faqParExpertise: Record<string, { q: string; r: string }[]> = {
+  'preparation-physique': [
+    { q: 'La préparation physique, c\'est pour quel niveau de sportif ?', r: "Tous les niveaux : jeunes en formation, sportifs amateurs qui veulent progresser, ou clubs qui structurent leur saison. Le programme s'adapte au niveau réel du groupe ou de la personne." },
+    { q: 'Quelle est la différence avec un simple coaching sportif ?', r: "La préparation physique cible des qualités précises (force, vitesse, explosivité, endurance) au service d'une pratique sportive existante, alors que le coaching classique vise plus largement la forme, la perte de poids ou la prise de muscle." },
+    { q: 'Peut-on faire de la préparation physique sans pratiquer de sport de compétition ?', r: "Oui. Beaucoup de personnes suivent une préparation physique simplement pour mieux performer dans leur sport de loisir, sans viser la compétition." },
+    { q: 'Combien de temps avant de sentir une différence sur le terrain ?', r: "Les premiers effets sur l'endurance et la force se ressentent généralement après plusieurs semaines de travail régulier. Une préparation physique se construit sur la durée, pas sur quelques séances." },
+    { q: 'Peut-on faire de la préparation physique en club ou en équipe ?', r: "Oui, c'est l'objet de BOOST CLUB, notre pôle dédié à la préparation physique des clubs sportifs, avec plusieurs formules selon les besoins de ton club." },
+    { q: 'La préparation physique remplace-t-elle l\'entraînement technique de mon sport ?', r: "Non, elle vient en complément. L'entraîneur technique reste responsable de la partie sportive spécifique ; le préparateur physique se concentre sur les qualités physiques transversales." },
+    { q: 'Est-ce adapté aux jeunes sportifs en pleine croissance ?', r: "Oui, à condition d'adapter la charge à leur croissance : c'est une attention systématique pour les publics adolescents, avec priorité à la technique et à la mobilité avant l'intensité." },
+    { q: 'Comment se déroule le premier échange ?', r: "Comme pour tout accompagnement GA Coachs, ça démarre par un bilan santé : ton sport, ton niveau, tes objectifs de performance, et les qualités physiques à prioriser." },
+  ],
+  'preparation-concours': [
+    { q: 'Quels concours sont concernés par cet accompagnement ?', r: "CQP IF, BPJEPS APSF, Police, Gendarmerie, Armée, Pompiers : tous les concours qui incluent des tests physiques éliminatoires ou notés font partie de notre champ d'accompagnement." },
+    { q: 'Combien de temps avant les épreuves faut-il commencer à se préparer ?', r: "Idéalement plusieurs mois avant, pour permettre une progression réaliste et prendre en compte le temps de récupération. Plus tu commences tôt, plus la marge de progression est confortable." },
+    { q: 'Le programme est-il calqué sur les épreuves officielles du concours visé ?', r: "Oui, la préparation cible précisément les épreuves physiques attendues (course, tractions, natation selon le concours), pas un entraînement générique." },
+    { q: 'Que se passe-t-il si j\'échoue une première fois aux tests physiques ?', r: "Ce n'est pas rare, et ça ne remet pas en cause tes capacités : c'est souvent l'occasion d'identifier précisément ce qui a manqué et de construire une préparation plus ciblée pour la prochaine tentative." },
+    { q: 'Je n\'ai jamais été sportif, est-ce trop tard pour viser ce type de concours ?', r: "Non, mais il faut être honnête sur le temps nécessaire : plus le point de départ est loin des exigences du concours, plus la préparation doit démarrer tôt et progresser prudemment." },
+    { q: 'Le coach connaît-il vraiment les barèmes et exigences de chaque concours ?', r: "Oui : les barèmes, épreuves et coefficients diffèrent selon le concours (Police, Gendarmerie, Armée, Pompiers, CQP IF), et ton coach cale le programme sur la notice officielle de ta session." },
+    { q: 'Peut-on préparer plusieurs concours en même temps ?', r: "C'est possible si les exigences physiques se recoupent, mais mieux vaut en discuter avec ton coach pour prioriser intelligemment plutôt que de disperser l'entraînement." },
+  ],
+  'sport-sante': [
+    { q: 'Je n\'ai plus fait de sport depuis des années, est-ce trop tard pour reprendre ?', r: "Non. C'est justement le point de départ le plus courant en Sport Santé. Le programme démarre du niveau réel, pas d'un niveau théorique, et progresse par paliers." },
+    { q: 'Ai-je besoin d\'un avis médical avant de commencer ?', r: "Selon ta situation, ton coach peut te recommander d'en parler à ton médecin avant de démarrer, notamment en cas d'antécédents ou de pathologie chronique. Dans le doute, on privilégie toujours la prudence." },
+    { q: 'Le programme est-il vraiment adapté si je suis en surpoids ou en méforme importante ?', r: "Oui, c'est précisément le public visé par cet accompagnement. Le rythme et l'intensité sont ajustés à ta condition physique réelle, pas à un standard générique." },
+    { q: 'Combien de temps avant de sentir une vraie différence ?', r: "Ça varie selon chacun, mais une reprise progressive et régulière permet généralement de ressentir des premiers bénéfices (énergie, souffle, mobilité) en quelques semaines." },
+    { q: 'Est-ce que je risque de me blesser en reprenant le sport après une longue pause ?', r: "C'est justement ce qu'un encadrement professionnel aide à limiter : progression maîtrisée, gestes corrigés, charge adaptée à ce que ton corps peut encaisser aujourd'hui." },
+    { q: 'Est-ce adapté si j\'ai 50, 60 ans ou plus ?', r: "Oui, l'âge n'est pas un frein en soi : le programme s'adapte à ta condition physique réelle, pas à un chiffre. Beaucoup de personnes démarrent justement à cet âge, souvent après un déclic santé." },
+    { q: 'Le coach peut-il tenir compte de mon diabète, de mon hypertension et des consignes de mon médecin ?', r: "Le coach construit le programme en cohérence avec les recommandations déjà données par ton médecin, mais ne remplace jamais le suivi médical de ta pathologie. Le lien se fait via ce que tu communiques toi-même." },
+    { q: 'Combien de séances par semaine faut-il prévoir pour débuter ?', r: "Il n'y a pas de règle unique : mieux vaut commencer par 1 à 2 séances par semaine que tu tiens vraiment dans la durée, plutôt qu'un rythme ambitieux abandonné après un mois." },
+    { q: 'Faut-il un équipement particulier pour démarrer ?', r: "Non. La plupart des programmes de reprise démarrent avec peu ou pas de matériel : l'essentiel est la régularité et la progression, pas l'équipement." },
+    { q: 'Le bilan santé, ça se passe comment concrètement ?', r: "C'est un rendez-vous d'environ 1 heure avec un coach : un temps d'échange sur ta situation et tes objectifs, un temps de mise en situation réelle, puis un retour avec une proposition de programme adaptée." },
+  ],
+  'mal-de-dos': [
+    { q: 'Cet accompagnement va-t-il guérir mon mal de dos ?', r: "Non, et aucun coach sérieux ne peut te le promettre. L'objectif est de renforcer ton dos, travailler ta mobilité et t'aider à reprendre le mouvement en sécurité, en complément d'un suivi médical si besoin." },
+    { q: 'Dois-je consulter un médecin avant de commencer ?', r: "Oui, en cas de douleur récente, inhabituelle ou intense, un avis médical préalable est indispensable. Le coach n'est pas un professionnel de santé et n'établit aucun diagnostic." },
+    { q: 'Le sport peut-il aggraver mon mal de dos ?', r: "Un mouvement mal préparé ou mal exécuté, oui. C'est justement pour éviter ça qu'un accompagnement encadré et progressif fait la différence par rapport à une reprise seul et sans guide." },
+    { q: 'J\'ai une hernie discale ou une pathologie diagnostiquée, est-ce compatible ?', r: "Cela dépend entièrement de ton diagnostic et de l'avis de ton médecin ou kinésithérapeute. Le coach adapte le programme mais ne se substitue jamais à un avis médical sur ta pathologie." },
+    { q: 'Combien de temps dure ce type d\'accompagnement ?', r: "Il n'y a pas de durée fixe : certaines personnes viennent pour un épisode ponctuel, d'autres pour un suivi de prévention au long cours contre les récidives." },
+    { q: 'Concrètement, à quoi ressemble une séance ?', r: "Un mélange de mobilité, de renforcement du gainage et des muscles profonds du dos, et de correction posturale, toujours adapté à ta douleur du jour : certains exercices peuvent être allégés ou remplacés selon comment tu te sens." },
+    { q: 'Le coach peut-il travailler avec mon kinésithérapeute ?', r: "Oui, dans la mesure où tu partages les consignes de ton kiné. Le programme s'appuie sur son suivi, sans jamais le contredire ni s'y substituer." },
+    { q: 'Est-ce remboursé par la sécurité sociale ou ma mutuelle ?', r: "Non, l'accompagnement par un coach sportif n'est pas un acte médical et n'est donc pas remboursé. Certaines mutuelles proposent parfois des forfaits prévention à vérifier directement auprès d'elles." },
+    { q: 'Que se passe-t-il si j\'ai mal pendant une séance ?', r: "La séance s'arrête ou s'adapte immédiatement. Une douleur qui apparaît pendant l'effort n'est jamais ignorée ni poussée à travers : c'est un signal qu'on prend au sérieux." },
+    { q: 'Le bilan santé, ça se passe comment concrètement ?', r: "C'est un rendez-vous d'environ 1 heure : un échange sur ton mal de dos, ton historique et tes contraintes, un temps de mise en situation adaptée, puis une proposition de programme réaliste." },
+  ],
+  'coaching-sportif': [
+    { q: 'Je n\'ai jamais pris de coach, comment ça se passe la première fois ?', r: "Ça commence toujours par un bilan santé : un échange sur ton objectif, ton niveau réel et tes contraintes, avant même de parler programme. Aucune surprise, aucun engagement avant d'avoir cette clarté." },
+    { q: 'Combien de temps avant de voir des résultats ?', r: "Les premiers bénéfices (énergie, souffle) se ressentent souvent en 2 à 4 semaines de régularité. Les changements plus visibles arrivent généralement autour de 6 à 8 semaines, selon ton point de départ." },
+    { q: 'Le coaching sportif, c\'est fait pour quel niveau ?', r: "Tous les niveaux : débutant complet, reprise après une pause, ou sportif confirmé qui veut passer un palier. Le programme s'adapte à ta réalité, pas l'inverse." },
+    { q: 'Combien coûte un accompagnement chez GA Coachs ?', r: "Chaque coach fixe son tarif directement avec toi selon ton projet. À titre indicatif, prévois généralement entre 40€ et 80€ la séance. Tout se clarifie précisément au bilan santé." },
+    { q: 'Puis-je changer de coach si le courant ne passe pas ?', r: "Oui, sans problème. L'important est que tu te sentes bien accompagné : si un autre coach du réseau te correspond mieux, c'est tout à fait possible d'en discuter." },
+    { q: 'Le programme est-il vraiment personnalisé, ou c\'est un modèle standard ?', r: "Chaque programme est construit à partir de ton bilan initial : ton objectif, ton niveau, tes contraintes de temps. Deux personnes avec le même objectif peuvent repartir avec deux programmes différents." },
+    { q: 'Que se passe-t-il si je stagne malgré mes efforts ?', r: "C'est justement le rôle du coach : identifier ce qui bloque (technique, charge, récupération, régularité) et ajuster le programme en conséquence, plutôt que de répéter ce qui ne fonctionne pas." },
+    { q: 'Est-ce que je dois avoir un objectif précis pour commencer ?', r: "Non, beaucoup de personnes démarrent avec une envie floue de « se sentir mieux ». Le bilan santé sert justement à transformer ça en objectif concret et mesurable." },
+    { q: 'Le coach donne-t-il aussi des conseils nutrition ?', r: "Un coach peut donner des conseils généraux de bon sens, mais n'est pas un professionnel de la nutrition médicale. Pour un suivi nutritionnel poussé, un diététicien reste la bonne ressource." },
+    { q: 'Puis-je arrêter à tout moment si ça ne me convient plus ?', r: "Oui, il n'y a pas d'engagement de durée minimale imposé par le réseau. Les modalités précises sont clarifiées avec ton coach dès le départ." },
+  ],
+};
+
+const statsExpertise = statsParExpertise[expertise.slug];
+const faqSpecifique = faqParExpertise[expertise.slug];
+
+const faqExpertise = faqSpecifique ?? [
+  { q: `Comment se déroule un accompagnement en ${expertise.nom.toLowerCase()} ?`, r: "Le coach évalue ta situation et ton objectif, puis construit un programme adapté, suivi dans la durée." },
+  { q: 'Dans quelle salle puis-je bénéficier de cet accompagnement ?', r: "Consulte la page de chaque salle du réseau pour connaître les expertises disponibles sur place." },
+];
+
+const emo = (s: string): [string, string] => { const m = s.match(/^(\S+)\s+(.*)$/s); return m && !/[A-Za-zÀ-ÿ0-9]/.test(m[1]) ? [m[1], m[2]] : ['', s]; };
+const mots = expertise.nom.split(' ');
+const nomFin = mots.pop();
+const nomDebut = mots.join(' ');
+const programme = expertise.slug === 'sport-sante' ? 'Programme Sport Santé France' : expertise.slug === 'mal-de-dos' ? 'Programme Renforcement Dos' : '';
+const nomsSalles = [...sallesConcernees].map((s) => salleParSlug[s as string]?.nom).filter(Boolean);
+const nomsCoachs = coachsSpecialises.map((c) => `${c.prenom} ${c.nom}`);
+const villesHorsQ = villesConcernees.filter((v) => v.slug !== 'la-source' && v.slug !== 'saint-marceau');
+const enBref = [
+  `GA Coachs propose un accompagnement en ${expertise.nom.toLowerCase()} dans ${villesConcernees.length} villes et quartiers autour d'Orléans, avec des coachs sportifs diplômés qui interviennent en salle Basic-Fit.`,
+  nomsCoachs.length ? `${nomsCoachs.length} coach${nomsCoachs.length > 1 ? 's' : ''} GA spécialisé${nomsCoachs.length > 1 ? 's' : ''} : ${nomsCoachs.join(', ')}.` : '',
+  nomsSalles.length ? `Salles concernées : ${nomsSalles.join(', ')}.` : '',
+  `Pour qui : ${expertise.publics.join(', ').toLowerCase()}.`,
+  `Thèmes travaillés : ${expertise.sousThemes.join(', ')}.`,
+  `Point de départ : un bilan santé d'environ une heure avec le coach choisi, puis un programme construit pour toi.`,
+  expertise.slug === 'mal-de-dos' || expertise.slug === 'sport-sante' ? `Le coach intervient en complément d'un suivi médical, jamais à la place.` : '',
+].filter(Boolean);
+const faqTout = [
+  ...faqExpertise,
+  ...(nomsSalles.length ? [{ q: `Où se déroule l'accompagnement en ${expertise.nom.toLowerCase()} à Orléans ?`, r: `En salle Basic-Fit, dans le réseau GA Coachs : ${nomsSalles.join(', ')}. Les coachs accompagnent aussi les habitants ${villesHorsQ.slice(0, 6).map((v) => (/^[aeiouyàâéèêëîïôöûüh]/i.test(v.nom) ? `d'${v.nom}` : `de ${v.nom}`)).join(', ')} et des communes voisines.` }] : []),
+  ...(nomsCoachs.length ? [{ q: `Quels coachs GA sont spécialisés en ${expertise.nom.toLowerCase()} ?`, r: `${nomsCoachs.join(', ')}. Chaque fiche coach détaille sa salle, ses spécialités et sa méthode.` }] : []),
+];
+const descExpertise = `${expertise.resume.replace(/\.$/, '')}. ${coachsBase.length} coachs sportifs GA à Orléans, bilan santé pour démarrer.`.slice(0, 300);
+const guides = (articles as any[]).filter((a) => (a.expertisesLiees || []).includes(expertise.slug))
+  .sort((a, b) => String(b.dateModification || b.datePublication).localeCompare(String(a.dateModification || a.datePublication)));
+const guidesPlus = guides.slice(3, 15);
+guides.splice(3);
+const autresExpertises = expertisesData.filter((e) => e.slug !== expertise.slug);
+const sports = ['Football', 'Rugby', 'Basket', 'Handball', 'Athlétisme', 'Golf', 'Baseball', 'Judo', 'MMA', 'Lutte', 'Boxe', 'Hockey sur glace', 'Aviron', 'Tennis', 'Badminton', 'Volley', 'BMX', 'Kayak', 'Course à pied', 'Escrime', 'Équitation', 'Danse', 'Escalade', 'Foot américain', 'Grappling', 'Natation', 'Padel', 'Patinage', 'Pilates', 'Pole dance', 'Trail'];
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: `${expertise.nom} à Orléans`,
+    serviceType: expertise.nom,
+    url: `https://gacoachs.fr/${expertise.slug}/`,
+    provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' },
+    areaServed: villesHorsQ.map((v) => ({ '@type': 'City', name: v.nom })),
+    audience: { '@type': 'Audience', audienceType: expertise.publics.join(', ') },
+    description: expertise.resume,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqTout.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.r } })),
+  },
+];
+---
+<BaseLayout
+  title={`${expertise.nom} à Orléans avec un coach sportif GA`}
+  description={descExpertise}
+  path={`/${expertise.slug}/`}
+  jsonLd={jsonLd}
+  image={expertise.slug === 'preparation-physique' ? '/images/og-boost-club.jpg' : undefined}
+>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Nos expertises', href: '/#expertises' }, { label: expertise.nom, href: `/${expertise.slug}/` }]} />
+      <div class="ex-hero">
+        <div>
+          <div class="ex-tags">
+            <span class="eyebrow eyebrow-dark">Nos expertises</span>
+            {programme && <span class="eyebrow eyebrow-dark">{programme}</span>}
+          </div>
+          <h1>{nomDebut} <span class="hl-text">{nomFin}</span>.</h1>
+          <p class="phero-lead">{expertise.resume}</p>
+          {expertise.slug === 'mal-de-dos' && <p class="ex-disc">Cet accompagnement ne remplace pas un avis médical et ne constitue pas une promesse de guérison.</p>}
+          <div class="ctas">
+            <a class="btn btn-primary" href="/score-sante/">Réserver mon bilan santé</a>
+            <a class="btn btn-glass" href="/score-sante/">Faire mon Score Santé</a>
+          </div>
+        </div>
+        <div role="note" class="ex-pq">
+          <span class="bt-k"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg>Pour qui ?</span>
+          <ul class="bt-list">{expertise.publics.map((p: string) => <li>{p}</li>)}</ul>
+          <span class="bt-k" style="margin-top: 18px;"><svg class="ic" aria-hidden="true"><use href="#i-target"></use></svg>Thèmes travaillés</span>
+          <div class="ex-chips">{expertise.sousThemes.map((t: string) => <span>{t}</span>)}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="facts">
+    <div class="inner">
+      <div class="facts-in">
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg></span><div><b>{coachsBase.length}</b><span>{coachsSpecialises.length ? 'coachs spécialisés' : 'coachs du réseau'}</span></div></div>
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg></span><div><b>{sallesConcernees.size}</b><span>salles Basic-Fit</span></div></div>
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span><div><b>{villesConcernees.length}</b><span>villes autour d'Orléans</span></div></div>
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-clock"></use></svg></span><div><b>1 h</b><span>de bilan santé pour démarrer</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="sec">
+    <div class="inner vb2">
+      <div>
+        <span class="eyebrow">En bref</span>
+        <h2 class="h2">{expertise.nom} à Orléans en 30 secondes.</h2>
+      </div>
+      <ul class="vb-list">{enBref.map((t) => <li>{t}</li>)}</ul>
+    </div>
+  </section>
+
+  {expertise.slug === 'preparation-physique' && (
+    <section class="sec band" id="courses">
+      <div class="inner">
+        <span class="eyebrow">Préparation course et endurance</span>
+        <h2 class="h2">Tu prépares une course ? Choisis ton épreuve.</h2>
+        <div class="ex-course">
+          {courseData.epreuves.map((c) => <a href={`/preparation-course/${c.slug}/`}><span aria-hidden="true">{c.emoji}</span><b>{c.nom}</b><svg class="ic" aria-hidden="true"><use href="#i-arrow"></use></svg></a>)}
+        </div>
+        <a class="btn-out" style="margin-top: 22px;" href="/preparation-course/">Toute la préparation course <svg class="ic" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+      </div>
+    </section>
+  )}
+
+  {expertise.concours && (
+    <section class="sec band" id="concours">
+      <div class="inner">
+        <span class="eyebrow">Concours préparés</span>
+        <h2 class="h2">Les concours que nous préparons.</h2>
+        <p class="lead-p">{expertise.concoursIntro}</p>
+        <div class="ex-conc">
+          {expertise.concours.map((c: any) => (
+            <article class="tile">
+              <h3><span aria-hidden="true">{c.emoji}</span> {c.nom}</h3>
+              <p class="ex-sous">{c.sous}</p>
+              <span class="bt-k">Épreuves physiques</span>
+              <ul class="bt-list">{c.epreuves.map((x: string) => <li>{x}</li>)}</ul>
+              <p class="ex-point">{c.point}</p>
+              <span class="bt-k">Notre préparation</span>
+              <p>{c.prepa}</p>
+              {c.source && <p class="src">Source : <a href={c.source.url} target="_blank" rel="noopener noreferrer">{c.source.nom}</a></p>}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {methodeExpertise && (
+    <section class="sec navy">
+      <div class="lightning-bg" aria-hidden="true"></div>
+      <div class="inner">
+        <span class="eyebrow">Comment ça se passe</span>
+        <h2 class="h2">{expertise.slug === 'mal-de-dos' ? 'La méthode Renforcement Dos, étape par étape.' : 'Notre méthode, étape par étape.'}</h2>
+        <ol class="ex-tl">
+          {methodeExpertise.map((m, i) => <li><span class="ex-n">{i + 1}</span><div><h3>{m.titre}</h3><p>{m.texte}</p></div></li>)}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  {expertise.slug === 'mal-de-dos' && (
+    <section class="sec band">
+      <div class="inner">
+        <span class="eyebrow">Concrètement, dans le geste</span>
+        <h2 class="h2">Ce qui ne va pas, ce qu'il faut faire à la place.</h2>
+        <p class="lead-p">Deux gestes du quotidien qui reviennent le plus souvent parmi les causes du mal de dos, montrés simplement : ce qui abîme le dos, et le bon réflexe à prendre à la place.</p>
+        <div class="ex-sch">
+          <div class="tile">
+            <h3>Rester assis toute la journée</h3>
+            <div class="ex-pair">
+              <div class="ex-mv"><svg viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mauvaise posture : dos courbé, écran trop bas">
+                <line x1="60" y1="220" x2="60" y2="180" stroke="#8A96B2" stroke-width="4" stroke-linecap="round"/>
+                <line x1="60" y1="180" x2="150" y2="180" stroke="#8A96B2" stroke-width="4" stroke-linecap="round"/>
+                <path d="M 90 180 Q 100 140 130 110 Q 145 95 160 85" stroke="#8A96B2" stroke-width="6" fill="none" stroke-linecap="round"/>
+                <path d="M 115 130 Q 130 145 145 150" stroke="#8A96B2" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <circle cx="168" cy="78" r="15" fill="#8A96B2"/>
+                <line x1="90" y1="180" x2="88" y2="230" stroke="#8A96B2" stroke-width="6" stroke-linecap="round"/>
+                <line x1="90" y1="180" x2="80" y2="230" stroke="#8A96B2" stroke-width="6" stroke-linecap="round"/>
+                <line x1="150" y1="150" x2="210" y2="150" stroke="#5A6785" stroke-width="4" stroke-linecap="round"/>
+              </svg><span>✕ Dos courbé, écran trop bas</span></div>
+              <div class="ex-ok"><svg viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bonne posture : dos droit, écran à hauteur des yeux">
+                <line x1="60" y1="220" x2="60" y2="180" stroke="#2F6FED" stroke-width="4" stroke-linecap="round"/>
+                <line x1="60" y1="180" x2="150" y2="180" stroke="#2F6FED" stroke-width="4" stroke-linecap="round"/>
+                <line x1="90" y1="180" x2="90" y2="90" stroke="#2F6FED" stroke-width="6" stroke-linecap="round"/>
+                <path d="M 90 120 L 65 140" stroke="#2F6FED" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <path d="M 90 120 L 115 140" stroke="#2F6FED" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <circle cx="90" cy="74" r="15" fill="#2F6FED"/>
+                <line x1="90" y1="180" x2="88" y2="230" stroke="#2F6FED" stroke-width="6" stroke-linecap="round"/>
+                <line x1="90" y1="180" x2="80" y2="230" stroke="#2F6FED" stroke-width="6" stroke-linecap="round"/>
+                <line x1="150" y1="115" x2="210" y2="115" stroke="#1F55C9" stroke-width="4" stroke-linecap="round"/>
+              </svg><span>✓ Dos droit, écran à hauteur des yeux</span></div>
+            </div>
+          </div>
+          <div class="tile">
+            <h3>Se baisser pour porter une charge</h3>
+            <div class="ex-pair">
+              <div class="ex-mv"><svg viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mauvaise posture : dos courbé pour porter une charge">
+                <line x1="120" y1="230" x2="122" y2="180" stroke="#8A96B2" stroke-width="6" stroke-linecap="round"/>
+                <line x1="120" y1="230" x2="130" y2="180" stroke="#8A96B2" stroke-width="6" stroke-linecap="round"/>
+                <path d="M 122 180 Q 100 150 75 120 Q 65 108 55 100" stroke="#8A96B2" stroke-width="6" fill="none" stroke-linecap="round"/>
+                <path d="M 90 140 L 55 150" stroke="#8A96B2" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <circle cx="46" cy="94" r="15" fill="#8A96B2"/>
+                <rect x="30" y="150" width="34" height="24" rx="3" fill="#5A6785"/>
+              </svg><span>✕ Dos courbé pour porter</span></div>
+              <div class="ex-ok"><svg viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bonne posture : jambes fléchies, dos droit pour porter une charge">
+                <line x1="120" y1="230" x2="100" y2="195" stroke="#2F6FED" stroke-width="6" stroke-linecap="round"/>
+                <line x1="120" y1="230" x2="140" y2="195" stroke="#2F6FED" stroke-width="6" stroke-linecap="round"/>
+                <line x1="100" y1="195" x2="105" y2="150" stroke="#2F6FED" stroke-width="6" stroke-linecap="round"/>
+                <line x1="140" y1="195" x2="115" y2="150" stroke="#2F6FED" stroke-width="6" stroke-linecap="round"/>
+                <path d="M 110 150 L 100 105" stroke="#2F6FED" stroke-width="6" fill="none" stroke-linecap="round"/>
+                <path d="M 108 130 L 70 150" stroke="#2F6FED" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <circle cx="96" cy="90" r="15" fill="#2F6FED"/>
+                <rect x="46" y="150" width="34" height="24" rx="3" fill="#1F55C9"/>
+              </svg><span>✓ Jambes fléchies, dos droit</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="small-note">Ces schémas illustrent des principes généraux de bonne posture, pas un traitement adapté à ta situation précise. En cas de doute, ton médecin ou ton kinésithérapeute reste le mieux placé pour te conseiller.</p>
+      </div>
+    </section>
+  )}
+
+  {causesExpertise && (
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">D'où ça vient</span>
+        <h2 class="h2">{expertise.slug === 'mal-de-dos' ? 'Les causes les plus fréquentes du mal de dos.' : 'Pourquoi on en arrive là.'}</h2>
+        <p class="lead-p">Il n'y a presque jamais une seule cause : le plus souvent, plusieurs facteurs s'accumulent avec le temps. En voici les plus fréquents, rencontrés chez les personnes que nous accompagnons.</p>
+        <ul class="ex-causes">{causesExpertise.map((c) => { const [e, t] = emo(c); return <li><span aria-hidden="true">{e}</span>{t}</li>; })}</ul>
+      </div>
+    </section>
+  )}
+
+  {consequencesExpertise && (
+    <section class="sec navy">
+      <div class="lightning-bg" aria-hidden="true"></div>
+      <div class="inner">
+        <span class="eyebrow">Si rien ne change</span>
+        <h2 class="h2">{expertise.slug === 'mal-de-dos' ? 'Ce que peut entraîner un mal de dos négligé.' : "Ce qu'entraîne l'inaction dans la durée."}</h2>
+        <p class="lead-p ex-lead-d">On ne cherche pas à te faire peur, juste à être honnête. C'est pour éviter ou limiter ces effets qu'un accompagnement a du sens.</p>
+        <div class="ex-cons">{consequencesExpertise.map((c) => { const [e, t] = emo(c); return <div><span aria-hidden="true">{e}</span><p>{t}</p></div>; })}</div>
+        <a href="/score-sante/" class="sp-score">
+          <span class="sp-score-ic" aria-hidden="true">🎯</span>
+          <span>Tu te reconnais dans ces situations ? Fais ton Score Santé gratuit en 2 minutes pour faire le point, avant même de réserver un bilan.</span>
+          <span class="sp-go" aria-hidden="true"><svg class="ic"><use href="#i-arrow"></use></svg></span>
+        </a>
+      </div>
+    </section>
+  )}
+
+  {changementsExpertise && (
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">Ce que le coaching change concrètement</span>
+        <h2 class="h2">Ce que tu peux vraiment attendre d'un accompagnement.</h2>
+        <div class="ex-chg">{changementsExpertise.map((c) => { const [e, t] = emo(c.titre); return <div class="tile"><span class="ex-emo" aria-hidden="true">{e}</span><h3>{t}</h3><p>{c.texte}</p></div>; })}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="sec band">
+    <div class="inner ex-two">
+      {capacitesExpertise && (
+        <div>
+          <span class="eyebrow">Concrètement, dans ta vie</span>
+          <h2 class="h2">Ce que tu vas pouvoir faire.</h2>
+          <p class="lead-p">{expertise.slug === 'mal-de-dos' ? "Ce ne sont pas des promesses, mais ce que retrouvent le plus souvent les personnes qu'on accompagne, une fois le travail de fond engagé." : "Ce ne sont pas des promesses universelles, mais ce que retrouvent le plus souvent les personnes qu'on accompagne, à leur rythme."}</p>
+          <ul class="bt-list ex-cap">{capacitesExpertise.map((c) => <li>Tu vas pouvoir {c.charAt(0).toLowerCase() + c.slice(1)}</li>)}</ul>
+        </div>
+      )}
+      <div class="tile ex-ben">
+        <span class="bt-k"><svg class="ic" aria-hidden="true"><use href="#i-check"></use></svg>Les bénéfices</span>
+        <ul class="bt-list">{expertise.benefices.map((b: string) => <li>{b}</li>)}</ul>
+        <a class="btn btn-primary" href="/score-sante/" style="margin-top: 22px;">Réserver mon bilan santé</a>
+      </div>
+    </div>
+  </section>
+
+  {statsExpertise && (
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">{expertise.slug === 'sport-sante' ? 'Chez nous, en Centre-Val de Loire' : 'Pourquoi ce sujet compte'}</span>
+        <h2 class="h2">Ce que montrent les chiffres.</h2>
+        <div class="ex-stats">{statsExpertise.map((s) => <div class="tile"><b>{s.chiffre}</b><p>{s.description}</p><a class="src" href={s.url} target="_blank" rel="noopener noreferrer">Source : {s.source}</a></div>)}</div>
+      </div>
+    </section>
+  )}
+
+  {pathologiesExpertise && (
+    <section class="sec band">
+      <div class="inner">
+        <span class="eyebrow">Ce qu'on rencontre souvent</span>
+        <h2 class="h2">Les situations les plus fréquentes que nous accompagnons.</h2>
+        <p class="lead-p">Ce n'est pas une liste de diagnostics : c'est un aperçu honnête des situations les plus courantes chez les personnes qui viennent nous voir. Le coach n'établit jamais de diagnostic, c'est le rôle exclusif d'un médecin. Notre travail porte sur le mouvement au quotidien, en complément du suivi médical, jamais à la place.</p>
+        <div class="ex-path">{pathologiesExpertise.map((p) => { const [e, t] = emo(p.nom); return <div class="tile"><h3><span aria-hidden="true">{e}</span> {t}</h3><p>{p.description}</p><p class="ex-role"><b>Le rôle du coach :</b> {p.roleCoach}</p></div>; })}</div>
+        <p class="small-note">En cas de doute, de douleur inhabituelle ou de pathologie diagnostiquée, la première étape est toujours d'en parler à un médecin. Le bilan avec un coach GA intervient en complément, jamais à la place, d'un avis médical.</p>
+      </div>
+    </section>
+  )}
+
+  {expertise.slug === 'sport-sante' && (
+    <section class="sec" id="ehpad">
+      <div class="inner">
+        <div class="ex-ehpad">
+          <div class="lightning-bg" aria-hidden="true"></div>
+          <div>
+            <span class="eyebrow eyebrow-dark">Pour les établissements</span>
+            <h2 class="h2">Nous intervenons aussi en EHPAD et en maison de retraite.</h2>
+            <p class="lead-p">Bouger aide à rester autonome à tout âge. Nos coachs animent des séances adaptées auprès des résidents d'EHPAD et de maisons de retraite : prévention des chutes, maintien de l'autonomie, bien-être, en lien avec votre équipe.</p>
+          </div>
+          <a href="/sport-sante/ehpad-maisons-de-retraite/" class="btn btn-primary">Découvrir l'offre EHPAD</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class={`sec ${expertise.slug === 'sport-sante' ? 'band' : ''}`} id="ex-coachs">
+    <div class="inner">
+      <span class="eyebrow">L'équipe</span>
+      <h2 class="h2">{coachsSpecialises.length ? `Coachs spécialisés en ${expertise.nom.toLowerCase()}.` : 'Nos coachs.'}</h2>
+      {coachsSpecialises.length > 0 ? (
+        <div class="sp-coachs">
+          {coachsSpecialises.map((c) => <CoachCard slug={c.slug} prenom={c.prenom} nom={c.nom} salleNom={salleParSlug[c.salleSlug]?.nom ?? ''} tags={c.tags} photo={c.photo} avisGoogle={c.avisGoogle} role={c.role} />)}
+        </div>
+      ) : (<><p class="lead-p">Les profils spécialisés dans ce domaine seront présentés ici prochainement. En attendant, le bilan santé permet de t'orienter vers le coach du réseau le plus adapté à ta situation.</p><div class="ctas" style="margin-top: 22px;"><a class="btn btn-primary" href="/score-sante/">Réserver mon bilan santé</a><a class="btn-out" href="/trouver-un-coach/">Voir les coachs du réseau <svg class="ic" aria-hidden="true"><use href="#i-arrow"></use></svg></a></div></>)}
+    </div>
+  </section>
+
+  {expertise.slug === 'preparation-physique' && (
+    <section class="sec navy">
+      <div class="lightning-bg" aria-hidden="true"></div>
+      <div class="inner">
+        <span class="eyebrow">Un pôle GA Coachs dédié</span>
+        <h2 class="h2">La préparation physique pour les clubs sportifs, tous sports confondus.</h2>
+        <p class="lead-p ex-lead-d">Dans beaucoup de clubs, les athlètes s'entraînent à leur sport, mais personne ne suit réellement leur préparation physique : pas de programme structuré, pas de suivi individuel, pas d'adaptation aux exigences réelles de la discipline. GA Coachs développe un pôle dédié à ce sujet, ouvert à tous les clubs sportifs d'Orléans et sa métropole, pas seulement aux salles Basic-Fit du réseau.</p>
+        <div class="ex-cl2">
+          <div><b>Le constat</b><p>De nombreux clubs n'ont ni le temps ni les moyens d'assurer un suivi physique structuré de leurs athlètes, en dehors des entraînements techniques habituels.</p></div>
+          <div><b>Notre réponse</b><p>Un programme de préparation physique construit avec le club, adapté aux exigences réelles du sport pratiqué, et suivi dans la durée par un coach du réseau.</p></div>
+        </div>
+        <span class="bt-k ex-k-d">Tous sports, tous niveaux</span>
+        <div class="ex-sports">{sports.map((s) => <span>{s}</span>)}</div>
+        <p class="ex-note-d">Et bien d'autres disciplines. Le programme s'adapte au sport, pas l'inverse.</p>
+        <div class="ex-cl2" style="grid-template-columns: 1fr;">
+          <div><b>Ce que nous observons</b><p>Au-delà des clubs, nous voyons de plus en plus de particuliers venir chercher une vraie préparation physique pour eux-mêmes, notamment à l'approche de l'été. Nous voyons aussi de plus en plus de parents investis dans le parcours sportif de leur enfant, parfois dans une logique qu'on surnomme familièrement le « mode projet Mbappé » : préparer sérieusement un jeune qui vise un niveau plus élevé dans son sport. Ce n'est pas une statistique nationale, seulement un constat de terrain chez GA Coachs.</p></div>
+        </div>
+        {clubsClients.length > 0 && (
+          <div class="ex-proof"><span class="bt-k ex-k-d">Ils nous font déjà confiance</span><LogoMarquee items={clubsClients} /></div>
+        )}
+        <a href="/preparation-physique/clubs/" class="btn btn-primary" style="margin-top: 26px;">Découvrir le pôle clubs sportifs</a>
+      </div>
+    </section>
+  )}
+
+  {guides.length > 0 && (
+    <section class="sec band">
+      <div class="inner">
+        <span class="eyebrow">Nos guides</span>
+        <h2 class="h2">Pour aller plus loin sur le sujet.</h2>
+        <div class="guides">
+          {guides.map((a: any) => <a class="guide" href={`/blog/${a.slug}/`}><small>Guide{a.tempsLecture ? ` · ${a.tempsLecture} min` : ''}</small><b>{a.titre}</b><p>{a.extrait}</p><em>Lire le guide →</em></a>)}
+        </div>
+        {guidesPlus.length > 0 && <ul class="guides-plus">{guidesPlus.map((a: any) => <li><a href={`/blog/${a.slug}/`}>{a.titre}</a></li>)}</ul>}
+      </div>
+    </section>
+  )}
+
+  <BoostPCQ id={expertise.slug} />
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Questions fréquentes.</h2>
+      <div class="faq-list">{faqTout.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <h2 class="h2" style="font-size: 24px;">Disponible près de chez toi</h2>
+      <div class="chips-row">
+        {objectifsEnfants.map((o) => <a class="chip-link" href={`/objectifs/${o.slug}/`}>{o.nom} <small>Objectif</small></a>)}
+        {villesConcernees.map((v) => <a class="chip-link" href={`/coach-sportif-${v.slug}/`}>Coach sportif à {v.nom}</a>)}
+      </div>
+      <h2 class="h2" style="font-size: 24px; margin-top: 34px;">Nos autres expertises</h2>
+      <div class="chips-row">
+        {autresExpertises.map((e: any) => <a class="chip-link" href={`/${e.slug}/`}>{e.nom} <small>Expertise</small></a>)}
+        <a class="chip-link" href="/preparation-course/">Préparation course <small>Expertise</small></a>
+      </div>
+    </div>
+  </section>
+
+  <SanteChiffres />
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">Prêt à trouver le coach qui te correspond ?</h2>
+      <a class="btn-final" href="/trouver-un-coach/"><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Trouver mon coach<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+
+<style>
+  .rb .phero { padding-bottom: 110px; }
+  .ex-hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 32px 56px; align-items: center; }
+  .ex-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ex-disc { margin: -6px 0 22px; font-size: 13.5px; line-height: 1.5; color: rgba(255,255,255,.7); }
+  .ex-pq { padding: 28px; border-radius: 26px; background: #fff; color: var(--ink); box-shadow: 0 40px 70px -40px rgba(0,0,0,.6); }
+  .ex-pq .bt-k { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .ex-pq .bt-k .ic { width: 18px; height: 18px; color: var(--blue); }
+  .ex-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ex-chips span { padding: 6px 12px; border-radius: 999px; background: var(--pill); color: var(--blue-deep); font-size: 13px; font-weight: 700; }
+  .vb2 { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 24px 48px; align-items: start; }
+  .vb-list { list-style: none; margin: 0; padding: 24px 28px; display: grid; gap: 12px; background: #fff; border: 2px solid var(--line); border-radius: 24px; }
+  .vb-list li { display: flex; gap: 10px; font-size: 15.5px; line-height: 1.5; font-weight: 600; }
+  .vb-list li::before { content: ""; width: 20px; height: 20px; margin-top: 2px; border-radius: 50%; flex-shrink: 0; background: var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.2 4.2L19 7'/%3E%3C/svg%3E") center / 12px no-repeat; }
+  .ex-course { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 26px; }
+  .ex-course a { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-radius: 18px; background: #fff; border: 2px solid var(--line); transition: transform .2s ease, border-color .2s ease; }
+  .ex-course a:hover { transform: translateY(-3px); border-color: #BFD3FB; }
+  .ex-course span { font-size: 24px; }
+  .ex-course b { flex: 1; font-size: 15.5px; }
+  .ex-course .ic { width: 18px; height: 18px; color: var(--blue); }
+  .ex-conc { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; margin-top: 28px; }
+  .ex-conc h3 { font-family: var(--display); font-size: 21px; line-height: 1.2; margin: 0; }
+  .ex-conc .ex-sous { margin: 4px 0 16px; font-size: 14px; color: var(--muted); }
+  .ex-conc .bt-k { display: block; margin: 16px 0 10px; }
+  .ex-conc .ex-point { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: var(--pill); font-size: 14.5px; font-weight: 700; }
+  .ex-tl { list-style: none; margin: 34px 0 0; padding: 0; display: grid; gap: 14px; max-width: 820px; position: relative; }
+  .ex-tl::before { content: ""; position: absolute; left: 25px; top: 20px; bottom: 20px; width: 2px; background: linear-gradient(rgba(124,196,255,.6), rgba(124,196,255,.1)); }
+  .ex-tl li { position: relative; display: flex; gap: 20px; align-items: flex-start; }
+  .ex-n { width: 52px; height: 52px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(150deg, #2F6FED, #1F55C9); border: 4px solid var(--navy); color: #fff; font-family: var(--display); font-size: 21px; font-weight: 700; box-shadow: 0 0 0 5px rgba(47,111,237,.2); }
+  .ex-tl li > div { flex: 1; padding: 20px 24px; border-radius: 22px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); }
+  .ex-tl h3 { font-family: var(--display); font-size: 20px; line-height: 1.25; margin: 0 0 6px; color: #fff; }
+  .ex-tl p { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.78); }
+  .ex-sch { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 28px; }
+  .ex-sch h3 { font-family: var(--display); font-size: 19px; margin: 0 0 14px; }
+  .ex-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ex-pair > div { display: grid; gap: 8px; justify-items: center; padding: 14px; border-radius: 18px; text-align: center; font-size: 13px; font-weight: 700; }
+  .ex-pair :global(svg) { width: 100%; max-width: 160px; height: auto; }
+  .ex-mv { background: #EEF1F7; color: var(--muted); }
+  .ex-ok { background: var(--pill); border: 2px solid #BFD3FB; color: var(--blue-deep); }
+  .ex-causes { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .ex-causes li { display: flex; gap: 14px; align-items: center; padding: 16px 20px; border-radius: 18px; background: #fff; border: 2px solid var(--line); font-size: 15px; line-height: 1.45; font-weight: 700; }
+  .ex-causes li span { font-size: 22px; flex-shrink: 0; }
+  .ex-lead-d { color: rgba(255,255,255,.75); }
+  .ex-cons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 28px; }
+  .ex-cons > div { padding: 20px; border-radius: 20px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); }
+  .ex-cons span { font-size: 24px; }
+  .ex-cons p { margin-top: 10px; font-size: 14.5px; line-height: 1.55; color: rgba(255,255,255,.82); }
+  .sp-score { display: flex; align-items: center; gap: 16px; margin-top: 30px; padding: 22px 26px; border-radius: 24px; background: linear-gradient(120deg, #2F6FED, #1F55C9); color: #fff; font-size: 16px; line-height: 1.5; font-weight: 700; box-shadow: 0 24px 50px -28px rgba(47,111,237,.9); transition: transform .25s ease; }
+  .sp-score:hover { transform: translateY(-3px); color: #fff; }
+  .sp-score span:nth-child(2) { flex: 1; }
+  .sp-score-ic { font-size: 28px; flex-shrink: 0; }
+  .sp-go { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #fff; color: var(--blue); flex-shrink: 0; }
+  .sp-go .ic { width: 20px; height: 20px; }
+  .ex-chg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+  .ex-emo { font-size: 28px; }
+  .ex-chg h3 { font-family: var(--display); font-size: 20px; line-height: 1.25; margin: 10px 0 8px; }
+  .ex-chg p { font-size: 14.5px; color: var(--muted); }
+  .ex-two { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 28px 48px; align-items: start; }
+  .ex-cap { margin-top: 24px; gap: 12px; }
+  .ex-ben .bt-k { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .ex-ben .bt-k .ic { width: 18px; height: 18px; color: var(--blue); }
+  .ex-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; margin-top: 28px; }
+  .ex-stats b { display: block; font-family: var(--display); font-size: 40px; line-height: 1; color: var(--blue); }
+  .ex-stats p { margin-top: 10px; font-size: 14.5px; }
+  .ex-stats .src { text-decoration: underline; text-underline-offset: 3px; color: var(--muted); }
+  .ex-path { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-top: 28px; }
+  .ex-path h3 { font-family: var(--display); font-size: 19px; margin: 0 0 8px; }
+  .ex-path p { font-size: 14.5px; }
+  .ex-path .ex-role { margin-top: 12px; padding: 12px 14px; border-radius: 14px; background: var(--pill); }
+  .ex-ehpad { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 40px; align-items: center; padding: 38px; border-radius: 30px; background: var(--navy); color: #fff; }
+  .ex-ehpad .lightning-bg { opacity: .35; }
+  .ex-ehpad > * { position: relative; }
+  .ex-ehpad .h2 { color: #fff; }
+  .ex-ehpad .lead-p { color: rgba(255,255,255,.78); }
+  .sp-coachs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin-top: 28px; }
+  .ex-cl2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 26px 0; }
+  .ex-cl2 > div { padding: 22px; border-radius: 20px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); }
+  .ex-cl2 b { font-family: var(--display); font-size: 19px; color: #fff; }
+  .ex-cl2 p { margin-top: 6px; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.8); }
+  .ex-k-d { display: block; color: #BFE2FF; margin-bottom: 12px; }
+  .ex-sports { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ex-sports span { padding: 7px 13px; border-radius: 999px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); font-size: 13.5px; font-weight: 700; color: #fff; }
+  .ex-note-d { margin-top: 12px; font-size: 13.5px; color: rgba(255,255,255,.7); }
+  .ex-proof { margin-top: 20px; }
+  @media (max-width: 960px) {
+    .ex-hero, .vb2, .ex-two, .ex-sch, .ex-ehpad { grid-template-columns: 1fr; }
+    .ex-cons, .ex-chg { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .sp-coachs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  }
+  @media (max-width: 640px) {
+    .ex-causes, .ex-cons, .ex-chg, .ex-cl2 { grid-template-columns: 1fr; }
+    .ex-pq, .ex-ehpad { padding: 22px; }
+    .ex-tl::before { left: 21px; }
+    .ex-n { width: 44px; height: 44px; font-size: 18px; }
+    .ex-tl li { gap: 12px; }
+    .ex-tl li > div { padding: 16px 18px; }
+    .ex-path { grid-template-columns: 1fr; }
+    .ex-conc { grid-template-columns: 1fr; }
+    .sp-score { padding: 18px; gap: 12px; font-size: 15px; }
+  }
+  .guides-plus { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 28px; }
+  .guides-plus a { display: block; padding: 10px 0; border-bottom: 1px solid #DCE6FA; color: #0037B6; font-weight: 700; font-size: 15px; line-height: 1.4; text-decoration: none; }
+  .guides-plus a:hover { text-decoration: underline; }
+  @media (max-width: 760px) { .guides-plus { grid-template-columns: 1fr; } }
+</style>

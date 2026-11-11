@@ -1,0 +1,116 @@
+---
+// « Pourquoi ça n'a pas marché avant » : recadrage, boucle d'abandon, preuves chiffrées et sourcées
+const { id = 'ca-change', cta = true } = Astro.props;
+const boucle = [
+  ['🔥', 'Lundi, je m\'y remets', 'Motivation à fond, nouvel abonnement, nouveau programme trouvé en ligne.'],
+  ['🤷', 'Je fais au feeling', 'Pas de plan adapté, une technique jamais corrigée, aucun repère.'],
+  ['📉', 'Ça stagne', 'La balance ne bouge plus, une douleur arrive, on ne sait pas pourquoi.'],
+  ['🛋️', 'J\'arrête', '« Pas le temps », « pas fait pour moi »… et on attend le prochain lundi.'],
+];
+---
+<section class="sec navy cc" id={id}>
+  <div class="lightning-bg" aria-hidden="true"></div>
+  <div class="inner">
+    <div class="cc-hook">
+      <span class="eyebrow">Pourquoi ça n'a pas marché avant</span>
+      <h2 class="h2">Ce n'est pas ta volonté qui a lâché.<span class="cc-hl">C'est d'avoir été seul.</span></h2>
+      <p class="lead-p cc-lead">Si tu as déjà essayé (régimes, applis, abonnement jamais utilisé), tu connais cette boucle. Elle n'a rien à voir avec ton caractère : sans plan, sans correction et sans personne qui t'attend, presque tout le monde finit par décrocher.</p>
+    </div>
+
+    <div class="cc-loop">
+      <p class="cc-loop-k">La boucle du « je m'y remets lundi »</p>
+      <ol>
+        {boucle.map(([e, t, d], i) => (
+          <li><span class="cc-n">{e}</span><b>{t}</b><span>{d}</span>{i < boucle.length - 1 && <i class="cc-arr" aria-hidden="true">→</i>}</li>
+        ))}
+      </ol>
+      <p class="cc-loop-back" aria-hidden="true">↺ … et on recommence de zéro</p>
+    </div>
+
+    <div class="cc-break">
+      <div class="cc-break-t">
+        <span class="cc-tag">Avec un coach GA</span>
+        <h3>On casse la boucle.</h3>
+        <ul>
+          <li><span><b>Un plan fait pour toi</b>, construit à partir de ton bilan santé.</span></li>
+          <li><span><b>Chaque mouvement corrigé</b>, pour progresser sans te blesser.</span></li>
+          <li><span><b>Un rendez-vous qui t'attend</b> : impossible de repousser à lundi.</span></li>
+          <li><span><b>Un programme ajusté</b> dès que ça stagne.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="cc-stats-k">Ce que disent les études</p>
+    <div class="cc-stats">
+      <div class="cc-st">
+        <b>80 %</b>
+        <span>des personnes qui font un régime reprennent du poids dans l'année qui suit.</span>
+        <a class="cc-src" href="https://www.allodocteurs.fr/alimentation-regimes-regime-amaigrissant-regime-un-jour-regime-toujours-4007.html" target="_blank" rel="noopener noreferrer">Source : ANSES, 2010</a>
+      </div>
+      <div class="cc-st">
+        <b>50 %</b>
+        <span>de ceux qui se mettent au sport seuls abandonnent dans les 6 premiers mois.</span>
+        <a class="cc-src" href="https://ejournals.lib.hkbu.edu.hk/index.php/ajper/article/view/1155" target="_blank" rel="noopener noreferrer">Source : Dishman, 1982</a>
+      </div>
+      <div class="cc-st cc-st-hi">
+        <b>90 %</b>
+        <span>de ceux qui ont perdu du poids et ne l'ont jamais repris font du sport régulièrement, environ 1 h par jour en moyenne.</span>
+        <a class="cc-src" href="https://us.humankinetics.com/blogs/excerpt/learning-from-the-national-weight-control-registry" target="_blank" rel="noopener noreferrer">Source : National Weight Control Registry</a>
+      </div>
+    </div>
+
+    {cta && (
+      <div class="cc-end">
+        <p>Tu as déjà essayé seul. <b>Essaie une heure avec nous.</b></p>
+        <a class="btn btn-primary" href="/score-sante/">Je réserve mon bilan santé</a>
+      </div>
+    )}
+  </div>
+</section>
+
+<style is:global>
+  .cc .cc-hook { max-width: 760px; }
+  .cc .cc-hook .h2 { font-size: clamp(30px, 2.4vw + 14px, 46px); line-height: 1.12; }
+  .cc .cc-hl { display: block; color: #7CC4FF; }
+  .cc .lead-p.cc-lead { color: rgba(255,255,255,.82); }
+  .cc .cc-loop { margin-top: 36px; padding: 24px; border-radius: 26px; background: rgba(255,255,255,.04); border: 1px dashed rgba(255,255,255,.22); }
+  .cc .cc-loop-k { margin: 0 0 16px; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: rgba(255,255,255,.6); }
+  .cc .cc-loop ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .cc .cc-loop li { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 18px; border-radius: 18px; background: rgba(255,255,255,.05); }
+  .cc .cc-n { font-size: 28px; }
+  .cc .cc-loop li b { font-family: var(--display); font-size: 18px; color: #fff; }
+  .cc .cc-loop li > span:not(.cc-n) { font-size: 14px; line-height: 1.5; color: rgba(255,255,255,.66); }
+  .cc .cc-arr { position: absolute; right: -14px; top: 50%; transform: translateY(-50%); z-index: 1; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #0B1E3D; color: rgba(255,255,255,.6); font-style: normal; font-size: 13px; }
+  .cc .cc-loop-back { margin: 14px 0 0; text-align: center; font-weight: 700; font-size: 14.5px; color: rgba(255,255,255,.55); }
+  .cc .cc-break { margin-top: 20px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, .6fr); gap: 18px; }
+  .cc .cc-break-t { padding: 28px; border-radius: 26px; background: linear-gradient(150deg, #0037B6, #2F6FED); box-shadow: 0 30px 60px -30px rgba(47,111,237,.9); }
+  .cc .cc-tag { display: inline-block; padding: 5px 12px; border-radius: 999px; background: #fff; color: #0037B6; font-size: 12.5px; font-weight: 700; }
+  .cc .cc-break-t h3 { margin: 12px 0 14px; font-family: var(--display); font-size: clamp(26px, 2vw + 12px, 34px); color: #fff; }
+  .cc .cc-break-t ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 22px; }
+  .cc .cc-break-t li { display: flex; gap: 10px; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,.88); }
+  .cc .cc-break-t li::before { content: "✓"; flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #fff; color: #0037B6; font-size: 12px; font-weight: 700; margin-top: 1px; }
+  .cc .cc-break-t li b { color: #fff; }
+  .cc .cc-year { display: flex; flex-direction: column; justify-content: center; padding: 26px; border-radius: 26px; background: #fff; color: var(--ink); text-align: center; }
+  .cc .cc-year b { font-family: var(--display); font-size: clamp(56px, 5vw, 76px); line-height: 1; color: #0037B6; }
+  .cc .cc-year span { margin-top: 8px; font-size: 15.5px; line-height: 1.45; font-weight: 700; }
+  .cc .cc-year small { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+  .cc .cc-stats-k { margin: 30px 0 12px; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: rgba(255,255,255,.6); }
+  .cc .cc-st.cc-st-hi { background: rgba(124,196,255,.14); border-color: rgba(124,196,255,.5); }
+  .cc .cc-st.cc-st-hi b { color: #fff; }
+  .cc .cc-stats { margin-top: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .cc .cc-st { display: flex; flex-direction: column; gap: 8px; padding: 22px; border-radius: 22px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); }
+  .cc .cc-st b { font-family: var(--display); font-size: 40px; line-height: 1; color: #7CC4FF; }
+  .cc .cc-st span:not(.cc-src) { font-size: 14.5px; line-height: 1.5; color: rgba(255,255,255,.85); flex: 1; }
+  .cc .cc-src { font-size: 12.5px; color: rgba(255,255,255,.6); text-decoration: underline; text-underline-offset: 3px; }
+  .cc span.cc-src { text-decoration: none; }
+  .cc .cc-end { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px 22px; text-align: center; }
+  .cc .cc-end p { margin: 0; font-family: var(--display); font-size: 21px; color: rgba(255,255,255,.85); }
+  .cc .cc-end p b { color: #fff; }
+  @media (max-width: 960px) {
+    .cc .cc-loop ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cc .cc-arr { display: none !important; }
+    .cc .cc-break, .cc .cc-stats { grid-template-columns: 1fr; }
+    .cc .cc-break-t ul { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) { .cc .cc-loop { padding: 16px; } .cc .cc-loop li { padding: 14px; } .cc .cc-break-t { padding: 22px 18px; } }
+</style>

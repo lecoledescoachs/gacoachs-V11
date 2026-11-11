@@ -1,0 +1,553 @@
+---
+import { coachesReseau as coaches } from '../data/coaches.js';
+import sallesData from '../data/salles.json';
+const salles = sallesData.filter((s) => s.reseauOfficiel !== false);
+import villes from '../data/villes.json';
+
+const salleParSlug = Object.fromEntries(salles.map((s) => [s.slug, s]));
+const objectifs = Array.from(new Set(coaches.flatMap((c) => c.tags)));
+
+const dataId = 'bamboo-data';
+const payload = {
+  coaches: coaches.map((c) => ({
+    slug: c.slug,
+    prenom: c.prenom,
+    nom: c.nom,
+    salleSlug: c.salleSlug,
+    salleNom: salleParSlug[c.salleSlug]?.nom ?? '',
+    tags: c.tags,
+    specialites: c.specialites,
+  })),
+  salles: salles.map((s) => ({ slug: s.slug, nom: s.nom, ville: s.ville, presentation: s.presentation })),
+  objectifs,
+  villes: villes.map((v) => ({ slug: v.slug, nom: v.nom })),
+};
+
+// Base de connaissances : mots-clés -> réponse toute faite (+ lien optionnel)
+const knowledgeBase = [
+  {
+    keywords: ['club', 'boost club', 'boost 360', 'preparation physique', 'equipe sportive'],
+    reponse: "BOOST CLUB est le programme GA Coachs de préparation physique pour clubs sportifs, tous sports confondus, en complément de l'entraîneur du club. 3 formules : Essentiel, Performance et Haute Performance, plus BOOST 360, l'offre premium pour plusieurs équipes.",
+    lien: { href: '/preparation-physique/clubs/', label: 'Découvrir BOOST CLUB' },
+  },
+  {
+    keywords: ['boost', 'entreprise', 'salarie', 'societe', 'boost entreprise'],
+    reponse: "BOOST ENTREPRISE™ propose des séances de 30 minutes de sport en entreprise, 1 à 5 fois par semaine selon la formule. Tu peux même tester gratuitement avec BOOST 30.",
+    lien: { href: '/entreprises/', label: 'Découvrir BOOST ENTREPRISE™' },
+  },
+  {
+    keywords: ['prix', 'tarif', 'coute', 'combien'],
+    reponse: "Pour le coaching individuel, chaque coach fixe son propre tarif directement avec toi. Pour BOOST ENTREPRISE et BOOST CLUB, le tarif dépend de la formule et du rythme choisis : le plus simple est d'en parler avec nous. Le bilan santé se réserve directement avec ton coach.",
+    lien: { href: '/contact/', label: 'Nous contacter' },
+  },
+  {
+    keywords: ['bilan'],
+    reponse: "Le bilan santé dure 1 heure : 30 minutes de coaching en situation réelle, puis 30 minutes de feedback et de proposition de programme. C'est le premier pas avant de démarrer un coaching.",
+    lien: { href: '/score-sante/', label: 'Réserver un bilan santé' },
+  },
+  {
+    keywords: ['horaire', 'ouvert', '24h', '24/7', 'ferme', 'heure'],
+    reponse: "Les salles Basic-Fit Olivet, Saran et Fleury-les-Aubrais sont ouvertes 24h/24 et 7j/7. Orléans Sud et Orléans Libération sont ouvertes du lundi au vendredi de 6h à 22h30, et le week-end de 9h à 19h.",
+    lien: { href: '/salles/', label: 'Voir toutes les salles' },
+  },
+  {
+    keywords: ['rejoindre', 'recrute', 'devenir coach', 'candidature', 'embauche'],
+    reponse: "GA Coachs recrute régulièrement des coachs sportifs indépendants partenaires. Tu trouveras toutes les infos pour candidater sur la page dédiée.",
+    lien: { href: '/rejoindre/', label: 'Rejoindre le réseau' },
+  },
+  {
+    keywords: ['basic-fit', 'basic fit', 'partenaire'],
+    reponse: "GA Coachs est le réseau de coachs sportifs partenaire officiel de Basic-Fit depuis 2018. Chaque coach intervient dans une seule salle Basic-Fit partenaire, où se déroulent toutes ses séances.",
+  },
+  {
+    keywords: ['perte de poids', 'perdre du poids', 'maigrir', 'obesite'],
+    reponse: "Plusieurs coachs du réseau sont spécialisés en perte de poids, avec un accompagnement adapté à ton rythme. Le bilan santé est un bon point de départ pour construire un programme sur mesure.",
+    lien: { href: '/score-sante/', label: 'Réserver un bilan santé' },
+  },
+  {
+    keywords: ['diplome', 'qualification', 'assurance', 'rc pro'],
+    reponse: "Chaque coach du réseau est un professionnel indépendant, avec sa propre carte professionnelle et son assurance RC Pro. Les infos sont affichées sur chaque fiche coach.",
+    lien: { href: '/trouver-un-coach/', label: 'Voir les coachs du réseau' },
+  },
+];
+
+function normalize(str: string) {
+  return str
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+---
+<div id="bamboo-root" class="bamboo">
+  <button type="button" id="bamboo-toggle" class="bamboo__bubble" aria-label="Ouvrir l'assistant Bamboo" aria-expanded="false">
+    <img src="/images/bamboo-avatar.webp" alt="" class="bamboo__bubble-icon" width="160" height="160" />
+    <span class="bamboo__bubble-badge" aria-hidden="true"></span>
+  </button>
+
+  <div id="bamboo-panel" class="bamboo__panel" hidden role="dialog" aria-label="Assistant Bamboo">
+    <div class="bamboo__header">
+      <div class="bamboo__header-info">
+        <span class="bamboo__avatar" aria-hidden="true"><img src="/images/bamboo-avatar.webp" alt="" width="160" height="160" /></span>
+        <div>
+          <p class="bamboo__name">Bamboo</p>
+          <p class="bamboo__status">Assistant GA Coachs</p>
+        </div>
+      </div>
+      <button type="button" id="bamboo-close" class="bamboo__close" aria-label="Fermer l'assistant">&times;</button>
+    </div>
+
+    <div id="bamboo-body" class="bamboo__body"></div>
+
+    <form id="bamboo-input-form" class="bamboo__input-form">
+      <input type="text" id="bamboo-input" class="bamboo__input" placeholder="Pose ta question..." autocomplete="off" />
+      <button type="submit" class="bamboo__input-send" aria-label="Envoyer">➤</button>
+    </form>
+  </div>
+</div>
+
+<!-- Formulaire caché pour que Netlify détecte le formulaire au build, soumis dynamiquement en JS -->
+<form name="bamboo-question" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="question" />
+  <input type="text" name="nom" />
+  <input type="email" name="email" />
+  <input type="text" name="page" />
+  <input type="text" name="bot-field" />
+</form>
+
+<script type="application/json" id={dataId} set:html={JSON.stringify(payload)} />
+<script type="application/json" id="bamboo-kb" set:html={JSON.stringify(knowledgeBase)} />
+
+<style>
+  .bamboo { position: fixed; right: 16px; bottom: 16px; z-index: 45; }
+  .bamboo--scrolling .bamboo__bubble { transform: scale(0.72); opacity: 0.5; }
+  /* Mobile : le panda se pose au-dessus de la barre « Réserver », plus petit, et disparaît pendant le défilement */
+  @media (max-width: 899px) {
+    .bamboo { right: 12px; bottom: calc(84px + env(safe-area-inset-bottom)); }
+    .bamboo__bubble { width: 46px; height: 46px; }
+    .bamboo--scrolling .bamboo__bubble { transform: scale(0.5); opacity: 0; pointer-events: none; }
+  }
+
+  .bamboo__bubble {
+    position: relative;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 2px solid var(--navy);
+    box-shadow: 0 12px 28px -10px rgba(11, 30, 61, 0.5);
+    display: flex; align-items: center; justify-content: center;
+    padding: 4px;
+    cursor: pointer;
+    transition: transform .25s var(--ease), opacity .25s var(--ease);
+    overflow: hidden;
+  }
+  .bamboo__bubble:hover { transform: scale(1.06); opacity: 1; }
+
+  @media (min-width: 640px) {
+    .bamboo__bubble { width: 64px; height: 64px; }
+  }
+  .bamboo__bubble-icon { width: 100%; height: 100%; object-fit: contain; }
+  .bamboo__bubble-badge::before { content: "1"; }
+  .bamboo__bubble-badge {
+    position: absolute;
+    top: -2px; right: -2px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #fff;
+  }
+
+  .bamboo__panel {
+    position: absolute;
+    right: 0; bottom: 74px;
+    width: min(340px, calc(100vw - 32px));
+    max-height: min(560px, calc(100vh - 140px));
+    background: #fff;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 60px -20px rgba(11, 30, 61, 0.35);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: bamboo-in .25s var(--ease);
+  }
+  .bamboo__panel[hidden] { display: none !important; }
+  @keyframes bamboo-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  .bamboo__header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--navy);
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .bamboo__header-info { display: flex; align-items: center; gap: 10px; }
+  .bamboo__avatar { width: 36px; height: 36px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .bamboo__avatar img { width: 100%; height: 100%; object-fit: contain; }
+  .bamboo__name { font-size: 14px; font-weight: 700; }
+  .bamboo__status { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 1px; }
+  .bamboo__close { background: transparent; border: none; color: rgba(255,255,255,0.7); font-size: 20px; cursor: pointer; padding: 4px; }
+  .bamboo__close:hover { color: #fff; }
+
+  .bamboo__body { padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+
+  .bamboo__input-form {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .bamboo__input {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    min-width: 0;
+  }
+  .bamboo__input:focus { outline: none; border-color: var(--blue); }
+  .bamboo__input-send {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  :global(.bamboo__msg) {
+    max-width: 88%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    animation: bamboo-msg-in .3s var(--ease);
+  }
+  @keyframes bamboo-msg-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  :global(.bamboo__msg--bot) { align-self: flex-start; background: var(--ice); color: var(--navy); border-bottom-left-radius: 4px; }
+  :global(.bamboo__msg--user) { align-self: flex-end; background: var(--blue); color: #fff; border-bottom-right-radius: 4px; }
+  :global(.bamboo__options) { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  :global(.bamboo__option) {
+    text-align: left; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line);
+    background: #fff; font-size: 13.5px; font-weight: 600; color: var(--navy); cursor: pointer;
+    transition: border-color .2s var(--ease), color .2s var(--ease), transform .2s var(--ease);
+  }
+  :global(.bamboo__option:hover) { border-color: var(--blue); color: var(--blue); transform: translateX(2px); }
+  :global(.bamboo__link) {
+    display: inline-block; margin-top: 4px; padding: 10px 16px; border-radius: 999px;
+    background: var(--blue); color: #fff; font-size: 13px; font-weight: 700; text-decoration: none;
+  }
+  :global(.bamboo__capture) {
+    display: flex; flex-direction: column; gap: 8px; margin-top: 6px;
+    padding: 12px; background: #fff; border: 1px solid var(--line); border-radius: 12px;
+  }
+  :global(.bamboo__capture input) {
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13px;
+  }
+  :global(.bamboo__capture-rgpd) { font-size: 11.5px; line-height: 1.4; color: var(--text-muted); margin: 6px 0 0; }
+  :global(.bamboo__capture-rgpd a) { color: inherit; text-decoration: underline; }
+  :global(.bamboo__capture-label) {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  :global(.bamboo__capture button) {
+    background: var(--blue); color: #fff; border: none; border-radius: 999px; padding: 9px; font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+
+  @media (max-width: 899px) {
+    .bamboo { bottom: 90px; }
+  }
+</style>
+
+<script define:vars={{ dataId }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const root = document.getElementById('bamboo-root');
+    const toggle = document.getElementById('bamboo-toggle');
+    const panel = document.getElementById('bamboo-panel');
+    const closeBtn = document.getElementById('bamboo-close');
+    const body = document.getElementById('bamboo-body');
+    const badge = root.querySelector('.bamboo__bubble-badge');
+    const data = JSON.parse(document.getElementById(dataId).textContent || '{}');
+    const kb = JSON.parse(document.getElementById('bamboo-kb').textContent || '[]');
+    const inputForm = document.getElementById('bamboo-input-form');
+    const input = document.getElementById('bamboo-input');
+
+    let opened = false;
+    let started = false;
+
+    function normalize(str) {
+      return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function openPanel() {
+      panel.hidden = false;
+      toggle.setAttribute('aria-expanded', 'true');
+      badge.style.display = 'none';
+      if (!started) {
+        started = true;
+        addBotMessage("Salut, je suis Bamboo 🐼 Je ne fais pas de pompes (je suis un panda, j'ai un métabolisme à défendre), mais je réponds aux questions. Vas-y.");
+        showOptions(rootOptions());
+      }
+      if (typeof window.gtag === 'function') window.gtag('event', 'bamboo_opened');
+    }
+    function closePanel() {
+      panel.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    toggle.addEventListener('click', () => {
+      opened = !opened;
+      opened ? openPanel() : closePanel();
+    });
+    closeBtn.addEventListener('click', () => { opened = false; closePanel(); });
+
+    function scrollDown() {
+      requestAnimationFrame(() => { body.scrollTop = body.scrollHeight; });
+    }
+    function addBotMessage(text) {
+      const el = document.createElement('div');
+      el.className = 'bamboo__msg bamboo__msg--bot';
+      el.textContent = text;
+      body.appendChild(el);
+      scrollDown();
+    }
+    function addUserMessage(text) {
+      const el = document.createElement('div');
+      el.className = 'bamboo__msg bamboo__msg--user';
+      el.textContent = text;
+      body.appendChild(el);
+      scrollDown();
+    }
+    function clearOptions() {
+      const old = body.querySelector('.bamboo__options');
+      if (old) old.remove();
+    }
+    function showOptions(options) {
+      clearOptions();
+      const wrap = document.createElement('div');
+      wrap.className = 'bamboo__options';
+      options.forEach((opt) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'bamboo__option';
+        btn.textContent = opt.label;
+        btn.addEventListener('click', () => {
+          addUserMessage(opt.label);
+          clearOptions();
+          opt.action();
+        });
+        wrap.appendChild(btn);
+      });
+      body.appendChild(wrap);
+      scrollDown();
+    }
+    function showLink(label, href) {
+      const a = document.createElement('a');
+      a.href = href;
+      a.className = 'bamboo__link';
+      a.textContent = label;
+      body.appendChild(a);
+      scrollDown();
+    }
+
+    function rootOptions() {
+      return [
+        { label: '🔍 Trouver un coach', action: () => askSalle() },
+        { label: '🏢 Coaching en entreprise (BOOST)', action: () => {
+            addBotMessage("BOOST ENTREPRISE™, ce sont des séances de 30 minutes, 1 à 5 fois par semaine, directement sur le lieu de travail. Moins violent qu'une réunion qui aurait pu être un email, et bien meilleur pour le dos. Tu peux même tester gratuitement avec BOOST 30.");
+            showLink('Découvrir BOOST ENTREPRISE™', '/entreprises/');
+            setTimeout(() => showOptions(backToMenuOption()), 300);
+          } },
+        { label: '🤝 Rejoindre le réseau en tant que coach', action: () => {
+            addBotMessage("Super ! Tu trouveras toutes les infos pour candidater ici :");
+            showLink('Rejoindre GA Coachs', '/rejoindre/');
+            setTimeout(() => showOptions(backToMenuOption()), 300);
+          } },
+        { label: '💬 Poser une question libre', action: () => {
+            addBotMessage("Vas-y, tape ta question en bas 👇 Je ne juge jamais (contrairement à la balance).");
+          } },
+      ];
+    }
+    function backToMenuOption() {
+      return [{ label: '← Retour au menu', action: () => { addBotMessage('Autre chose ? Je suis increvable, contrairement à toi après une séance BOOST.'); showOptions(rootOptions()); } }];
+    }
+
+    function askSalle() {
+      addBotMessage("Dans quelle salle veux-tu transpirer ?");
+      const opts = [
+        { label: 'Peu importe', action: () => askObjectif(null) },
+        ...data.salles.map((s) => ({ label: s.nom, action: () => askObjectif(s.slug) })),
+      ];
+      showOptions(opts);
+    }
+    function askObjectif(salleSlug) {
+      addBotMessage("Et ton objectif, entre nous ?");
+      const opts = [
+        { label: 'Peu importe', action: () => showMatches(salleSlug, null) },
+        ...data.objectifs.map((o) => ({ label: o, action: () => showMatches(salleSlug, o) })),
+      ];
+      showOptions(opts);
+    }
+    function showMatches(salleSlug, objectif) {
+      let matches = data.coaches.filter((c) => {
+        const matchSalle = !salleSlug || c.salleSlug === salleSlug;
+        const matchObjectif = !objectif || c.tags.includes(objectif);
+        return matchSalle && matchObjectif;
+      });
+      if (matches.length === 0) matches = data.coaches.filter((c) => !salleSlug || c.salleSlug === salleSlug);
+      if (matches.length === 0) matches = data.coaches;
+
+      if (matches.length === 1) {
+        const c = matches[0];
+        addBotMessage(`Je te recommande ${c.prenom} ${c.nom}, à ${c.salleNom}.`);
+        showLink(`Voir le profil de ${c.prenom}`, `/coachs/${c.slug}/`);
+      } else {
+        addBotMessage(`${matches.length} coachs pourraient te convenir. Voici la liste complète, filtrable :`);
+        showLink('Voir tous les coachs', '/trouver-un-coach/');
+      }
+      setTimeout(() => showOptions(backToMenuOption()), 300);
+    }
+
+    // --- Recherche libre : base de connaissances + couverture des villes ---
+    function findVilleMatch(question) {
+      const q = normalize(question);
+      const words = q.split(/[^a-z0-9-]+/).filter(Boolean);
+      return data.villes.find((v) => {
+        const villeWords = normalize(v.nom).split(/[^a-z0-9-]+/).filter(Boolean);
+        // La ville ne matche que si TOUS ses mots apparaissent comme mots entiers dans la question
+        // (évite les faux positifs du type "Ormes" trouvé dans "formes", "Ardon" dans "lardon")
+        return villeWords.every((vw) => words.includes(vw));
+      });
+    }
+    function findKbMatch(question) {
+      const q = normalize(question);
+      const words = q.split(/[^a-z0-9-]+/).filter(Boolean);
+      let best = null;
+      let bestScore = 0;
+      kb.forEach((entry) => {
+        const score = entry.keywords.filter((k) => {
+          const kNorm = normalize(k);
+          // Mots-clés contenant un espace ou un caractère spécial (ex. "rc pro", "24/7") :
+          // recherche en sous-chaîne. Mots-clés simples : uniquement en mot entier, pour
+          // éviter les faux positifs (ex. "24" ne doit pas se déclencher dans "j'ai 24 ans").
+          return /[^a-z0-9]/.test(kNorm) ? q.includes(kNorm) : words.includes(kNorm);
+        }).length;
+        if (score > bestScore) {
+          bestScore = score;
+          best = entry;
+        }
+      });
+      return bestScore > 0 ? best : null;
+    }
+
+    function showCaptureForm(question) {
+      addBotMessage("Alors là, tu me colles. Je suis fort en réseau de coachs, moins en question piège. Laisse-moi tes coordonnées, un humain (un vrai, pas un panda) te répond vite.");
+      const wrap = document.createElement('div');
+      wrap.className = 'bamboo__capture';
+      wrap.innerHTML = `
+        <label class="bamboo__capture-label" for="bamboo-capture-nom">Ton prénom</label>
+        <input type="text" id="bamboo-capture-nom" placeholder="Ton prénom" data-field="nom" aria-label="Ton prénom" required />
+        <label class="bamboo__capture-label" for="bamboo-capture-email">Ton email</label>
+        <input type="email" id="bamboo-capture-email" placeholder="Ton email" data-field="email" aria-label="Ton email" required />
+        <button type="submit">Envoyer ma question</button>
+        <p class="bamboo__capture-rgpd">Tes coordonnées servent uniquement à te répondre (<a href="/confidentialite/">confidentialité</a>).</p>
+      `;
+      const btn = wrap.querySelector('button');
+      const captureInputs = wrap.querySelectorAll('input');
+      captureInputs.forEach((el) => {
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            btn.click();
+          }
+        });
+      });
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const nom = wrap.querySelector('[data-field="nom"]').value.trim();
+        const email = wrap.querySelector('[data-field="email"]').value.trim();
+        if (!nom || !email) return;
+        btn.textContent = 'Envoi...';
+        btn.disabled = true;
+        try {
+          await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+              'form-name': 'bamboo-question',
+              question,
+              nom,
+              email,
+              page: window.location.pathname,
+            }).toString(),
+          });
+          wrap.innerHTML = '';
+          addBotMessage(`Merci ${nom}, c'est transmis ! On te recontacte vite à ${email}.`);
+          if (typeof window.gtag === 'function') window.gtag('event', 'bamboo_question_captured');
+        } catch (err) {
+          btn.textContent = 'Réessayer';
+          btn.disabled = false;
+        }
+      });
+      body.appendChild(wrap);
+      scrollDown();
+    }
+
+    inputForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const question = input.value.trim();
+      if (!question) return;
+      addUserMessage(question);
+      input.value = '';
+      clearOptions();
+
+      // 1. La question mentionne-t-elle une ville couverte par le réseau ?
+      const villeMatch = findVilleMatch(question);
+      if (villeMatch) {
+        addBotMessage(`Oui, GA Coachs est présent à ${villeMatch.nom} ! Voici les infos locales :`);
+        showLink(`Coach sportif à ${villeMatch.nom}`, `/coach-sportif-${villeMatch.slug}/`);
+        setTimeout(() => showOptions(backToMenuOption()), 300);
+        return;
+      }
+
+      // 2. Recherche dans la base de connaissances
+      const kbMatch = findKbMatch(question);
+      if (kbMatch) {
+        addBotMessage(kbMatch.reponse);
+        if (kbMatch.lien) showLink(kbMatch.lien.label, kbMatch.lien.href);
+        setTimeout(() => showOptions(backToMenuOption()), 300);
+        return;
+      }
+
+      // 3. Rien trouvé : on capte la question pour un vrai humain
+      showCaptureForm(question);
+      if (typeof window.gtag === 'function') window.gtag('event', 'bamboo_unanswered', { question });
+    });
+  });
+
+  // Bamboo rétrécit et devient semi-transparent pendant le défilement pour ne
+  // jamais cacher durablement du contenu, puis reprend sa taille normale une
+  // fois le scroll arrêté.
+  (() => {
+    const bamboo = document.querySelector('.bamboo');
+    const panelEl = document.getElementById('bamboo-panel');
+    if (!bamboo) return;
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+      if (panelEl && !panelEl.hidden) return;
+      bamboo.classList.add('bamboo--scrolling');
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        bamboo.classList.remove('bamboo--scrolling');
+      }, 450);
+    }, { passive: true });
+  })();
+</script>

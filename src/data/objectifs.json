@@ -1,0 +1,128 @@
+[
+  {
+    "slug": "perte-de-poids",
+    "nom": "Perte de poids",
+    "sousTheme": "Perte de Poids",
+    "expertiseParente": "coaching-sportif",
+    "resume": "Perds du poids durablement, sans régime miracle, avec un coach GA en salle Basic-Fit à Orléans : séances adaptées et habitudes qui tiennent.",
+    "etapes": [
+      {
+        "titre": "Comprendre ta situation",
+        "texte": "Ton coach fait le point sur tes habitudes, ton activité actuelle, tes contraintes et ce qui a coincé les fois précédentes."
+      },
+      {
+        "titre": "Bouger mieux et plus",
+        "texte": "Des séances de renforcement et de cardio adaptées, pour préserver tes muscles pendant que tu perds du gras."
+      },
+      {
+        "titre": "Ancrer les habitudes",
+        "texte": "Sommeil, activité quotidienne, régularité : ton coach t'aide à installer ce qui fait durer les résultats."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Le coach me fait-il un régime ?",
+        "r": "Non. Le coach sportif t'aide sur l'activité physique et les habitudes. Pour un suivi alimentaire précis, un diététicien ou un médecin reste la bonne personne."
+      },
+      {
+        "q": "Combien de kilos peut-on perdre ?",
+        "r": "Cela dépend de ton point de départ, de ta régularité et de ta santé. Ton coach fixe avec toi un objectif réaliste plutôt qu'une promesse."
+      },
+      {
+        "q": "Faut-il venir tous les jours en salle ?",
+        "r": "Non. Une à trois séances par semaine avec ton coach, plus de l'activité au quotidien, suffisent pour avancer."
+      },
+      {
+        "q": "Comment un coach sportif m'aide-t-il à perdre du poids ?",
+        "r": "Il construit des séances de renforcement et de cardio adaptées à ton niveau, t'aide à bouger plus au quotidien et te garde régulier. Le renforcement aide à préserver tes muscles pendant que tu perds du gras."
+      },
+      {
+        "q": "Musculation ou cardio pour perdre du poids ?",
+        "r": "Les deux se complètent. Le renforcement musculaire préserve tes muscles, le cardio augmente ta dépense. Ton coach dose le mélange selon ton niveau et tes envies."
+      },
+      {
+        "q": "Je suis en surpoids important, est-ce adapté ?",
+        "r": "Oui. Ton coach part de ton niveau réel, choisit des exercices qui respectent tes articulations et avance à ton rythme, sans jugement. En cas de problème de santé, demande aussi l'avis de ton médecin."
+      },
+      {
+        "q": "Est-ce que le coach me donne des conseils d'alimentation ?",
+        "r": "Il te donne des repères simples d'hygiène de vie, comme la régularité des repas, l'hydratation et le sommeil. Pour un suivi alimentaire précis, il t'oriente vers un diététicien ou un médecin."
+      },
+      {
+        "q": "Pourquoi je n'arrive pas à perdre du poids seul ?",
+        "r": "Souvent par manque de régularité, de plan clair ou de motivation sur la durée. Le rendez-vous fixe avec ton coach et les ajustements chaque semaine changent souvent tout."
+      },
+      {
+        "q": "Par où commencer ?",
+        "r": "Fais ton Score Santé en 2 minutes, puis réserve ton bilan avec le coach de ta salle Basic-Fit. Vous faites le point sur ta situation et fixez ensemble un objectif réaliste."
+      },
+      {
+        "q": "Combien coûte un coaching pour perdre du poids ?",
+        "r": "Le tarif dépend de la formule choisie avec ton coach. Commence par ton Score Santé et ton bilan : ton coach te présente les options adaptées à ton objectif."
+      }
+    ]
+  },
+  {
+    "slug": "remise-en-forme",
+    "nom": "Remise en forme",
+    "sousTheme": "Remise en Forme",
+    "expertiseParente": "coaching-sportif",
+    "resume": "Retrouve énergie, souffle et condition physique avec un programme progressif, adapté à ton niveau, avec un coach GA en salle Basic-Fit à Orléans.",
+    "etapes": [
+      {
+        "titre": "Un point de départ honnête",
+        "texte": "Ton coach fait le point sur ton niveau, tes contraintes et ton temps disponible, sans jugement."
+      },
+      {
+        "titre": "Une progression par paliers",
+        "texte": "Les séances montent en intensité petit à petit, pour que ton corps suive sans douleur ni découragement."
+      },
+      {
+        "titre": "Des habitudes qui tiennent",
+        "texte": "Au-delà des séances, ton coach t'aide à bouger plus au quotidien pour que la forme dure."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Je n'ai pas fait de sport depuis des années, c'est possible ?",
+        "r": "Oui. La remise en forme part de ton niveau réel, même très bas. La première étape est un bilan pour savoir d'où tu pars."
+      },
+      {
+        "q": "Combien de séances par semaine ?",
+        "r": "Une à deux séances avec ton coach suffisent pour démarrer, complétées par un peu d'activité en autonomie."
+      },
+      {
+        "q": "En combien de temps vais-je sentir la différence ?",
+        "r": "Beaucoup de personnes sentent un mieux sur l'énergie et le souffle en quelques semaines de régularité. Le rythme dépend de ton point de départ."
+      },
+      {
+        "q": "Remise en forme ou perte de poids, quelle différence ?",
+        "r": "La remise en forme vise d'abord l'énergie, le souffle, la force et la mobilité. La perte de poids ajoute un objectif sur la silhouette. Les deux vont souvent ensemble, et ton coach adapte le programme à ta priorité."
+      },
+      {
+        "q": "Que se passe-t-il pendant une séance ?",
+        "r": "Un échauffement, du renforcement musculaire adapté à ton niveau, un peu de cardio et un retour au calme. Ton coach corrige tes gestes et ajuste l'intensité en direct."
+      },
+      {
+        "q": "J'ai peur d'avoir mal ou de me blesser, comment ça se passe ?",
+        "r": "La progression se fait par paliers, avec des exercices choisis pour ton niveau. Si une douleur apparaît, ton coach adapte la séance, et il te conseille de consulter si elle persiste."
+      },
+      {
+        "q": "Je suis senior, est-ce adapté ?",
+        "r": "Oui. La remise en forme s'adapte à tous les âges. Ton coach travaille l'équilibre, la mobilité et la force pour t'aider à rester autonome et à l'aise au quotidien."
+      },
+      {
+        "q": "Faut-il être abonné à Basic-Fit ?",
+        "r": "Les séances ont lieu en salle Basic-Fit, chaque coach dans sa salle de rattachement. Ton coach t'explique les conditions d'accès lors de ton bilan."
+      },
+      {
+        "q": "Par où commencer ?",
+        "r": "Fais ton Score Santé en 2 minutes, puis réserve ton bilan avec le coach de ta salle Basic-Fit. Vous faites le point sur ton niveau et fixez un premier objectif."
+      },
+      {
+        "q": "Combien coûte un coaching de remise en forme ?",
+        "r": "Le tarif dépend de la formule choisie avec ton coach. Commence par ton Score Santé et ton bilan : ton coach te présente les options adaptées."
+      }
+    ]
+  }
+]

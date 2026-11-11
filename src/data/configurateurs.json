@@ -1,0 +1,308 @@
+{
+  "course": {
+    "k": "ÉCHAUFFEMENT DE COURSES",
+    "titre": "Composez votre échauffement en 4 clics.",
+    "intro": "Choisissez, nous préparons votre demande. Aucun prix affiché : GA Coachs vous envoie une proposition claire sous 48 h ouvrées.",
+    "cta": "Envoyer ce brief au formulaire",
+    "etapes": [
+      {
+        "id": "format",
+        "q": "Quel format de course ?",
+        "o": [
+          "Course de 5 ou 10 km",
+          "Semi-marathon ou marathon",
+          "Trail",
+          "Marche solidaire ou course d'entreprise",
+          "Plusieurs formats"
+        ],
+        "l": "Format"
+      },
+      {
+        "id": "participants",
+        "q": "Combien de participants environ ?",
+        "o": [
+          "Moins de 200",
+          "Entre 200 et 1 000",
+          "Plus de 1 000"
+        ],
+        "l": "Participants"
+      },
+      {
+        "id": "mission",
+        "q": "Que souhaitez-vous ?",
+        "o": [
+          "Échauffement collectif au départ",
+          "Échauffement et animation du podium",
+          "Échauffement, animation et retour au calme à l'arrivée"
+        ],
+        "l": "Mission"
+      },
+      {
+        "id": "moment",
+        "q": "À quel moment de la journée ?",
+        "o": [
+          "Le matin",
+          "L'après-midi",
+          "Plusieurs départs"
+        ],
+        "l": "Moment"
+      }
+    ]
+  },
+  "communication": {
+    "k": "BOOST COMMUNICATION",
+    "titre": "Préparez votre brief en 4 clics.",
+    "intro": "Choisissez, nous préparons votre demande. Pas de tarif affiché : GA Coachs vous envoie un devis clair sous 48 h ouvrées.",
+    "cta": "Envoyer ce brief au formulaire",
+    "etapes": [
+      {
+        "id": "besoin",
+        "q": "Que cherchez-vous ?",
+        "o": [
+          "Des vidéos UGC",
+          "Un coach visage de votre marque",
+          "Un invité pour vos vidéos et lives",
+          "Une campagne sport-santé complète"
+        ],
+        "l": "Besoin"
+      },
+      {
+        "id": "reseau",
+        "q": "Sur quel réseau ?",
+        "o": [
+          "TikTok",
+          "Instagram",
+          "YouTube",
+          "Twitch",
+          "LinkedIn ou Facebook",
+          "Plusieurs réseaux"
+        ],
+        "l": "Réseau"
+      },
+      {
+        "id": "theme",
+        "q": "Quel thème ?",
+        "o": [
+          "Perte de poids",
+          "Musculation",
+          "Nutrition",
+          "Sport-santé",
+          "Autre"
+        ],
+        "l": "Thème"
+      },
+      {
+        "id": "delai",
+        "q": "Pour quand ?",
+        "o": [
+          "Dans le mois",
+          "Dans les 3 mois",
+          "Plus tard, je prépare"
+        ],
+        "l": "Échéance"
+      }
+    ]
+  },
+  "invite": {
+    "k": "COACH INVITÉ",
+    "titre": "Décrivez votre projet en 4 clics.",
+    "intro": "Choisissez, nous préparons votre demande. Pas de tarif affiché : GA Coachs vous répond avec une proposition claire sous 48 h ouvrées.",
+    "cta": "Envoyer ce brief au formulaire",
+    "etapes": [
+      {
+        "id": "format",
+        "q": "Quel format ?",
+        "o": [
+          "Podcast",
+          "Live Twitch ou YouTube",
+          "Chronique radio ou TV",
+          "Presse ou magazine",
+          "Salon, festival ou webinaire",
+          "Autre"
+        ],
+        "l": "Format"
+      },
+      {
+        "id": "theme",
+        "q": "Quel thème ?",
+        "o": [
+          "Perte de poids",
+          "Musculation",
+          "Nutrition",
+          "Sport-santé",
+          "Je ne sais pas encore"
+        ],
+        "l": "Thème"
+      },
+      {
+        "id": "lieu",
+        "q": "Où ?",
+        "o": [
+          "À distance (visio)",
+          "Sur place, France",
+          "Sur place, Europe"
+        ],
+        "l": "Lieu"
+      },
+      {
+        "id": "delai",
+        "q": "Pour quand ?",
+        "o": [
+          "Dans le mois",
+          "Dans les 3 mois",
+          "Plus tard"
+        ],
+        "l": "Échéance"
+      }
+    ]
+  },
+  "tourisme": {
+    "k": "BOOST TOURISME",
+    "titre": "Composez votre offre de séances en 4 clics.",
+    "intro": "Choisissez, nous préparons votre demande. Pas de tarif affiché : GA Coachs vous envoie une proposition claire sous 48 h ouvrées.",
+    "cta": "Envoyer ce brief au formulaire",
+    "etapes": [
+      {
+        "id": "type",
+        "q": "Quel type de séances ?",
+        "o": [
+          "Séances collectives",
+          "Séances privées",
+          "Les deux"
+        ],
+        "l": "Séances"
+      },
+      {
+        "id": "rythme",
+        "q": "À quel rythme ?",
+        "o": [
+          "Tous les jours en saison",
+          "Quelques jours par semaine",
+          "Les week-ends",
+          "Ponctuel"
+        ],
+        "l": "Rythme"
+      },
+      {
+        "id": "groupe",
+        "q": "Combien de clients par séance ?",
+        "o": [
+          "1 à 4",
+          "5 à 15",
+          "Plus de 15"
+        ],
+        "l": "Clients par séance"
+      },
+      {
+        "id": "periode",
+        "q": "Quelle période ?",
+        "o": [
+          "Été",
+          "Hiver",
+          "Toute l'année"
+        ],
+        "l": "Période"
+      }
+    ]
+  },
+  "event": {
+    "k": "BOOST EVENT",
+    "titre": "Composez votre événement en 4 clics.",
+    "intro": "Choisissez, nous préparons votre demande. Pas de tarif affiché : GA Coachs vous envoie un devis clair sous 48 h ouvrées.",
+    "cta": "Envoyer ce brief au formulaire",
+    "etapes": [
+      {
+        "id": "occasion",
+        "q": "Quelle occasion ?",
+        "o": [
+          "Afterwork ou brunch sportif",
+          "EVJF ou EVG",
+          "Anniversaire ou fête privée",
+          "Défi ou événement d'entreprise"
+        ],
+        "l": "Occasion"
+      },
+      {
+        "id": "personnes",
+        "q": "Combien de personnes ?",
+        "o": [
+          "Moins de 10",
+          "10 à 30",
+          "Plus de 30"
+        ],
+        "l": "Personnes"
+      },
+      {
+        "id": "lieu",
+        "q": "Où ?",
+        "o": [
+          "En intérieur",
+          "En extérieur",
+          "Je ne sais pas encore"
+        ],
+        "l": "Lieu"
+      },
+      {
+        "id": "duree",
+        "q": "Quelle durée ?",
+        "o": [
+          "1 heure",
+          "Une demi-journée",
+          "Une journée"
+        ],
+        "l": "Durée"
+      }
+    ]
+  },
+  "mannequin": {
+    "k": "BOOST MANNEQUIN",
+    "titre": "Composez votre préparation en 4 clics.",
+    "intro": "Choisissez, nous préparons votre demande. Aucun prix affiché : GA Coachs vous envoie une proposition claire sous 48 h ouvrées.",
+    "cta": "Envoyer ce brief au formulaire",
+    "etapes": [
+      {
+        "id": "profil",
+        "l": "Profil",
+        "q": "Vous êtes ?",
+        "o": [
+          "Mannequin",
+          "Agence de mannequins",
+          "Organisateur de défilé ou de gala",
+          "Marque ou photographe"
+        ]
+      },
+      {
+        "id": "occasion",
+        "l": "Occasion",
+        "q": "Quelle occasion ?",
+        "o": [
+          "Shooting photo",
+          "Défilé",
+          "Gala ou soirée",
+          "Campagne ou tournage",
+          "Saison complète"
+        ]
+      },
+      {
+        "id": "offre",
+        "l": "Offre",
+        "q": "Quelle offre ?",
+        "o": [
+          "Essai de 3 mois (12 semaines)",
+          "Offre annuelle (1 an)",
+          "Je ne sais pas encore"
+        ]
+      },
+      {
+        "id": "delai",
+        "l": "Échéance",
+        "q": "Pour quand ?",
+        "o": [
+          "Dans le mois",
+          "Dans les 3 mois",
+          "Plus tard"
+        ]
+      }
+    ]
+  }
+}

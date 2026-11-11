@@ -1,0 +1,676 @@
+{
+  "slug": "ehpad-maisons-de-retraite",
+  "path": "/sport-sante/ehpad-maisons-de-retraite/",
+  "seo": {
+    "title": "BOOST SENIOR : coach sportif en EHPAD à Orléans",
+    "description": "Un coach sportif diplômé anime des séances adaptées en EHPAD, maison de retraite et résidence autonomie : prévention des chutes, autonomie. Centre-Val de Loire."
+  },
+  "hero": {
+    "eyebrow": "Sport Santé · Pour les établissements",
+    "h1": "Dans votre EHPAD, des résidents qui bougent plus et gardent leur autonomie.",
+    "lead": "Un coach sportif diplômé vient chaque semaine dans votre EHPAD ou votre maison de retraite. Séances adaptées, prévention des chutes, bilans réguliers : vous offrez à vos résidents un vrai rendez-vous, en demandant très peu de temps à vos équipes.",
+    "points": [
+      "Séances collectives ou individuelles",
+      "Prévention des chutes et maintien de l'autonomie",
+      "Programme construit avec votre équipe"
+    ]
+  },
+  "definition": {
+    "titre": "EHPAD ou maison de retraite : quelle différence ?",
+    "texte": [
+      "« Maison de retraite » est le terme courant pour désigner un établissement qui accueille des personnes âgées. « EHPAD » (établissement d'hébergement pour personnes âgées dépendantes) en est la forme médicalisée : une équipe soignante et un médecin coordonnateur accompagnent des résidents qui ont perdu en autonomie.",
+      "Que vous dirigiez un EHPAD ou une maison de retraite, notre approche est la même : partir du niveau réel de vos résidents, puis construire avec votre équipe des séances sûres, utiles et agréables.",
+      "Nous intervenons aussi dans les résidences autonomie (anciens foyers-logements) : les résidents y vivent chez eux, avec des services collectifs, et l'activité physique y trouve toute sa place.",
+      "Nous intervenons aussi dans les hôpitaux et les établissements de santé, selon les besoins du service et avec l'accord de l'équipe soignante : activité physique adaptée pour les patients, en complément des soins."
+    ]
+  },
+  "services": [
+    {
+      "titre": "Séances collectives adaptées",
+      "texte": "Gymnastique douce, mobilité et renforcement léger, en petit groupe et au rythme de chacun. Les exercices peuvent se faire assis ou debout, selon les capacités."
+    },
+    {
+      "titre": "Prévention des chutes",
+      "texte": "Équilibre, force des jambes, passages assis-debout : un travail régulier qui contribue à réduire le risque de chute."
+    },
+    {
+      "titre": "Maintien de l'autonomie",
+      "texte": "Se lever, marcher, attraper un objet, monter une marche : nous travaillons les gestes qui comptent dans la vie de tous les jours."
+    },
+    {
+      "titre": "Séances individuelles",
+      "texte": "Pour les résidents plus fragiles ou en reprise après une hospitalisation, un accompagnement personnalisé, en lien avec l'équipe soignante."
+    },
+    {
+      "titre": "Activités ludiques en groupe",
+      "texte": "Jeux de ballon, parcours simples, exercices en musique : le plaisir de bouger ensemble, pour le moral et le lien social."
+    },
+    {
+      "titre": "Un bilan de départ",
+      "texte": "Un premier échange pour situer le niveau de chaque résident et fixer des objectifs réalistes, avec votre accord et celui de l'équipe soignante."
+    }
+  ],
+  "benefices": {
+    "residents": [
+      "Un travail régulier de l'équilibre et de la force des jambes",
+      "Des gestes du quotidien conservés plus longtemps",
+      "Un meilleur moral et du lien avec les autres résidents",
+      "Un moment à eux, attendu chaque semaine"
+    ],
+    "etablissement": [
+      "Un projet d'animation concret et régulier",
+      "Un interlocuteur unique pour organiser les séances",
+      "Un programme construit avec la direction et l'équipe soignante",
+      "Un point régulier avec votre équipe sur ce qui fonctionne"
+    ]
+  },
+  "etapes": [
+    {
+      "titre": "Un échange avec la direction",
+      "texte": "Nous faisons le point sur votre établissement : nombre de résidents, profils, créneaux disponibles, contraintes d'organisation."
+    },
+    {
+      "titre": "Un cadrage avec votre équipe",
+      "texte": "Nous validons avec votre équipe soignante les précautions à prendre et les résidents concernés."
+    },
+    {
+      "titre": "Un programme sur mesure",
+      "texte": "Nous vous proposons un planning de séances (fréquence, durée, collectif ou individuel) et un devis clair."
+    },
+    {
+      "titre": "Des séances régulières",
+      "texte": "Un coach du réseau intervient dans votre établissement, et nous faisons le point avec vous à intervalles réguliers."
+    }
+  ],
+  "zone": {
+    "titre": "Où intervenons-nous ?",
+    "texte": "GA Coachs intervient à Orléans et dans sa métropole, et plus largement dans la région Centre-Val de Loire, selon la disponibilité de nos coachs. Votre établissement est ailleurs en France ? Nous prenons les demandes de toutes les régions : décrivez votre projet, nous étudions avec vous ce qui est possible. Voici les communes des six départements qui comptent au moins un EHPAD, une maison de retraite ou une résidence autonomie. Celles qui sont cliquables ont une page dédiée avec les coachs du secteur.",
+    "departements": [
+      {
+        "nom": "Loiret",
+        "code": "45",
+        "villes": [
+          "Orléans",
+          "Olivet",
+          "Saran",
+          "Amilly",
+          "Auxy",
+          "Beaugency",
+          "Beaune-la-Rolande",
+          "Bellegarde",
+          "Bonny-sur-Loire",
+          "Briare",
+          "Châlette-sur-Loing",
+          "Château-Renard",
+          "Châteauneuf-sur-Loire",
+          "Châtillon-Coligny",
+          "Châtillon-sur-Loire",
+          "Chécy",
+          "Chevilly",
+          "Chilleurs-aux-Bois",
+          "Corbeilles",
+          "Coullons",
+          "Courtenay",
+          "Dry",
+          "Ervauville",
+          "Fay-aux-Loges",
+          "Fleury-les-Aubrais",
+          "Gien",
+          "Huisseau-sur-Mauves",
+          "La Chapelle-Saint-Mesmin",
+          "La Ferté-Saint-Aubin",
+          "Lailly-en-Val",
+          "Le Malesherbois",
+          "Lorcy",
+          "Lorris",
+          "Meung-sur-Loire",
+          "Montargis",
+          "Nesploy",
+          "Neuville-aux-Bois",
+          "Nogent-sur-Vernisson",
+          "Outarville",
+          "Ouzouer-des-Champs",
+          "Patay",
+          "Pithiviers",
+          "Puiseaux",
+          "Saint-Benoît-sur-Loire",
+          "Saint-Denis-de-l'Hôtel",
+          "Saint-Denis-en-Val",
+          "Saint-Jean-de-Braye",
+          "Saint-Jean-de-la-Ruelle",
+          "Saint-Jean-le-Blanc",
+          "Saint-Pryvé-Saint-Mesmin",
+          "Seichebrières",
+          "Sermaises",
+          "Sully-sur-Loire",
+          "Villemandeur",
+          "Vitry-aux-Loges"
+        ]
+      },
+      {
+        "nom": "Cher",
+        "code": "18",
+        "villes": [
+          "Argent-sur-Sauldre",
+          "Aubigny-sur-Nère",
+          "Blancafort",
+          "Boulleret",
+          "Bourges",
+          "Charenton-du-Cher",
+          "Châteaumeillant",
+          "Châteauneuf-sur-Cher",
+          "Chezal-Benoît",
+          "Dun-sur-Auron",
+          "Fussy",
+          "Graçay",
+          "Henrichemont",
+          "La Chapelle-d'Angillon",
+          "La Guerche-sur-l'Aubois",
+          "Le Châtelet",
+          "Les Aix-d'Angillon",
+          "Lignières",
+          "Lury-sur-Arnon",
+          "Massay",
+          "Mehun-sur-Yèvre",
+          "Menetou-Salon",
+          "Nérondes",
+          "Neuvy-sur-Barangeon",
+          "Nohant-en-Goût",
+          "Orval",
+          "Précy",
+          "Saint-Amand-Montrond",
+          "Saint-Doulchard",
+          "Saint-Florent-sur-Cher",
+          "Saint-Satur",
+          "Sancerre",
+          "Sancoins",
+          "Saulzais-le-Potier",
+          "Savigny-en-Sancerre",
+          "Sury-en-Vaux",
+          "Vesdun",
+          "Vierzon"
+        ]
+      },
+      {
+        "nom": "Eure-et-Loir",
+        "code": "28",
+        "villes": [
+          "Abondant",
+          "Anet",
+          "Arcisses",
+          "Arrou",
+          "Auneau-Bleury-Saint-Symphorien",
+          "Authon-du-Perche",
+          "Bonneval",
+          "Brezolles",
+          "Brou",
+          "Chartres",
+          "Châteaudun",
+          "Châteauneuf-en-Thymerais",
+          "Cloyes-les-Trois-Rivières",
+          "Courville-sur-Eure",
+          "Dreux",
+          "Fontaine-la-Guyon",
+          "Gallardon",
+          "Gasville-Oisème",
+          "Illiers-Combray",
+          "Janville-en-Beauce",
+          "La Bazoche-Gouet",
+          "La Loupe",
+          "Les Villages Vovéens",
+          "Lèves",
+          "Maintenon",
+          "Nogent-le-Phaye",
+          "Nogent-le-Roi",
+          "Nogent-le-Rotrou",
+          "Orgères-en-Beauce",
+          "Saint-Lubin-des-Joncherets",
+          "Senonches",
+          "Thiron-Gardais",
+          "Vernouillet"
+        ]
+      },
+      {
+        "nom": "Indre",
+        "code": "36",
+        "villes": [
+          "Aigurande",
+          "Ardentes",
+          "Argenton-sur-Creuse",
+          "Badecon-le-Pin",
+          "Buzançais",
+          "Chabris",
+          "Chaillac",
+          "Chasseneuil",
+          "Châteauroux",
+          "Châtillon-sur-Indre",
+          "Clion",
+          "Cluis",
+          "Concremiers",
+          "Déols",
+          "Écueillé",
+          "Éguzon-Chantôme",
+          "Étrechet",
+          "Issoudun",
+          "La Châtre",
+          "Le Blanc",
+          "Levroux",
+          "Martizay",
+          "Mérigny",
+          "Mézières-en-Brenne",
+          "Neuvy-Pailloux",
+          "Pellevoisin",
+          "Roussines",
+          "Saint-Août",
+          "Saint-Gaultier",
+          "Saint-Maur",
+          "Sainte-Sévère-sur-Indre",
+          "Tournon-Saint-Martin",
+          "Valençay",
+          "Vatan",
+          "Villedieu-sur-Indre"
+        ]
+      },
+      {
+        "nom": "Indre-et-Loire",
+        "code": "37",
+        "villes": [
+          "Abilly",
+          "Amboise",
+          "Athée-sur-Cher",
+          "Auzouer-en-Touraine",
+          "Azay-le-Rideau",
+          "Ballan-Miré",
+          "Bléré",
+          "Bourgueil",
+          "Chambray-lès-Tours",
+          "Château-la-Vallière",
+          "Chemillé-sur-Dême",
+          "Chinon",
+          "Cormery",
+          "Descartes",
+          "Fondettes",
+          "Joué-lès-Tours",
+          "L'Île-Bouchard",
+          "La Celle-Guenand",
+          "La Membrolle-sur-Choisille",
+          "La Riche",
+          "Langeais",
+          "Ligueil",
+          "Loches",
+          "Luynes",
+          "Monnaie",
+          "Montlouis-sur-Loire",
+          "Monts",
+          "Notre-Dame-d'Oé",
+          "Preuilly-sur-Claise",
+          "Richelieu",
+          "Rochecorbon",
+          "Saint-Avertin",
+          "Saint-Christophe-sur-le-Nais",
+          "Saint-Cyr-sur-Loire",
+          "Sainte-Maure-de-Touraine",
+          "Savigné-sur-Lathan",
+          "Semblançay",
+          "Tours",
+          "Veigné",
+          "Véretz",
+          "Vernou-sur-Brenne",
+          "Villeloin-Coulangé"
+        ]
+      },
+      {
+        "nom": "Loir-et-Cher",
+        "code": "41",
+        "villes": [
+          "Beauce la Romaine",
+          "Blois",
+          "Bracieux",
+          "Chailles",
+          "Châteauvieux",
+          "Châtres-sur-Cher",
+          "Chémery",
+          "Cour-Cheverny",
+          "Dhuizon",
+          "Droué",
+          "Herbault",
+          "La Chaussée-Saint-Victor",
+          "La Ville-aux-Clercs",
+          "Lamotte-Beuvron",
+          "Le Controis-en-Sologne",
+          "Marchenoir",
+          "Mer",
+          "Mondoubleau",
+          "Monteaux",
+          "Montoire-sur-le-Loir",
+          "Montrichard Val de Cher",
+          "Morée",
+          "Neung-sur-Beuvron",
+          "Nouan-le-Fuzelier",
+          "Oucques La Nouvelle",
+          "Pruniers-en-Sologne",
+          "Romorantin-Lanthenay",
+          "Saint-Aignan",
+          "Saint-Amand-Longpré",
+          "Saint-Dyé-sur-Loire",
+          "Saint-Georges-sur-Cher",
+          "Saint-Laurent-Nouan",
+          "Saint-Ouen",
+          "Salbris",
+          "Savigny-sur-Braye",
+          "Selles-Saint-Denis",
+          "Selles-sur-Cher",
+          "Selommes",
+          "Soings-en-Sologne",
+          "Theillay",
+          "Vallières-les-Grandes",
+          "Vendôme",
+          "Veuzain-sur-Loire",
+          "Villeherviers",
+          "Vineuil",
+          "Yvoy-le-Marron"
+        ]
+      }
+    ]
+  },
+  "faq": [
+    {
+      "q": "Quelle est la différence entre un EHPAD et une maison de retraite ?",
+      "r": "Une maison de retraite est un établissement qui héberge des personnes âgées : c'est le terme courant. Un EHPAD est une maison de retraite médicalisée, avec une équipe soignante, pour des personnes qui ont besoin d'un accompagnement au quotidien. Nous intervenons dans les deux."
+    },
+    {
+      "q": "Pourquoi proposer de l'activité physique adaptée en EHPAD ?",
+      "r": "L'activité physique régulière aide à garder de l'équilibre, de la force et de l'autonomie, et fait partie des mesures recommandées pour prévenir les chutes chez les personnes âgées. Elle apporte aussi du lien social et du moral."
+    },
+    {
+      "q": "Quels types de séances proposez-vous aux résidents ?",
+      "r": "Des séances collectives de gymnastique douce, d'équilibre et de renforcement léger, des activités ludiques en groupe, et des séances individuelles pour les résidents plus fragiles. Tout est adapté au niveau de chacun."
+    },
+    {
+      "q": "Les séances conviennent-elles aux résidents peu autonomes ?",
+      "r": "Oui, les exercices peuvent se faire assis et sont adaptés aux capacités de chacun. Nous définissons avec votre équipe soignante les résidents concernés et les précautions à prendre."
+    },
+    {
+      "q": "Qui intervient auprès des résidents ?",
+      "r": "Un coach sportif diplômé du réseau GA, partenaire officiel de Basic-Fit à Orléans depuis 2018. Les coachs ne remplacent pas les professionnels de santé de l'établissement : ils travaillent en complément, en lien avec votre équipe."
+    },
+    {
+      "q": "Comment organiser une première intervention ?",
+      "r": "Faites le quiz de cette page : en quatre questions, vous obtenez un profil de programme, puis vous nous laissez vos coordonnées pour recevoir une proposition. Nous échangeons ensuite avec vous sur vos besoins et nous établissons un devis. Nous répondons sous 48 h ouvrées."
+    },
+    {
+      "q": "Combien coûte une intervention en EHPAD ou en maison de retraite ?",
+      "r": "Nos formules démarrent à 260 € par mois (EHPAD ESSENTIEL) et 600 € par mois (EHPAD ACTIF). Le devis final dépend du nombre de groupes, des créneaux et du déplacement, et vous est remis après un premier échange."
+    },
+    {
+      "q": "Dans quelle zone intervenez-vous ?",
+      "r": "Dans toute la région Centre-Val de Loire : en priorité à Orléans et dans sa métropole (Olivet, Saran, Fleury-les-Aubrais…), et dans les six départements de la région (Loiret, Cher, Eure-et-Loir, Indre, Indre-et-Loire, Loir-et-Cher), selon la disponibilité de nos coachs."
+    },
+    {
+      "q": "Intervenez-vous aussi dans les hôpitaux ?",
+      "r": "Oui. Nous intervenons aussi dans les hôpitaux et les établissements de santé, selon les besoins du service et avec l'accord de l'équipe soignante. Faites le quiz ou contactez-nous pour en parler : nous construisons le cadre avec vous."
+    },
+    {
+      "q": "Intervenez-vous en résidence autonomie ?",
+      "r": "Oui. Nous intervenons aussi dans les résidences autonomie (anciens foyers-logements), avec la même approche : partir du niveau réel des résidents et construire des séances sûres et agréables."
+    },
+    {
+      "q": "Quelle place pour l'équipe soignante ?",
+      "r": "Votre équipe valide avec nous les résidents concernés et les précautions à prendre. Ensuite, le coach anime les séances en lui demandant très peu de temps."
+    },
+    {
+      "q": "Quels gestes du quotidien travaillez-vous ?",
+      "r": "Se lever, marcher, attraper un objet, monter une marche, passer de la position assise à debout : les gestes qui comptent pour garder son autonomie."
+    },
+    {
+      "q": "Comment suivez-vous les progrès des résidents ?",
+      "r": "Des bilans réguliers permettent de suivre l'évolution, et nous faisons le point avec vous à intervalles réguliers pour ajuster le programme."
+    }
+  ],
+  "source": {
+    "label": "Inserm, expertise collective : activité physique et prévention des chutes chez les personnes âgées",
+    "url": "https://www.ipubli.inserm.fr/handle/10608/6807"
+  },
+  "contact": {
+    "delai": "Réponse sous 48 h ouvrées."
+  },
+  "quiz": {
+    "eyebrow": "Quiz · 1 minute",
+    "titre": "Quel programme de mouvement pour votre établissement ?",
+    "intro": "Quatre questions, un profil sur mesure. À la fin, nous préparons votre proposition.",
+    "questions": [
+      {
+        "id": "type",
+        "q": "Quel type d'établissement dirigez-vous ?",
+        "options": [
+          {
+            "v": "ehpad",
+            "l": "Un EHPAD",
+            "d": "Établissement médicalisé"
+          },
+          {
+            "v": "maison-de-retraite",
+            "l": "Une maison de retraite",
+            "d": "Lieu de vie collectif"
+          },
+          {
+            "v": "residence-autonomie",
+            "l": "Une résidence autonomie",
+            "d": "Résidents plutôt autonomes"
+          },
+          {
+            "v": "autre",
+            "l": "Une autre structure",
+            "d": "Accueil de jour, résidence services..."
+          }
+        ]
+      },
+      {
+        "id": "autonomie",
+        "q": "Comment décririez-vous vos résidents ?",
+        "options": [
+          {
+            "v": "mobiles",
+            "l": "Plutôt autonomes et mobiles",
+            "d": "Ils marchent, ils se déplacent seuls"
+          },
+          {
+            "v": "mixte",
+            "l": "Un peu de tout",
+            "d": "Des profils très différents"
+          },
+          {
+            "v": "fragiles",
+            "l": "Plutôt dépendants",
+            "d": "Aide à la marche, fauteuil, fatigue"
+          }
+        ]
+      },
+      {
+        "id": "priorite",
+        "q": "Votre priorité numéro 1 ?",
+        "options": [
+          {
+            "v": "chutes",
+            "l": "Réduire le risque de chute",
+            "d": "Équilibre et force des jambes"
+          },
+          {
+            "v": "autonomie",
+            "l": "Préserver l'autonomie",
+            "d": "Les gestes du quotidien"
+          },
+          {
+            "v": "moral",
+            "l": "Le moral et le lien social",
+            "d": "Bouger ensemble, rire, échanger"
+          },
+          {
+            "v": "animation",
+            "l": "Renouveler l'animation",
+            "d": "Un rendez-vous sportif régulier"
+          }
+        ]
+      },
+      {
+        "id": "rythme",
+        "q": "Quel rythme imaginez-vous ?",
+        "options": [
+          {
+            "v": "1",
+            "l": "Une séance par semaine",
+            "d": "Simple à intégrer au planning"
+          },
+          {
+            "v": "2",
+            "l": "Deux séances ou plus",
+            "d": "Pour des effets plus visibles"
+          },
+          {
+            "v": "essai",
+            "l": "Un cycle découverte d'abord",
+            "d": "Essayer avant de s'engager"
+          }
+        ]
+      }
+    ],
+    "profils": {
+      "chutes": {
+        "nom": "Le programme Équilibre",
+        "texte": "Équilibre, force des jambes et passages assis-debout sont au centre de chaque séance."
+      },
+      "autonomie": {
+        "nom": "Le programme Autonomie",
+        "texte": "Se lever, marcher, attraper un objet : les gestes du quotidien deviennent le fil rouge des séances."
+      },
+      "moral": {
+        "nom": "Le programme Bonne humeur",
+        "texte": "Musique, jeux et défis collectifs : on bouge pour le plaisir, et le lien social suit."
+      },
+      "animation": {
+        "nom": "Le programme Animation active",
+        "texte": "Un rendez-vous sportif régulier qui complète votre planning d'animation."
+      }
+    },
+    "formats": {
+      "mobiles": "Séances en mouvement, avec marche, parcours simples et exercices debout.",
+      "mixte": "Séances en petit groupe, avec des variantes assis ou debout pour chacun.",
+      "fragiles": "Séances douces, principalement assises, avec votre équipe soignante à proximité."
+    },
+    "rythmes": {
+      "1": "Un rendez-vous hebdomadaire, facile à intégrer à votre planning.",
+      "2": "Deux séances ou plus par semaine pour des effets plus visibles.",
+      "essai": "Un cycle découverte de quelques semaines, pour voir avant de vous engager."
+    },
+    "bilan": "Un bilan de départ des résidents volontaires, en lien avec votre équipe.",
+    "formTitre": "Recevez votre proposition.",
+    "formTexte": "Dites-nous où vous envoyer votre programme. Nous revenons vers vous sous 48 h ouvrées.",
+    "cles": {
+      "profil": "priorite",
+      "format": "autonomie",
+      "rythme": "rythme"
+    },
+    "structure": "Établissement"
+  },
+  "offres": {
+    "eyebrow": "Nos formules",
+    "titre": "Choisissez le rythme adapté à votre établissement.",
+    "intro": "Trois formats pour démarrer simplement, puis ajuster avec votre équipe au fil des mois.",
+    "formules": [
+      {
+        "nom": "EHPAD ESSENTIEL",
+        "desc": "Pour installer une activité physique régulière dans l'établissement",
+        "prix": 260,
+        "cta": "Choisir Essentiel",
+        "points": [
+          "1 séance collective par semaine (45 minutes, 10 résidents maximum)",
+          "Bilan de départ des résidents volontaires",
+          "Exercices assis ou debout, selon les capacités",
+          "Un point trimestriel avec votre équipe"
+        ]
+      },
+      {
+        "nom": "EHPAD ACTIF",
+        "badge": "Recommandée",
+        "reco": true,
+        "desc": "Pour un travail complet sur l'équilibre, la force et l'autonomie",
+        "prix": 600,
+        "cta": "Choisir Actif",
+        "points": [
+          "2 séances collectives par semaine, dont un atelier équilibre et prévention des chutes",
+          "2 séances individuelles par mois pour les résidents plus fragiles",
+          "Bilan de départ, puis bilan écrit chaque trimestre",
+          "Programme construit avec votre équipe soignante",
+          "Un interlocuteur unique"
+        ]
+      },
+      {
+        "nom": "EHPAD RÉSIDENCE",
+        "desc": "Pour les établissements qui font de l'activité physique un pilier de leur projet d'animation",
+        "devis": true,
+        "cta": "Construire mon offre",
+        "points": [
+          "3 séances par semaine ou plus, sur plusieurs groupes ou étages",
+          "Séances individuelles selon les besoins",
+          "Ateliers de prise en main pour votre équipe d'animation",
+          "Bilan annuel écrit, utile pour votre projet d'établissement",
+          "Un coach référent attitré"
+        ]
+      }
+    ],
+    "note": "Tarifs de référence en euros, par mois (TVA non applicable). Le devis final dépend notamment du nombre de groupes, des créneaux, du déplacement et des précautions définies avec votre équipe soignante."
+  },
+  "simulateur": {
+    "eyebrow": "Simulateur",
+    "titre": "Estimez le programme et le budget de votre établissement.",
+    "intro": "Quelques réponses suffisent pour obtenir un ordre de grandeur. Votre proposition précise suit, après un échange avec votre direction.",
+    "tarifs": {
+      "collective": 65,
+      "individuelle": 40,
+      "groupe": 10,
+      "semaines": 4
+    },
+    "note": "Estimation indicative basée sur nos tarifs de référence : séance collective de 45 minutes (groupe de 10 résidents maximum) et séance individuelle de 30 minutes. Ce n'est pas un devis."
+  },
+  "constat": {
+    "titre": "Vous le constatez chaque jour dans votre établissement.",
+    "items": [
+      {
+        "emoji": "🪑",
+        "titre": "Des résidents qui bougent de moins en moins",
+        "texte": "Les journées se passent assis, la marche devient rare, et chaque semaine sans mouvement rend le suivant plus difficile."
+      },
+      {
+        "emoji": "⚠️",
+        "titre": "La peur de la chute",
+        "texte": "Une chute peut tout faire basculer pour un résident. La prévenir demande un travail régulier que vos équipes n'ont pas toujours le temps de mener."
+      },
+      {
+        "emoji": "⏳",
+        "titre": "Des équipes déjà au maximum",
+        "texte": "Soignants et animateurs font beaucoup avec peu de temps. Ajouter une activité physique encadrée ne doit pas peser sur eux."
+      }
+    ]
+  },
+  "avantApres": {
+    "titre": "Ce qui change avec un coach GA.",
+    "lignes": [
+      [
+        "L'activité physique dépend des disponibilités de l'équipe",
+        "Un rendez-vous fixe chaque semaine, assuré par un diplômé"
+      ],
+      [
+        "Des exercices génériques, les mêmes pour tous",
+        "Des séances adaptées au niveau réel de chaque résident"
+      ],
+      [
+        "Peu de visibilité sur les progrès",
+        "Un bilan régulier, utile pour votre projet d'établissement"
+      ],
+      [
+        "Une charge en plus pour vos équipes",
+        "Un interlocuteur unique qui organise tout avec vous"
+      ]
+    ]
+  }
+}

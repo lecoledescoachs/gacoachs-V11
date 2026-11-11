@@ -1,0 +1,45 @@
+---
+// Carte cadeau GA Coachs animée (flottement, reflet, cadre qui pulse, inclinaison au pointeur).
+// Sans prop "montant", le montant s'affiche en direct depuis le champ #cc-montant de la page carte cadeau.
+const { montant = '… €', legende = true } = Astro.props;
+---
+<figure class="cc-card" data-cc-card>
+  <div class="cc-card__box">
+    <img src="/images/design/carte-cadeau-ga-coachs.webp" alt="Carte cadeau GA Coachs, au montant libre" width="1200" height="675" loading="lazy" />
+    <span class="cc-card__amount" data-cc-amount aria-hidden="true" style={montant !== '… €' ? `--n:${montant.length}` : undefined}>{montant}</span>
+  </div>
+  {legende && <figcaption>Le montant s'affiche sur la carte pendant que tu le saisis.</figcaption>}
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.cc-card__box').forEach((box) => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    box.addEventListener('pointermove', (e) => {
+      const r = box.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      box.style.setProperty('--ry', (x * 14).toFixed(2) + 'deg');
+      box.style.setProperty('--rx', (-y * 10).toFixed(2) + 'deg');
+    });
+    box.addEventListener('pointerleave', () => { box.style.setProperty('--rx', '0deg'); box.style.setProperty('--ry', '0deg'); });
+  });
+</script>
+
+<style is:global>
+  .cc-card { margin: 22px 0 0; max-width: 560px; }
+  .cc-card__box { position: relative; container-type: inline-size; border-radius: 22px; box-shadow: 0 30px 50px -28px rgba(11, 30, 61, .7); }
+  .cc-card__box img { display: block; width: 100%; height: auto; border-radius: 22px; }
+  .cc-card__amount { position: absolute; left: 37.7%; top: 37.7%; width: 57.4%; height: 39%; display: flex; align-items: center; justify-content: center; font-family: var(--display, 'Baloo 2', sans-serif); font-weight: 700; font-size: 40px; font-size: calc(15cqw / max(1, (var(--n, 4) / 4))); line-height: 1; color: #0B1E3D; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; }
+  .cc-card__amount:not(.is-set) { color: #8AA0C8; font-size: 9cqw; }
+  @media (prefers-reduced-motion: no-preference) {
+    .cc-card { animation: none; }
+    .cc-card__box { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .18s ease-out; will-change: transform; }
+    .cc-card__box::after { content: ''; position: absolute; inset: 0; border-radius: 22px; pointer-events: none; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .38) 48%, rgba(124, 196, 255, .28) 52%, transparent 65%); background-size: 260% 100%; background-position: 130% 0; mix-blend-mode: screen; animation: none; }
+    .cc-card__amount::before { content: ''; position: absolute; inset: 0; border-radius: 6cqw; box-shadow: 0 0 5cqw rgba(124, 196, 255, .85); opacity: 0; animation: none; pointer-events: none; }
+    .cc-card__amount.pop { animation: cc-pop .5s cubic-bezier(.3, 1.6, .5, 1); }
+    @keyframes cc-float { from { transform: translateY(0); } to { transform: translateY(-7px); } }
+    @keyframes cc-shine { 0%, 55% { background-position: 130% 0; } 100% { background-position: -60% 0; } }
+    @keyframes cc-glow { 0%, 100% { opacity: .15; } 50% { opacity: 1; } }
+    @keyframes cc-pop { 0% { transform: scale(.82); } 100% { transform: scale(1); } }
+  }
+  .cc-card figcaption { margin-top: 10px; font-size: 13.5px; color: var(--muted, #5A6785); }
+</style>

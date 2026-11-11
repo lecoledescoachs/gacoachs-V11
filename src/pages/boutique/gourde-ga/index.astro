@@ -1,0 +1,308 @@
+---
+// Fiche produit de la gourde GA. Caractéristiques : gourde inox Printful 500 ml (17 oz), double paroi, 27 x 7 cm.
+// Tout est lu depuis boutique.json (champ "specs") pour pouvoir changer de modèle sans toucher à la page.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../../components/PartageReseaux.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import b from '../../../data/boutique.json';
+import CommandeBoutique from '../../../components/CommandeBoutique.astro';
+import { commandeOuverte } from '../../../data/vente';
+import coaches from '../../../data/coaches.js';
+
+const CODES = Object.fromEntries(coaches.map((c: any) => [c.slug, [c.codeBoutique, c.prenom]]));
+const tous: any[] = b.collections.flatMap((c: any) => c.produits);
+const g: any = tous.find((x) => x.id === 'gourde');
+const sweat: any = tous.find((x) => x.id === 'pull-ga');
+const path = '/boutique/gourde-ga/';
+const eur = (n: number) => (n % 1 ? n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : String(n)) + ' €';
+const prixDansDuo = sweat?.duo ? sweat.duo.prix - sweat.prix : null;
+const s = g.specs || {};
+
+const technique: [string, string][] = [
+  ['Contenance', s.contenance],
+  ['Matière', s.matiere],
+  ['Isolation', s.isolation],
+  ['Dimensions', s.dimensions],
+  ['Bouchon', s.bouchon],
+  ['Finition', s.finition],
+  ['Marquage', s.marquage],
+  ['Fabrication', 'Personnalisée à la commande, puis expédiée chez toi'],
+].filter((r) => r[1]) as [string, string][];
+
+const atouts = [
+  { i: '🧊', t: 'Ton eau reste fraîche', d: s.isolationCourt || 'La double paroi isole ta boisson de la chaleur de ta main et de la salle.' },
+  { i: '🔩', t: 'Inox, pas de plastique', d: 'Pas de goût de plastique, elle se lave facilement et elle dure des années.' },
+  { i: '🎒', t: 'Format sac de sport', d: `${s.contenance || 'Un format'} qui se glisse partout : sac, porte-gobelet, à côté du banc.` },
+  { i: '💙', t: 'Le bleu GA', d: 'Bleu roi mat avec le logo GA. On la reconnaît au premier coup d\'œil.' },
+];
+
+const faq = [
+  { q: 'Elle garde l\'eau fraîche combien de temps ?', r: s.isolation ? `D'après le fabricant : ${s.isolation.charAt(0).toLowerCase() + s.isolation.slice(1)}. Assez pour toute ta séance et le trajet.` : 'La double paroi garde ta boisson à température bien plus longtemps qu\'une gourde simple.' },
+  { q: 'Elle passe au lave-vaisselle ?', r: 'On te conseille de la laver à la main, à l\'eau chaude savonneuse : c\'est ce qui protège le mieux le logo et la finition mate.' },
+  { q: 'Je peux y mettre une boisson chaude ?', r: 'Oui, la double paroi garde aussi le chaud. Visse bien le bouchon et attention à ne pas te brûler en la remplissant.' },
+  ...(prixDansDuo ? [{ q: 'Comment l\'avoir moins cher ?', r: `Prends-la avec le sweat GA brodé : dans le duo, la gourde passe à ${eur(prixDansDuo)} au lieu de ${eur(g.prix)}.` }] : []),
+  { q: 'Quand pourrai-je la commander ?', r: 'La boutique ouvre bientôt. Laisse ton email : on te prévient en premier le jour de l\'ouverture.' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: g.nom,
+    description: `Gourde inox double paroi bleu roi, logo GA. ${s.contenance || ''}`.trim(),
+    image: g.images.map((i: any) => 'https://gacoachs.fr' + i.src),
+    brand: { '@type': 'Brand', name: 'GA Coachs' },
+    color: 'Bleu roi',
+    material: s.matiere || 'Inox',
+    offers: { '@type': 'Offer', price: g.prix, priceCurrency: 'EUR', url: 'https://gacoachs.fr' + path },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+];
+---
+<BaseLayout
+  title="Gourde GA inox : la gourde des clients du coach sportif GA"
+  description={`Gourde inox double paroi bleu roi au logo GA, ${s.contenance || '500 ml'}. Ton eau reste fraîche pendant toute ta séance. Fiche technique complète.`}
+  path={path}
+  jsonLd={jsonLd}
+  image={g.images[0].src}
+  stickyCtaHref="#commander"
+  stickyCtaLabel="Être prévenu"
+>
+  <div class="container">
+    <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Boutique', href: '/boutique/' }, { label: g.nom, href: path }]} />
+  </div>
+
+  <section class="gd-hero">
+    <div class="container gd-hero__in">
+      <div class="gd-gal">
+        <div class="gd-gal__main"><img id="gd-main" src={g.images[0].src} alt={g.images[0].alt} width="800" height="800" fetchpriority="high" /></div>
+        <div class="gd-gal__thumbs" role="group" aria-label="Photos de la gourde">
+          {g.images.map((im: any, k: number) => (
+            <button type="button" class="gd-th" data-src={im.src} data-alt={im.alt} aria-label={`Photo ${k + 1} : ${im.alt}`} aria-pressed={k === 0 ? 'true' : 'false'}>
+              <img src={im.src.replace(/\.webp$/, '-mini.webp')} alt="" width="120" height="120" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      </div>
+      <div class="gd-info">
+        <span class="eyebrow">Collection clients · GA Coachs</span>
+        <h1>{g.nom}</h1>
+        <p class="gd-prix">{eur(g.prix)}<small>prix indicatif, livraison en plus</small></p>
+        {prixDansDuo && <a class="gd-duo-flash" href={`${sweat.fiche}#duo`}><b>{eur(prixDansDuo)}</b> avec le sweat GA brodé : la gourde à moitié prix →</a>}
+        <p class="gd-lead">Ta séance chauffe, ton eau reste fraîche. Une gourde inox double paroi, bleu roi mat, avec le logo GA. Celle qu'on sort du sac avec plaisir.</p>
+        <ul class="gd-cles">
+          {s.contenance && <li><b>{s.contenance}</b>, format sac de sport</li>}
+          <li><b>Inox double paroi</b>, sans goût de plastique</li>
+          {s.isolationCourt && <li>{s.isolationCourt}</li>}
+          <li><b>Logo GA</b> sur finition bleu roi mat</li>
+        </ul>
+        <div class="gd-ctas">
+          <a href="#commander" class="btn btn--primary">Être prévenu de l'ouverture</a>
+          <a href="#technique" class="btn btn--ghost">Fiche technique</a>
+        </div>
+        <p class="gd-coach" id="gd-reco"><b>Ton coach te l'a conseillée ?</b> Indique son code à la commande : il est remercié, ton prix ne change pas.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container">
+      <span class="eyebrow">Pourquoi tu vas l'adorer</span>
+      <h2>Pensée pour la salle, utile partout.</h2>
+      <div class="gd-atouts">
+        {atouts.map((a) => <article><span class="gd-ic" aria-hidden="true">{a.i}</span><h3>{a.t}</h3><p>{a.d}</p></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="technique">
+    <div class="container gd-tech">
+      <div>
+        <span class="eyebrow">Fiche technique</span>
+        <h2>Tout ce qu'il y a dans cette gourde.</h2>
+        <p class="lead">Les caractéristiques du modèle de base, telles que données par le fabricant.</p>
+        <img class="gd-tech__img" src={g.images[2]?.src ?? g.images[0].src} alt={g.images[2]?.alt ?? g.images[0].alt} width="800" height="800" loading="lazy" />
+      </div>
+      <table class="gd-table">
+        <caption class="visually-hidden">Caractéristiques techniques de la gourde GA</caption>
+        <tbody>{technique.map(([k, v]) => <tr><th scope="row">{k}</th><td>{v}</td></tr>)}</tbody>
+      </table>
+    </div>
+  </section>
+
+  {prixDansDuo && (
+    <section class="section section--tint">
+      <div class="container gd-duo">
+        <div class="gd-duo__vis">
+          <img src={sweat.images[0].src} alt={sweat.images[0].alt} width="900" height="900" loading="lazy" />
+          <span aria-hidden="true">+</span>
+          <div class="gd-duo__g">
+            <img src={g.images[0].src} alt={g.images[0].alt} width="800" height="800" loading="lazy" />
+            <span class="gd-duo__badge">Gourde<br />à moitié prix</span>
+          </div>
+        </div>
+        <div>
+          <span class="eyebrow">Le pack complet</span>
+          <h2>{sweat.duo.nom} : sweat + gourde.</h2>
+          <p class="lead">Le sweat pour l'avant et l'après-séance, la gourde pour pendant. Deux essentiels, un seul bleu.</p>
+          <p class="gd-duo__prix"><s>{eur(sweat.prix + g.prix)}</s> {eur(sweat.duo.prix)}<small>Avec le sweat, la gourde passe à {eur(prixDansDuo)} au lieu de {eur(g.prix)}. Prix indicatif.</small></p>
+          <a href={`${sweat.fiche}#duo`} class="btn btn--primary">Voir le sweat GA brodé</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Entretien</span>
+      <h2>Pour qu'elle reste belle longtemps.</h2>
+      <ul class="gd-list">
+        <li>Lave-la à la main, à l'eau chaude savonneuse, avec un goupillon</li>
+        <li>Évite le lave-vaisselle : il abîme le logo et la finition mate</li>
+        <li>Laisse-la sécher ouverte, tête en bas</li>
+        <li>Pas de congélateur : l'eau gèle et peut déformer l'inox</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tint" id="commander">
+    <div class="container gd-form-wrap">
+      <div>
+        <span class="eyebrow">{commandeOuverte(g) ? 'Commander' : 'Ouverture prochaine'}</span>
+        <h2>{commandeOuverte(g) ? 'Commande la tienne.' : "Sois le premier à l'avoir."}</h2>
+        <p class="lead">{commandeOuverte(g) ? 'Choisis, ajoute le code de ton coach si tu en as un, et paie en ligne en toute sécurité.' : "Laisse ton email : on te prévient en premier le jour de l'ouverture de la boutique."}</p>
+      </div>
+      {commandeOuverte(g) ? <CommandeBoutique produit={g} duoAvec={null} /> : (
+      <form class="gd-form" name="boutique-gourde" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-boutique/" aria-label="Être prévenu de l'ouverture pour la gourde GA">
+        <input type="hidden" name="form-name" value="boutique-gourde" />
+        <input type="hidden" name="produit" value={g.nom} />
+        <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+        <label>Prénom<input name="prenom" autocomplete="given-name" required /></label>
+        <label>Email<input type="email" name="email" autocomplete="email" required /></label>
+        {prixDansDuo && (
+          <label>Ce qui t'intéresse
+            <select name="choix">
+              <option value="gourde">La gourde seule ({eur(g.prix)})</option>
+              <option value="duo">{sweat.duo.nom} : sweat + gourde à moitié prix ({eur(sweat.duo.prix)})</option>
+            </select>
+          </label>
+        )}
+        <label>Code de ton coach <small>(facultatif)</small><input name="coach" id="bq-coach" autocomplete="off" maxlength="40" /></label>
+        <label class="gd-check"><input type="checkbox" name="cadeau" value="oui" /> C'est pour offrir 🎁</label>
+        <button class="btn btn--primary" type="submit">Me prévenir</button>
+        <p class="gd-rgpd">Ton email sert uniquement à te prévenir de l'ouverture. <a href="/confidentialite/">Confidentialité</a></p>
+      </form>
+      )}
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2>Tes questions sur la gourde.</h2>
+      <div class="gd-faq">{faq.map((f) => <details><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+      <p class="gd-retour"><a href="/boutique/">← Voir toute la boutique</a></p>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title={"La gourde GA"} label="Partager cette gourde" /></div></section>
+</BaseLayout>
+
+<script is:inline id="bq-codes" type="application/json" set:html={JSON.stringify(CODES)}></script>
+<script>
+  const main = document.getElementById('gd-main') as HTMLImageElement | null;
+  document.querySelectorAll<HTMLButtonElement>('.gd-th').forEach((b) => {
+    b.addEventListener('click', () => {
+      if (!main) return;
+      main.src = b.dataset.src || main.src; main.alt = b.dataset.alt || '';
+      document.querySelectorAll('.gd-th').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    });
+  });
+  (() => {
+    const CLE = 'ga_coach_boutique';
+    let slug = '';
+    try { slug = (new URLSearchParams(location.search).get('coach') || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 40); } catch (e) { /* rien */ }
+    try {
+      if (slug) localStorage.setItem(CLE, JSON.stringify({ s: slug, d: Date.now() }));
+      else { const v = JSON.parse(localStorage.getItem(CLE) || 'null'); if (v && Date.now() - v.d < 60 * 86400000) slug = v.s; }
+    } catch (e) { /* stockage indisponible */ }
+    let codes: Record<string, [string, string]> = {};
+    try { codes = JSON.parse(document.getElementById('bq-codes')?.textContent || '{}'); } catch (e) { /* rien */ }
+    if (!slug || !codes[slug]) return;
+    const [code, prenom] = codes[slug];
+    const champ = document.getElementById('bq-coach') as HTMLInputElement | null;
+    if (champ && !champ.value) champ.value = code;
+    const reco = document.getElementById('gd-reco');
+    if (reco) { reco.textContent = ''; const b = document.createElement('b'); b.textContent = 'Conseillée par ton coach ' + prenom + '.'; reco.append(b, ' Son code ' + code + ' sera retenu pour ta commande, sans rien changer à ton prix.'); }
+  })();
+</script>
+
+<style>
+  .gd-hero { padding: 20px 0 64px; }
+  .gd-hero__in { display: grid; gap: 32px; }
+  @media (min-width: 960px) { .gd-hero__in { grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: start; } .gd-gal { position: sticky; top: 96px; } }
+  .gd-gal__main { border-radius: var(--radius-md); overflow: hidden; background: #0B1E3D; aspect-ratio: 1; }
+  .gd-gal__main img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gd-gal__thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+  .gd-th { padding: 0; border: 2px solid transparent; border-radius: 10px; overflow: hidden; background: #F3F5F9; cursor: pointer; aspect-ratio: 1; }
+  .gd-th img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gd-th[aria-pressed="true"] { border-color: var(--blue); }
+  .gd-th:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .gd-info h1 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.05; margin: 8px 0 10px; }
+  .gd-prix { font-size: 32px; font-weight: 700; color: #0B1E3D; margin: 0 0 12px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .gd-prix small { font-size: 13px; font-weight: 600; color: #4A5878; }
+  .gd-duo-flash { display: block; margin: 0 0 16px; padding: 12px 16px; border-radius: var(--radius-sm); background: #1F55C9; color: #fff; text-decoration: none; font-weight: 600; line-height: 1.4; }
+  .gd-duo-flash b { font-size: 18px; }
+  .gd-duo-flash:hover { background: #0B1E3D; }
+  .gd-lead { font-size: 17px; line-height: 1.6; color: #2A3756; margin: 0 0 18px; }
+  .gd-cles { list-style: none; padding: 0; margin: 0 0 20px; display: grid; gap: 8px; }
+  .gd-cles li { position: relative; padding-left: 28px; color: #2A3756; }
+  .gd-cles li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 20px; height: 20px; border-radius: 50%; background: #E3ECFF; color: #1F55C9; font-size: 12px; font-weight: 700; display: grid; place-items: center; }
+  .gd-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+  .gd-coach { margin: 0; padding: 14px 16px; border-radius: var(--radius-sm); background: #EEF3FF; color: #13284F; font-size: 14px; line-height: 1.5; }
+  .gd-atouts { display: grid; gap: 16px; margin-top: 28px; }
+  @media (min-width: 760px) { .gd-atouts { grid-template-columns: repeat(4, 1fr); } }
+  .gd-atouts article { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-md); padding: 22px; }
+  .gd-atouts h3 { font-size: 18px; margin: 10px 0 6px; }
+  .gd-atouts p { margin: 0; color: #2A3756; line-height: 1.55; font-size: 15px; }
+  .gd-ic { font-size: 26px; }
+  .gd-tech { display: grid; gap: 32px; }
+  @media (min-width: 960px) { .gd-tech { grid-template-columns: 1fr 1.2fr; align-items: start; } }
+  .gd-tech__img { width: 100%; max-width: 420px; height: auto; border-radius: var(--radius-md); margin-top: 20px; display: block; }
+  .gd-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; font-size: 15px; }
+  .gd-table th, .gd-table td { text-align: left; padding: 13px 16px; border-bottom: 1px solid #E6ECF8; vertical-align: top; }
+  .gd-table tr:last-child th, .gd-table tr:last-child td { border-bottom: 0; }
+  .gd-table th { width: 34%; color: #1F55C9; font-weight: 700; }
+  .gd-table td { color: #13203B; }
+  .gd-duo { display: grid; gap: 32px; align-items: center; }
+  @media (min-width: 900px) { .gd-duo { grid-template-columns: 1fr 1fr; gap: 56px; } }
+  .gd-duo__vis { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; }
+  .gd-duo__vis > span { font-size: 34px; font-weight: 700; color: #1F55C9; }
+  .gd-duo__vis img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-md); background: #F3F5F9; display: block; }
+  .gd-duo__g { position: relative; }
+  .gd-duo__badge { position: absolute; top: -14px; right: -12px; display: grid; place-items: center; width: 92px; height: 92px; border-radius: 50%; background: #1F55C9; color: #fff; font-weight: 700; font-size: 13px; line-height: 1.15; text-align: center; transform: rotate(-10deg); box-shadow: 0 10px 22px rgba(11,30,61,.3); border: 3px solid #fff; }
+  @media (max-width: 520px) { .gd-duo__badge { width: 84px; height: 84px; font-size: 10.5px; top: -12px; right: -8px; padding: 0 6px; } }
+  .gd-duo__prix { font-size: 30px; font-weight: 700; color: #0B1E3D; margin: 6px 0 18px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+  .gd-duo__prix s { font-size: 20px; color: #4A5878; font-weight: 600; }
+  .gd-duo__prix small { font-size: 13px; font-weight: 600; color: #1F55C9; width: 100%; }
+  .gd-list { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 10px; max-width: 760px; }
+  .gd-list li { padding: 12px 14px 12px 40px; position: relative; background: #F5F8FF; border-radius: var(--radius-sm); color: #13203B; line-height: 1.5; }
+  .gd-list li::before { content: ''; position: absolute; left: 16px; top: 19px; width: 10px; height: 10px; border-radius: 50%; background: var(--blue); }
+  .gd-form-wrap { display: grid; gap: 28px; }
+  @media (min-width: 860px) { .gd-form-wrap { grid-template-columns: 1fr 1fr; align-items: center; } }
+  .gd-form { display: grid; gap: 14px; padding: 24px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .gd-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; }
+  .gd-form input, .gd-form select { min-height: 46px; padding: 0 12px; border: 1px solid #B8C6E3; border-radius: var(--radius-sm); font: inherit; background: #fff; }
+  .gd-form .gd-check { display: flex; align-items: center; gap: 10px; min-height: 32px; }
+  .gd-form .gd-check input { min-height: auto; width: 20px; height: 20px; }
+  .gd-rgpd { margin: 0; font-size: 13px; color: #4A5878; }
+  .gd-faq { display: grid; gap: 10px; margin-top: 24px; max-width: 820px; }
+  .gd-faq details { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0 18px; }
+  .gd-faq summary { cursor: pointer; padding: 16px 0; font-weight: 700; color: #0B1E3D; }
+  .gd-faq details p { margin: 0 0 16px; color: #2A3756; line-height: 1.6; }
+  .gd-retour { margin-top: 28px; }
+  .gd-retour a { font-weight: 700; color: #1F55C9; }
+</style>

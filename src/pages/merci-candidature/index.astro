@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+---
+<BaseLayout noindex={true} title="Candidature reçue · GA Coachs" description="Votre candidature coach à domicile a bien été reçue." path="/merci-candidature/" stickyCtaHref={false}>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'BOOST DOMICILE', href: '/coach-sportif-a-domicile/' }, { label: 'Candidature reçue', href: '/merci-candidature/' }]} />
+      <h1>C'est noté, <span class="hl-text">merci</span>.</h1>
+      <p class="phero-lead">Votre candidature est bien arrivée. Choisissez dès maintenant un créneau d'échange avec Garry.</p>
+      <div class="ctas"><a class="btn btn-primary" href="https://calendly.com/ga-coachs/candidature-coach-sportif" target="_blank" rel="noopener noreferrer">Réserver mon échange<span class="visually-hidden"> (s'ouvre dans un nouvel onglet)</span></a><a class="btn btn-glass" href="/">Retour à l'accueil</a></div>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+<script>if ((window as any).trackConversion) (window as any).trackConversion('candidature_domicile_envoyee');</script>

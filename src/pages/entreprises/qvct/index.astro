@@ -1,0 +1,150 @@
+---
+import StatsBoost from '../../../components/StatsBoost.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import EntrepriseLeadForm from '../../../components/EntrepriseLeadForm.astro';
+import Crumbs from '../../../components/rb/Crumbs.astro';
+import Icones from '../../../components/rb/Icones.astro';
+import '../../../styles/rebrand.css';
+import formats from '../../../data/entreprises-formats.json';
+
+const ciblees = ['coaching-sportif', 'marche-club', 'team-building', 'mal-de-dos', 'reveil-musculaire', 'pause-active'];
+const fmts = formats.filter((f) => ciblees.includes(f.slug));
+const apports = [
+  { ic: 'building', t: 'Des actions sur site', p: 'Ponctuelles ou récurrentes, directement dans vos locaux ou à proximité, sans vestiaire ni trajet.' },
+  { ic: 'check', t: 'Une participation suivie', p: "Séances réalisées, participants, satisfaction : des indicateurs simples pour votre bilan QVCT." },
+  { ic: 'target', t: 'Les bonnes priorités', p: 'Un diagnostic de départ pour cibler ce qui compte : sédentarité, douleurs, cohésion, énergie.' },
+  { ic: 'medal', t: 'Des coachs diplômés', p: 'Des coachs sportifs diplômés, un réseau partenaire officiel de Basic-Fit depuis 2018 et un interlocuteur unique.' },
+];
+const enBref = [
+  "La QVCT (qualité de vie et des conditions de travail) regroupe les actions d'une entreprise pour la santé, l'engagement et les conditions de travail de ses salariés.",
+  "GA Coachs la traduit en actions sportives concrètes : séances de 30 minutes sur site, ateliers de prévention des TMS, temps de cohésion.",
+  `${fmts.length} formats au choix, dont ${fmts.slice(0, 3).map((f) => f.nom).join(', ')}.`,
+  "Pour tester avant de vous engager : BOOST 30, une séance découverte de 30 minutes offerte à votre équipe.",
+  'Zone : Orléans, sa métropole et le Loiret.',
+];
+const faqQ = [
+  { q: "Le sport en entreprise entre-t-il dans une démarche QVCT ?", r: "Oui. L'activité physique agit sur plusieurs leviers de la QVCT : la santé (sédentarité, TMS), l'engagement et la cohésion des équipes. C'est une action visible et mesurable." },
+  { q: 'Faut-il une salle de sport dans nos locaux ?', r: "Non. Une salle de réunion dégagée, un espace extérieur ou un parc proche suffisent. Le coach apporte le petit matériel." },
+  { q: 'Comment mesurer l\'impact sur nos équipes ?', r: "Le programme suit les séances réalisées, la participation et la satisfaction. Ces indicateurs nourrissent votre bilan QVCT, sans être des indicateurs médicaux." },
+  { q: 'Peut-on commencer petit ?', r: "Oui. BOOST 30 permet de tester une séance de 30 minutes offerte, puis BOOST Essentiel démarre à une séance par semaine." },
+  { q: 'Qu\'est-ce que la QVCT ?', r: "La qualité de vie et des conditions de travail regroupe les actions d'une entreprise pour la santé, l'engagement et les conditions de travail de ses salariés. Le sport en est l'un des leviers les plus concrets." },
+  { q: 'Quels formats proposez-vous dans une démarche QVCT ?', r: "Coaching sportif hebdomadaire, GA Marche Club, pause active, réveil musculaire, GA Dos Entreprise et team building sportif. Ils se combinent selon vos priorités." },
+  { q: 'Le sport aide-t-il à prévenir les TMS ?', r: "Il fait partie des leviers de prévention : bouger plus souvent, mieux préparer le corps aux gestes du poste et casser les longues périodes assises. Il ne remplace pas l'évaluation des risques ni un avis médical." },
+  { q: 'La participation est-elle obligatoire ?', r: "Non. Elle repose sur le volontariat. Les séances sont accessibles aux non-sportifs pour que le plus grand nombre ait envie de venir." },
+  { q: 'Le CSE peut-il être associé ?', r: "Oui. Le CSE peut participer à la réflexion comme au financement du programme." },
+  { q: 'Qui anime les séances ?', r: "Des coachs sportifs diplômés du réseau GA Coachs, partenaire officiel de Basic-Fit à Orléans depuis 2018, avec un interlocuteur unique pour votre entreprise." },
+  { q: 'Les données individuelles sont-elles partagées ?', r: "Non. Les indicateurs transmis à l'entreprise sont collectifs (séances, participation, satisfaction). Rien de personnel n'est communiqué sans l'accord du salarié." },
+  { q: 'Comment démarrer ?', r: "Remplissez le formulaire de cette page : nous revenons vers vous sous 48 h ouvrées pour un premier échange, puis vous proposons un programme et un devis." },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'QVCT et bien-être au travail à Orléans', serviceType: 'QVCT et bien-être au travail', url: 'https://gacoachs.fr/entreprises/qvct/', provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' }, areaServed: ['Orléans', 'Orléans Métropole', 'Loiret'], description: "GA Coachs accompagne la démarche QVCT des entreprises d'Orléans avec des actions sportives concrètes et mesurables." },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout
+  title="QVCT et bien-être au travail avec un coach sportif GA"
+  description="GA Coachs transforme votre démarche QVCT en actions sportives concrètes : sport en entreprise, prévention TMS, cohésion d'équipe, à Orléans et sa métropole."
+  path="/entreprises/qvct/"
+  jsonLd={jsonLd}
+  image="/images/og-entreprises.jpg"
+  stickyCtaHref="#lead-form"
+  stickyCtaLabel="Créer mon programme entreprise"
+>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Entreprises', href: '/entreprises/' }, { label: 'QVCT', href: '/entreprises/qvct/' }]} />
+      <div class="hgrid">
+        <div>
+          <span class="eyebrow eyebrow-dark">QVCT · BOOST ENTREPRISE™</span>
+          <h1>Une démarche QVCT qui se <span class="hl-text">voit vraiment</span>.</h1>
+          <p class="phero-lead">Le sport en entreprise, enfin simple à mettre en place. GA Coachs transforme vos objectifs QVCT en actions concrètes : formats courts, mesurables, adaptés à tous les niveaux.</p>
+          <div class="ctas">
+            <a class="btn btn-primary" href="#lead-form">Créer mon programme entreprise</a>
+            <a class="btn btn-glass" href="/entreprises/#e-form">Tester avec BOOST 30 offert</a>
+          </div>
+        </div>
+        <div role="note" class="hcard">
+          <span class="bt-k">Ce que vous obtenez</span>
+          <ul class="bt-list"><li>Des actions visibles par vos équipes</li><li>Un suivi de participation</li><li>Un interlocuteur unique</li><li>BOOST 30 offert pour tester</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner vb2">
+      <div><span class="eyebrow">En bref</span><h2 class="h2">La QVCT par le sport, en 30 secondes.</h2></div>
+      <ul class="vb-list">{enBref.map((t) => <li>{t}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Notre apport</span>
+      <h2 class="h2">Ce que GA Coachs apporte à votre démarche QVCT.</h2>
+      <div class="q-ap">{apports.map((a) => <div class="tile"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href={`#i-${a.ic}`}></use></svg></span><h3>{a.t}</h3><p>{a.p}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Les formats</span>
+      <h2 class="h2">Des formats pour chaque objectif.</h2>
+      <div class="q-fm">{fmts.map((f) => <a class="tile" href={`/entreprises/${f.slug}/`}><small>{f.duree}</small><b>{f.nom}</b><p>{f.positionnement}</p><em>Découvrir →</em></a>)}</div>
+      <a class="btn-out" style="margin-top: 24px;" href="/entreprises/">Découvrir BOOST ENTREPRISE™ <svg class="ic" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Questions fréquentes.</h2>
+      <div class="faq-list">{faqQ.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+
+  <StatsBoost />
+  <section class="sec" id="lead-form">
+    <div class="inner">
+      <div class="lc">
+        <div class="lc-l">
+          <div class="lightning-bg" aria-hidden="true"></div>
+          <span class="eyebrow eyebrow-dark">Étape suivante</span>
+          <h2 class="h2">Parlons de votre équipe.</h2>
+          <p class="lead-p">Réponse sous 48 h ouvrées.</p>
+          <ul class="bt-list"><li>Un interlocuteur unique</li><li>Des coachs diplômés</li><li>BOOST 30 offert pour tester</li></ul>
+        </div>
+        <div class="lc-r"><EntrepriseLeadForm /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">Prêt à donner vie à votre démarche QVCT ?</h2>
+      <a class="btn-final" href="#lead-form"><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Créer mon programme entreprise<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+
+<style>
+  .q-ap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+  .q-ic { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: var(--pill); color: var(--blue); }
+  .q-ic .ic { width: 22px; height: 22px; }
+  .q-ap h3 { font-family: var(--display); font-size: 19px; margin: 14px 0 6px; }
+  .q-ap p { font-size: 14.5px; color: var(--muted); }
+  .q-fm { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+  .q-fm a { display: flex !important; flex-direction: column; gap: 6px; color: var(--ink); transition: transform .25s ease, border-color .25s ease; }
+  .q-fm a:hover { transform: translateY(-4px); border-color: #BFD3FB; }
+  .q-fm small { font-size: 12.5px; font-weight: 700; color: var(--blue-deep); }
+  .q-fm b { font-family: var(--display); font-size: 20px; line-height: 1.2; }
+  .q-fm p { font-size: 14.5px; color: var(--muted); flex: 1; }
+  .q-fm em { font-style: normal; font-weight: 700; font-size: 14px; color: var(--blue-deep); }
+  @media (max-width: 960px) { .q-ap, .q-fm { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .q-ap, .q-fm { grid-template-columns: 1fr; } }
+</style>

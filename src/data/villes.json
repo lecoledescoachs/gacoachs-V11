@@ -1,0 +1,548 @@
+[
+  {
+    "slug": "orleans",
+    "nom": "Orléans",
+    "salleSlugs": [
+      "basic-fit-orleans-sud",
+      "basic-fit-orleans-liberation",
+      "basic-fit-olivet",
+      "basic-fit-saran",
+      "basic-fit-fleury-les-aubrais"
+    ],
+    "fait": "abrite la cathédrale Sainte-Croix, classée monument historique en 1862, dont les vitraux du chœur retracent l'épopée de Jeanne d'Arc"
+  },
+  {
+    "slug": "olivet",
+    "nom": "Olivet",
+    "salleSlugs": [
+      "basic-fit-olivet",
+      "basic-fit-orleans-sud",
+      "basic-fit-orleans-liberation"
+    ]
+  },
+  {
+    "slug": "saint-jean-le-blanc",
+    "nom": "Saint-Jean-le-Blanc",
+    "salleSlugs": [
+      "basic-fit-olivet",
+      "basic-fit-orleans-sud",
+      "basic-fit-orleans-liberation"
+    ]
+  },
+  {
+    "slug": "saint-cyr-en-val",
+    "nom": "Saint-Cyr-en-Val",
+    "salleSlugs": [
+      "basic-fit-olivet",
+      "basic-fit-orleans-sud"
+    ],
+    "fait": "connue pour son château de la Motte"
+  },
+  {
+    "slug": "saint-hilaire-saint-mesmin",
+    "nom": "Saint-Hilaire-Saint-Mesmin",
+    "salleSlugs": [
+      "basic-fit-olivet",
+      "basic-fit-orleans-sud"
+    ],
+    "fait": "une commune rurale entre le Loiret et les bois solognots, à dominante agricole"
+  },
+  {
+    "slug": "saint-pryve-saint-mesmin",
+    "nom": "Saint-Pryvé-Saint-Mesmin",
+    "salleSlugs": [
+      "basic-fit-olivet",
+      "basic-fit-orleans-sud",
+      "basic-fit-orleans-liberation"
+    ],
+    "fait": "aurait été offerte, selon la légende, par le roi Clovis à son ami Euspice au VIe siècle, à la confluence de la Loire et du Loiret"
+  },
+  {
+    "slug": "saint-denis-en-val",
+    "nom": "Saint-Denis-en-Val",
+    "salleSlugs": [
+      "basic-fit-olivet",
+      "basic-fit-orleans-sud",
+      "basic-fit-orleans-liberation"
+    ],
+    "fait": "située dans le périmètre du Val de Loire, inscrit au patrimoine mondial de l'UNESCO"
+  },
+  {
+    "slug": "ardon",
+    "nom": "Ardon",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "fait": "abrite l'église Saint-Martin, classée monument historique, dont le clocher du XIIe siècle intègre des pierres d'origine gallo-romaine"
+  },
+  {
+    "slug": "mezieres-lez-clery",
+    "nom": "Mézières-lez-Cléry",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "fait": "un village viticole depuis le Haut Moyen Âge, connu pour son AOC Orléans-Cléry et son tumulus gaulois de la Butte des Élus"
+  },
+  {
+    "slug": "la-ferte-saint-aubin",
+    "nom": "La Ferté-Saint-Aubin",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "fait": "connue pour son château et son aire d'accueil pour camping-cars"
+  },
+  {
+    "slug": "marcilly-en-villette",
+    "nom": "Marcilly-en-Villette",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "fait": "considérée comme l'une des portes d'entrée de la Sologne, traversée par la rivière du Cosson"
+  },
+  {
+    "slug": "jouy-le-potier",
+    "nom": "Jouy-le-Potier",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "fait": "a conservé, aux portes de la Sologne, de nombreuses maisons à pans de bois comme la maison de l'Écureuil"
+  },
+  {
+    "slug": "ligny-le-ribault",
+    "nom": "Ligny-le-Ribault",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "fait": "un territoire giboyeux abritant l'une des plus belles populations de cervidés de France"
+  },
+  {
+    "slug": "menestreau-en-villette",
+    "nom": "Ménestreau-en-Villette",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "fait": "un village labellisé « Village de Caractère » de Sologne, connu pour son église Notre-Dame du XIIIe siècle aux peintures murales restaurées et sa fontaine Saint-Thibault"
+  },
+  {
+    "slug": "sandillon",
+    "nom": "Sandillon",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "fait": "le lieu où s'est éteinte en 1458 Isabelle Romée, la mère de Jeanne d'Arc, à la métairie de Bagnault alors propriété de son fils Pierre de Lys"
+  },
+  {
+    "slug": "mareau-aux-pres",
+    "nom": "Mareau-aux-Prés",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "fait": "une commune viticole qui produit des vins AOC Orléans et Orléans-Cléry, à environ 13 km au sud-ouest d'Orléans"
+  },
+  {
+    "slug": "vannes-sur-cosson",
+    "nom": "Vannes-sur-Cosson",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "fait": "un village solognot qui a conservé son bâti traditionnel de briques et de pans de bois"
+  },
+  {
+    "slug": "vouzon",
+    "nom": "Vouzon",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "departement": "Loir-et-Cher (41)",
+    "fait": "abrite l'église Saint-Pierre, citée dès 1104, dont le clocher culmine à 42 mètres et dont les lustres sont en cristal de Baccarat"
+  },
+  {
+    "slug": "yvoy-le-marron",
+    "nom": "Yvoy-le-Marron",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "departement": "Loir-et-Cher (41)",
+    "fait": "s'appelait autrefois Yvoy-le-Galeux, en raison d'une fontaine réputée guérir la gale, avant d'être renommée en 1841 pour sa châtaigneraie"
+  },
+  {
+    "slug": "lamotte-beuvron",
+    "nom": "Lamotte-Beuvron",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "departement": "Loir-et-Cher (41)",
+    "fait": "ville natale de la tarte Tatin"
+  },
+  {
+    "slug": "chaumont-sur-tharonne",
+    "nom": "Chaumont-sur-Tharonne",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "sologne": true,
+    "departement": "Loir-et-Cher (41)",
+    "fait": "village solognot classé parmi les plus caractéristiques de la région"
+  },
+  {
+    "slug": "saran",
+    "nom": "Saran",
+    "salleSlugs": [
+      "basic-fit-saran",
+      "basic-fit-orleans-liberation"
+    ]
+  },
+  {
+    "slug": "ingre",
+    "nom": "Ingré",
+    "salleSlugs": [
+      "basic-fit-saran",
+      "basic-fit-orleans-liberation"
+    ]
+  },
+  {
+    "slug": "gidy",
+    "nom": "Gidy",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "situé en pleine Beauce, à 11 km au nord d'Orléans, dans une plaine autrefois tournée vers la culture de la vigne"
+  },
+  {
+    "slug": "ormes",
+    "nom": "Ormes",
+    "salleSlugs": [
+      "basic-fit-saran",
+      "basic-fit-orleans-liberation"
+    ],
+    "fait": "abrite la Maison de la Polyculture, dédiée aux traditions agricoles de la Beauce"
+  },
+  {
+    "slug": "chanteau",
+    "nom": "Chanteau",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "née en 1793 au sein d'une clairière de la forêt d'Orléans, d'où son nom qui signifie « clairière »"
+  },
+  {
+    "slug": "artenay",
+    "nom": "Artenay",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "célèbre pour son moulin à vent des Muets classé monument historique, et pour avoir été le théâtre d'une bataille de la guerre franco-prussienne de 1870"
+  },
+  {
+    "slug": "cercottes",
+    "nom": "Cercottes",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "situé à 5 minutes du centre commercial Cap Saran et desservi par une petite gare"
+  },
+  {
+    "slug": "bricy",
+    "nom": "Bricy",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "dispose d'un parc communal avec piste cyclable et terrain de football"
+  },
+  {
+    "slug": "chevilly",
+    "nom": "Chevilly",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "réputée pour le fleurissement soigné de ses rues"
+  },
+  {
+    "slug": "boulay-les-barres",
+    "nom": "Boulay-les-Barres",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "un village qui a récemment inauguré sa salle polyvalente Nicole Pinsard"
+  },
+  {
+    "slug": "bucy-saint-liphard",
+    "nom": "Bucy-Saint-Liphard",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "voit naître la Mauve de Saint-Ay, affluent de la Loire long d'environ 14 km qui prend sa source sur la commune"
+  },
+  {
+    "slug": "sougy",
+    "nom": "Sougy",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "abrite l'église Saint-Germain, reconstruite au XIXe siècle, et la ferme de Marville, vestige d'un ancien fief passé aux Feydeau en 1594"
+  },
+  {
+    "slug": "huetre",
+    "nom": "Huêtre",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "un petit village dont les habitants s'appellent les Huêtrais, qui abrite l'église Saint-Germain"
+  },
+  {
+    "slug": "rebrechien",
+    "nom": "Rebréchien",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "un village apprécié pour sa proximité avec la forêt d'Orléans, à quelques minutes de la métropole"
+  },
+  {
+    "slug": "saint-lye-la-foret",
+    "nom": "Saint-Lyé-la-Forêt",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "abrite le château de la Mothe, un édifice protégé au titre des monuments historiques"
+  },
+  {
+    "slug": "neuville-aux-bois",
+    "nom": "Neuville-aux-Bois",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "ville centre de la Communauté de communes de la Forêt, traversée par l'autoroute A19"
+  },
+  {
+    "slug": "chilleurs-aux-bois",
+    "nom": "Chilleurs-aux-Bois",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "une commune de la Communauté de communes du Pithiverais, aux portes de la forêt d'Orléans"
+  },
+  {
+    "slug": "loury",
+    "nom": "Loury",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "compte environ 2 500 habitants, les Louryens et Louryennes"
+  },
+  {
+    "slug": "trainou",
+    "nom": "Traînou",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ]
+  },
+  {
+    "slug": "vennecy",
+    "nom": "Vennecy",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "traversée par la Scandibérique, la plus longue véloroute d'Europe, et connue pour son manoir du Rosier"
+  },
+  {
+    "slug": "ascheres-le-marche",
+    "nom": "Aschères-le-Marché",
+    "salleSlugs": [
+      "basic-fit-saran"
+    ],
+    "fait": "compte deux monuments historiques classés : sa halle du XVIIIe siècle et son église Notre-Dame"
+  },
+  {
+    "slug": "fleury-les-aubrais",
+    "nom": "Fleury-les-Aubrais",
+    "salleSlugs": [
+      "basic-fit-fleury-les-aubrais",
+      "basic-fit-orleans-liberation",
+      "basic-fit-saran"
+    ]
+  },
+  {
+    "slug": "semoy",
+    "nom": "Semoy",
+    "salleSlugs": [
+      "basic-fit-fleury-les-aubrais",
+      "basic-fit-orleans-sud",
+      "basic-fit-orleans-liberation"
+    ],
+    "fait": "une commune périurbaine au caractère semi-rural préservé"
+  },
+  {
+    "slug": "saint-jean-de-braye",
+    "nom": "Saint-Jean-de-Braye",
+    "salleSlugs": [
+      "basic-fit-fleury-les-aubrais",
+      "basic-fit-orleans-sud",
+      "basic-fit-orleans-liberation"
+    ],
+    "fait": "la 4ᵉ commune la plus peuplée de la métropole d'Orléans"
+  },
+  {
+    "slug": "saint-jean-de-la-ruelle",
+    "nom": "Saint-Jean-de-la-Ruelle",
+    "salleSlugs": [
+      "basic-fit-orleans-liberation",
+      "basic-fit-orleans-sud"
+    ],
+    "fait": "la 5ᵉ ville du département du Loiret par sa population"
+  },
+  {
+    "slug": "boigny-sur-bionne",
+    "nom": "Boigny-sur-Bionne",
+    "salleSlugs": [
+      "basic-fit-fleury-les-aubrais",
+      "basic-fit-orleans-liberation"
+    ],
+    "fait": "traversée par la Bionne, un petit cours d'eau qui longe le village"
+  },
+  {
+    "slug": "mardie",
+    "nom": "Mardié",
+    "salleSlugs": [
+      "basic-fit-fleury-les-aubrais",
+      "basic-fit-orleans-liberation"
+    ],
+    "fait": "située dans le périmètre du Val de Loire, classé au patrimoine mondial de l'UNESCO"
+  },
+  {
+    "slug": "bou",
+    "nom": "Bou",
+    "salleSlugs": [
+      "basic-fit-fleury-les-aubrais",
+      "basic-fit-orleans-liberation"
+    ],
+    "fait": "point de départ du site de randonnée Azins Trail"
+  },
+  {
+    "slug": "la-source",
+    "nom": "Orléans La Source",
+    "salleSlugs": [
+      "basic-fit-olivet",
+      "basic-fit-orleans-sud"
+    ],
+    "fait": "un grand quartier du sud d'Orléans, avec son propre code postal 45100, distinct de celui d'Olivet (45160), à proximité immédiate de la salle Basic-Fit Olivet"
+  },
+  {
+    "slug": "tavers",
+    "nom": "Tavers",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "fait": "abrite la Pierre tournante, un dolmen protégé au titre des monuments historiques, situé près du hameau du Vau"
+  },
+  {
+    "slug": "beaugency",
+    "nom": "Beaugency",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "fait": "une cité médiévale classée parmi « Les Plus Beaux Détours de France », avec son hôtel de ville Renaissance construit en 1526"
+  },
+  {
+    "slug": "jargeau",
+    "nom": "Jargeau",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "fait": "une commune labellisée « Loir'étape », traversée par la Loire à Vélo et réputée pour son andouille"
+  },
+  {
+    "slug": "chateauneuf-sur-loire",
+    "nom": "Châteauneuf-sur-Loire",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "fait": "abrite le musée de la Marine de Loire, installé dans les anciennes écuries du château, sur la rive droite du fleuve"
+  },
+  {
+    "slug": "tigy",
+    "nom": "Tigy",
+    "salleSlugs": [
+      "basic-fit-olivet"
+    ],
+    "fait": "abrite le musée de l'Artisanat rural ancien, qui expose des centaines d'outils du Val de Loire et de la Sologne dans douze salles"
+  },
+  {
+    "slug": "pithiviers",
+    "nom": "Pithiviers",
+    "salleSlugs": [
+      "basic-fit-fleury-les-aubrais"
+    ],
+    "fait": "sous-préfecture du Loiret, mondialement connue pour sa pâtisserie éponyme, le pithiviers"
+  },
+  {
+    "slug": "saint-marceau",
+    "nom": "Saint-Marceau (Orléans)",
+    "salleSlugs": [
+      "basic-fit-orleans-sud",
+      "basic-fit-orleans-liberation"
+    ],
+    "fait": "un quartier historique du sud d'Orléans, sur la rive gauche du Loiret"
+  },
+  {
+    "slug": "la-chapelle-saint-mesmin",
+    "nom": "La Chapelle-Saint-Mesmin",
+    "salleSlugs": [
+      "basic-fit-orleans-sud",
+      "basic-fit-orleans-liberation"
+    ]
+  },
+  {
+    "slug": "saint-ay",
+    "nom": "Saint-Ay",
+    "salleSlugs": [
+      "basic-fit-orleans-liberation"
+    ],
+    "fait": "abrite l'église Saint-Ay, dont le chœur et les deux chapelles latérales sont inscrits aux monuments historiques depuis 1928"
+  },
+  {
+    "slug": "chaingy",
+    "nom": "Chaingy",
+    "salleSlugs": [
+      "basic-fit-orleans-liberation"
+    ]
+  },
+  {
+    "slug": "checy",
+    "nom": "Chécy",
+    "salleSlugs": [
+      "basic-fit-fleury-les-aubrais"
+    ],
+    "fait": "une commune qui abrite le Musée de la Tonnellerie, installé dans une ancienne ferme vigneronne retraçant l'histoire de la viticulture locale"
+  },
+  {
+    "slug": "combleux",
+    "nom": "Combleux",
+    "salleSlugs": [
+      "basic-fit-fleury-les-aubrais",
+      "basic-fit-orleans-sud",
+      "basic-fit-orleans-liberation"
+    ],
+    "fait": "un ancien village de mariniers au bord de la Loire, réputé pour son charme pittoresque et sa guinguette"
+  },
+  {
+    "slug": "marigny-les-usages",
+    "nom": "Marigny-les-Usages",
+    "salleSlugs": [
+      "basic-fit-fleury-les-aubrais"
+    ],
+    "fait": "une petite commune rurale jumelée avec le village roumain de Hodod"
+  }
+]

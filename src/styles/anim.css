@@ -1,0 +1,62 @@
+:root { --spring: cubic-bezier(.34,1.56,.64,1); }
+/* ---------- Animations au défilement (la classe anim-on est posée dans l'en-tête du site) ---------- */
+.anim-on :is(.proto, main) :is([data-a="up"], [data-a="pop"], [data-a="left"], [data-a="right"], [data-a="tilt"], [data-a="zoom"], [data-a="words"], [data-a="deal"], [data-a="ring"], [data-a="gauge"], [data-a="charge"]):not(.is-in) { opacity: 0; }
+.anim-on :is(.proto, main) :is([data-a="up"], [data-a="pop"], [data-a="left"], [data-a="right"], [data-a="tilt"], [data-a="zoom"], [data-a="gauge"], [data-a="ring"], [data-a="charge"]).is-in { animation-duration: .8s; animation-timing-function: var(--ease); animation-delay: var(--d, 0ms); animation-fill-mode: backwards; }
+.anim-on :is(.proto, main) [data-a="up"].is-in { animation-name: a-up; }
+.anim-on :is(.proto, main) [data-a="pop"].is-in { animation-name: a-pop; animation-timing-function: var(--spring); animation-duration: .7s; }
+.anim-on :is(.proto, main) [data-a="left"].is-in { animation-name: a-left; }
+.anim-on :is(.proto, main) [data-a="right"].is-in { animation-name: a-right; }
+.anim-on :is(.proto, main) [data-a="tilt"].is-in { animation-name: a-tilt; animation-duration: .95s; }
+.anim-on :is(.proto, main) [data-a="zoom"].is-in { animation-name: a-zoom; animation-timing-function: var(--spring); }
+.anim-on :is(.proto, main) [data-a="gauge"].is-in { animation-name: a-pop; animation-timing-function: var(--spring); }
+.anim-on :is(.proto, main) [data-a="deal"].is-in { animation: none; }
+.anim-on :is(.proto, main) [data-a="charge"].is-in { animation: a-charge 1.8s ease-out var(--d, 0ms) backwards; }
+.anim-on :is(.proto, main) [data-a="ring"].is-in { animation: a-pop .7s var(--spring) var(--d, 0ms) backwards, a-ring 1.6s ease-out calc(var(--d, 0ms) + 600ms) 2; }
+@keyframes a-up { from { opacity: 0; transform: translateY(34px); } }
+@keyframes a-pop { from { opacity: 0; transform: scale(.7); } }
+@keyframes a-left { from { opacity: 0; transform: translateX(-56px); } }
+@keyframes a-right { from { opacity: 0; transform: translateX(56px); } }
+@keyframes a-tilt { from { opacity: 0; transform: translateY(46px) rotate(-4deg); } }
+@keyframes a-zoom { from { opacity: 0; transform: scale(.82) translateY(16px); } }
+@keyframes a-charge { 0% { opacity: 0; } 10% { opacity: .85; } 22% { opacity: .12; } 34% { opacity: .6; } 100% { opacity: .3; } }
+@keyframes a-ring { from { box-shadow: 0 0 0 0 rgba(87, 168, 255, .65); } to { box-shadow: 0 0 0 22px rgba(87, 168, 255, 0); } }
+/* titres : les mots montent un par un */
+:is(.proto, main) .w { display: inline-block; overflow: hidden; vertical-align: top; padding: .12em 0 .1em; margin: -.12em 0 -.1em; }
+:is(.proto, main) .w > span { display: inline-block; }
+.anim-on :is(.proto, main) [data-a="words"].is-in { animation: none; }
+.anim-on :is(.proto, main) [data-a="words"].is-in .w > span { animation: w-up .75s var(--ease) calc(var(--d, 0ms) + var(--i, 0) * 55ms) backwards; }
+@keyframes w-up { from { transform: translateY(115%); } }
+/* cartes des coachs : posées face cachée, elles se retournent */
+.anim-on :is(.proto, main) .cg-inner { transition: transform .9s var(--ease) var(--d, 0ms); }
+.anim-on :is(.proto, main) .cg[data-a="flip"]:not(.is-in) .cg-inner { transform: rotateY(180deg); }
+/* jauge du Score Santé qui se remplit */
+.anim-on :is(.proto, main) .gauge .gauge-arc { transition: stroke-dashoffset 1.7s var(--ease) calc(var(--d, 0ms) + 250ms); }
+.anim-on :is(.proto, main) .gauge:not(.is-in) .gauge-arc { stroke-dashoffset: 502.4; }
+/* frise du bilan : la ligne se trace */
+.anim-on :is(.proto, main) .bx-ruler i { transform-origin: left center; }
+.anim-on :is(.proto, main) .bx-hour:not(.is-in) .bx-ruler i { transform: scaleX(0); }
+.anim-on :is(.proto, main) .bx-hour .bx-ruler i { transition: transform 1.2s var(--ease) calc(var(--d, 0ms) + 300ms); }
+/* exemples : le fil se remplit, le bilan s'allume */
+.anim-on :is(.proto, main) .ex-c:not(.is-in) .ex-flow::before { transform: scaleY(0); }
+.anim-on :is(.proto, main) .ex-flow::before { transform-origin: top; transition: transform 1s var(--ease) calc(var(--d, 0ms) + 350ms); }
+.anim-on :is(.proto, main) .ex-c.is-in .is-bilan { animation: ex-allume 1s ease calc(var(--d, 0ms) + 900ms) backwards; }
+@keyframes ex-allume { from { background: transparent; } 40% { background: #CFE0FF; } }
+@media (prefers-reduced-motion: reduce) { .anim-on :is(.proto, main) [data-a] { opacity: 1 !important; animation: none !important; } }
+
+/* Haut de page : animé en CSS dès le chargement, sans attendre le script (affichage plus rapide, meilleur LCP) */
+.anim-on :is(.proto, main) :is([data-hero], .phero) [data-a]:not(.is-in) { opacity: 1; }
+.anim-on :is(.proto, main) :is([data-hero], .phero) :is([data-a="up"], [data-a="pop"], [data-a="left"], [data-a="right"], [data-a="tilt"], [data-a="zoom"], [data-a="gauge"], [data-a="ring"]) { animation-duration: .8s; animation-timing-function: var(--ease); animation-delay: var(--d, 0ms); animation-fill-mode: backwards; }
+.anim-on :is(.proto, main) :is([data-hero], .phero) [data-a="up"] { animation-name: a-up-h; }
+.anim-on :is(.proto, main) :is([data-hero], .phero) [data-a="pop"] { animation-name: a-pop-h; animation-timing-function: var(--spring); animation-duration: .7s; }
+.anim-on :is(.proto, main) :is([data-hero], .phero) [data-a="left"] { animation-name: a-left-h; }
+.anim-on :is(.proto, main) :is([data-hero], .phero) [data-a="right"] { animation-name: a-right-h; }
+.anim-on :is(.proto, main) :is([data-hero], .phero) [data-a="tilt"] { animation-name: a-tilt-h; animation-duration: .95s; }
+.anim-on :is(.proto, main) :is([data-hero], .phero) [data-a="zoom"] { animation-name: a-zoom-h; animation-timing-function: var(--spring); }
+.anim-on :is(.proto, main) :is([data-hero], .phero) [data-a="words"] .w > span { animation: w-up .75s var(--ease) calc(var(--d, 0ms) + var(--i, 0) * 55ms) backwards; }
+/* versions sans fondu pour le haut de page : le texte est visible dès le premier affichage */
+@keyframes a-up-h { from { transform: translateY(22px); } }
+@keyframes a-pop-h { from { transform: scale(.88); } }
+@keyframes a-left-h { from { transform: translateX(-36px); } }
+@keyframes a-right-h { from { transform: translateX(36px); } }
+@keyframes a-tilt-h { from { transform: translateY(30px) rotate(-3deg); } }
+@keyframes a-zoom-h { from { transform: scale(.92) translateY(10px); } }

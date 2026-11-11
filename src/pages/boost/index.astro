@@ -1,0 +1,189 @@
+---
+import StatsBoost from '../../components/StatsBoost.astro';
+import BoostPCQ from '../../components/BoostPCQ.astro';
+// Hub des programmes BOOST : les ${GAMME.length} programmes expliqués + accès aux 18 régions.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+import { REGIONS, GAMME, SPECIALES } from '../../data/boost-france';
+
+const path = '/boost/';
+const demarrage: Record<string, string> = {
+  entreprise: 'BOOST 30 : une séance découverte offerte, sans engagement, sous réserve de disponibilité locale.',
+  prive: 'Un premier échange gratuit. Pour les artistes en tournée, un Bilan avant tournée de 30 minutes offert.',
+  club: 'Un diagnostic offert pour comprendre votre discipline, votre saison et votre effectif.',
+};
+const etapes = [
+  { t: 'Un échange pour comprendre votre besoin', d: 'Votre structure, votre public, vos objectifs, vos contraintes de lieu et d\'horaires.' },
+  { t: 'Une proposition sur mesure', d: 'Le programme BOOST adapté, le format, la fréquence et le coach qui interviendra.' },
+  { t: 'Des interventions régulières', d: 'Un coach diplômé sur place, des séances suivies et un interlocuteur unique.' },
+];
+const noms = GAMME.map((g) => g.k.replace('™', '')).join(', ');
+const faq = [
+  { q: 'Qu\'est-ce qu\'un programme BOOST ?', r: `BOOST est la gamme de GA Coachs pour les structures et les projets : ${GAMME.length} programmes qui mettent un coach sportif diplômé au service de votre public, avec un cadre adapté à votre activité. Entreprises, clubs, EHPAD, associations, professionnels de santé, hôtels et campings, événements, personnalités et campagnes de communication.` },
+  { q: 'Quels sont les programmes BOOST ?', r: `Les ${GAMME.length} programmes sont : ${noms}. S\'y ajoutent des offres spécialisées : BOOST SCÈNE et BOOST TOURNÉE pour les artistes, l\'échauffement de courses pour les organisateurs, les conférences et l\'espace médias.` },
+  { q: 'Quel programme choisir pour ma structure ?', r: 'Chaque programme correspond à un type de structure. En cas de doute, choisissez votre région et indiquez « Je ne sais pas encore » dans le formulaire : nous vous orientons vers le bon programme.' },
+  { q: 'Où intervenez-vous ?', r: 'Aujourd\'hui, nos coachs interviennent en présentiel en Centre-Val de Loire, depuis Orléans. Nous prenons les demandes de toute la France, métropole et outre-mer : décrivez votre projet sur la page de votre région, nous vous répondons sous 48 h ouvrées et étudions avec vous ce qui est possible dans votre secteur. Les offres BOOST PRIVÉ, SCÈNE et TOURNÉE suivent la personne accompagnée, et les vidéos de BOOST COMMUNICATION sont livrées prêtes à publier, où que vous soyez.' },
+  { q: 'Les coachs sont-ils diplômés ?', r: 'Oui. Tous les coachs du réseau GA Coachs sont des coachs sportifs diplômés, assurés et titulaires de leur carte professionnelle.' },
+  { q: 'Qui est derrière GA Coachs ?', r: 'GA Coachs est un réseau de coachs sportifs partenaire de Basic-Fit depuis 2018, fondé par Garry Babaud, Coach en chef. Garry est déjà intervenu sur RCF Loiret et Réunion La 1ère, et des coachs du réseau sont passés sur France 3.' },
+  { q: 'Peut-on tester avant de s\'engager ?', r: 'Oui pour les entreprises avec BOOST 30, une séance découverte offerte, sous réserve de disponibilité locale. Pour les clubs, le diagnostic est offert. Pour les artistes, le Bilan avant scène ou avant tournée de 30 minutes est offert.' },
+  { q: 'Combien coûte un programme BOOST ?', r: 'Chaque programme est sur devis : le tarif dépend du format, de la fréquence, du nombre de participants et du lieu. Le premier échange est gratuit et permet de vous faire une proposition claire.' },
+  { q: 'Combien de temps pour démarrer ?', r: 'Nous répondons sous 48 h ouvrées. Après un premier échange, vous recevez une proposition avec le programme, le format et le coach. La date de démarrage dépend ensuite de votre calendrier et de la disponibilité du coach.' },
+  { q: 'Peut-on combiner plusieurs programmes ?', r: 'Oui. Une même structure peut par exemple associer des séances pour ses équipes, une conférence et des vidéos pour ses réseaux. Vous gardez un seul interlocuteur.' },
+  { q: 'Intervenez-vous en outre-mer ?', r: 'Nous prenons les demandes de La Réunion, de la Guadeloupe, de la Martinique, de la Guyane et de Mayotte. Chaque projet est étudié au cas par cas : décrivez-le sur la page de votre territoire.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Programmes BOOST de GA Coachs', itemListElement: GAMME.map((g, i) => ({ '@type': 'ListItem', position: i + 1, url: 'https://gacoachs.fr' + g.href, name: g.k.replace('™', '') })) },
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Programmes BOOST de coaching sportif pour les structures', description: `${GAMME.length} programmes de coaching sportif encadrés par des coachs diplômés pour les entreprises, clubs, EHPAD, associations, professionnels de santé, hôtels, événements, personnalités et campagnes de communication.`, serviceType: 'Coaching sportif pour structures et projets', provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr', founder: { '@type': 'Person', name: 'Garry Babaud', jobTitle: 'Coach en chef' } }, areaServed: { '@type': 'Country', name: 'France' } },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' }, { '@type': 'ListItem', position: 2, name: 'Programmes BOOST', item: 'https://gacoachs.fr' + path }] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+const metro = REGIONS.filter((r) => !r.outremer);
+const om = REGIONS.filter((r) => r.outremer);
+---
+<BaseLayout title="Coach sportif pour structures : les programmes BOOST" description={`${GAMME.length} programmes BOOST : un coach sportif diplômé pour entreprises, clubs, EHPAD, associations, santé, hôtels, événements, artistes et marques. Toute la France.`} path={path} jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')} stickyCtaHref="#regions" stickyCtaLabel="Choisir ma région">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Programmes BOOST', href: path }]} />
+      <span class="eyebrow eyebrow-dark">Programmes BOOST</span>
+      <h1>Un coach sportif diplômé pour <span class="hl-text">chaque structure</span> et chaque projet.</h1>
+      <p class="phero-lead">Faire bouger des salariés, des joueurs, des résidents, des patients, des clients, un artiste ou toute une audience : chaque public a son programme BOOST, avec un coach sportif diplômé et un seul interlocuteur. Présentiel aujourd'hui en Centre-Val de Loire, demandes de toute la France.</p>
+      <ul class="bh-proof"><li><b>{GAMME.length}</b> programmes</li><li><b>Depuis 2018</b> partenaire de Basic-Fit</li><li><b>Coachs diplômés</b> assurés, carte pro</li><li><b>Réponse</b> sous 48 h ouvrées</li></ul>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#regions">Choisir ma région</a>
+        <a class="btn btn-glass" href="#programmes">Voir les programmes</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bh-bref-sec">
+    <div class="inner">
+      <div class="bh-bref">
+        <p class="bh-bref-k">En bref</p>
+        <ul>
+          <li><b>Quoi :</b> {GAMME.length} programmes BOOST, chacun pensé pour un type de structure ou de projet.</li>
+          <li><b>Pour qui :</b> entreprises, clubs, EHPAD, associations, professionnels de santé, hôtels et campings, événements, personnalités, artistes, marques et institutions.</li>
+          <li><b>Avec qui :</b> des coachs sportifs diplômés du réseau GA Coachs, fondé par Garry Babaud, Coach en chef.</li>
+          <li><b>Comment :</b> un premier échange gratuit, une proposition sur mesure, puis les séances ou les contenus.</li>
+          <li><b>Où :</b> présentiel en Centre-Val de Loire ; demandes étudiées partout en France, outre-mer compris.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="programmes">
+    <div class="inner">
+      <span class="eyebrow">Les {GAMME.length} programmes</span>
+      <h2 class="h2">Trouvez le programme fait pour vous.</h2>
+      <div class="bh-list">
+        {GAMME.map((g) => (
+          <article class="bh-card">
+            {g.img ? <img src={g.img} alt={`Programme ${g.k}`} width="780" height="440" loading="lazy" /> : <div style="aspect-ratio:780/440;width:100%;background:linear-gradient(135deg,#0B1E3D,#1D5BD8)" aria-hidden="true"></div>}
+            <div class="bh-body">
+              <p class="bh-k">{g.k}</p>
+              <h3>{g.t}</h3>
+              <dl>
+                <dt>Pour qui</dt><dd>{(g.publics || []).join(', ')}</dd>
+                <dt>Ce que ça apporte</dt><dd>{g.p}</dd>
+                <dt>Pour démarrer</dt><dd>{demarrage[g.id] || 'Un premier échange gratuit pour cadrer votre besoin, puis une proposition sur mesure.'}</dd>
+              </dl>
+              <a href={g.href} class="bh-go">{g.cta} →</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Offres spécialisées</span>
+      <h2 class="h2">Pour les artistes, les marques, les courses et les médias.</h2>
+      <div class="bh-spe">{SPECIALES.map((o) => <a href={o.href}><b>{o.k}</b><small>{o.t}</small></a>)}</div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Comment ça se passe</span>
+      <h2 class="h2">Trois étapes, un seul interlocuteur.</h2>
+      <ol class="bh-steps">{etapes.map((e, i) => <li><span>{i + 1}</span><div><b>{e.t}</b><p>{e.d}</p></div></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner bh-conf">
+      <div><span class="eyebrow">Et aussi</span><h2 class="h2">Un coach GA en conférence.</h2><p>Séminaire, salon, semaine de la qualité de vie au travail : nos coachs les plus expérimentés interviennent aussi sur scène, sur le sport au travail, la reprise du sport, le sport-santé ou le bien-être.</p></div>
+      <a class="btn btn-primary" href="/conferences/">Découvrir les conférences</a>
+    </div>
+  </section>
+
+  <StatsBoost />
+  <section class="sec" id="regions">
+    <div class="inner">
+      <span class="eyebrow">Partout en France</span>
+      <h2 class="h2">Choisissez votre région.</h2>
+      <p class="bh-note">Présentiel aujourd'hui en Centre-Val de Loire. Pour les autres régions, décrivez votre projet : nous vous répondons sous 48 h ouvrées.</p>
+      <p class="bh-sub">Métropole</p>
+      <div class="bh-regions">{metro.map((r) => <a href={`/boost/${r.slug}/`}><b>{r.nom}</b><small>{r.chef}{r.presentiel ? ' · présentiel' : ''}</small></a>)}</div>
+      <p class="bh-sub">Outre-mer</p>
+      <div class="bh-regions">{om.map((r) => <a href={`/boost/${r.slug}/`}><b>{r.nom}</b><small>{r.chef}</small></a>)}</div>
+    </div>
+  </section>
+
+  <BoostPCQ id="boost" />
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Tout savoir sur les programmes BOOST.</h2>
+      <div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title={"Programmes BOOST : un coach sportif pour votre structure"} label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>
+
+<style>
+  .bh-proof { list-style: none; padding: 0; margin: 4px 0 22px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; max-width: 900px; }
+  .bh-proof li { background: rgba(255,255,255,.07); border: 1px solid rgba(124,196,255,.28); border-radius: 14px; padding: 10px 12px; color: #BFE2FF; font-size: 13px; line-height: 1.35; }
+  .bh-proof b { display: block; color: #fff; font-size: 17px; }
+  @media (max-width: 767px) { .bh-proof { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .bh-bref-sec { padding-top: 28px; padding-bottom: 8px; }
+  .bh-bref { border-left: 4px solid #1D5BD8; background: #fff; border-radius: 0 18px 18px 0; padding: 18px 22px; box-shadow: 0 12px 30px -24px rgba(11,30,61,.5); }
+  .bh-bref-k { margin: 0 0 8px; font-weight: 700; text-transform: none; letter-spacing: .02em; font-size: 12px; color: #1D5BD8; }
+  .bh-bref ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #0B1E3D; line-height: 1.5; }
+  .bh-spe { display: grid; gap: 10px; margin-top: 18px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .bh-spe a { display: grid; gap: 2px; padding: 14px 16px; border-radius: 14px; background: #fff; border: 1.5px solid #DCE6FB; color: #0B1E3D; text-decoration: none; }
+  .bh-spe a:hover { border-color: #1F55C9; }
+  .bh-spe b { color: #1F55C9; }
+  .bh-spe small { color: #3E4A66; font-size: 14px; }
+  .bh-list { display: grid; gap: 16px; margin-top: 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 767px) { .bh-list { grid-template-columns: 1fr; } }
+  .bh-card { background: #fff; border: 1px solid #DCE6FB; border-radius: 18px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; }
+  .bh-card img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; display: block; background: #0B1E3D; }
+  .bh-body { padding: 18px; display: flex; flex-direction: column; gap: 6px; }
+  .bh-k { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .02em; color: #1F55C9; }
+  .bh-body h3 { margin: 0 0 4px; font-size: 20px; color: #0B1E3D; }
+  .bh-body dl { margin: 0; display: grid; gap: 4px; }
+  .bh-body dt { font-weight: 700; font-size: 13px; color: #0B1E3D; margin-top: 6px; }
+  .bh-body dd { margin: 0; color: #2A3756; font-size: 15px; line-height: 1.5; }
+  .bh-go { margin-top: 10px; font-weight: 700; color: #1F55C9; }
+  .bh-steps { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
+  @media (min-width: 900px) { .bh-steps { grid-template-columns: repeat(3, 1fr); } }
+  .bh-steps li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; background: #fff; border: 1px solid #DCE6FB; border-radius: 16px; padding: 16px; }
+  .bh-steps span { width: 40px; height: 40px; border-radius: 50%; background: #1F55C9; color: #fff; display: grid; place-items: center; font-weight: 700; }
+  .bh-steps p { margin: 4px 0 0; color: #2A3756; }
+  .bh-conf { display: grid; gap: 16px; align-items: center; }
+  @media (min-width: 900px) { .bh-conf { grid-template-columns: 1fr auto; } }
+  .bh-note { color: #2A3756; max-width: 70ch; }
+  .bh-sub { margin: 20px 0 10px; font-weight: 700; color: #0B1E3D; }
+  .bh-regions { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .bh-regions a { display: grid; gap: 2px; padding: 14px 16px; border-radius: 14px; background: #fff; border: 1.5px solid #DCE6FB; color: #0B1E3D; text-decoration: none; }
+  .bh-regions a:hover { border-color: #1F55C9; }
+  .bh-regions small { color: #3E4A66; }
+</style>

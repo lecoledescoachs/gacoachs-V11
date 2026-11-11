@@ -1,0 +1,54 @@
+---
+interface Crumb {
+  label: string;
+  href: string;
+}
+interface Props {
+  items: Crumb[];
+}
+const { items } = Astro.props;
+const siteUrl = 'https://gacoachs.fr';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.label,
+    item: new URL(item.href, siteUrl).toString(),
+  })),
+};
+---
+<nav class="breadcrumbs" aria-label="Fil d'Ariane">
+  <ol>
+    {items.map((item, i) => (
+      <li>
+        {i < items.length - 1 ? (
+          <a href={item.href}>{item.label}</a>
+        ) : (
+          <span aria-current="page">{item.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<style>
+  .breadcrumbs { padding: 14px 0 0; }
+  .breadcrumbs ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+  }
+  .breadcrumbs li { display: flex; align-items: center; gap: 6px; color: var(--text-muted); }
+  .breadcrumbs li:not(:last-child)::after { content: '/'; margin-left: 6px; color: var(--line); }
+  .breadcrumbs a { color: var(--text-muted); }
+  .breadcrumbs a:hover { color: var(--blue); }
+  .breadcrumbs span[aria-current] { color: var(--navy); font-weight: 600; }
+</style>

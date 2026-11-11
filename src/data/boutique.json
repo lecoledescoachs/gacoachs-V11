@@ -1,0 +1,320 @@
+{
+  "seo": {
+    "title": "Boutique coach sportif GA : sweat brodé, gourde, serviette",
+    "description": "Sweat brodé, gourde inox, serviette de salle et casquette GA Coachs pour les clients, et la tenue officielle des coachs sportifs du réseau à Orléans. Fabriqués à la demande, livrés chez toi."
+  },
+  "hero": {
+    "eyebrow": "Boutique GA Coachs",
+    "h1": "Porte les couleurs de ton coach.",
+    "lead": "Un sweat brodé, une gourde, une serviette de salle et une casquette aux couleurs de GA Coachs. Chaque article est fabriqué à la commande puis livré chez toi : pas de stock qui dort, pas de gaspillage.",
+    "points": [
+      "Fabriqué à la demande, livré chez toi",
+      "Des matières pensées pour l'entraînement",
+      "Le polo officiel des coachs du réseau"
+    ]
+  },
+  "collections": [
+    {
+      "id": "clients",
+      "eyebrow": "Collection Team GA",
+      "titre": "Pour toi, à la salle et à la maison.",
+      "produits": [
+        {
+          "id": "pull-ga",
+          "type": "sweat",
+          "teinte": "navy",
+          "nom": "Sweat col rond GA brodé",
+          "texte": "Molleton bleu marine, col rond et logo GA brodé côté cœur. Pour l'échauffement, l'après-séance et tous les jours.",
+          "print": "",
+          "images": [
+            {
+              "src": "/images/boutique/pull-ga-1.webp",
+              "alt": "Sweat col rond bleu marine avec le logo GA brodé côté cœur"
+            },
+            {
+              "src": "/images/boutique/pull-ga-2.webp",
+              "alt": "Sweat GA vu de trois quarts"
+            },
+            {
+              "src": "/images/boutique/pull-ga-3.webp",
+              "alt": "Dos du sweat col rond bleu marine"
+            },
+            {
+              "src": "/images/boutique/pull-ga-4.webp",
+              "alt": "Gros plan sur le logo GA brodé en bleu"
+            },
+            {
+              "src": "/images/boutique/pull-ga-5.webp",
+              "alt": "Sweat GA plié"
+            },
+            {
+              "src": "/images/boutique/pull-ga-6.webp",
+              "alt": "Logo GA brodé sur la poitrine, porté"
+            },
+            {
+              "src": "/images/boutique/pull-ga-7.webp",
+              "alt": "Sweat GA vu de profil"
+            },
+            {
+              "src": "/images/boutique/pull-ga-8.webp",
+              "alt": "Détail du poignet côtelé"
+            }
+          ],
+          "prix": 44,
+          "fiche": "/boutique/sweat-ga-brode/",
+          "porte": [
+            {
+              "src": "/images/boutique/porte/sweat-porte-1.webp",
+              "alt": "Femme en développé haltères sur banc incliné, en sweat GA"
+            },
+            {
+              "src": "/images/boutique/porte/sweat-porte-2.webp",
+              "alt": "Homme en soulevé de terre à la salle, en sweat GA"
+            },
+            {
+              "src": "/images/boutique/porte/sweat-porte-13.webp",
+              "alt": "Femme en sweat GA qui fait ses courses au rayon fruits et légumes"
+            },
+            {
+              "src": "/images/boutique/porte/sweat-porte-12.webp",
+              "alt": "Homme en sweat GA et pantalon beige en ville"
+            },
+            {
+              "src": "/images/boutique/porte/sweat-porte-14.webp",
+              "alt": "Femme en sweat GA, café à la main, dans la rue"
+            },
+            {
+              "src": "/images/boutique/porte/sweat-porte-7.webp",
+              "alt": "Homme assis entre deux séries, en sweat GA"
+            },
+            {
+              "src": "/images/boutique/porte/sweat-femme-salle-bleue.webp",
+              "alt": "Femme en sweat GA dans une salle de musculation"
+            },
+            {
+              "src": "/images/boutique/porte/sweat-porte-10.webp",
+              "alt": "Homme en sweat GA, sac de sport à l'épaule"
+            },
+            {
+              "src": "/images/boutique/porte/sweat-porte-6.webp",
+              "alt": "Dos du sweat GA porté par une femme"
+            },
+            {
+              "src": "/images/boutique/porte/sweat-porte-16.webp",
+              "alt": "Femme en sweat GA en terrasse, téléphone à la main"
+            }
+          ],
+          "video": "",
+          "serie": {
+            "nom": "Série 01",
+            "ouverture": "",
+            "fin": "",
+            "livraison": ""
+          },
+          "duo": {
+            "nom": "Le duo GA",
+            "avec": "gourde",
+            "prix": 58.5
+          },
+          "histoire": {
+            "src": "/images/boutique/porte/sweat-duo-assis.webp",
+            "alt": "Un homme et une femme en sweat GA assis à la salle après la séance, shaker GA entre eux"
+          },
+          "shopify": {
+            "variantes": {
+              "S": "",
+              "M": "",
+              "L": "",
+              "XL": "",
+              "XXL": ""
+            }
+          }
+        },
+        {
+          "id": "gourde",
+          "type": "gourde",
+          "teinte": "blue",
+          "nom": "Gourde H2O · Édition GA",
+          "texte": "Inox double paroi, finition mate bleu roi, 500 ml. Ta séance chauffe, ton eau reste fraîche.",
+          "print": "",
+          "images": [
+            {
+              "src": "/images/boutique/gourde-ga.webp",
+              "alt": "Gourde H2O bleue au logo GA, posée à la salle entre un disque, un haltère et une serviette"
+            },
+            {
+              "src": "/images/boutique/gourde-ga-main.webp",
+              "alt": "Homme qui tient la gourde GA entre deux séries"
+            },
+            {
+              "src": "/images/boutique/gourde-ga-impression.webp",
+              "alt": "Gros plan sur le logo GA et la mention H2O imprimés à plat sur la gourde bleu roi"
+            },
+            {
+              "src": "/images/boutique/gourde-ga-banc.webp",
+              "alt": "Gourde GA posée sur un banc de musculation"
+            },
+            {
+              "src": "/images/boutique/gourde-ga-dehors.webp",
+              "alt": "Gourde GA posée sur un rocher en randonnée"
+            },
+            {
+              "src": "/images/boutique/gourde-1.webp",
+              "alt": "Gourde GA bleu roi sur fond blanc"
+            },
+            {
+              "src": "/images/boutique/gourde-3.webp",
+              "alt": "Gourde GA au coucher du soleil en bord de Loire à Orléans"
+            },
+            {
+              "src": "/images/boutique/gourde-5.webp",
+              "alt": "Gourde GA dans un sac de sport"
+            },
+            {
+              "src": "/images/boutique/gourde-7.webp",
+              "alt": "Bouchon de la gourde GA"
+            },
+            {
+              "src": "/images/boutique/gourde-8.webp",
+              "alt": "Ouverture en inox de la gourde GA"
+            }
+          ],
+          "prix": 29,
+          "fiche": "/boutique/gourde-ga/",
+          "specs": {
+            "contenance": "500 ml",
+            "matiere": "Inox double paroi",
+            "isolation": "Garde le chaud ou le froid environ 6 heures",
+            "isolationCourt": "Garde le froid environ 6 heures, selon le fabricant",
+            "dimensions": "27 cm de haut, 7 cm de diamètre",
+            "bouchon": "À visser",
+            "finition": "Bleu roi mat",
+            "marquage": "Logo GA et mention H2O"
+          },
+          "shopify": {
+            "variante": ""
+          }
+        },
+        {
+          "id": "serviette",
+          "type": "serviette",
+          "teinte": "navy",
+          "nom": "Serviette de salle GA",
+          "texte": "Microfibre 40 × 60 cm qui sèche vite, avec anneau pour l'accrocher à ton sac. Celle qui se pose sur le banc à chaque séance.",
+          "print": "",
+          "prix": 19,
+          "shopify": {
+            "variante": ""
+          }
+        },
+        {
+          "id": "casquette",
+          "type": "casquette",
+          "teinte": "navy",
+          "nom": "Casquette brodée GA",
+          "texte": "Logo GA brodé, pour tes sorties running et tes séances en extérieur.",
+          "print": "",
+          "prix": 25,
+          "shopify": {
+            "variante": ""
+          }
+        },
+        {
+          "id": "pack-seance",
+          "type": "pack",
+          "teinte": "blue",
+          "nom": "Pack Séance",
+          "texte": "La gourde H2O et la serviette de salle GA ensemble : tout ce qu'il faut dans ton sac pour chaque séance.",
+          "print": "",
+          "prix": 42,
+          "prixBarre": 48,
+          "shopify": {
+            "variante": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "coachs",
+      "eyebrow": "Collection Coach",
+      "titre": "Le polo officiel des coachs GA.",
+      "lead": "La tenue des coachs du réseau : le polo GA, un jogging ou un short bleu marine et des chaussures blanches. Le polo est réservé aux coachs GA.",
+      "produits": [
+        {
+          "id": "polo-coach",
+          "type": "polo",
+          "teinte": "blue",
+          "nom": "Polo Coach GA",
+          "texte": "Le polo bleu brodé GA porté en salle par tous les coachs du réseau.",
+          "print": "",
+          "coach": true
+        }
+      ],
+      "tenue": [
+        [
+          "👕",
+          "Polo GA bleu"
+        ],
+        [
+          "👖",
+          "Jogging ou short bleu marine"
+        ],
+        [
+          "👟",
+          "Chaussures blanches"
+        ]
+      ],
+      "tenueConference": {
+        "titre": "La tenue conférencier GA",
+        "texte": "Pour les conférences, séminaires et événements où un coach conférencier du réseau prend la parole. Réservée aux coachs GA de niveau 4 et 5.",
+        "pieces": [
+          [
+            "👔",
+            "Chemise bleu ciel à manches longues, logo GA brodé côté cœur"
+          ],
+          [
+            "🤵",
+            "Costume bleu marine : veste et pantalon"
+          ],
+          [
+            "👟",
+            "Chaussures blanches montantes, à la cheville"
+          ]
+        ],
+        "lien": "/conferences/"
+      }
+    }
+  ],
+  "faq": [
+    {
+      "q": "Quand la boutique ouvre-t-elle ?",
+      "r": "Très bientôt. Laisse ton email et on te prévient le jour de l'ouverture."
+    },
+    {
+      "q": "Mon coach m'a donné son code, ça change quoi ?",
+      "r": "Rien sur ton prix : en l'indiquant, tu permets à ton coach d'être remercié pour t'avoir conseillé l'article."
+    },
+    {
+      "q": "Comment sont fabriqués les articles ?",
+      "r": "Chaque article est fabriqué à la commande par notre partenaire (impression ou broderie selon l'article), puis envoyé directement chez toi. Rien n'est produit en trop."
+    },
+    {
+      "q": "Quels sont les délais de livraison ?",
+      "r": "Compte quelques jours pour la fabrication, puis le temps de livraison. Le délai exact s'affiche au moment de la commande."
+    },
+    {
+      "q": "Je suis coach du réseau, comment avoir mon polo ?",
+      "r": "Le polo GA est réservé aux coachs GA. Demande-le depuis ton espace coach ou écris-nous. Le reste de la tenue (jogging ou short bleu marine, chaussures blanches) est libre de marque."
+    }
+  ],
+  "parrainage": {
+    "taux": 10,
+    "titre": "Ton coach t'a conseillé un article ?",
+    "texte": "Indique son code au moment de la commande : il est remercié pour son conseil, sans rien changer à ton prix."
+  },
+  "vente": {
+    "ouverte": false,
+    "domaine": "",
+    "aide": "Pour ouvrir la vente : mettre ouverte à true, le domaine Shopify (ex. ga-coachs.myshopify.com) et l'identifiant de chaque variante Shopify ci-dessous dans chaque produit (champ shopify)."
+  }
+}

@@ -1,0 +1,66 @@
+---
+interface Formule {
+  nom: string;
+  desc: string;
+  prix?: number;
+  devis?: boolean;
+  badge?: string;
+  reco?: boolean;
+  cta: string;
+  points: string[];
+}
+interface Props {
+  id: string;
+  offres: { eyebrow: string; titre: string; intro: string; formules: Formule[]; note: string };
+  href: string;
+}
+const { id, offres, href } = Astro.props as Props;
+const fmt = (n: number) => n.toLocaleString('fr-FR');
+---
+<section class="section" id={id}>
+  <div class="container">
+    <span class="eyebrow">{offres.eyebrow}</span>
+    <h2>{offres.titre}</h2>
+    <p class="lead">{offres.intro}</p>
+    <div class="grid grid--3 of__grid">
+      {offres.formules.map((f) => (
+        <div class={`of__card card ${f.reco ? 'of__card--reco' : ''}`}>
+          {f.badge && <span class="tag of__badge">{f.badge}</span>}
+          <h3>{f.nom}</h3>
+          <p class="of__desc">{f.desc}</p>
+          {f.devis ? (
+            <p class="of__prix of__prix--devis">Sur devis</p>
+          ) : (
+            <>
+              <p class="of__from">À partir de</p>
+              <p class="of__prix">{fmt(f.prix ?? 0)}&nbsp;€ <small>par mois</small></p>
+            </>
+          )}
+          <ul class="of__list">
+            {f.points.map((p) => <li>{p}</li>)}
+          </ul>
+          <a href={href} class={`btn ${f.reco ? 'btn--primary' : 'btn--ghost'}`}>{f.cta}</a>
+        </div>
+      ))}
+    </div>
+    <p class="of__note">{offres.note}</p>
+  </div>
+</section>
+
+<style>
+  .of__grid { margin-top: 32px; align-items: stretch; }
+  .of__card { position: relative; padding: 30px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .of__card--reco { border-color: var(--blue); box-shadow: 0 24px 44px -30px rgba(47, 111, 237, 0.5); }
+  .of__badge { align-self: flex-start; }
+  .of__card h3 { font-size: 20px; margin-top: 6px; }
+  .of__desc { color: var(--text-muted); font-size: 14px; min-height: 3em; }
+  .of__from { margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--text-muted); }
+  .of__prix { font-family: var(--font-display); font-weight: 700; font-size: 34px; line-height: 1.1; color: var(--navy); }
+  .of__prix small { font-family: var(--font-body, inherit); font-size: 14px; font-weight: 600; color: var(--text-muted); }
+  .of__prix--devis { margin-top: 8px; }
+  .of__list { list-style: none; margin: 10px 0 18px; padding: 0; display: grid; gap: 10px; flex: 1; align-content: start; }
+  .of__list li { position: relative; padding-left: 26px; font-size: 14.5px; line-height: 1.45; }
+  .of__list li::before { content: ''; position: absolute; left: 0; top: 2px; width: 17px; height: 17px; border-radius: 50%; background: var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat; }
+  .of__note { margin-top: 20px; font-size: 12.5px; color: var(--text-muted); max-width: 80ch; }
+  @media (max-width: 899px) { .of__desc { min-height: 0; } }
+</style>

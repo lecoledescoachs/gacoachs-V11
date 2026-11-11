@@ -1,0 +1,6 @@
+---
+import { arCat, EX_IC, BLOG_LABEL } from '../../data/blog-cats';
+const { a, big = false } = Astro.props;
+const c = arCat(a), icn = EX_IC[c] || 'building';
+---
+<div class={`ar-cov c-${c}`}><span class="ar-big" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href={`#i-${icn}`}></use></svg></span><span class="ar-ic"><svg class="ic" aria-hidden="true" focusable="false"><use href={`#i-${icn}`}></use></svg></span><span class="ar-cat">{BLOG_LABEL[c] || 'GA Coachs'}</span><span class="ar-time"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-watch"></use></svg>{a.tempsLecture} min{big ? ' de lecture' : ''}</span></div>

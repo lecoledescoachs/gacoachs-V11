@@ -1,0 +1,254 @@
+{
+  "orleans": {
+    "lat": 47.9029,
+    "lng": 1.9093
+  },
+  "olivet": {
+    "lat": 47.8667,
+    "lng": 1.9086
+  },
+  "saint-jean-le-blanc": {
+    "lat": 47.8931,
+    "lng": 1.9156
+  },
+  "saint-cyr-en-val": {
+    "lat": 47.8321,
+    "lng": 1.9691
+  },
+  "saint-hilaire-saint-mesmin": {
+    "lat": 47.8694,
+    "lng": 1.8379
+  },
+  "saint-pryve-saint-mesmin": {
+    "lat": 47.881,
+    "lng": 1.8677
+  },
+  "saint-denis-en-val": {
+    "lat": 47.8789,
+    "lng": 1.9555
+  },
+  "ardon": {
+    "lat": 47.779,
+    "lng": 1.875
+  },
+  "mezieres-lez-clery": {
+    "lat": 47.8186,
+    "lng": 1.8044
+  },
+  "la-ferte-saint-aubin": {
+    "lat": 47.72,
+    "lng": 1.941
+  },
+  "marcilly-en-villette": {
+    "lat": 47.7649,
+    "lng": 2.0218
+  },
+  "jouy-le-potier": {
+    "lat": 47.7466,
+    "lng": 1.8101
+  },
+  "ligny-le-ribault": {
+    "lat": 47.683,
+    "lng": 1.7807
+  },
+  "menestreau-en-villette": {
+    "lat": 47.6987,
+    "lng": 2.0215
+  },
+  "sandillon": {
+    "lat": 47.8456,
+    "lng": 2.0295
+  },
+  "mareau-aux-pres": {
+    "lat": 47.8458,
+    "lng": 1.7986
+  },
+  "vannes-sur-cosson": {
+    "lat": 47.7142,
+    "lng": 2.2124
+  },
+  "vouzon": {
+    "lat": 47.6451,
+    "lng": 2.0586
+  },
+  "yvoy-le-marron": {
+    "lat": 47.6316,
+    "lng": 1.8547
+  },
+  "lamotte-beuvron": {
+    "lat": 47.6016,
+    "lng": 2.0254
+  },
+  "chaumont-sur-tharonne": {
+    "lat": 47.6095,
+    "lng": 1.9037
+  },
+  "saran": {
+    "lat": 47.9412,
+    "lng": 1.8697
+  },
+  "ingre": {
+    "lat": 47.92,
+    "lng": 1.828
+  },
+  "gidy": {
+    "lat": 47.9899,
+    "lng": 1.8375
+  },
+  "ormes": {
+    "lat": 47.942,
+    "lng": 1.8181
+  },
+  "chanteau": {
+    "lat": 47.9661,
+    "lng": 1.9728
+  },
+  "artenay": {
+    "lat": 48.0823,
+    "lng": 1.8787
+  },
+  "cercottes": {
+    "lat": 47.9857,
+    "lng": 1.8826
+  },
+  "bricy": {
+    "lat": 47.9988,
+    "lng": 1.7809
+  },
+  "chevilly": {
+    "lat": 48.0265,
+    "lng": 1.8746
+  },
+  "boulay-les-barres": {
+    "lat": 47.9803,
+    "lng": 1.7831
+  },
+  "bucy-saint-liphard": {
+    "lat": 47.9356,
+    "lng": 1.7647
+  },
+  "sougy": {
+    "lat": 48.0536,
+    "lng": 1.7908
+  },
+  "huetre": {
+    "lat": 48.0186,
+    "lng": 1.7954
+  },
+  "rebrechien": {
+    "lat": 47.9896,
+    "lng": 2.0443
+  },
+  "saint-lye-la-foret": {
+    "lat": 48.041,
+    "lng": 1.9829
+  },
+  "neuville-aux-bois": {
+    "lat": 48.0684,
+    "lng": 2.0528
+  },
+  "chilleurs-aux-bois": {
+    "lat": 48.071,
+    "lng": 2.1335
+  },
+  "loury": {
+    "lat": 48.0021,
+    "lng": 2.0854
+  },
+  "trainou": {
+    "lat": 47.9757,
+    "lng": 2.1012
+  },
+  "vennecy": {
+    "lat": 47.9547,
+    "lng": 2.055
+  },
+  "ascheres-le-marche": {
+    "lat": 48.1074,
+    "lng": 2.0078
+  },
+  "fleury-les-aubrais": {
+    "lat": 47.947,
+    "lng": 1.9318
+  },
+  "semoy": {
+    "lat": 47.9324,
+    "lng": 1.9492
+  },
+  "saint-jean-de-braye": {
+    "lat": 47.912,
+    "lng": 1.9703
+  },
+  "saint-jean-de-la-ruelle": {
+    "lat": 47.9127,
+    "lng": 1.8741
+  },
+  "boigny-sur-bionne": {
+    "lat": 47.9223,
+    "lng": 2.0096
+  },
+  "mardie": {
+    "lat": 47.8864,
+    "lng": 2.0566
+  },
+  "bou": {
+    "lat": 47.8738,
+    "lng": 2.0466
+  },
+  "jargeau": {
+    "lat": 47.8668,
+    "lng": 2.1221
+  },
+  "chateauneuf-sur-loire": {
+    "lat": 47.8661,
+    "lng": 2.2231
+  },
+  "tigy": {
+    "lat": 47.7951,
+    "lng": 2.2008
+  },
+  "pithiviers": {
+    "lat": 48.1735,
+    "lng": 2.2571
+  },
+  "saint-marceau": {
+    "lat": 47.8848,
+    "lng": 1.9086
+  },
+  "la-chapelle-saint-mesmin": {
+    "lat": 47.8873,
+    "lng": 1.8401
+  },
+  "la-source": {
+    "lat": 47.8365,
+    "lng": 1.9326
+  },
+  "tavers": {
+    "lat": 47.7572,
+    "lng": 1.6156
+  },
+  "beaugency": {
+    "lat": 47.778,
+    "lng": 1.6316
+  },
+  "saint-ay": {
+    "lat": 47.858,
+    "lng": 1.7538
+  },
+  "chaingy": {
+    "lat": 47.8837,
+    "lng": 1.7716
+  },
+  "checy": {
+    "lat": 47.8915,
+    "lng": 2.0254
+  },
+  "combleux": {
+    "lat": 47.8995,
+    "lng": 1.9873
+  },
+  "marigny-les-usages": {
+    "lat": 47.9578,
+    "lng": 2.017
+  }
+}

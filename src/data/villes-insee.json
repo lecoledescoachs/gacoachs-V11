@@ -1,0 +1,430 @@
+{
+ "orleans": {
+  "codeInsee": "45234",
+  "codesPostaux": [
+   "45000",
+   "45100"
+  ],
+  "population": 116357
+ },
+ "olivet": {
+  "codeInsee": "45232",
+  "codesPostaux": [
+   "45160"
+  ],
+  "population": 23507
+ },
+ "saint-jean-le-blanc": {
+  "codeInsee": "45286",
+  "codesPostaux": [
+   "45650"
+  ],
+  "population": 9562
+ },
+ "saint-cyr-en-val": {
+  "codeInsee": "45272",
+  "codesPostaux": [
+   "45590"
+  ],
+  "population": 3467
+ },
+ "saint-hilaire-saint-mesmin": {
+  "codeInsee": "45282",
+  "codesPostaux": [
+   "45160"
+  ],
+  "population": 3261
+ },
+ "saint-pryve-saint-mesmin": {
+  "codeInsee": "45298",
+  "codesPostaux": [
+   "45750"
+  ],
+  "population": 6256
+ },
+ "saint-denis-en-val": {
+  "codeInsee": "45274",
+  "codesPostaux": [
+   "45560"
+  ],
+  "population": 7766
+ },
+ "ardon": {
+  "codeInsee": "45006",
+  "codesPostaux": [
+   "45160"
+  ],
+  "population": 1203
+ },
+ "mezieres-lez-clery": {
+  "codeInsee": "45204",
+  "codesPostaux": [
+   "45370"
+  ],
+  "population": 883
+ },
+ "la-ferte-saint-aubin": {
+  "codeInsee": "45146",
+  "codesPostaux": [
+   "45240"
+  ],
+  "population": 7284
+ },
+ "marcilly-en-villette": {
+  "codeInsee": "45193",
+  "codesPostaux": [
+   "45240"
+  ],
+  "population": 2180
+ },
+ "jouy-le-potier": {
+  "codeInsee": "45175",
+  "codesPostaux": [
+   "45370"
+  ],
+  "population": 1643
+ },
+ "ligny-le-ribault": {
+  "codeInsee": "45182",
+  "codesPostaux": [
+   "45240"
+  ],
+  "population": 1252
+ },
+ "menestreau-en-villette": {
+  "codeInsee": "45200",
+  "codesPostaux": [
+   "45240"
+  ],
+  "population": 1370
+ },
+ "sandillon": {
+  "codeInsee": "45300",
+  "codesPostaux": [
+   "45640"
+  ],
+  "population": 4300
+ },
+ "mareau-aux-pres": {
+  "codeInsee": "45196",
+  "codesPostaux": [
+   "45370"
+  ],
+  "population": 1669
+ },
+ "vannes-sur-cosson": {
+  "codeInsee": "45331",
+  "codesPostaux": [
+   "45510"
+  ],
+  "population": 592
+ },
+ "vouzon": {
+  "codeInsee": "41296",
+  "codesPostaux": [
+   "41600"
+  ],
+  "population": 1414
+ },
+ "yvoy-le-marron": {
+  "codeInsee": "41297",
+  "codesPostaux": [
+   "41600"
+  ],
+  "population": 746
+ },
+ "lamotte-beuvron": {
+  "codeInsee": "41106",
+  "codesPostaux": [
+   "41600"
+  ],
+  "population": 4504
+ },
+ "chaumont-sur-tharonne": {
+  "codeInsee": "41046",
+  "codesPostaux": [
+   "41600"
+  ],
+  "population": 1042
+ },
+ "saran": {
+  "codeInsee": "45302",
+  "codesPostaux": [
+   "45770"
+  ],
+  "population": 17316
+ },
+ "ingre": {
+  "codeInsee": "45169",
+  "codesPostaux": [
+   "45140"
+  ],
+  "population": 10062
+ },
+ "gidy": {
+  "codeInsee": "45154",
+  "codesPostaux": [
+   "45520"
+  ],
+  "population": 2084
+ },
+ "ormes": {
+  "codeInsee": "45235",
+  "codesPostaux": [
+   "45140"
+  ],
+  "population": 4376
+ },
+ "chanteau": {
+  "codeInsee": "45072",
+  "codesPostaux": [
+   "45400"
+  ],
+  "population": 1590
+ },
+ "artenay": {
+  "codeInsee": "45008",
+  "codesPostaux": [
+   "45410"
+  ],
+  "population": 1997
+ },
+ "cercottes": {
+  "codeInsee": "45062",
+  "codesPostaux": [
+   "45520"
+  ],
+  "population": 1448
+ },
+ "bricy": {
+  "codeInsee": "45055",
+  "codesPostaux": [
+   "45310"
+  ],
+  "population": 528
+ },
+ "chevilly": {
+  "codeInsee": "45093",
+  "codesPostaux": [
+   "45520"
+  ],
+  "population": 2663
+ },
+ "boulay-les-barres": {
+  "codeInsee": "45046",
+  "codesPostaux": [
+   "45140"
+  ],
+  "population": 1147
+ },
+ "bucy-saint-liphard": {
+  "codeInsee": "45059",
+  "codesPostaux": [
+   "45140"
+  ],
+  "population": 215
+ },
+ "sougy": {
+  "codeInsee": "45313",
+  "codesPostaux": [
+   "45410"
+  ],
+  "population": 853
+ },
+ "huetre": {
+  "codeInsee": "45166",
+  "codesPostaux": [
+   "45520"
+  ],
+  "population": 280
+ },
+ "rebrechien": {
+  "codeInsee": "45261",
+  "codesPostaux": [
+   "45470"
+  ],
+  "population": 1441
+ },
+ "saint-lye-la-foret": {
+  "codeInsee": "45289",
+  "codesPostaux": [
+   "45170"
+  ],
+  "population": 1257
+ },
+ "neuville-aux-bois": {
+  "codeInsee": "45224",
+  "codesPostaux": [
+   "45170"
+  ],
+  "population": 4987
+ },
+ "chilleurs-aux-bois": {
+  "codeInsee": "45095",
+  "codesPostaux": [
+   "45170"
+  ],
+  "population": 2084
+ },
+ "loury": {
+  "codeInsee": "45188",
+  "codesPostaux": [
+   "45470"
+  ],
+  "population": 2616
+ },
+ "trainou": {
+  "codeInsee": "45327",
+  "codesPostaux": [
+   "45470"
+  ],
+  "population": 3402
+ },
+ "vennecy": {
+  "codeInsee": "45333",
+  "codesPostaux": [
+   "45760"
+  ],
+  "population": 2047
+ },
+ "ascheres-le-marche": {
+  "codeInsee": "45009",
+  "codesPostaux": [
+   "45170"
+  ],
+  "population": 1157
+ },
+ "fleury-les-aubrais": {
+  "codeInsee": "45147",
+  "codesPostaux": [
+   "45400"
+  ],
+  "population": 21804
+ },
+ "semoy": {
+  "codeInsee": "45308",
+  "codesPostaux": [
+   "45400"
+  ],
+  "population": 3269
+ },
+ "saint-jean-de-braye": {
+  "codeInsee": "45284",
+  "codesPostaux": [
+   "45800"
+  ],
+  "population": 23147
+ },
+ "saint-jean-de-la-ruelle": {
+  "codeInsee": "45285",
+  "codesPostaux": [
+   "45140"
+  ],
+  "population": 16768
+ },
+ "boigny-sur-bionne": {
+  "codeInsee": "45034",
+  "codesPostaux": [
+   "45760"
+  ],
+  "population": 2194
+ },
+ "mardie": {
+  "codeInsee": "45194",
+  "codesPostaux": [
+   "45430"
+  ],
+  "population": 3078
+ },
+ "bou": {
+  "codeInsee": "45043",
+  "codesPostaux": [
+   "45430"
+  ],
+  "population": 1036
+ },
+ "tavers": {
+  "codeInsee": "45317",
+  "codesPostaux": [
+   "45190"
+  ],
+  "population": 1334
+ },
+ "beaugency": {
+  "codeInsee": "45028",
+  "codesPostaux": [
+   "45190"
+  ],
+  "population": 8024
+ },
+ "jargeau": {
+  "codeInsee": "45173",
+  "codesPostaux": [
+   "45150"
+  ],
+  "population": 4610
+ },
+ "chateauneuf-sur-loire": {
+  "codeInsee": "45082",
+  "codesPostaux": [
+   "45110"
+  ],
+  "population": 8546
+ },
+ "tigy": {
+  "codeInsee": "45324",
+  "codesPostaux": [
+   "45510"
+  ],
+  "population": 2484
+ },
+ "pithiviers": {
+  "codeInsee": "45252",
+  "codesPostaux": [
+   "45300"
+  ],
+  "population": 8856
+ },
+ "la-chapelle-saint-mesmin": {
+  "codeInsee": "45075",
+  "codesPostaux": [
+   "45380"
+  ],
+  "population": 11017
+ },
+ "saint-ay": {
+  "codeInsee": "45269",
+  "codesPostaux": [
+   "45130"
+  ],
+  "population": 3766
+ },
+ "chaingy": {
+  "codeInsee": "45067",
+  "codesPostaux": [
+   "45380"
+  ],
+  "population": 4116
+ },
+ "checy": {
+  "codeInsee": "45089",
+  "codesPostaux": [
+   "45430"
+  ],
+  "population": 9083
+ },
+ "combleux": {
+  "codeInsee": "45100",
+  "codesPostaux": [
+   "45800"
+  ],
+  "population": 547
+ },
+ "marigny-les-usages": {
+  "codeInsee": "45197",
+  "codesPostaux": [
+   "45760"
+  ],
+  "population": 1887
+ }
+}

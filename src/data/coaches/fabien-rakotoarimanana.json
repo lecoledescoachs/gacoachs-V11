@@ -1,0 +1,52 @@
+{
+  "slug": "fabien-rakotoarimanana",
+  "prenom": "Fabien",
+  "codeBoutique": "FABIEN",
+  "niveau": 3,
+  "nom": "Rakotoarimanana",
+  "salleSlug": "basic-fit-orleans-sud",
+  "role": "Coach sportif",
+  "tags": [
+    "Perte de Poids",
+    "Transformation Physique",
+    "Musculation Ciblée",
+    "Stratégie Personnalisée"
+  ],
+  "photo": "/images/coachs/fabien-rakotoarimanana.webp",
+  "presentation": "J'aide chaque personne à sculpter son corps avec méthode, précision et une vraie stratégie. Mon objectif : transformer ton physique durablement et te redonner confiance.",
+  "publicCible": "Celles et ceux qui veulent transformer leur physique avec méthode, sur la durée, sans course au résultat immédiat.",
+  "specialites": [
+    "Sculpter & Tonifier",
+    "Remise en Forme",
+    "Perte de Poids"
+  ],
+  "diplomes": [
+    "CQP IF"
+  ],
+  "formations": [],
+  "methode": "Je construis ton programme autour de trois piliers : renforcement ciblé, progression mesurée, et ajustements réguliers selon tes retours. Rien n'est laissé au hasard.",
+  "resultats": "Ce que je vise avec toi : un physique qui évolue de façon visible et durable, sans te brusquer, et une confiance qui grandit séance après séance.",
+  "temoignages": [],
+  "rcPro": "RCPH278482177",
+  "cartePro": "04524ED0027",
+  "sourceNote": "Présentation, spécialités, assurance RC Pro et carte professionnelle vérifiés sur la fiche officielle Basic-Fit (basic-fit.com/fr-fr/fitness/personal-trainer/fabien-rakotoarimanana).",
+  "avisGoogle": {
+    "note": 5.0,
+    "nombreAvis": 32,
+    "url": "https://www.google.com/maps/search/?api=1&query=Coach%20Fab%20Leo%20Vigor%20coach%20sportif%20Orl%C3%A9ans"
+  },
+  "email": "fab.coach45@gmail.com",
+  "guides": [
+    "prise-de-muscle-par-ou-commencer-avec-un-coach-a-orleans",
+    "proteines-et-recuperation-musculaire-les-bases",
+    "se-muscler-et-perdre-du-gras-en-meme-temps"
+  ],
+  "medias": [
+    "Sollicité pour Good Moves, programme européen de sport-santé",
+    "A déjà tourné une publicité"
+  ],
+  "reseauSocial": {
+    "type": "instagram",
+    "url": "https://www.instagram.com/coach_fab_leo_vigor/"
+  }
+}

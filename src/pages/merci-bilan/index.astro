@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MerciProto from '../../components/proto/MerciProto.astro';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+    { '@type': 'ListItem', position: 2, name: 'Bilan réservé', item: 'https://gacoachs.fr/merci-bilan/' },
+  ],
+};
+
+---
+<BaseLayout
+  noindex={true}
+  title="Ce qu'il faut prévoir pour le bilan santé · GA Coachs"
+  description="Ce qu'il faut prévoir le jour de ton bilan santé avec un coach du réseau GA."
+  path="/merci-bilan/"
+  stickyCtaHref={false}
+  jsonLd={jsonLd}
+>
+  <MerciProto v="bilan" />
+</BaseLayout>
+
+
+<script define:vars={{ evenement: 'bilan_reserve' }}>
+  if (window.trackConversion) window.trackConversion(evenement);
+</script>
+
+
+

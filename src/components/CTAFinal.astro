@@ -1,0 +1,37 @@
+---
+interface Props {
+  titre?: string;
+  bouton?: string;
+  href?: string;
+}
+const {
+  titre = 'Prêt à trouver le coach qui te correspond ?',
+  bouton = 'Trouver mon coach',
+  href = '/trouver-un-coach/',
+} = Astro.props;
+---
+<section class="cta-final">
+  <div class="container cta-final__inner">
+    <h2>{titre}</h2>
+    <a href={href} class="btn btn--on-dark" target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}>{bouton}</a>
+  </div>
+</section>
+
+<style>
+  .cta-final {
+    background: linear-gradient(135deg, var(--navy), var(--navy-soft));
+    padding: 72px 0;
+  }
+  .cta-final__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+  .cta-final h2 {
+    color: var(--white);
+    font-size: clamp(26px, 4vw, 38px);
+    max-width: 20ch;
+  }
+</style>

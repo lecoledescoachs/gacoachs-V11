@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../../components/PartageReseaux.astro';
+import Crumbs from '../../../components/rb/Crumbs.astro';
+import Icones from '../../../components/rb/Icones.astro';
+import '../../../styles/rebrand.css';
+import villesData from '../../../data/villes.json';
+import salles from '../../../data/salles.json';
+import villesCoords from '../../../data/villes-coordonnees.json';
+import sallesCoords from '../../../data/salles-coordonnees.json';
+import villesInfos from '../../../data/villes-infos.json';
+import villesInsee from '../../../data/villes-insee.json';
+import { portraitCommune, choisir, sousEnsemble, distanceKm, direction } from '../../../data/varier';
+
+export function getStaticPaths() {
+  return villesData.filter((v) => v.slug !== 'devenir-coach').map((v) => ({ params: { ville: v.slug }, props: { villeData: v } }));
+}
+const { villeData } = Astro.props;
+const nom = villeData.nom;
+const deNom = /^[AEIOUYHÉÈÂÎÔ]/i.test(nom) ? `d'${nom}` : `de ${nom}`;
+const slug = villeData.slug;
+const path = `/coach-sportif-a-domicile/${slug}/`;
+const cle = (x: string) => `dom/${x}/${slug}`;
+const coord = (villesCoords as any)[slug];
+const insee = (villesInsee as any)[slug];
+const infos: { lieux?: { nom: string; type: string; texte: string }[] } = (villesInfos as any)[slug] || {};
+const lieux = infos.lieux ?? [];
+const portrait = portraitCommune(villeData as any);
+const cp = insee?.codesPostaux?.[0];
+
+// salle Basic-Fit la plus proche, avec distance calculée
+const proche = coord ? salles
+  .map((s: any) => ({ s, c: (sallesCoords as any)[s.slug] }))
+  .filter((x) => x.c)
+  .map((x) => ({ salle: x.s, km: distanceKm(coord, x.c), dir: direction(coord, x.c) }))
+  .sort((a, b) => a.km - b.km)[0] : null;
+const kmSalle = proche ? Math.max(1, Math.round(proche.km)) : 0;
+
+// communes voisines (les 5 plus proches), pour le maillage local
+const voisines = coord ? villesData
+  .filter((v) => v.slug !== slug && (villesCoords as any)[v.slug])
+  .map((v) => ({ v, km: distanceKm(coord, (villesCoords as any)[v.slug]) }))
+  .sort((a, b) => a.km - b.km).slice(0, 5) : [];
+
+const intro = choisir(cle('intro'), [
+  `Vous habitez ${nom} et la salle ne vous tente pas, ou ne rentre pas dans votre emploi du temps ? Un coach sportif diplômé du réseau GA peut venir chez vous.`,
+  `À ${nom}, faire du sport sans quitter son salon, c'est possible : un coach diplômé du réseau GA se déplace chez vous, toujours le même, avec un vrai programme.`,
+  `${nom} : un coach sportif diplômé vient à votre domicile, vous connaît, suit vos progrès et ajuste le programme au fil des semaines.`,
+  `Pas envie de prendre la voiture pour aller en salle ? À ${nom}, un coach du réseau GA peut venir chez vous pour un accompagnement régulier.`,
+  `Chez vous, à ${nom}, à votre rythme : un coach sportif diplômé construit votre programme et vient vous suivre, séance après séance.`,
+]);
+const pourquoi = choisir(cle('pourquoi'), [
+  'Le plus dur dans le sport, c\'est de s\'y mettre et de tenir. Un rendez-vous fixe à la maison, avec un coach qui vous attend, enlève la moitié des excuses.',
+  'On repousse la salle pour mille raisons : le trajet, le regard des autres, la fatigue du soir. À domicile, il ne reste que la séance.',
+  'La régularité fait les résultats. Un coach qui vient chez vous, toujours le même, rend la séance plus difficile à annuler et plus facile à tenir.',
+  'Certaines personnes ne se sentiront jamais à l\'aise en salle. Chez soi, on ose poser des questions, reprendre doucement et avancer sans public.',
+  'Un programme pensé pour votre logement et votre emploi du temps, c\'est ce qui permet de continuer quand la motivation baisse.',
+]);
+const profils = sousEnsemble(cle('profils'), [
+  'Vous n\'osez pas pousser la porte d\'une salle de sport.',
+  'Vous manquez de temps entre le travail et la famille.',
+  'Vous avez 60 ans et plus et voulez garder votre autonomie.',
+  'Vous reprenez le sport après une pause.',
+  'Vous êtes parent ou aidant et ne pouvez pas partir une heure.',
+  'Vous préférez un suivi individuel et discret.',
+], 4);
+const locale = [
+  portrait,
+  villeData.fait ? `${nom} ${villeData.fait}.` : '',
+].filter(Boolean).join(' ');
+const faq = [
+  { q: `Un coach sportif peut-il venir à domicile à ${nom} ?`, r: `Oui, avec BOOST DOMICILE : un coach diplômé du réseau GA se déplace chez vous à ${nom}${cp ? ` (${cp})` : ''}. Nous vérifions d'abord qu'un coach peut intervenir dans votre commune, puis nous vous le présentons avec un devis.` },
+  { q: `Combien coûte un bilan sportif à domicile à ${nom} ?`, r: `Le tarif vous est indiqué au moment de la réservation, avant de confirmer. Le coach vient chez vous à ${nom}, fait le point sur votre forme et vous remet un mini plan écrit. Aucune obligation de continuer.` },
+  { q: `Combien coûte ensuite un coach sportif à domicile à ${nom} ?`, r: `Le coach vous présente sa proposition pendant le bilan, selon le rythme (une ou deux séances par semaine), l'offre choisie (essai de 3 mois ou offre annuelle) et la distance depuis ${nom}. Vous décidez ensuite.` },
+  { q: `Le coach est-il toujours le même à ${nom} ?`, r: choisir(cle('f3'), [
+    'Oui. Vous avez un coach dédié, un bilan de départ, un programme et un bilan à 12 semaines, plutôt qu\'un coach différent à chaque séance.',
+    'Oui, c\'est le principe : le même coach vous suit, retient vos limites et ajuste le programme au fil des semaines.',
+    'Oui. Un seul coach vous accompagne du bilan au bilan de fin, ce qui permet de suivre vos progrès de près.',
+  ]) },
+  { q: `Faut-il du matériel chez soi à ${nom} ?`, r: choisir(cle('f4'), [
+    'Non. Le coach s\'adapte à ce que vous avez et peut apporter du petit matériel.',
+    'Pas besoin d\'équipement : une pièce avec un peu d\'espace suffit, le coach adapte les exercices.',
+    'Non, le coach s\'organise avec votre logement. Quelques mètres carrés libres suffisent en général.',
+  ]) },
+  { q: `Peut-on aussi s'entraîner en salle près ${deNom} ?`, r: proche ? `Oui, selon le coach. La salle Basic-Fit du réseau la plus proche est ${proche.salle.nom}, à environ ${kmSalle} km ${proche.dir} ${deNom}. Vous pouvez compléter les séances à domicile par des séances en salle.` : 'Oui, selon le coach. Le réseau GA compte des salles Basic-Fit autour d\'Orléans, où vous pouvez compléter les séances à domicile.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: `Bilan Santé à domicile à ${nom}`, serviceType: 'Bilan de forme à domicile par un coach sportif diplômé', provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' }, areaServed: { '@type': 'City', name: nom } },
+  { '@context': 'https://schema.org', '@type': 'Service', name: `Coach sportif à domicile à ${nom}`, serviceType: 'Coaching sportif individuel à domicile par un coach diplômé', provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' }, areaServed: { '@type': 'City', name: nom, ...(cp ? { postalCode: cp } : {}) }, description: `Un coach sportif diplômé du réseau GA vient chez vous à ${nom} : bilan, programme et suivi sur 3 mois ou 1 an.` },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout title={`Coach sportif à domicile à ${nom} : BOOST DOMICILE`} description={`Bilan Santé à domicile à ${nom}, puis un coach sportif diplômé chez vous : toujours le même, avec programme et suivi. Essai de 3 mois ou offre annuelle.`} path={path} jsonLd={jsonLd} stickyCtaHref={`/coach-sportif-a-domicile/reserver/?commune=${slug}`} stickyCtaLabel="Réserver mon bilan santé">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'BOOST DOMICILE', href: '/coach-sportif-a-domicile/' }, { label: nom, href: path }]} />
+      <span class="eyebrow eyebrow-dark">BOOST DOMICILE · {nom}</span>
+      <h1>Coach sportif à domicile à <span class="hl-text">{nom}</span>.</h1>
+      <p class="phero-lead">{intro}</p>
+      <ul class="facts-dark"><li>Bilan Santé à domicile</li><li>Toujours le même coach</li><li>Essai de 3 mois ou offre annuelle</li></ul>
+      <div class="ctas">
+        <a class="btn btn-primary" href={`/coach-sportif-a-domicile/reserver/?commune=${slug}`}>Réserver mon bilan santé</a>
+        <a class="btn btn-glass" href="/coach-sportif-a-domicile/">Comment ça marche</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec ec-bref-sec">
+    <div class="inner">
+      <div class="ec-bref">
+        <p class="ec-bref-k">En bref</p>
+        <ul>
+          <li><b>Où :</b> chez vous, à {nom}{cp ? ` (${cp})` : ''}, sous réserve qu'un coach du réseau puisse intervenir dans votre commune.</li>
+          <li><b>Pour commencer :</b> un Bilan Santé à domicile, avec un mini plan écrit. Le tarif est indiqué à la réservation.</li>
+          <li><b>Ensuite :</b> des séances individuelles régulières avec un coach diplômé, toujours le même.</li>
+          <li><b>Deux offres :</b> un Essai de 3 mois (12 semaines) ou une Offre annuelle (1 an).</li>
+          {proche && <li><b>Salle la plus proche :</b> {proche.salle.nom}, à environ {kmSalle} km {proche.dir}.</li>}
+          <li><b>Coaching ensuite :</b> proposition du coach pendant le bilan.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Pourquoi à domicile</span>
+      <h2 class="h2">Se mettre au sport à {nom}, sans quitter la maison.</h2>
+      <p class="ec-p">{pourquoi}</p>
+      {locale && <p class="ec-p">{locale}</p>}
+      <h3 class="ec-h3">Ce service est pour vous si :</h3>
+      <ul class="ec-list">{profils.map((p) => <li>{p}</li>)}</ul>
+      {lieux.length > 0 && <p class="ec-p">Pour varier, le coach peut aussi vous proposer une séance en extérieur, par exemple à {lieux.slice(0, 2).map((l) => `${l.nom} (${l.type})`).join(' ou ')}.</p>}
+    </div>
+  </section>
+
+  <section class="sec band" id="offres">
+    <div class="inner">
+      <span class="eyebrow">Les deux offres</span>
+      <h2 class="h2">{choisir(cle('h2o'), [`Essai de 3 mois ou offre annuelle à ${nom}.`, `Deux façons de commencer à ${nom}.`, `Combien de temps pour ${nom} ? Vous choisissez.`, `À ${nom} : tester 3 mois, ou s'installer sur 1 an.`])}</h2>
+      <p class="ec-p">{choisir(cle('offres'), [
+        `L'Essai de 3 mois (12 semaines) sert à tester la méthode avec un objectif précis : bilan, programme, séances régulières chez vous et bilan de fin. L'Offre annuelle (1 an) prolonge avec un bilan chaque trimestre.`,
+        `Deux durées possibles : 12 semaines pour voir si le format vous convient, ou 1 an pour installer le sport pour de bon, avec un point tous les trois mois.`,
+        `On commence par un bilan, puis un programme. Vous choisissez entre 3 mois pour essayer et 1 an pour avancer avec le même coach sur la durée.`,
+        `Le plus simple est de démarrer sur 3 mois. Si le rythme vous plaît, l'offre annuelle prend le relais avec un bilan chaque trimestre.`,
+      ])}</p>
+      <p class="ec-n">Le coach vous présente sa proposition pendant le bilan, selon le rythme et la distance depuis {nom}. Détails sur la page <a href="/coach-sportif-a-domicile/">BOOST DOMICILE</a>.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="contact">
+    <div class="inner ec-cta">
+      <span class="eyebrow">Réserver à {nom}</span>
+      <h2 class="h2">Réservez votre Bilan Santé à {nom}.</h2>
+      <p>Votre commune est déjà choisie : il ne reste qu'à voir quel coach peut venir chez vous et à fixer le rendez-vous. Vos informations servent uniquement à l'organiser (<a href="/confidentialite/">confidentialité</a>).</p>
+      <div class="ctas"><a class="btn btn-primary" href={`/coach-sportif-a-domicile/reserver/?commune=${slug}`}>Réserver mon bilan santé</a></div>
+      <p class="ec-n">Coaching en salle plutôt ? Voir <a href={`/coach-sportif-${slug}/`}>coach sportif à {nom}</a>. Vous êtes coach ? <a href="/coach-sportif-a-domicile/devenir-coach/">Devenir coach à domicile GA</a>.</p>
+    </div>
+  </section>
+
+  {voisines.length > 0 && (
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Autour {deNom}</span>
+      <h2 class="h2">Coach sportif à domicile dans les communes voisines.</h2>
+      <ul class="ec-guides">{voisines.map((x) => <li><a href={`/coach-sportif-a-domicile/${x.v.slug}/`}>Coach sportif à domicile à {x.v.nom} <small>(à environ {Math.max(1, Math.round(x.km))} km)</small></a></li>)}</ul>
+    </div>
+  </section>
+  )}
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Coach sportif à domicile à {nom} : vos questions.</h2>
+      <div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title={`Coach sportif à domicile à ${nom}`} label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>
+
+<style>
+  .ec-bref-sec { padding-top: 28px; padding-bottom: 8px; }
+  .ec-bref { border-left: 4px solid #1D5BD8; background: #fff; border-radius: 0 18px 18px 0; padding: 18px 22px; box-shadow: 0 12px 30px -24px rgba(11,30,61,.5); }
+  .ec-bref-k { margin: 0 0 8px; font-weight: 700; text-transform: none; letter-spacing: .02em; font-size: 12px; color: #1D5BD8; }
+  .ec-bref ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #0B1E3D; line-height: 1.5; }
+  .ec-num { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #1D5BD8; color: #fff; font-weight: 700; }
+  .ec-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ec-t h3 { margin: 6px 0 8px; }
+  .ec-t p { margin: 0; line-height: 1.55; color: #2A3756; }
+  .ec-i { font-size: 30px; }
+  .ec-tl { list-style: none; padding: 0; margin: 22px 0 0; display: grid; border-left: 3px solid #1D5BD8; }
+  .ec-tl li { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 14px; padding: 14px 0 14px 18px; border-bottom: 1px solid #DCE6FB; }
+  .ec-m { font-weight: 700; color: #1D5BD8; }
+  .ec-tl b { color: #0B1E3D; }
+  .ec-tl p { margin: 4px 0 0; color: #2A3756; line-height: 1.5; }
+  .ec-n { color: #2A3756; margin-top: 14px; }
+  .ec-two { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .ec-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; } }
+  .ec-form { display: grid; gap: 12px; background: #fff; border: 1px solid #DCE6FB; border-radius: 20px; padding: 22px; min-width: 0; }
+  .ec-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; color: #0B1E3D; min-width: 0; }
+  .ec-form input, .ec-form select, .ec-form textarea { width: 100%; box-sizing: border-box; min-height: 46px; padding: 10px 12px; border: 1px solid #B8C6E3; border-radius: 12px; font: inherit; font-size: 16px; background: #fff; }
+  .ec-guides { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; }
+  .ec-guides a { display: block; padding: 12px 14px; border: 1px solid #DCE6FB; border-radius: 14px; background: #fff; color: #0B1E3D; font-weight: 600; line-height: 1.35; text-decoration: none; }
+  .ec-grid.ec-grid4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1100px) { .ec-grid.ec-grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px) { .ec-grid, .ec-grid.ec-grid4, .ec-guides { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 767px) { .ec-tl li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+  .ec-grid.ec-grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ec-k { margin: 0; font-weight: 700; font-size: 12px; letter-spacing: .02em; color: #1D5BD8; }
+  @media (max-width: 900px) { .ec-grid.ec-grid2 { grid-template-columns: minmax(0, 1fr); } }
+  .ec-p { color: #2A3756; line-height: 1.6; max-width: 70ch; margin: 14px 0 0; }
+  .ec-h3 { margin: 22px 0 0; }
+  .ec-list { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 10px; }
+  .ec-list li { background: #fff; border: 1px solid #DCE6FB; border-radius: 14px; padding: 12px 16px; color: #0B1E3D; }
+  .ec-cta { max-width: 720px; }
+</style>

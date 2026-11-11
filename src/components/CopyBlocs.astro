@@ -1,0 +1,92 @@
+---
+// Blocs de copywriting partagés par les pages services : le constat (ce que vit le client),
+// l'avant / après, et les preuves du réseau (chiffres calculés à partir des données du site).
+import { coachesReseau } from '../data/coaches.js';
+import salles from '../data/salles.json';
+import villes from '../data/villes.json';
+
+interface Item { emoji: string; titre: string; texte: string }
+interface Props {
+  constat?: { titre: string; items: Item[] };
+  avantApres?: { titre: string; lignes: [string, string][] };
+  preuves?: boolean;
+  tint?: boolean;
+}
+const { constat, avantApres, preuves = false, tint = false } = Astro.props;
+const nbCoachs = coachesReseau.length;
+const nbSalles = salles.filter((s: any) => s.reseauOfficiel !== false).length;
+const nbVilles = villes.length;
+---
+{constat && (
+  <section class={`section${tint ? ' section--tint' : ''}`}>
+    <div class="container">
+      <span class="eyebrow">Le constat</span>
+      <h2>{constat.titre}</h2>
+      <div class="cb-constat">
+        {constat.items.map((i) => (
+          <div class="cb-card"><span class="cb-emoji" aria-hidden="true">{i.emoji}</span><h3>{i.titre}</h3><p>{i.texte}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{avantApres && (
+  <section class={`section${tint ? ' section--tint' : ''}`}>
+    <div class="container">
+      <span class="eyebrow">Avant / après</span>
+      <h2>{avantApres.titre}</h2>
+      <div class="cb-aa" role="table" aria-label={avantApres.titre}>
+        <div class="cb-aa__row cb-aa__head" role="row"><span role="columnheader">Aujourd'hui</span><span role="columnheader">Avec un coach GA</span></div>
+        {avantApres.lignes.map(([a, b]) => (
+          <div class="cb-aa__row" role="row"><span role="cell" class="cb-aa__avant">{a}</span><span role="cell" class="cb-aa__apres">{b}</span></div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{preuves && (
+  <section class={`section${tint ? ' section--tint' : ''}`}>
+    <div class="container">
+      <span class="eyebrow">Pourquoi GA Coachs</span>
+      <h2>Un réseau local, structuré et sérieux.</h2>
+      <div class="cb-preuves">
+        <div><b>2018</b><span>Partenaire de Basic-Fit à Orléans depuis 2018</span></div>
+        <div><b>{nbCoachs}</b><span>coachs sportifs diplômés, avec carte professionnelle et assurance RC Pro</span></div>
+        <div><b>{nbSalles}</b><span>salles partenaires à Orléans et dans sa métropole</span></div>
+        <div><b>{nbVilles}</b><span>villes couvertes dans le Loiret et autour</span></div>
+      </div>
+      <p class="cb-note">Un interlocuteur unique pour votre structure, et un coach référent qui connaît vos lieux et votre public.</p>
+    </div>
+  </section>
+)}
+
+<style>
+  .cb-constat { display: grid; gap: 16px; margin-top: 24px; grid-template-columns: 1fr; }
+  .cb-card { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--white); }
+  .cb-emoji { font-size: 28px; }
+  .cb-card h3 { font-size: 18px; margin: 10px 0 6px; }
+  .cb-card p { margin: 0; color: var(--text-muted); }
+  .cb-aa { margin-top: 24px; border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; background: var(--white); }
+  .cb-aa__row { display: grid; grid-template-columns: 1fr 1fr; }
+  .cb-aa__row + .cb-aa__row { border-top: 1px solid var(--line); }
+  .cb-aa__row span { padding: 14px 18px; font-size: 15px; }
+  .cb-aa__head span { font-weight: 700; font-size: 13px; text-transform: none; letter-spacing: .02em; }
+  .cb-aa__head span:first-child { color: var(--text-muted); }
+  .cb-aa__head span:last-child { background: var(--navy); color: #fff; }
+  .cb-aa__avant { color: var(--text-muted); }
+  .cb-aa__apres { background: var(--ice); color: var(--navy); font-weight: 600; }
+  .cb-preuves { display: grid; gap: 14px; margin-top: 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cb-preuves div { padding: 20px; border-radius: var(--radius-sm); background: var(--white); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
+  .cb-preuves b { font-family: var(--font-display); font-size: 34px; color: var(--blue); line-height: 1; }
+  .cb-preuves span { color: var(--text-muted); font-size: 14.5px; }
+  .cb-note { margin-top: 18px; color: var(--text-muted); max-width: 70ch; }
+  @media (min-width: 800px) {
+    .cb-constat { grid-template-columns: repeat(3, 1fr); }
+    .cb-preuves { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .cb-aa__row span { padding: 12px 12px; font-size: 14px; }
+  }
+</style>

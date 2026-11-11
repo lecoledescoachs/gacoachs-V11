@@ -1,0 +1,42 @@
+---
+// Chiffres officiels sur le sport et la santé au travail (sources citées)
+const { titre = 'Pourquoi le sport en entreprise' } = Astro.props;
+---
+<section class="sec sbo" aria-labelledby="sbo-t">
+  <div class="inner">
+    <h2 class="h2" id="sbo-t">{titre}</h2>
+    <div class="sbo-grid">
+      <figure class="sbo-card">
+        <figcaption><b>Ce que disent les dirigeants, ce que font les entreprises</b></figcaption>
+        <ul class="sbo-bars">
+          <li><span>Dirigeants qui reconnaissent les bienfaits du sport</span><span class="sbo-t" aria-hidden="true"><i style="width:87%"></i></span><b>87 %</b></li>
+          <li><span>Entreprises qui proposent une offre sportive</span><span class="sbo-t" aria-hidden="true"><i class="lo" style="width:17%"></i></span><b>17 %</b></li>
+        </ul>
+        <a class="sbo-s" href="https://www.magicfit.fr/sport-en-entreprise-120-milliards-deuros-dabsentisme-et-la-france-regarde-ses-voisins-faire/" target="_blank" rel="noopener noreferrer">Source : Harmonie Mutuelle, baromètre sport en entreprise</a>
+      </figure>
+      <figure class="sbo-card sbo-ring-card">
+        <div class="sbo-ring" role="img" aria-label="90 % des maladies professionnelles sont des troubles musculosquelettiques" style="--p:90"><b>90 %</b></div>
+        <figcaption>des maladies professionnelles reconnues en France sont des troubles musculosquelettiques (TMS).</figcaption>
+        <a class="sbo-s" href="https://www.ameli.fr/assure/sante/themes/tms/comprendre-troubles-musculosquelettiques" target="_blank" rel="noopener noreferrer">Source : Assurance Maladie / INRS, 2024</a>
+      </figure>
+    </div>
+  </div>
+</section>
+<style>
+  .sbo-grid { display: grid; gap: 14px; margin-top: 14px; }
+  .sbo-card { margin: 0; background: #fff; border: 1px solid #DCE6FB; border-radius: 18px; padding: 18px 16px 8px; color: #13203B; display: flex; flex-direction: column; }
+  .sbo-card figcaption { font-size: 15px; line-height: 1.4; color: #3E4A66; margin-bottom: 10px; }
+  .sbo-card figcaption b { color: #0B1E3D; }
+  .sbo-bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .sbo-bars li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 10px; align-items: center; font-size: 14px; }
+  .sbo-bars li b { font-size: 20px; color: #0B1E3D; }
+  .sbo-t { grid-column: 1 / -1; grid-row: 2; height: 14px; border-radius: 99px; background: #E8EFFD; overflow: hidden; }
+  .sbo-t i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #2F6BF0, #5B9BFF); }
+  .sbo-t i.lo { background: #E8910A; }
+  .sbo-ring-card { align-items: center; text-align: center; }
+  .sbo-ring { --p: 90; width: 120px; height: 120px; border-radius: 50%; display: grid; place-items: center; position: relative; margin-bottom: 12px; background: conic-gradient(#2F6BF0 calc(var(--p) * 1%), #E3EBFD 0); }
+  .sbo-ring::before { content: ''; position: absolute; inset: 13px; border-radius: 50%; background: #fff; }
+  .sbo-ring b { position: relative; font-size: 26px; color: #0B1E3D; font-family: var(--font-display); }
+  .sbo-s { margin-top: auto; display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; color: #1F55C9; text-decoration: underline; text-underline-offset: 3px; }
+  @media (min-width: 900px) { .sbo-grid { grid-template-columns: 1.6fr 1fr; } }
+</style>

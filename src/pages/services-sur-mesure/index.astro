@@ -1,0 +1,40 @@
+---
+import BoostPCQ from '../../components/BoostPCQ.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Contenu from '../../components/proto/SurMesureContenu.astro';
+import '../../styles/proto-structures.css';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTAFinal from '../../components/CTAFinal.astro';
+import sm from '../../data/sur-mesure.json';
+import segs from '../../data/sur-mesure-segments.json';
+import articles from '../../data/articles.json';
+const guides = segs.map((s) => articles.find((a) => a.slug === s.article)).filter(Boolean);
+
+const siteUrl = 'https://gacoachs.fr';
+const { hero, segments, limites, etapes, faq, form, seo } = sm;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: seo.title,
+    description: seo.description,
+    url: siteUrl + sm.path,
+    publisher: { '@type': 'Organization', name: 'GA Coachs', url: siteUrl + '/' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+];
+---
+<BaseLayout title={seo.title} description={seo.description} path={sm.path} jsonLd={jsonLd} stickyCtaHref="#sm-contact" stickyCtaLabel="Nous contacter">
+<div class="proto">
+  <Contenu />
+  <BoostPCQ id="sur-mesure" />
+</div>
+</BaseLayout>
+
+<script>
+  import '../../scripts/proto-struct.ts';
+</script>

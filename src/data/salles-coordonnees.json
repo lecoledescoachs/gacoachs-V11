@@ -1,0 +1,22 @@
+{
+  "basic-fit-olivet": {
+    "lat": 47.840136,
+    "lng": 1.917208
+  },
+  "basic-fit-orleans-sud": {
+    "lat": 47.872553,
+    "lng": 1.911743
+  },
+  "basic-fit-orleans-liberation": {
+    "lat": 47.92009,
+    "lng": 1.902115
+  },
+  "basic-fit-saran": {
+    "lat": 47.962489,
+    "lng": 1.88125
+  },
+  "basic-fit-fleury-les-aubrais": {
+    "lat": 47.946956,
+    "lng": 1.918096
+  }
+}

@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Contenu from '../../../components/proto/EhpadContenu.astro';
+import '../../../styles/proto-structures.css';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import CTAFinal from '../../../components/CTAFinal.astro';
+import LeadQuiz from '../../../components/LeadQuiz.astro';
+import Offres from '../../../components/Offres.astro';
+import Simulateur from '../../../components/Simulateur.astro';
+import articles from '../../../data/articles.json';
+import ehpad from '../../../data/ehpad.json';
+import villes from '../../../data/villes.json';
+
+const siteUrl = 'https://gacoachs.fr';
+const url = siteUrl + ehpad.path;
+const guides = articles.filter((a) => a.ctaHref === ehpad.path);
+const { hero, definition, services, benefices, etapes, zone, faq, source, contact, seo } = ehpad;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Sport adapté en EHPAD et maison de retraite',
+    serviceType: 'Activité physique adaptée pour les résidents d\'EHPAD et de maisons de retraite',
+    description: seo.description,
+    url,
+    provider: {
+      '@type': 'Organization',
+      name: 'GA Coachs',
+      url: siteUrl + '/',
+    },
+    areaServed: [
+      ...zone.departements.map((d) => ({ '@type': 'AdministrativeArea', name: d.nom })),
+      { '@type': 'AdministrativeArea', name: 'Centre-Val de Loire' },
+    ],
+    audience: { '@type': 'BusinessAudience', audienceType: 'Directions d\'EHPAD et de maisons de retraite' },
+  },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' }, { '@type': 'ListItem', position: 2, name: 'Sport santé', item: 'https://gacoachs.fr/sport-sante/' }, { '@type': 'ListItem', position: 3, name: 'EHPAD et maisons de retraite', item: url }] },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+];
+import CopyBlocs from '../../../components/CopyBlocs.astro';
+---
+<BaseLayout image="/images/og-boost-senior.jpg"
+  title={seo.title}
+  description={seo.description}
+  path={ehpad.path}
+  jsonLd={jsonLd}
+  stickyCtaHref="#eh-quiz"
+  stickyCtaLabel="Faire le quiz (1 min)"
+>
+<div class="proto">
+  <Contenu />
+</div>
+<script type="application/json" id="ps-data" set:html={JSON.stringify({ kind: 'ehpad', tarifs: ehpad.simulateur.tarifs, quiz: ehpad.quiz })} />
+</BaseLayout>
+
+<script>
+  import '../../../scripts/proto-struct.ts';
+</script>

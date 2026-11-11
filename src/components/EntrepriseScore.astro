@@ -1,0 +1,141 @@
+---
+const questions = [
+  { id: 'sedentarite', label: 'Tes équipes passent-elles la majorité de leur journée assises ?' },
+  { id: 'activite', label: 'Des actions sportives sont-elles déjà proposées en interne ?' },
+  { id: 'douleurs', label: 'Des douleurs liées au poste de travail sont-elles régulièrement signalées ?' },
+  { id: 'acces', label: "L'accès à des activités sportives est-il aujourd'hui facile pour tes salariés ?" },
+  { id: 'cohesion', label: 'La cohésion d\'équipe est-elle un sujet de préoccupation actuellement ?' },
+];
+---
+<div class="score-tool" id="score-tool">
+  <div class="score-tool__quiz" id="score-quiz">
+    {questions.map((q, i) => (
+      <fieldset class="score-tool__question" data-index={i}>
+        <legend>{q.label}</legend>
+        <div class="score-tool__options">
+          <label><input type="radio" name={q.id} value="0" /> Pas du tout</label>
+          <label><input type="radio" name={q.id} value="1" /> Un peu</label>
+          <label><input type="radio" name={q.id} value="2" /> Beaucoup</label>
+        </div>
+      </fieldset>
+    ))}
+    <button type="button" id="score-submit" class="btn btn--primary" disabled>Voir mon score</button>
+  </div>
+
+  <div class="score-tool__result" id="score-result" hidden>
+    <span class="eyebrow">Ton GA Entreprise Score</span>
+    <div class="score-tool__number"><span id="score-value">0</span><span class="score-tool__max">/100</span></div>
+    <div class="score-tool__priorities" id="score-priorities"></div>
+    <p class="score-tool__disclaimer">Ce score est un indicateur commercial et n'est en aucun cas un diagnostic médical.</p>
+    <a href="/contact/" class="btn btn--primary">Recevoir mon plan d'action</a>
+  </div>
+</div>
+
+<style>
+  .score-tool { max-width: 640px; }
+  .score-tool__question {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .score-tool__question legend {
+    font-weight: 600;
+    font-size: 15px;
+    padding: 0 4px;
+  }
+  .score-tool__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .score-tool__options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--text-muted);
+    min-height: 44px;
+  }
+  #score-submit { margin-top: 8px; }
+  #score-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .score-tool__result {
+    background: var(--ice);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    text-align: center;
+  }
+  .score-tool__number {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 56px;
+    color: var(--navy);
+    margin-top: 10px;
+  }
+  .score-tool__max { font-size: 24px; color: var(--text-muted); }
+  .score-tool__priorities {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 24px 0;
+    text-align: left;
+  }
+  .score-tool__priorities .priority {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+  .score-tool__disclaimer { font-size: 12px; color: var(--text-muted); font-style: italic; margin-bottom: 20px; }
+</style>
+
+<script>
+  const questionIds = ['sedentarite', 'activite', 'douleurs', 'acces', 'cohesion'];
+  const submitBtn = document.getElementById('score-submit') as HTMLButtonElement;
+  const quiz = document.getElementById('score-quiz') as HTMLElement;
+  const result = document.getElementById('score-result') as HTMLElement;
+  const scoreValue = document.getElementById('score-value') as HTMLElement;
+  const prioritiesEl = document.getElementById('score-priorities') as HTMLElement;
+
+  function checkComplete() {
+    const allAnswered = questionIds.every((id) => quiz.querySelector(`input[name="${id}"]:checked`));
+    submitBtn.disabled = !allAnswered;
+  }
+
+  quiz.addEventListener('change', checkComplete);
+
+  submitBtn.addEventListener('click', () => {
+    let raw = 0;
+    const answers: Record<string, number> = {};
+    questionIds.forEach((id) => {
+      const checked = quiz.querySelector(`input[name="${id}"]:checked`) as HTMLInputElement;
+      const val = checked ? parseInt(checked.value, 10) : 0;
+      answers[id] = val;
+      raw += val;
+    });
+
+    // Score inversé : plus de sédentarité/douleurs = score plus bas, sauf activite/acces où c'est l'inverse
+    const positive = answers.activite + answers.acces;
+    const negative = answers.sedentarite + answers.douleurs + answers.cohesion;
+    const maxRaw = 10; // 5 questions x 2 max
+    const balanced = (positive * 2 + (maxRaw - negative)) / (maxRaw + maxRaw) ;
+    const score = Math.max(15, Math.min(95, Math.round(balanced * 100)));
+
+    scoreValue.textContent = String(score);
+
+    const priorities: string[] = [];
+    if (answers.sedentarite >= 1) priorities.push('Réduire la sédentarité avec des formats courts comme la Pause Active.');
+    if (answers.douleurs >= 1) priorities.push('Prévenir les douleurs liées au poste avec le Réveil musculaire ou GA Dos Entreprise.');
+    if (answers.cohesion >= 1) priorities.push('Renforcer la cohésion avec un Team Building Sportif ou des GA Challenges.');
+    if (answers.activite === 0) priorities.push('Lancer une première action simple et accessible : le GA Marche Club.');
+    if (priorities.length === 0) priorities.push('Consolider ton dynamique actuelle avec un programme GA Boost sur mesure.');
+
+    prioritiesEl.innerHTML = priorities.slice(0, 3).map((p) => `<div class="priority">${p}</div>`).join('');
+
+    quiz.hidden = true;
+    result.hidden = false;
+    result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+</script>

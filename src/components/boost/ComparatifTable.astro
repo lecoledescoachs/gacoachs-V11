@@ -1,0 +1,56 @@
+---
+interface Row { seul: string; boost: string; }
+interface Props { rows: Row[]; }
+const { rows } = Astro.props;
+---
+<div class="comparatif">
+  <div class="comparatif__head">
+    <span class="comparatif__head-cell">Coach seul</span>
+    <span class="comparatif__head-cell comparatif__head-cell--highlight">GA Coachs + BOOST ENTREPRISE™</span>
+  </div>
+  {rows.map((r) => (
+    <div class="comparatif__row">
+      <span class="comparatif__cell comparatif__cell--muted">{r.seul}</span>
+      <span class="comparatif__cell comparatif__cell--highlight">{r.boost}</span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .comparatif {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--white);
+  }
+  .comparatif__head, .comparatif__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .comparatif__head {
+    background: var(--navy);
+    align-items: start;
+  }
+  .comparatif__head-cell {
+    padding: 12px 14px;
+    font-size: clamp(10.5px, 3vw, 12px);
+    line-height: 1.3;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: 0.03em;
+    color: rgba(255,255,255,0.6);
+  }
+  .comparatif__head-cell--highlight { color: var(--sky); }
+  .comparatif__row { border-top: 1px solid var(--line); }
+  .comparatif__cell {
+    padding: 14px;
+    font-size: 13px;
+  }
+  .comparatif__cell--muted { color: var(--text-muted); }
+  .comparatif__cell--highlight { color: var(--navy); font-weight: 600; background: var(--ice); }
+
+  @media (min-width: 480px) {
+    .comparatif__head-cell, .comparatif__cell { padding: 14px 18px; }
+    .comparatif__cell { font-size: 14px; }
+  }
+</style>

@@ -1,0 +1,10 @@
+[
+  { "seul": "Un intervenant", "boost": "Un réseau structuré de coachs" },
+  { "seul": "Disponibilités individuelles", "boost": "Organisation centralisée" },
+  { "seul": "Absence = séance potentiellement annulée", "boost": "Possibilité de remplacement" },
+  { "seul": "Capacité géographique limitée", "boost": "Déploiement multi-sites" },
+  { "seul": "Méthode personnelle", "boost": "Méthode BOOST standardisée" },
+  { "seul": "Une prestation", "boost": "Écosystème sport-santé" },
+  { "seul": "Gestion directe du prestataire", "boost": "Un interlocuteur entreprise" },
+  { "seul": "Difficulté à changer d'échelle", "boost": "Solution duplicable" }
+]

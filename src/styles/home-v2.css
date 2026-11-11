@@ -1,0 +1,37 @@
+/* Accueil : hero sombre, comme les autres pages, avec les coachs visibles dès l'ouverture */
+.proto .hero { background: radial-gradient(ellipse at 50% 0%, #163A8C 0%, #0B1E3D 62%); color: #fff; overflow: hidden; isolation: isolate; padding-bottom: 36px; }
+.proto .hero > .lightning-bg { z-index: 0; opacity: .5; }
+.proto .hero > *:not(.lightning-bg) { position: relative; z-index: 1; }
+.proto .hero .pill { background: rgba(11, 30, 61, .6); color: #BFE2FF; border: 2px solid #7CC4FF; border-bottom-width: 4px; border-radius: 8px; font-family: var(--display); font-weight: 700; letter-spacing: .02em; text-transform: none; font-size: 12.5px; }
+.proto .hero h1 { color: #fff; }
+.proto .hero .lead { color: rgba(255, 255, 255, .84); }
+.proto .hero .btn-ghost { background: rgba(255, 255, 255, .08); border-color: #7CC4FF; color: #fff; }
+.proto .hero .facts { color: rgba(255, 255, 255, .82); }
+.proto .hero .facts li::before { background: #7CC4FF; box-shadow: 0 0 8px rgba(124, 196, 255, .8); }
+.proto .hero .doors-k { color: rgba(255, 255, 255, .72); }
+.proto .hero .btn-shuffle { background: rgba(255, 255, 255, .1); border-color: rgba(124, 196, 255, .6); color: #fff; }
+.proto .hero .btn-shuffle svg { stroke: #7CC4FF; }
+.proto .hero .fan-wrap { filter: drop-shadow(0 24px 30px rgba(0, 0, 0, .35)); }
+@media (max-width: 760px) {
+  .proto .hero { padding-top: 22px; }
+  .proto .hero h1 { margin: 14px auto 12px; }
+  .proto .hero .lead { font-size: 15.5px; margin-bottom: 18px; }
+  .proto .hero .ctas .btn-ghost { display: none; }
+  .proto .hero .facts { margin-top: 14px; gap: 4px 16px; font-size: 13px; }
+  .proto .hero .facts li:nth-child(3) { display: none; }
+  .proto .hero .fan-wrap { margin-top: 0; }
+}
+
+/* Variante claire du hero (aperçu : ajouter ?hero=clair à l'adresse de l'accueil) */
+.proto .hero.hero-clair { background: #fff; color: var(--ink); }
+.proto .hero.hero-clair > .lightning-bg { display: none; }
+.proto .hero.hero-clair .pill { background: #fff; color: var(--blue-deep); border-color: #BFD3FB; }
+.proto .hero.hero-clair h1 { color: var(--navy); }
+.proto .hero.hero-clair .lead { color: var(--muted); }
+.proto .hero.hero-clair .btn-ghost { background: #fff; border-color: #BFD3FB; color: var(--blue-deep); }
+.proto .hero.hero-clair .facts { color: var(--ink); }
+.proto .hero.hero-clair .facts li::before { background: var(--blue); box-shadow: none; }
+.proto .hero.hero-clair .doors-k { color: var(--muted); }
+.proto .hero.hero-clair .btn-shuffle { background: #fff; border-color: #BFD3FB; color: var(--blue-deep); }
+.proto .hero.hero-clair .btn-shuffle svg { stroke: var(--blue); }
+.proto .hero.hero-clair .fan-wrap { filter: drop-shadow(0 20px 24px rgba(11, 30, 61, .22)); }

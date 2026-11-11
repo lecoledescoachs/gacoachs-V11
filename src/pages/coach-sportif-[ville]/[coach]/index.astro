@@ -1,0 +1,532 @@
+---
+import SanteChiffres from '../../../components/SanteChiffres.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import InstaCoach from '../../../components/InstaCoach.astro';
+import PartageReseaux from '../../../components/PartageReseaux.astro';
+import Crumbs from '../../../components/rb/Crumbs.astro';
+import Icones from '../../../components/rb/Icones.astro';
+import '../../../styles/rebrand.css';
+import MiniCarteVille from '../../../components/MiniCarteVille.astro';
+import villesData from '../../../data/villes.json';
+import salles from '../../../data/salles.json';
+import coaches from '../../../data/coaches.js';
+import villesCoords from '../../../data/villes-coordonnees.json';
+import sallesCoords from '../../../data/salles-coordonnees.json';
+import villesInfos from '../../../data/villes-infos.json';
+import villesInsee from '../../../data/villes-insee.json';
+import { portraitCommune, sousEnsemble, choisir } from '../../../data/varier';
+
+function distanceKm(lat1: number, lng1: number, lat2: number, lng2: number) {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return Math.round(R * c);
+}
+
+export function getStaticPaths() {
+  const paths: { params: { ville: string; coach: string }; props: { villeData: any; coach: any } }[] = [];
+  for (const ville of villesData) {
+    for (const coach of coaches) {
+      if (ville.salleSlugs.includes(coach.salleSlug)) {
+        paths.push({ params: { ville: ville.slug, coach: coach.slug }, props: { villeData: ville, coach } });
+      }
+    }
+  }
+  return paths;
+}
+
+const { villeData, coach } = Astro.props;
+const deV = /^[aeiouyàâéèêëîïôöûüh]/i.test(villeData.nom) ? `d'${villeData.nom}` : `de ${villeData.nom}`;
+const dePrenom = /^[aeiouàâéèêëîïôöûü]/i.test(coach.prenom) ? `d'${coach.prenom}` : `de ${coach.prenom}`;
+const salle = salles.find((s) => s.slug === coach.salleSlug);
+const villeCoord = (villesCoords as any)[villeData.slug];
+const salleCoord = (sallesCoords as any)[coach.salleSlug];
+const distance = villeCoord && salleCoord ? distanceKm(villeCoord.lat, villeCoord.lng, salleCoord.lat, salleCoord.lng) : null;
+const estSaVilleDExercice = salle && villeData.nom.toLowerCase() === salle.ville.toLowerCase();
+
+const diplomeDe = (d: string) => /^licence/i.test(d) ? `d'une ${d.charAt(0).toLowerCase()}${d.slice(1)}` : /^(DEUG|DEUST|master)/i.test(d) ? `d'un ${d}` : `du ${d}`;
+const faqCoachVille: { q: string; r: string }[] = [
+  {
+    q: `${coach.prenom} intervient-il directement à ${villeData.nom} ?`,
+    r: estSaVilleDExercice
+      ? `Oui, c'est précisément là que ${coach.prenom} exerce : ${salle?.nom}, à ${villeData.nom}.`
+      : `${coach.prenom} coache à ${salle?.nom ?? 'sa salle partenaire'}${distance ? `, à environ ${Math.round(distance)} km ${deV}` : ''}. C'est là que se déroulent les séances.`,
+  },
+  {
+    q: `Quelles sont les spécialités ${dePrenom} ?`,
+    r: `${coach.prenom} est orienté ${coach.tags.map((t: string) => t.toLowerCase()).join(', ').replace(/, ([^,]*)$/, ' et $1')}. Sa fiche complète détaille sa méthode et le public qu'il accompagne.`,
+  },
+  {
+    q: `Comment réserver un premier échange avec ${coach.prenom} ?`,
+    r: `Commence par le Score Santé avec ${coach.prenom} : 2 minutes en ligne pour faire le point, puis tu réserves ton bilan santé avec lui pour définir ton objectif, avant de t'engager.`,
+  },
+  ...(coach.diplomes?.length ? [{
+    q: `${coach.prenom} est-il diplômé ?`,
+    r: `Oui : ${coach.prenom} est titulaire ${coach.diplomes.map(diplomeDe).join(' et ')}${coach.rcPro ? ", avec une carte professionnelle d'éducateur sportif et une assurance responsabilité civile professionnelle" : ''}.`,
+  }] : []),
+  ...(salle?.horaires ? [{
+    q: `Quels sont les horaires de ${salle.nom} ?`,
+    r: `${salle.nom} (${salle.adresse}) : ${salle.horaires.replace(/\.$/, '')}. Les créneaux de coaching se fixent directement avec ${coach.prenom}.`,
+  }] : []),
+];
+
+// ---------- Contenu local, propre à chaque couple coach × ville ----------
+// Lieux pour bouger dehors et accès : faits vérifiés (sources dans villes-infos.json)
+const infosVille: { lieux?: { nom: string; type: string; texte: string }[]; acces?: string } = (villesInfos as any)[villeData.slug] || {};
+const lieux = infosVille.lieux ?? [];
+// Trajet estimé : distance à vol d'oiseau × 1,3 pour la route, à 45 km/h de moyenne, arrondi à 5 min
+const trajetMin = distance !== null && !estSaVilleDExercice ? Math.max(5, Math.round(((distance * 1.3) / 45) * 60 / 5) * 5) : null;
+// Salles accessibles depuis la ville, de la plus proche à la plus éloignée
+const sallesVille = villeData.salleSlugs
+  .map((s: string) => {
+    const sa = salles.find((x) => x.slug === s);
+    const co = (sallesCoords as any)[s];
+    return sa && co && villeCoord ? { ...sa, km: distanceKm(villeCoord.lat, villeCoord.lng, co.lat, co.lng) } : null;
+  })
+  .filter(Boolean)
+  .sort((a: any, b: any) => a.km - b.km) as any[];
+const salleLaPlusProche = sallesVille[0];
+const estLaPlusProche = salleLaPlusProche && salleLaPlusProche.slug === coach.salleSlug;
+// Les autres coachs qu'on peut rejoindre depuis cette ville
+const autresCoachs = coaches
+  .filter((c: any) => c.slug !== coach.slug && villeData.salleSlugs.includes(c.salleSlug))
+  .map((c: any) => ({ ...c, salleNom: salles.find((s) => s.slug === c.salleSlug)?.nom ?? '', km: sallesVille.find((s) => s.slug === c.salleSlug)?.km ?? null }))
+  .sort((a: any, b: any) => (a.km ?? 99) - (b.km ?? 99));
+// Paragraphe local : données INSEE, salles qui desservent la ville, coachs disponibles (tout est calculé à partir des données vérifiées)
+const insee: { codesPostaux: string[]; population: number } | undefined = (villesInsee as any)[villeData.slug];
+const fmtPop = (n: number) => n >= 1000 ? (Math.round(n / 100) * 100).toLocaleString('fr-FR') : String(n);
+const nbCoachsVille = autresCoachs.length + 1;
+const deVille = /^[aeiouyàâéèêëîïôöûüh]/i.test(villeData.nom) ? `d'${villeData.nom}` : `${deV}`;
+const introLocale = [
+  insee ? `Code postal : ${insee.codesPostaux.join(', ')}.` : '',
+  estSaVilleDExercice && salle ? `${salle.nom} est dans la commune${sallesVille.length > 1 ? `, et ${sallesVille.length - 1} autre${sallesVille.length > 2 ? 's' : ''} salle${sallesVille.length > 2 ? 's' : ''} du réseau ${sallesVille.length > 2 ? 'sont' : 'est'} à quelques minutes` : ''}.` :
+  sallesVille.length > 0 ? `${sallesVille.length > 1 ? `${sallesVille.length} salles Basic-Fit du réseau GA desservent la ville` : `Une salle Basic-Fit du réseau GA dessert la ville`}${salleLaPlusProche ? `, la plus proche étant ${salleLaPlusProche.nom}${salleLaPlusProche.km != null ? ` (environ ${Math.max(1, Math.round(salleLaPlusProche.km))} km)` : ''}` : ''}.` : '',
+  `${nbCoachsVille > 1 ? `${nbCoachsVille} coachs GA accompagnent des habitants ${deVille}` : `${coach.prenom} est le coach GA qui accompagne les habitants ${deVille}`}${nbCoachsVille > 1 ? ` : ${coach.prenom} en fait partie, ${estLaPlusProche ? 'dans la salle la plus proche' : `depuis ${salle?.nom ?? 'sa salle'}`}.` : '.'}`,
+].filter(Boolean).join(' ');
+// ---------- Données calculées propres au couple ville × coach (aucune invention : distances, INSEE, données du site) ----------
+// variante de formulation stable pour chaque page
+const graine = [...(villeData.slug + coach.slug)].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+const v = <T,>(liste: T[], decal = 0) => liste[(graine + decal) % liste.length];
+// direction de la salle depuis la ville (8 points cardinaux)
+const direction = (() => {
+  if (!villeCoord || !salleCoord || estSaVilleDExercice) return '';
+  const dy = salleCoord.lat - villeCoord.lat, dx = (salleCoord.lng - villeCoord.lng) * Math.cos((villeCoord.lat * Math.PI) / 180);
+  const a = (Math.atan2(dx, dy) * 180) / Math.PI;
+  return ['au nord', 'au nord-est', "à l'est", 'au sud-est', 'au sud', 'au sud-ouest', "à l'ouest", 'au nord-ouest'][Math.round(((a + 360) % 360) / 45) % 8];
+})();
+// temps de route sur une semaine, à 2 ou 3 séances
+const routeSemaine = trajetMin !== null ? { deux: trajetMin * 4, trois: trajetMin * 6 } : null;
+// rang de la ville parmi les communes desservies par la salle du coach (population INSEE)
+const villesSalle = villesData.filter((x: any) => x.salleSlugs.includes(coach.salleSlug));
+const parPop = villesSalle.map((x: any) => ({ slug: x.slug, nom: x.nom, pop: (villesInsee as any)[x.slug]?.population ?? 0 })).sort((a: any, b: any) => b.pop - a.pop);
+const rangPop = parPop.findIndex((x: any) => x.slug === villeData.slug) + 1;
+// rang de la salle du coach parmi les salles qui desservent la ville
+const rangSalle = sallesVille.findIndex((x: any) => x.slug === coach.salleSlug) + 1;
+// villes voisines desservies par la même salle, avec leur distance à la salle
+const voisines = villeCoord ? villesSalle
+  .filter((x: any) => x.slug !== villeData.slug && (villesCoords as any)[x.slug])
+  .map((x: any) => { const c2 = (villesCoords as any)[x.slug]; return { ...x, kmVille: distanceKm(villeCoord.lat, villeCoord.lng, c2.lat, c2.lng), kmSalle: salleCoord ? distanceKm(c2.lat, c2.lng, salleCoord.lat, salleCoord.lng) : null }; })
+  .sort((a: any, b: any) => a.kmVille - b.kmVille).slice(0, 4) : [];
+const ordinal = (n: number) => (n === 1 ? '1re' : `${n}e`);
+// exemple de semaine adapté à la ville (lieux réels) et à la spécialité du coach
+const specialite = String(coach.tags[0] || 'ton objectif').toLowerCase();
+const lieuA = lieux[0]?.nom, lieuB = lieux[1]?.nom ?? lieux[0]?.nom;
+const semaineType = [
+  { j: v(['Lundi', 'Mardi'], 1), t: `Séance avec ${coach.prenom} à ${salle?.nom ?? 'sa salle'}`, d: trajetMin !== null ? `${trajetMin} min de route environ depuis ${villeData.nom}, travail de ${specialite}.` : `Sur place à ${villeData.nom}, travail de ${specialite}.` },
+  { j: 'Mercredi', t: lieuA ? `30 minutes de marche rapide : ${lieuA}` : `30 minutes de marche rapide dans ${villeData.nom}`, d: lieuA ? `Un lieu de ${villeData.nom} à intégrer à ton programme, sans trajet supplémentaire.` : 'Une sortie simple près de chez toi pour garder le rythme entre deux séances.' },
+  { j: v(['Jeudi', 'Vendredi'], 2), t: `Deuxième séance à ${salle?.nom ?? 'la salle'}`, d: salle?.horaires && /24h/.test(salle.horaires) ? 'Salle ouverte 24h/24 : tôt le matin, à midi ou le soir, selon ton emploi du temps.' : 'Créneau à fixer avec ton coach selon tes disponibilités.' },
+  { j: 'Week-end', t: lieuB ? `Sortie active : ${lieuB}` : 'Sortie active au choix', d: 'Footing léger, vélo ou balade : ton coach peut l\'ajouter à ton programme.' },
+];
+
+const cleP = villeData.slug + '/' + coach.slug;
+const portrait = portraitCommune(villeData);
+const banque = [
+  ...(salle ? [{ q: `Faut-il un abonnement Basic-Fit pour s'entraîner avec ${coach.prenom} ?`, r: `Oui : les séances ont lieu à ${salle.nom}, il te faut un abonnement ou un pass journée Basic-Fit. Le coaching se règle à part, directement avec ${coach.prenom}.` }] : []),
+  ...(salle?.horaires && /24h/.test(salle.horaires) ? [{ q: `Peut-on s'entraîner tôt le matin ou tard le soir en venant ${deV} ?`, r: `Oui : ${salle.nom} est ouverte 24h/24 et 7j/7. Les créneaux avec ${coach.prenom} se fixent ensemble, et tu peux revenir seul aux heures qui t'arrangent.` }] : []),
+  { q: `${coach.prenom} fait-il des séances en extérieur à ${villeData.nom} ?`, r: `Non, ${coach.prenom} ne coache qu'à ${salle?.nom ?? 'sa salle'}. ${lieux.length ? `En revanche, il peut te donner des exercices à faire seul à ${villeData.nom}, par exemple ${lieux[0].nom}.` : `Il peut en revanche te donner des exercices à faire seul près de chez toi.`}` },
+  { q: `Combien coûte un accompagnement avec ${coach.prenom} ?`, r: `Chaque coach du réseau GA fixe ses propres tarifs. ${coach.prenom} te présente les formules possibles pendant le bilan santé, selon ton objectif et ton rythme.` },
+  { q: `Faut-il déjà être sportif pour commencer avec ${coach.prenom} ?`, r: `Non. Le bilan santé sert justement à partir de ton niveau actuel, et le programme est construit à partir de là.` },
+  { q: `Que prévoir pour la première séance à ${salle?.nom ?? 'la salle'} ?`, r: `Une tenue de sport, des baskets propres, une serviette et une bouteille d'eau. Si tu as un traitement ou une douleur, parles-en dès le bilan.` },
+  { q: `Peut-on commencer sans voiture depuis ${villeData.nom} ?`, r: infosVille.acces ? `${infosVille.acces} Vérifie l'itinéraire jusqu'à ${salle?.nom ?? 'la salle'} selon ton point de départ.` : `${salle?.nom ?? 'La salle'} est à environ ${distance ?? '?'} km ${deV} : selon ton quartier, le vélo ou les transports en commun peuvent suffire. Vérifie l'itinéraire avant ton bilan.` },
+];
+// seules les questions propres à la ville restent fixes ; les questions générales tournent d'une page à l'autre
+const generales = faqCoachVille.splice(1);
+faqCoachVille.push(...sousEnsemble(cleP, [...banque, ...generales], 4));
+if (trajetMin !== null && salle) {
+  faqCoachVille.splice(1, 0, {
+    q: `Combien de temps faut-il pour aller ${deV} à ${salle.nom} ?`,
+    r: `Compte environ ${trajetMin} minutes en voiture pour environ ${distance} km à vol d'oiseau (estimation, selon l'heure et l'itinéraire).${infosVille.acces ? ' ' + infosVille.acces : ''}`,
+  });
+}
+if (sallesVille.length > 1 && rangSalle > 0 && !estSaVilleDExercice) {
+  faqCoachVille.push({
+    q: `${salle?.nom} est-elle la salle la plus proche ${deV} ?`,
+    r: rangSalle === 1 ? `Oui : sur les ${sallesVille.length} salles du réseau GA qui desservent ${villeData.nom}, ${salle?.nom} est la plus proche (environ ${salleLaPlusProche.km} km).` : `Non, c'est la ${ordinal(rangSalle)} sur ${sallesVille.length}. La plus proche est ${salleLaPlusProche.nom} (environ ${salleLaPlusProche.km} km). Choisis selon la spécialité du coach et ton trajet du quotidien.`,
+  });
+}
+if (routeSemaine) {
+  faqCoachVille.push({
+    q: `Combien de temps de route par semaine ${deV} ?`,
+    r: `Avec 2 séances par semaine, compte environ ${routeSemaine.deux} minutes de route aller-retour au total, et environ ${routeSemaine.trois} minutes avec 3 séances (estimation).`,
+  });
+}
+if (lieux.length > 0) {
+  faqCoachVille.push({
+    q: `Où s'entraîner dehors à ${villeData.nom} entre deux séances ?`,
+    r: `Quelques lieux pratiques à ${villeData.nom} : ${lieux.map((l) => l.nom).join(', ')}. ${coach.prenom} peut t'aider à y intégrer de la marche, du footing ou du renforcement dans ton programme.`,
+  });
+}
+
+const autresVillesDuCoach = villesData.filter(
+  (v) => v.slug !== villeData.slug && v.salleSlugs.includes(coach.salleSlug)
+);
+
+const relatedLinks = [
+  { label: `Fiche complète ${dePrenom}`, href: `/coachs/${coach.slug}/`, meta: 'Profil coach' },
+  ...(salle ? [{ label: salle.nom, href: `/salles/${salle.slug}/`, meta: 'Salle' }] : []),
+  { label: `Coach sportif à ${villeData.nom}`, href: `/coach-sportif-${villeData.slug}/`, meta: 'Tous les coachs du secteur' },
+  ...autresVillesDuCoach.slice(0, 6).map((v) => ({
+    label: `${coach.prenom} à ${v.nom}`,
+    href: `/coach-sportif-${v.slug}/${coach.slug}/`,
+    meta: 'Autre ville couverte',
+  })),
+];
+
+const salleExerciseGym = salle && {
+  '@type': 'ExerciseGym',
+  name: salle.nom,
+  url: `https://gacoachs.fr/salles/${salle.slug}/`,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: salle.adresse.split(',')[0],
+    addressLocality: salle.ville,
+    postalCode: salle.codePostal,
+    addressCountry: 'FR',
+  },
+  ...(sallesCoords[salle.slug] && {
+    geo: { '@type': 'GeoCoordinates', latitude: sallesCoords[salle.slug].lat, longitude: sallesCoords[salle.slug].lng },
+  }),
+  ...(salle.horaires && { openingHours: salle.horaires }),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+      { '@type': 'ListItem', position: 2, name: `Coach sportif ${villeData.nom}`, item: `https://gacoachs.fr/coach-sportif-${villeData.slug}/` },
+      { '@type': 'ListItem', position: 3, name: `${coach.prenom} ${coach.nom}`, item: `https://gacoachs.fr/coach-sportif-${villeData.slug}/${coach.slug}/` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: `${coach.prenom} ${coach.nom}`,
+    url: `https://gacoachs.fr/coach-sportif-${villeData.slug}/${coach.slug}/`,
+    image: `https://gacoachs.fr${coach.photo}`,
+    jobTitle: coach.role || 'Coach sportif',
+    worksFor: salleExerciseGym || { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' },
+    description: coach.presentation,
+    knowsAbout: coach.specialites,
+    ...(coach.diplomes && coach.diplomes.length > 0
+      ? {
+          hasCredential: coach.diplomes.map((d: string) => ({
+            '@type': 'EducationalOccupationalCredential',
+            credentialCategory: 'certification',
+            name: d,
+          })),
+        }
+      : {}),
+    ...(coach.reseauSocial ? { sameAs: [coach.reseauSocial.url] } : {}),
+    areaServed: villeData.nom,
+    ...(salleExerciseGym ? { workLocation: salleExerciseGym } : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqCoachVille.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+];
+const nom = `${coach.prenom} ${coach.nom}`;
+const urlPage = `https://gacoachs.fr/coach-sportif-${villeData.slug}/${coach.slug}/`;
+const fmtNote = (n: number) => n.toFixed(1).replace('.', ',');
+const motsCles = coach.tags.slice(0, 3).map((t: string) => t.toLowerCase()).join(', ');
+const diplome = coach.diplomes?.[0];
+const accroche = String(coach.presentation || '').split(/\n\s*\n/)[0];
+const iconeLieu = (t: string) => /parc|jardin|bois|forêt|foret|nature/i.test(t) ? '🌳' : /loire|étang|etang|lac|rivière|riviere|canal|eau/i.test(t) ? '🌊' : /stade|piste|terrain|complexe/i.test(t) ? '🏟️' : /voie|chemin|sentier|piste cyclable|vélo|velo/i.test(t) ? '🚴' : '📍';
+// « Le savais-tu ? » : certains faits commencent par un verbe (abrite, compte…) ou par « dont »
+const phraseFait = (nom: string, f: string) => /^dont\b/.test(f) ? `${nom}, ${f}` : /^(abrite|a |compte|dispose|aurait|possède|accueille)/.test(f) ? `${nom} ${f}` : `${nom} est ${f}`;
+---
+<BaseLayout
+  title={`Coach sportif à ${villeData.nom} : ${coach.prenom} ${coach.nom}`}
+  description={estSaVilleDExercice
+    ? `${nom}, coach sportif GA qui exerce directement à ${villeData.nom} (${salle?.nom}) : ${motsCles}. Commence par un bilan santé.`
+    : `Tu habites ${villeData.nom} ? ${nom}, coach sportif GA, t'accueille à ${salle?.nom ?? 'sa salle'}${distance !== null ? `, à ${distance} km ${direction}` : ''}${trajetMin !== null ? ` (environ ${trajetMin} min)` : ''} : ${motsCles}.`}
+  path={`/coach-sportif-${villeData.slug}/${coach.slug}/`}
+  jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')}
+  image={`/images/og-coachs/${coach.slug}.jpg`}
+  imageWidth={1280}
+  imageHeight={720}
+  stickyCtaHref={`/score-sante/?coach=${coach.slug}`}
+  stickyCtaLabel={`Réserver mon bilan avec ${coach.prenom}`}
+>
+<div class="rb">
+  <Icones />
+
+  <section class="ch">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[
+        { label: 'Accueil', href: '/' },
+        { label: `Coach sportif ${villeData.nom}`, href: `/coach-sportif-${villeData.slug}/` },
+        { label: nom, href: `/coach-sportif-${villeData.slug}/${coach.slug}/` },
+      ]} />
+      <div class="ch-grid">
+        <div>
+          <span class="ch-k"><span class="dot" aria-hidden="true"></span>{estSaVilleDExercice ? `Coach sportif à ${villeData.nom}` : `Pour les habitants ${deVille}`}</span>
+          <h1><span class="hl-text">{nom}</span>, coach sportif à {villeData.nom}</h1>
+          <p class="ch-acc">{estSaVilleDExercice
+            ? v([`${coach.prenom} coache directement à ${villeData.nom}, à ${salle?.nom}. ${accroche}`, `Pas de trajet : ${coach.prenom} t'accueille à ${salle?.nom}, au cœur de ${villeData.nom}. ${accroche}`])
+            : v([`Tu habites ${villeData.nom} ? ${coach.prenom} t'accueille à ${salle?.nom}${distance !== null ? `, à ${distance} km ${direction}` : ''}${trajetMin !== null ? `, soit environ ${trajetMin} minutes de route` : ''}. Spécialité : ${specialite}.`,
+                 `Depuis ${villeData.nom}, ${salle?.nom} est ${trajetMin !== null ? `à environ ${trajetMin} minutes` : 'tout proche'}${direction ? `, ${direction}` : ''}. C'est là que ${coach.prenom} accompagne ses clients, avec une spécialité : ${specialite}.`,
+                 `${coach.prenom} accompagne des habitants ${deVille} à ${salle?.nom}${distance !== null ? ` (${distance} km ${direction})` : ''}. Son point fort : ${specialite}.`])}</p>
+          <div class="trajet">
+            {estSaVilleDExercice ? (
+              <span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg>Coach basé à {villeData.nom}</span>
+            ) : (
+              <>
+                {distance !== null && <span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg>{distance} km {deV}</span>}
+                {trajetMin !== null && <span><svg class="ic" aria-hidden="true"><use href="#i-car"></use></svg>≈ {trajetMin} min en voiture</span>}
+              </>
+            )}
+            {salle && <span><svg class="ic" aria-hidden="true"><use href="#i-dumbbell"></use></svg>{salle.nom}</span>}
+          </div>
+          <div class="ctas">
+            <a class="btn btn-primary" href={`/score-sante/?coach=${coach.slug}`}>Réserver mon bilan avec {coach.prenom}</a>
+            <a class="btn btn-glass" href={`/mon-programme/?salle=${coach.salleSlug}`}>💪 Mon programme gratuit</a>
+          </div>
+          <InstaCoach coach={coach} />
+          {villeData.fait && <p class="cv-fait"><span aria-hidden="true">📍</span> Le savais-tu ? {phraseFait(villeData.nom, villeData.fait)}.</p>}
+        </div>
+        <div class="ch-vis">
+          <div class="cp-card"><div class="cp-flip">
+            <img class="face" src={coach.photo} alt={`${nom}, coach sportif à ${villeData.nom}`} width="312" height="416" fetchpriority="high" />
+            <span class="bk"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237" loading="lazy" /></span>
+          </div></div>
+          {salle && <span class="ch-float f1"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg></span><span>{salle.ville}<small>{salle.nom}</small></span></span>}
+          {coach.avisGoogle && <a class="ch-float f2" href={coach.avisGoogle.url} target="_blank" rel="noopener noreferrer"><span class="ico"><svg class="ic fill" aria-hidden="true"><use href="#i-star"></use></svg></span><span>{fmtNote(coach.avisGoogle.note)} / 5<small>{coach.avisGoogle.nombreAvis} avis Google</small></span></a>}
+          {diplome && <span class="ch-float f3"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-medal"></use></svg></span><span>{diplome}<small>Diplômé</small></span></span>}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="facts">
+    <div class="inner">
+      <div class="facts-in">
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href={estSaVilleDExercice ? '#i-home' : '#i-pin'}></use></svg></span><div><b>{estSaVilleDExercice ? 'Sur place' : (distance !== null ? `${distance} km` : villeData.nom)}</b><span>{estSaVilleDExercice ? `Coach basé à ${villeData.nom}` : `depuis ${villeData.nom}`}</span></div></div>
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-car"></use></svg></span><div><b>{trajetMin !== null ? `≈ ${trajetMin} min` : 'Aucun trajet'}</b><span>{trajetMin !== null ? 'en voiture (estimation)' : 'la salle est dans la ville'}</span></div></div>
+        {coach.avisGoogle ? (
+          <div class="fact"><span class="ico"><svg class="ic fill" aria-hidden="true"><use href="#i-star"></use></svg></span><div><b>{fmtNote(coach.avisGoogle.note)}/5</b><span>{coach.avisGoogle.nombreAvis} avis Google</span></div></div>
+        ) : (
+          <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-medal"></use></svg></span><div><b>{diplome ?? 'Diplômé'}</b><span>Diplôme</span></div></div>
+        )}
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-spark"></use></svg></span><div><b>{coach.tags[0]}</b><span>Spécialité phare</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  {(sallesVille.length > 0 || (distance !== null && salleCoord && villeCoord)) && (
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">Depuis {villeData.nom}</span>
+        <h2 class="h2">{v([`S'entraîner avec ${coach.prenom} quand on habite ${villeData.nom}.`, `De ${villeData.nom} à ${salle?.nom ?? 'la salle'} : ce qu'il faut savoir.`, `${villeData.nom} et ${salle?.nom ?? 'la salle'} : le trajet, la salle, le coach.`])}</h2>
+        {introLocale && <p class="lead-p cv-loc">{portrait ? portrait + ' ' : ''}{introLocale}{direction && distance !== null ? ` ${salle?.nom} se trouve ${direction} de ${villeData.nom}, à environ ${distance} km.` : ''}{rangPop > 0 && villesSalle.length > 2 && (villesInsee as any)[villeData.slug] ? ` ${villeData.nom} est la ${ordinal(rangPop)} commune la plus peuplée parmi les ${villesSalle.length} que dessert ${salle?.nom}.` : ''}</p>}
+        <div class="dv">
+          {distance !== null && salleCoord && villeCoord ? (
+            <div class="dv-map" data-up>
+              <MiniCarteVille villeSlug={villeData.slug} villeNom={villeData.nom} villeLat={villeCoord.lat} villeLng={villeCoord.lng} salleNom={salle?.nom ?? ''} salleSlug={coach.salleSlug} salleLat={salleCoord.lat} salleLng={salleCoord.lng} />
+            </div>
+          ) : <div></div>}
+          <div class="dv-side">
+            <div class="route" data-up>
+              <div class="lightning-bg" aria-hidden="true"></div>
+              <div style="position: relative;">
+                <span class="eyebrow">Le trajet</span>
+                <div class="route-line"><span>{villeData.nom}</span><i aria-hidden="true"></i><span>{salle?.nom}</span></div>
+                {estSaVilleDExercice ? (
+                  <p>{coach.prenom} exerce à {salle?.nom}, directement à {villeData.nom} : pas de trajet à prévoir.</p>
+                ) : (
+                  <>
+                    <div class="route-big">
+                      {distance !== null && <div><b>{distance} km</b><span>à vol d'oiseau</span></div>}
+                      {trajetMin !== null && <div><b>≈ {trajetMin} min</b><span>en voiture</span></div>}
+                    </div>
+                    {infosVille.acces && <p>{infosVille.acces}</p>}
+                  </>
+                )}
+              </div>
+            </div>
+            {sallesVille.length > 0 && (
+              <div class="tile" data-up>
+                <div class="bt-k"><svg class="ic" aria-hidden="true"><use href="#i-dumbbell"></use></svg>Salles partenaires depuis {villeData.nom}</div>
+                <ul class="cv-salles">
+                  {sallesVille.map((sv) => <li class={sv.slug === coach.salleSlug ? 'is-coach' : ''}><span>{sv.nom}{sv.slug === coach.salleSlug ? ` · ${coach.prenom}` : ''}</span><b>{sv.km} km</b></li>)}
+                </ul>
+                {!estSaVilleDExercice && salleLaPlusProche && !estLaPlusProche && (
+                  <p class="small-note">La plus proche est <a class="cv-a" href={`/salles/${salleLaPlusProche.slug}/`}>{salleLaPlusProche.nom}</a> ({salleLaPlusProche.km} km) : regarde aussi ses coachs si la proximité compte avant tout.</p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {lieux.length > 0 && (
+    <section class="sec band">
+      <div class="inner">
+        <span class="eyebrow">Bouger dehors</span>
+        <h2 class="h2">{choisir(cleP, [`Entre deux séances, à ${villeData.nom}.`, `Bouger dehors à ${villeData.nom}.`, `Tes spots pour t'entraîner à ${villeData.nom}.`], 9)}</h2>
+        <p class="lead-p">Des lieux pratiques pour la marche, le footing ou un peu de renforcement. {coach.prenom} peut les intégrer à ton programme.</p>
+        <div class="lieux">
+          {lieux.map((l) => (
+            <div class="lieu" data-up><span class="ico" aria-hidden="true">{iconeLieu(l.type + ' ' + l.nom)}</span><b>{l.nom}</b>{l.type && <small>{l.type}</small>}<p>{l.texte}</p></div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class={lieux.length > 0 ? 'sec' : 'sec band'}>
+    <div class="inner">
+      <span class="eyebrow">Exemple de semaine</span>
+      <h2 class="h2">{v([`Une semaine type depuis ${villeData.nom}.`, `Ta semaine avec ${coach.prenom}, depuis ${villeData.nom}.`, `Organiser ta semaine quand tu vis à ${villeData.nom}.`], 3)}</h2>
+      <p class="lead-p">Un exemple pour te projeter, à ajuster avec {coach.prenom} pendant ton bilan selon ton objectif et ton emploi du temps.</p>
+      <ol class="cv-week">
+        {semaineType.map((x) => <li data-up><small>{x.j}</small><b>{x.t}</b><span>{x.d}</span></li>)}
+      </ol>
+      {routeSemaine && <p class="small-note">Temps de route estimé : environ {routeSemaine.deux} min par semaine avec 2 séances, {routeSemaine.trois} min avec 3 séances.</p>}
+      {voisines.length > 0 && (
+        <div class="cv-vois">
+          <div class="bt-k"><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg>Autour de {villeData.nom}, {salle?.nom} accueille aussi</div>
+          <ul>
+            {voisines.map((x: any) => <li><a href={`/coach-sportif-${x.slug}/${coach.slug}/`}>{x.nom}</a><span>à {x.kmVille} km {deV}{x.kmSalle !== null ? ` · ${x.kmSalle} km de la salle` : ''}</span></li>)}
+          </ul>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class={lieux.length > 0 ? 'sec band' : 'sec'}>
+    <div class="inner">
+      <span class="eyebrow">Le coach</span>
+      <h2 class="h2">{v([`${coach.prenom} en bref.`, `Qui est ${coach.prenom} ?`, `${coach.prenom}, ton coach près de ${villeData.nom}.`], 5)}</h2>
+      <div class="bref" data-up>
+        <img src={coach.photo} alt="" width="120" height="160" loading="lazy" />
+        <div>
+          <div class="bt-k"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg>Avec qui {coach.prenom} travaille</div>
+          <p class="bt-quote">{coach.publicCible}</p>
+          <div class="tags-row">{coach.tags.map((t: string) => <span>{t}</span>)}</div>
+          {coach.diplomes?.length > 0 && <p class="bt-dip"><b>Diplôme :</b> {coach.diplomes.join(', ')}{coach.cartePro ? ' · carte professionnelle' : ''}{coach.rcPro ? ' · RC Pro' : ''}</p>}
+        </div>
+        <a class="btn-out" href={`/coachs/${coach.slug}/`}>Voir la fiche complète <svg class="ic" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+      </div>
+    </div>
+  </section>
+
+  {autresCoachs.length > 0 && (
+    <section class={lieux.length > 0 ? 'sec' : 'sec band'}>
+      <div class="inner">
+        <span class="eyebrow">Comparer</span>
+        <h2 class="h2">{choisir(cleP, [`Les autres coachs pour ${villeData.nom}.`, `D'autres coachs GA près de ${villeData.nom}.`, `Comparer avec les autres coachs du secteur.`], 4)}</h2>
+        <p class="lead-p">Chaque coach a sa spécialité. Compare avant de choisir : {coach.prenom} est orienté {coach.tags.slice(0, 2).join(' et ').toLowerCase()}.</p>
+        <div class="cgrid">
+          {autresCoachs.map((c: any) => (
+            <a class="cg" href={`/coach-sportif-${villeData.slug}/${c.slug}/`} data-up>
+              <div class="cg-photo">
+                <img src={c.photo} alt={`${c.prenom} ${c.nom}, coach sportif GA`} width="312" height="416" loading="lazy" />
+                {c.avisGoogle && <span class="cg-note">★ {fmtNote(c.avisGoogle.note)}</span>}
+              </div>
+              <div class="cg-name">{c.prenom} {c.nom}</div>
+              <div class="cg-salle">{c.salleNom}{c.km !== null ? ` · ${c.km} km` : ''}</div>
+              <div class="cg-more">Voir le profil →</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class={(autresCoachs.length > 0) === (lieux.length > 0) ? 'sec' : 'sec band'}>
+    <div class="inner">
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2 class="h2">{choisir(cleP, [`Tes questions sur ${coach.prenom} à ${villeData.nom}.`, `${coach.prenom} et ${villeData.nom} : les questions fréquentes.`, `Avant de te lancer avec ${coach.prenom}.`], 6)}</h2>
+      <div class="faq-list">
+        {faqCoachVille.map((f) => <details class="faq-item" data-up><summary>{f.q}</summary><p>{f.r}</p></details>)}
+      </div>
+      <div class="chips-row">
+        {relatedLinks.filter((l) => l.meta !== 'Autre ville couverte').map((l) => <a class="chip-link" href={l.href}>{l.label} <small>{l.meta}</small></a>)}
+      </div>
+      <div class="share-lt">
+        <span>Partager cette page</span>
+        <a href={`https://api.whatsapp.com/send?text=${encodeURIComponent(nom + ', coach sportif à ' + villeData.nom + ' · GA Coachs ' + urlPage)}`} target="_blank" rel="noopener noreferrer" data-track-click="share_whatsapp">WhatsApp</a>
+        <button type="button" data-copy={urlPage}>Copier le lien</button>
+      </div>
+    </div>
+  </section>
+
+  <SanteChiffres />
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">{choisir(cleP, [`Prêt à démarrer avec ${coach.prenom} ?`, `Ton premier pas avec ${coach.prenom}, depuis ${villeData.nom}.`, `On commence quand, avec ${coach.prenom} ?`], 8)}</h2>
+      <a class="btn-final" href={`/score-sante/?coach=${coach.slug}`}><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Réserver mon bilan avec {coach.prenom}<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={`/coach-sportif-${villeData.slug}/${coach.slug}/`} title={`${coach.prenom} ${coach.nom}, coach sportif à ${villeData.nom}`} label="Partager cette fiche" /></div></section>
+</div>
+</BaseLayout>
+
+<style>
+  .cv-where { margin: 6px 0 0; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.72); max-width: 62ch; }
+  .cv-where strong { color: #fff; }
+  .cv-fait { margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; color: #BFE2FF; max-width: 62ch; }
+  .cv-local { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 28px; }
+  .cv-local p + p { margin-top: 10px; }
+  .cv-a { color: var(--blue); font-weight: 700; text-decoration: underline; }
+  .cv-salles, .cv-lieux { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
+  .cv-salles li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-radius: 12px; background: var(--bg); font-size: 14.5px; font-weight: 700; }
+  .cv-salles li.is-coach { background: var(--pill); color: var(--blue-deep); }
+  .cv-lieux li { display: grid; gap: 2px; padding: 10px 14px; border-radius: 12px; background: var(--bg); }
+  .cv-lieux b { font-size: 14.5px; }
+  .cv-lieux span { font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+  .cv-fait { margin-top: 18px; }
+  .cv-loc { max-width: 760px; margin-bottom: 8px; }
+  .bt-k2 { margin-top: 18px; }
+  .cv-week { list-style: none; margin: 22px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .cv-week li { display: grid; gap: 4px; align-content: start; padding: 16px; border-radius: 18px; background: #fff; border: 1px solid var(--line, #E1E8FA); }
+  .cv-week small { font-size: 12px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: var(--blue-deep, #1F55C9); }
+  .cv-week b { font-size: 15.5px; line-height: 1.3; color: var(--ink, #13203B); }
+  .cv-week span { font-size: 14px; line-height: 1.5; color: var(--muted, #5A6785); }
+  .cv-vois { margin-top: 24px; padding: 18px; border-radius: 18px; background: var(--bg, #F6F8FF); }
+  .cv-vois .bt-k { color: var(--blue-deep, #1F55C9); }
+  .cv-vois ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px 16px; }
+  .cv-vois li { display: grid; gap: 2px; }
+  .cv-vois a { font-weight: 700; color: var(--blue-deep, #1F55C9); text-decoration: underline; text-underline-offset: 3px; }
+  .cv-vois span { font-size: 13.5px; color: var(--muted, #5A6785); }
+  .bt-txt { margin: 6px 0 0; color: var(--muted, #5A6785); font-size: 15px; line-height: 1.6; max-width: 62ch; }
+  .bt-dip { margin: 14px 0 0; font-size: 14px; color: var(--muted, #5A6785); }
+  .bt-dip b { color: var(--ink, #13203B); }
+</style>
+

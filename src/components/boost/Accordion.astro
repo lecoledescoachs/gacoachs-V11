@@ -1,0 +1,162 @@
+---
+interface Item { q: string; r: string; }
+interface Props {
+  items: Item[];
+  trackEvent?: string;
+}
+const { items, trackEvent = 'boost_faq_open' } = Astro.props;
+---
+<div class="accordion" data-track-event={trackEvent}>
+  {items.map((item, i) => (
+    <details class="accordion__item" data-index={i}>
+      <summary>
+        <span class="accordion__q">{item.q}</span>
+        <span class="accordion__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="accordion__panel">
+        <p>{item.r}</p>
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .accordion { display: flex; flex-direction: column; gap: 10px; }
+  .accordion__item {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .accordion__item:hover { border-color: var(--blue); }
+  .accordion__item[open] {
+    border-color: var(--blue);
+    box-shadow: 0 8px 24px -14px rgba(47,111,237,.4);
+  }
+  .accordion__item summary {
+    font-weight: 600;
+    font-size: clamp(11.5px, 3.6vw, 15px);
+    line-height: 1.3;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    color: var(--navy);
+    transition: color .2s var(--ease);
+  }
+  .accordion__item:hover summary { color: var(--blue); }
+  .accordion__item summary::-webkit-details-marker { display: none; }
+  .accordion__q { white-space: nowrap; min-width: 0; flex: 1 1 auto; overflow: hidden; }
+
+  .accordion__icon {
+    flex-shrink: 0;
+    position: relative;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--ice);
+    transition: background .2s var(--ease), transform .3s var(--ease);
+  }
+  .accordion__icon::before, .accordion__icon::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    background: var(--blue);
+    transition: transform .3s var(--ease), background .2s var(--ease);
+  }
+  .accordion__icon::before { width: 10px; height: 2px; transform: translate(-50%, -50%); }
+  .accordion__icon::after { width: 2px; height: 10px; transform: translate(-50%, -50%); }
+  .accordion__item[open] .accordion__icon { background: var(--blue); transform: rotate(180deg); }
+  .accordion__item[open] .accordion__icon::before,
+  .accordion__item[open] .accordion__icon::after { background: #fff; }
+  .accordion__item[open] .accordion__icon::after { transform: translate(-50%, -50%) rotate(90deg) scaleY(0); }
+
+  .accordion__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows .3s var(--ease);
+  }
+  .accordion__item[open] .accordion__panel { grid-template-rows: 1fr; }
+  .accordion__panel > p {
+    overflow: hidden;
+    min-height: 0;
+    margin: 0;
+    padding: 0 16px 16px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  @media (min-width: 480px) {
+    .accordion__item summary { padding: 16px 20px; }
+    .accordion__panel > p { padding: 0 20px 18px; }
+  }
+</style>
+
+<script>
+  // Petit son "pop" généré directement en JS (aucun fichier audio, aucune question
+  // de droits), joué à chaque ouverture d'une question.
+  let audioCtx: AudioContext | null = null;
+  function playPop() {
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || (window as any).webkitAudioContext)();
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(420, now);
+      osc.frequency.exponentialRampToValueAtTime(720, now + 0.08);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.06, now + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.18);
+    } catch (e) {
+      // Web Audio indisponible : on n'affiche jamais d'erreur à l'utilisateur pour un simple bruit d'ambiance
+    }
+  }
+
+  document.querySelectorAll('.accordion').forEach((acc) => {
+    const eventName = acc.getAttribute('data-track-event');
+    acc.querySelectorAll('details').forEach((d) => {
+      d.addEventListener('toggle', () => {
+        if (d.open) {
+          playPop();
+          if (eventName && typeof window.gtag === 'function') {
+            window.gtag('event', eventName, { question: d.querySelector('summary')?.textContent });
+          }
+        }
+      });
+    });
+  });
+
+  // Garantit qu'aucune question ne déborde de l'écran. On réduit d'abord la police,
+  // et si ça ne suffit pas (question très longue), on autorise un retour à la ligne
+  // plutôt que de laisser le texte déborder hors de l'écran.
+  function fitOnOneLine(el: HTMLElement) {
+    let size = parseFloat(getComputedStyle(el).fontSize);
+    const minSize = 12;
+    let guard = 0;
+    while (el.scrollWidth > el.clientWidth && size > minSize && guard < 20) {
+      size -= 0.5;
+      el.style.fontSize = `${size}px`;
+      guard++;
+    }
+    if (el.scrollWidth > el.clientWidth) {
+      el.style.whiteSpace = 'normal';
+    }
+  }
+  document.querySelectorAll('.accordion__q').forEach((el) => fitOnOneLine(el as HTMLElement));
+  window.addEventListener('resize', () => {
+    document.querySelectorAll('.accordion__q').forEach((el) => {
+      (el as HTMLElement).style.fontSize = '';
+      (el as HTMLElement).style.whiteSpace = '';
+    });
+    document.querySelectorAll('.accordion__q').forEach((el) => fitOnOneLine(el as HTMLElement));
+  });
+</script>

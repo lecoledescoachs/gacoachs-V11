@@ -1,0 +1,264 @@
+---
+import SanteChiffres from '../../components/SanteChiffres.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ResultatsSalle from '../../components/ResultatsSalle.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import ReseauSvg from '../../components/rb/ReseauSvg.astro';
+import villesCoords from '../../data/villes-coordonnees.json';
+import articles from '../../data/articles.json';
+import '../../styles/rebrand.css';
+import CoachCard from '../../components/CoachCard.astro';
+import salles from '../../data/salles.json';
+import coaches from '../../data/coaches.js';
+import expertises from '../../data/expertises.json';
+import villes from '../../data/villes.json';
+import sallesCoords from '../../data/salles-coordonnees.json';
+
+export function getStaticPaths() {
+  return salles.map((s) => ({ params: { slug: s.slug }, props: { salle: s } }));
+}
+
+const { salle } = Astro.props;
+const coachsDeLaSalle = coaches.filter(
+  (c) => c.salleSlug === salle.slug || (c.autresSalles || []).includes(salle.slug)
+);
+const ville = villes.find((v) => v.salleSlugs.includes(salle.slug));
+const autresSallesVille = ville
+  ? salles.filter((s) => ville.salleSlugs.includes(s.slug) && s.slug !== salle.slug)
+  : [];
+
+const relatedLinks = [
+  ...(ville ? [{ label: `Coach sportif à ${ville.nom}`, href: `/coach-sportif-${ville.slug}/`, meta: 'Zone locale' }] : []),
+  ...coachsDeLaSalle.map((c) => ({ label: `${c.prenom} ${c.nom}`, href: `/coachs/${c.slug}/`, meta: 'Coach' })),
+  ...autresSallesVille.map((s) => ({ label: s.nom, href: `/salles/${s.slug}/`, meta: 'Autre salle du réseau' })),
+];
+
+const faqSalle = [
+  { q: `Puis-je avoir un coach à ${salle.nom} ?`, r: `Oui, GA Coachs est présent à ${salle.nom} avec un ou plusieurs coachs du réseau, spécialisés selon ton objectif.` },
+  { q: 'Comment prendre contact avec un coach de cette salle ?', r: 'Consulte le profil du coach qui te correspond puis utilise le bouton de contact sur sa fiche.' },
+];
+
+const coords = sallesCoords[salle.slug];
+const rue = salle.adresse.split(',')[0];
+
+const jsonLdGym = {
+  '@context': 'https://schema.org',
+  '@type': 'ExerciseGym',
+  name: salle.nom,
+  url: `https://gacoachs.fr/salles/${salle.slug}/`,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: rue,
+    addressLocality: salle.ville,
+    postalCode: salle.codePostal,
+    addressCountry: 'FR',
+  },
+  ...(coords && { geo: { '@type': 'GeoCoordinates', latitude: coords.lat, longitude: coords.lng } }),
+  ...(salle.horaires && { openingHours: salle.horaires }),
+};
+const dist = (a: any, b: any) => { const R = 6371, dLa = (b.lat - a.lat) * Math.PI / 180, dLo = (b.lng - a.lng) * Math.PI / 180; const x = Math.sin(dLa / 2) ** 2 + Math.cos(a.lat * Math.PI / 180) * Math.cos(b.lat * Math.PI / 180) * Math.sin(dLo / 2) ** 2; return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x)); };
+const trajet = (km: number) => Math.max(5, Math.round(((km * 1.3) / 45) * 60 / 5) * 5);
+const coachsReseau = coachsDeLaSalle.filter((c: any) => c.reseauOfficiel !== false);
+const bassin = villes
+  .filter((v) => v.salleSlugs.includes(salle.slug) && v.slug !== 'la-source' && v.slug !== 'saint-marceau' && (villesCoords as any)[v.slug] && coords)
+  .map((v) => { const km = dist(coords, (villesCoords as any)[v.slug]); return { v, km: Math.round(km), min: v.nom.toLowerCase() === salle.ville.toLowerCase() ? 0 : trajet(km) }; })
+  .sort((a, b) => a.km - b.km);
+const autresSalles = salles
+  .filter((x: any) => x.slug !== salle.slug && x.reseauOfficiel !== false && (sallesCoords as any)[x.slug] && coords)
+  .map((x: any) => ({ s: x, km: Math.round(dist(coords, (sallesCoords as any)[x.slug])) }))
+  .sort((a, b) => a.km - b.km);
+const expsSalle = expertises;
+const icExp: Record<string, string> = { 'coaching-sportif': 'dumbbell', 'preparation-physique': 'trophy', 'preparation-concours': 'medal', 'sport-sante': 'heart', 'mal-de-dos': 'spark' };
+const est247 = /24h/.test(salle.horaires || '');
+const notes = coachsReseau.filter((c: any) => c.avisGoogle);
+const noteMoy = notes.length ? notes.reduce((a: number, c: any) => a + c.avisGoogle.note, 0) / notes.length : null;
+const nbAvis = notes.reduce((a: number, c: any) => a + c.avisGoogle.nombreAvis, 0);
+const itineraire = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(salle.nom + ', ' + salle.adresse)}`;
+const guides = ['coach-sportif-basic-fit-olivet-comment-ca-marche', 'basic-fit-coach-independant-comment-ca-fonctionne', 'premiere-seance-avec-un-coach-sportif-a-quoi-s-attendre', 'comment-choisir-son-coach-sportif-a-orleans']
+  .map((g) => (articles as any[]).find((a) => a.slug === g)).filter(Boolean)
+  .filter((a: any) => salle.slug === 'basic-fit-olivet' || a.slug !== 'coach-sportif-basic-fit-olivet-comment-ca-marche').slice(0, 3);
+const enBref = [
+  `${salle.nom} se trouve ${salle.adresse}.`,
+  salle.horaires ? `Horaires : ${salle.horaires.charAt(0).toLowerCase() + salle.horaires.slice(1)}.` : '',
+  `${coachsReseau.length} coach${coachsReseau.length > 1 ? 's' : ''} GA diplômé${coachsReseau.length > 1 ? 's' : ''} y accompagne${coachsReseau.length > 1 ? 'nt' : ''} les adhérents : ${coachsReseau.map((c: any) => c.prenom).join(', ').replace(/, ([^,]*)$/, ' et $1')}.`,
+  noteMoy ? `Note moyenne de ces coachs : ${noteMoy.toFixed(1).replace('.', ',')}/5 sur ${nbAvis} avis Google.` : '',
+  `La salle dessert ${bassin.length} villes autour d'Orléans${bassin[1] ? `, dont ${bassin.slice(1, 4).map((b) => b.v.nom).join(', ')}` : ''}.`,
+  autresSalles[0] ? `Autre salle du réseau la plus proche : ${autresSalles[0].s.nom}, à environ ${autresSalles[0].km} km.` : '',
+].filter(Boolean);
+const faqTout = [
+  { q: `Puis-je avoir un coach sportif à ${salle.nom} ?`, r: `Oui. ${coachsReseau.map((c: any) => `${c.prenom} ${c.nom}`).join(', ').replace(/, ([^,]*)$/, ' et $1')} ${coachsReseau.length > 1 ? 'interviennent' : 'intervient'} à ${salle.nom}, chacun avec ses spécialités.` },
+  { q: `Quels sont les horaires de ${salle.nom} ?`, r: `${salle.horaires || 'Les horaires sont affichés sur le site de Basic-Fit.'}. Les séances de coaching se calent directement avec ton coach.` },
+  { q: `Faut-il un abonnement Basic-Fit pour être coaché à ${salle.nom} ?`, r: `Oui : il te faut un abonnement ou un pass journée Basic-Fit valide. Le coaching se règle à part, directement avec ton coach, qui fixe ses propres tarifs.` },
+  { q: `Comment démarrer avec un coach à ${salle.nom} ?`, r: `Réserve un bilan santé d'une heure avec le coach de ton choix : une séance, des analyses et un retour clair. Ton coach te propose ensuite un accompagnement.` },
+  ...(bassin.length ? [{ q: `Quelles villes sont proches de ${salle.nom} ?`, r: `${bassin.slice(0, 8).map((b) => `${b.v.nom} (${b.km} km)`).join(', ')}${bassin.length > 8 ? `, et ${bassin.length - 8} autres villes` : ''}.` }] : []),
+];
+
+---
+<BaseLayout
+  title={`Coach sportif à ${salle.nom} : ${coachsReseau.length} coach${coachsReseau.length > 1 ? 's' : ''} GA`}
+  description={`${coachsReseau.length} coach${coachsReseau.length > 1 ? 's' : ''} sportif${coachsReseau.length > 1 ? 's' : ''} diplômé${coachsReseau.length > 1 ? 's' : ''} à ${salle.nom} (${salle.adresse})${est247 ? ', ouverte 24h/24' : ''}${noteMoy ? `, noté ${noteMoy.toFixed(1).replace('.', ',')}/5` : ''}. Bilan santé pour démarrer, programme sur mesure.`}
+  path={`/salles/${salle.slug}/`}
+  jsonLd={[jsonLdGym, { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqTout.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) }]}
+>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Nos salles', href: '/salles/' }, { label: salle.nom, href: `/salles/${salle.slug}/` }]} />
+      <div class="sp-grid">
+        <div>
+          <span class="eyebrow eyebrow-dark">{salle.ville}</span>
+          <h1>Basic-Fit <span class="hl-text">{salle.nom.replace('Basic-Fit ', '')}</span></h1>
+          <p class="phero-lead">{salle.presentation}</p>
+          <ul class="sp-meta">
+            <li><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg>{salle.adresse}</li>
+            {salle.horaires && <li><svg class="ic" aria-hidden="true"><use href="#i-clock"></use></svg>{salle.horaires}</li>}
+            <li><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg>{coachsReseau.length} coach{coachsReseau.length > 1 ? 's' : ''} du réseau</li>
+          </ul>
+          <div class="ctas">
+            <a class="btn btn-primary" href="#sp-coachs">Voir les coachs</a>
+            <a class="btn btn-glass" href="/score-sante/">Réserver mon bilan santé</a>
+          </div>
+        </div>
+        <div class="sp-map">
+          <ReseauSvg focus={salle.slug} id="rs-salle" />
+          <p class="sp-map-k"><span class="dot" aria-hidden="true"></span>Bassin de {salle.nom} : {bassin.length} villes desservies</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner vb2">
+      <div>
+        <span class="eyebrow">En bref</span>
+        <h2 class="h2">{salle.nom} en 30 secondes.</h2>
+        <div class="ctas" style="margin-top: 20px;">
+          <a class="btn-out" href={itineraire} target="_blank" rel="noopener noreferrer">Itinéraire <svg class="ic" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+        </div>
+      </div>
+      <ul class="vb-list">{enBref.map((t) => <li>{t}</li>)}</ul>
+    </div>
+  </section>
+
+  {salle.slug === 'basic-fit-olivet' && <ResultatsSalle />}
+  <section class="sec band" id="sp-coachs">
+    <div class="inner">
+      <span class="eyebrow">L'équipe</span>
+      <h2 class="h2">Coachs présents à {salle.nom}</h2>
+      {coachsDeLaSalle.length > 0 ? (
+        <div class="sp-coachs">
+          {coachsDeLaSalle.map((c) => <CoachCard slug={c.slug} prenom={c.prenom} nom={c.nom} salleNom={salle.nom} tags={c.tags} photo={c.photo} avisGoogle={c.avisGoogle} role={c.role} />)}
+        </div>
+      ) : <p class="note-soft">La liste des coachs présents dans cette salle sera complétée prochainement.</p>}
+      <a href="/score-sante/" class="sp-score">
+        <span class="sp-score-ic" aria-hidden="true">🎯</span>
+        <span>Pas encore sûr de ton objectif ? Fais ton Score Santé gratuit en 2 minutes avant de choisir ton coach.</span>
+        <span class="sp-go" aria-hidden="true"><svg class="ic"><use href="#i-arrow"></use></svg></span>
+      </a>
+    </div>
+  </section>
+
+  {expsSalle.length > 0 && (
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">Sur place</span>
+        <h2 class="h2">Expertises disponibles</h2>
+        <div class="sp-exps">
+          {expsSalle.map((e) => <a class="tile sp-exp" href={`/${e.slug}/`}><span class="sp-ic"><svg class="ic" aria-hidden="true"><use href={`#i-${icExp[e.slug] || 'spark'}`}></use></svg></span><b>{e.nom}</b><svg class="ic sp-arr" aria-hidden="true"><use href="#i-arrow"></use></svg></a>)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {bassin.length > 0 && (
+    <section class="sec band">
+      <div class="inner">
+        <span class="eyebrow">Le bassin</span>
+        <h2 class="h2">Les villes desservies par {salle.nom}.</h2>
+        <p class="lead-p">Distances à vol d'oiseau et temps estimé en voiture jusqu'à la salle.</p>
+        <div class="sp-villes">
+          {bassin.map((b) => <a href={`/coach-sportif-${b.v.slug}/`}><b>{b.v.nom}</b><small>{b.min === 0 ? 'sur place' : `${b.km} km · ≈ ${b.min} min`}</small></a>)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {guides.length > 0 && (
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">Nos guides</span>
+        <h2 class="h2">Bien démarrer à {salle.nom}.</h2>
+        <div class="guides">
+          {guides.map((a: any) => <a class="guide" href={`/blog/${a.slug}/`}><small>Guide{a.tempsLecture ? ` · ${a.tempsLecture} min` : ''}</small><b>{a.titre}</b><p>{a.extrait}</p><em>Lire le guide →</em></a>)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Questions fréquentes.</h2>
+      <div class="faq-list">{faqTout.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <h2 class="h2" style="font-size: 24px;">Pour aller plus loin</h2>
+      <div class="chips-row">
+        {ville && <a class="chip-link" href={`/coach-sportif-${ville.slug}/`}>Coach sportif à {ville.nom} <small>Zone locale</small></a>}
+        {coachsDeLaSalle.map((c) => <a class="chip-link" href={`/coachs/${c.slug}/`}>{c.prenom} {c.nom} <small>Coach</small></a>)}
+        {autresSalles.map((x) => <a class="chip-link" href={`/salles/${x.s.slug}/`}>{x.s.nom} <small>{x.km} km</small></a>)}
+      </div>
+    </div>
+  </section>
+
+  <SanteChiffres />
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">Trouve ton coach à {salle.nom}</h2>
+      <a class="btn-final" href="#sp-coachs"><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Trouver mon coach<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+
+<style>
+  .sp-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 32px 56px; align-items: center; }
+  .sp-grid h1 { margin-top: 14px; }
+  .sp-meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 4px 0 22px; padding: 0; list-style: none; font-size: 14px; font-weight: 700; color: rgba(255,255,255,.82); }
+  .sp-meta li { display: inline-flex; align-items: center; gap: 8px; }
+  .sp-meta .ic { width: 17px; height: 17px; color: #7CC4FF; }
+  .sp-map { padding: 18px; border-radius: 28px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); }
+  .sp-map-k { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 10px 0 0; font-size: 13.5px; font-weight: 700; color: #BFE2FF; }
+  .sp-map-k .dot { width: 10px; height: 10px; border-radius: 50%; background: #2F6FED; border: 2px solid #fff; }
+  .vb2 { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 24px 48px; align-items: start; }
+  .vb-list { list-style: none; margin: 0; padding: 24px 28px; display: grid; gap: 12px; background: #fff; border: 2px solid var(--line); border-radius: 24px; }
+  .vb-list li { display: flex; gap: 10px; font-size: 15.5px; line-height: 1.5; font-weight: 600; }
+  .vb-list li::before { content: ""; width: 20px; height: 20px; margin-top: 2px; border-radius: 50%; flex-shrink: 0; background: var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.2 4.2L19 7'/%3E%3C/svg%3E") center / 12px no-repeat; }
+  .sp-coachs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin-top: 28px; }
+  .sp-score { display: flex; align-items: center; gap: 16px; margin-top: 36px; padding: 22px 26px; border-radius: 24px; background: linear-gradient(120deg, #2F6FED, #1F55C9); color: #fff; font-size: 16px; line-height: 1.5; font-weight: 700; box-shadow: 0 24px 50px -28px rgba(47,111,237,.9); transition: transform .25s ease; }
+  .sp-score:hover { transform: translateY(-3px); }
+  .sp-score span:nth-child(2) { flex: 1; }
+  .sp-score-ic { font-size: 28px; flex-shrink: 0; }
+  .sp-go { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #fff; color: var(--blue); flex-shrink: 0; }
+  .sp-go .ic { width: 20px; height: 20px; }
+  .sp-exps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin-top: 28px; }
+  .sp-exp { display: flex !important; flex-direction: column; gap: 12px; padding: 20px !important; color: var(--ink); transition: transform .25s ease, border-color .25s ease; }
+  .sp-exp:hover { transform: translateY(-4px); border-color: #BFD3FB; }
+  .sp-exp b { font-family: var(--display); font-size: 17px; line-height: 1.25; flex: 1; }
+  .sp-ic { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; background: var(--pill); color: var(--blue); }
+  .sp-ic .ic { width: 20px; height: 20px; }
+  .sp-arr { width: 18px; height: 18px; color: var(--blue); }
+  .sp-villes { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; margin-top: 24px; }
+  .sp-villes a { display: grid; gap: 2px; padding: 12px 16px; border-radius: 16px; background: #fff; border: 2px solid var(--line); transition: border-color .2s ease; }
+  .sp-villes a:hover { border-color: #BFD3FB; }
+  .sp-villes b { font-size: 15px; }
+  .sp-villes small { font-size: 13px; color: var(--muted); }
+  @media (max-width: 960px) { .sp-grid, .vb2 { grid-template-columns: 1fr; } .sp-coachs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } .sp-exps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

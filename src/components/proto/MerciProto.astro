@@ -1,0 +1,32 @@
+---
+import { MERCI, JOUR_J } from '../../data/merci';
+import '../../styles/proto-pages.css';
+const { v = '' } = Astro.props;
+const M = MERCI[v];
+const ck = '<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg>';
+---
+<div class="proto">
+<svg class="sprite" width="0" height="0" style="position: absolute; overflow: hidden;" aria-hidden="true" focusable="false"><symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"></path></symbol></svg>
+<section class="phero mc-hero"><canvas class="mc-fw" aria-hidden="true"></canvas><div class="lightning-bg" aria-hidden="true"></div><div class="inner"><nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span aria-hidden="true">›</span><span>{M.k}</span></nav><div class="mc-in"><span class="mc-ck" aria-hidden="true" set:html={ck} /><span class="eyebrow eyebrow-dark">{M.k}</span><h1 data-merci-h1>{M.h1}</h1><p class="phero-lead" data-merci-p>{M.p}</p><div class="ctas"><a class="btn btn-primary" href={M.ctas[0][1]}>{M.ctas[0][0]}</a><a class="btn btn-glass" href={M.ctas[1][1]}>{M.ctas[1][0]}</a></div></div></div></section>
+{M.check && <section class="sec band"><div class="inner"><span class="eyebrow">Le jour J</span><h2 class="h2">Ce qu'il faut avoir sur toi.</h2><div class="jourj">{JOUR_J.map((j) => <div class="jj"><Fragment set:html={ck} /><b>{j[0]}</b><span>{j[1]}</span></div>)}</div></div></section>}
+<section class={`sec${M.check ? '' : ' band'}`}><div class="inner"><span class="eyebrow">Et maintenant ?</span><h2 class="h2">Les prochaines étapes.</h2><div class="mc-steps">{M.steps.map((s, i) => <div class="tile"><span class="rj-n">0{i + 1}</span><p>{s}</p></div>)}</div></div></section>
+</div>
+<script>
+  const cv = document.querySelector<HTMLCanvasElement>('.mc-fw');
+  if (cv && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const x = cv.getContext('2d')!; let w = 0, h = 0, parts: any[] = [], f = 0;
+    const cols = ['#7CC4FF', '#2F8BFF', '#BFE2FF', '#57A8FF', '#E4F6FF', '#1EA1FF'];
+    w = cv.width = cv.offsetWidth; h = cv.height = cv.offsetHeight;
+    const burst = () => { const cx = w * (0.15 + Math.random() * 0.7), cy = h * (0.15 + Math.random() * 0.45), c = cols[Math.floor(Math.random() * cols.length)], n = 46; for (let i = 0; i < n; i++) { const an = (i / n) * Math.PI * 2, sp = 1.6 + Math.random() * 2.6; parts.push({ x: cx, y: cy, vx: Math.cos(an) * sp, vy: Math.sin(an) * sp, life: 70 + Math.random() * 30, c }); } };
+    const draw = () => {
+      if (f % 34 === 0 && f < 240) burst();
+      x.globalCompositeOperation = 'destination-out'; x.fillStyle = 'rgba(0,0,0,.22)'; x.fillRect(0, 0, w, h);
+      x.globalCompositeOperation = 'lighter';
+      parts = parts.filter((p) => p.life > 0);
+      parts.forEach((p) => { p.x += p.vx; p.y += p.vy; p.vy += 0.035; p.vx *= 0.985; p.life--; x.globalAlpha = Math.min(1, p.life / 40); x.fillStyle = p.c; x.beginPath(); x.arc(p.x, p.y, 2.1, 0, Math.PI * 2); x.fill(); });
+      x.globalAlpha = 1; f++;
+      if (f < 420 || parts.length) requestAnimationFrame(draw); else x.clearRect(0, 0, w, h);
+    };
+    setTimeout(() => requestAnimationFrame(draw), 420);
+  }
+</script>

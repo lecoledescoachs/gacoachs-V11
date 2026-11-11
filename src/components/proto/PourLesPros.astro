@@ -1,0 +1,43 @@
+---
+// La gamme BOOST : une offre par type de structure
+import gamme from '../../data/boost-gamme.json';
+const { eyebrow = 'Pour les professionnels', titre = 'Entreprises, clubs, établissements : nos coachs viennent aussi chez vous.', lead = 'Le même réseau de coachs diplômés, une offre BOOST pour chaque structure, et un interlocuteur unique.', plus = true, id = 'pour-les-pros' } = Astro.props;
+---
+<section class="sec navy pros" id={id}>
+  <div class="lightning-bg" aria-hidden="true"></div>
+  <div class="inner">
+    <span class="eyebrow">{eyebrow}</span>
+    <h2 class="h2">{titre}</h2>
+    <p class="lead-p pros-lead">{lead}</p>
+    <div class="pros-grid">
+      {gamme.map((c) => (
+        <a class="pros-c" href={c.href}>
+          <span class="pros-img">{c.img ? <img src={c.img} alt={`${c.k}, ${c.sub}`} width="1000" height="525" loading="lazy" /> : <div style="aspect-ratio:1000/525;width:100%;background:linear-gradient(135deg,#0B1E3D,#1D5BD8)" aria-hidden="true"></div>}</span>
+          <span class="pros-k">{c.k}</span>
+          <b class="pros-t">{c.t}</b>
+          <span class="pros-p">{c.p}</span>
+          <span class="pros-go">{c.cta} →</span>
+        </a>
+      ))}
+    </div>
+    {plus && <p class="pros-more">Vous ne trouvez pas votre structure ? <a href="/services-sur-mesure/#sm-contact">Parlons de votre projet →</a></p>}
+  </div>
+</section>
+
+<style is:global>
+  .proto .pros .h2 { max-width: 26ch; }
+  .proto .pros-lead { color: rgba(255,255,255,.78); }
+  .proto .pros-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 30px; }
+  .proto .pros-c { display: flex; flex-direction: column; gap: 6px; padding: 12px 12px 18px; border-radius: 22px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); color: #fff; transition: transform .25s ease, border-color .25s ease; }
+  .proto .pros-c:hover { transform: translateY(-4px); border-color: rgba(124,196,255,.55); }
+  .proto .pros-img { display: block; border-radius: 14px; overflow: hidden; aspect-ratio: 1000 / 525; background: #00020B; margin-bottom: 6px; }
+  .proto .pros-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .proto .pros-k { padding-inline: 4px; font-size: 11.5px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: #7CC4FF; }
+  .proto .pros-t { padding-inline: 4px; font-family: var(--display); font-size: 19px; line-height: 1.2; color: #fff; }
+  .proto .pros-p { padding-inline: 4px; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,.78); flex: 1; }
+  .proto .pros-go { padding-inline: 4px; margin-top: 6px; font-size: 14px; font-weight: 700; color: #BFE2FF; }
+  .proto .pros-more { margin-top: 24px; font-size: 15px; color: rgba(255,255,255,.78); }
+  .proto .pros-more a { color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 1100px) { .proto .pros-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) { .proto .pros-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,103 @@
+---
+interface LogoItem {
+  nom: string;
+  href?: string;
+  logo?: string;
+}
+interface Props {
+  items: LogoItem[];
+  emptyMessage?: string;
+  size?: 'normal' | 'large' | 'xl';
+}
+const { items, emptyMessage = 'Les logos seront ajoutés ici au fil des collaborations, sans aucune donnée inventée.', size = 'normal' } = Astro.props;
+// On duplique la liste pour une boucle de défilement continue et fluide
+const track = items.length > 0 ? [...items, ...items] : [];
+import dims from '../data/image-dims.json';
+---
+{items.length > 0 ? (
+  <div class={`logo-marquee ${size === 'large' ? 'logo-marquee--large' : ''} ${size === 'xl' ? 'logo-marquee--xl' : ''}`} tabindex="0" role="group" aria-label="Logos de nos partenaires et références">
+    <div class="logo-marquee__track">
+      {track.map((item) => (
+        item.href ? (
+          <a href={item.href} class="logo-marquee__item" target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+            {item.logo ? <img src={item.logo} alt={item.nom} width={((dims as Record<string, number[]>)[item.logo] || [])[0]} height={((dims as Record<string, number[]>)[item.logo] || [])[1]} loading="lazy" /> : <span>{item.nom}</span>}
+          </a>
+        ) : (
+          <span class="logo-marquee__item">
+            {item.logo ? <img src={item.logo} alt={item.nom} width={((dims as Record<string, number[]>)[item.logo] || [])[0]} height={((dims as Record<string, number[]>)[item.logo] || [])[1]} loading="lazy" /> : <span>{item.nom}</span>}
+          </span>
+        )
+      ))}
+    </div>
+  </div>
+) : (
+  <div class="logo-marquee__empty">
+    <p>{emptyMessage}</p>
+  </div>
+)}
+
+<style>
+  .logo-marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  }
+  .logo-marquee__track {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    width: max-content;
+    animation: logo-marquee-scroll 24s linear infinite;
+  }
+  .logo-marquee:hover .logo-marquee__track {
+    animation-play-state: paused;
+  }
+  .logo-marquee__item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--navy);
+    opacity: 0.55;
+    white-space: nowrap;
+    transition: opacity .25s var(--ease);
+  }
+  a.logo-marquee__item:hover { opacity: 1; color: var(--blue); }
+  .logo-marquee__item img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  /* Variante grande taille, pour les bandes qui doivent être bien visibles */
+  .logo-marquee--large .logo-marquee__track { gap: 72px; }
+  .logo-marquee--large .logo-marquee__item img { height: 68px; }
+  .logo-marquee--large .logo-marquee__item { font-size: 26px; opacity: 0.7; }
+  .logo-marquee--large a.logo-marquee__item:hover { opacity: 1; }
+
+  /* Variante extra-large, pour une mise en avant juste sous un hero */
+  .logo-marquee--xl .logo-marquee__track { gap: 80px; }
+  .logo-marquee--xl .logo-marquee__item img { height: 96px; }
+  .logo-marquee--xl .logo-marquee__item { font-size: 32px; opacity: 0.85; }
+  .logo-marquee--xl a.logo-marquee__item:hover { opacity: 1; }
+
+  @keyframes logo-marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .logo-marquee__empty {
+    padding: 32px;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius-md);
+    text-align: center;
+  }
+  .logo-marquee__empty p { color: var(--text-muted); font-size: 14px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-marquee__track { animation: none; }
+    .logo-marquee { overflow-x: auto; }
+  }
+</style>

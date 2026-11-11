@@ -1,0 +1,77 @@
+{
+  "slug": "brice-chopin",
+  "prenom": "Brice",
+  "codeBoutique": "BRICE",
+  "niveau": 3,
+  "nom": "Chopin",
+  "salleSlug": "basic-fit-olivet",
+  "role": "Coach sportif",
+  "tags": [
+    "Perte de Poids",
+    "Perte de gras",
+    "Remise en Forme",
+    "Sculpter & Tonifier"
+  ],
+  "photo": "/images/coachs/brice-chopin.webp",
+  "presentation": "Le problème, c'est que tout ce que tu as essayé jusqu'ici a été conçu pour un corps de 25 ans. Des programmes trop intenses pour un corps qui a besoin d'être reconstruit avant d'être poussé. Des régimes qui ignorent ta vie de famille, ton travail, tes vraies contraintes.\n\nTu as essayé. Ça a tenu trois semaines. Et tu as pensé que c'était de ta faute.\n\nCe n'était pas de ta faute. À 45 ou 55 ans, ton corps ne répond plus comme avant, et personne ne te l'a expliqué. C'est exactement pour ça qu'existe la Méthode Empreinte.",
+  "publicCible": "Hommes et femmes de 40 à 60 ans qui veulent perdre jusqu'à 30 kg, souvent après plusieurs tentatives ratées, une blessure ou une reprise difficile, et qui veulent un accompagnement qui tient compte de leur vraie vie : famille, travail, corps qui a vécu.",
+  "specialites": [
+    "Sculpter & Tonifier",
+    "Remise en Forme",
+    "Perte de Poids"
+  ],
+  "diplomes": [
+    "Licence STAPS"
+  ],
+  "formations": [
+    "Rehab U - Spécialiste de la thérapie par le mouvement"
+  ],
+  "methode": "La Méthode Empreinte part d'un principe simple : avant de te demander un effort, on remet ton corps en état de répondre. Mobilité, reconstruction, habitudes, dans le bon ordre. Pas l'inverse. Pas de calcul de calories à la virgule, pas de sacrifice de ta vie sociale : des habitudes qui tiennent parce qu'elles sont pensées pour la vie que tu as réellement.",
+  "resultats": "Une perte de gras progressive, une énergie plus stable et une confiance retrouvée. Ton poids devient une conséquence de tes habitudes, pas un combat permanent.\n\nQuelques parcours de clients accompagnés par Brice : Jean-Luc, -12 kg en 4 mois. Marie, -10 kg en 5 mois. Iben, -32 kg en 6 mois. Ammara, -8 kg en 4 mois. Yann, -8 kg en 4 mois. Chaque parcours est différent : ces résultats ne sont pas une promesse.",
+  "temoignages": [],
+  "rcPro": "n°56089444/ALRCP11283-3",
+  "cartePro": "07722ED0359",
+  "sourceNote": "Présentation, spécialités, assurance RC Pro et carte professionnelle vérifiés sur la fiche officielle Basic-Fit (basic-fit.com/fr-fr/fitness/personal-trainer/brice-chopin).",
+  "avisGoogle": {
+    "note": 4.9,
+    "nombreAvis": 26,
+    "url": "https://www.google.com/maps/search/?api=1&query=Brice%20Chopin%20coach%20sportif%20Orl%C3%A9ans"
+  },
+  "titrePersonnalise": "Brice Chopin, coach sportif à Olivet spécialisé en perte de gras durable après 40 ans.",
+  "dureeSeance": "1h",
+  "email": "greatmangoal@gmail.com",
+  "dureeBilan": "1h30",
+  "stats": [
+    {
+      "value": 500,
+      "suffix": "+",
+      "label": "kilos de gras perdus au total (tous clients confondus)"
+    }
+  ],
+  "temoignagesVideo": [
+    {
+      "titre": "Témoignage client de Brice (1)",
+      "url": "https://youtu.be/MP1v4B6J4fI",
+      "plateforme": "youtube"
+    },
+    {
+      "titre": "Témoignage client de Brice (2)",
+      "url": "https://youtu.be/ANEmbsDKDc0",
+      "plateforme": "youtube"
+    },
+    {
+      "titre": "Témoignage client de Brice (3)",
+      "url": "https://youtu.be/0qYqlOc7uX0",
+      "plateforme": "youtube"
+    }
+  ],
+  "guides": [
+    "coach-sportif-homme-apres-40-ans",
+    "se-muscler-et-perdre-du-gras-en-meme-temps",
+    "perdre-du-ventre-ce-qui-marche-vraiment"
+  ],
+  "reseauSocial": {
+    "type": "instagram",
+    "url": "https://www.instagram.com/greatmangoal/"
+  }
+}

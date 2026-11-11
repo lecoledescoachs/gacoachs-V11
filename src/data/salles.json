@@ -1,0 +1,69 @@
+[
+  {
+    "slug": "basic-fit-olivet",
+    "nom": "Basic-Fit Olivet",
+    "ville": "Olivet",
+    "codePostal": "45160",
+    "adresse": "62 Rue de Guyenne, 45160 Olivet",
+    "coachs": [
+      "nathan-sapin",
+      "garry-babaud",
+      "brice-chopin"
+    ],
+    "presentation": "Ouverte 24h/24 et 7j/7, la salle Basic-Fit Olivet s'étend sur plus de 1 340 m² et se distingue par ses baies vitrées en arc de cercle qui offrent une luminosité exceptionnelle sur l'ensemble de l'espace. Elle propose 7 zones d'entraînement dédiées (fonctionnelle, poids libres, cardio, musculation, étirements, cours collectifs et cyclisme virtuel), équipées de machines Matrix, avec vestiaires, casiers et douches gratuits.",
+    "reseauOfficiel": true,
+    "horaires": "Ouvert 24h/24 et 7j/7"
+  },
+  {
+    "slug": "basic-fit-orleans-sud",
+    "nom": "Basic-Fit Orléans Sud",
+    "ville": "Orléans",
+    "codePostal": "45100",
+    "adresse": "40 Rue Anthelme Brillat-Savarin, 45100 Orléans",
+    "coachs": [
+      "fabien-rakotoarimanana"
+    ],
+    "presentation": "Située rue Anthelme Brillat-Savarin, dans le secteur Zone Expo Sud à proximité immédiate du Zénith d'Orléans et du Co'MET, cette salle Basic-Fit est accessible du lundi au vendredi de 6h à 22h30 et le week-end de 9h à 19h. Elle propose un accès PMR et la possibilité de réserver une séance d'entraînement personnel avec un coach du réseau GA.",
+    "reseauOfficiel": true,
+    "horaires": "Lun-Ven 6h-22h30, Sam-Dim 9h-19h"
+  },
+  {
+    "slug": "basic-fit-orleans-liberation",
+    "nom": "Basic-Fit Orléans Libération",
+    "ville": "Orléans",
+    "codePostal": "45000",
+    "adresse": "23 Avenue de la Libération, 45000 Orléans",
+    "coachs": [
+      "alexis-fernandez"
+    ],
+    "presentation": "Implantée avenue de la Libération, cette salle Basic-Fit est ouverte du lundi au vendredi de 6h à 22h30 et le week-end de 9h à 19h. Comme les autres salles du réseau, elle est accessible PMR et propose la possibilité de réserver une séance avec un coach du réseau GA.",
+    "reseauOfficiel": true,
+    "horaires": "Lun-Ven 6h-22h30, Sam-Dim 9h-19h"
+  },
+  {
+    "slug": "basic-fit-saran",
+    "nom": "Basic-Fit Saran",
+    "ville": "Saran",
+    "codePostal": "45770",
+    "adresse": "2601 Route Nationale 20, 45770 Saran",
+    "coachs": [
+      "yanis-trepy-lujien"
+    ],
+    "presentation": "Ouverte 24h/24 et 7j/7, la salle Basic-Fit de Saran est installée route Nationale 20. Elle permet de s'entraîner à toute heure, en semaine comme le week-end, avec un accompagnement possible par un coach du réseau GA.",
+    "reseauOfficiel": true,
+    "horaires": "Ouvert 24h/24 et 7j/7"
+  },
+  {
+    "slug": "basic-fit-fleury-les-aubrais",
+    "nom": "Basic-Fit Fleury-les-Aubrais",
+    "ville": "Fleury-les-Aubrais",
+    "codePostal": "45400",
+    "adresse": "Rue Frédéric et Irène Joliot-Curie, 45400 Fleury-les-Aubrais",
+    "coachs": [
+      "thomas-das-neves"
+    ],
+    "presentation": "Ouverte 24h/24 et 7j/7, la salle Basic-Fit de Fleury-les-Aubrais se situe dans le quartier des Andrillons, à proximité du parc de la Hartière (idéal pour une pause détente après l'entraînement) et du centre commercial de Fleury-les-Aubrais.",
+    "reseauOfficiel": true,
+    "horaires": "Ouvert 24h/24 et 7j/7"
+  }
+]

@@ -1,0 +1,89 @@
+---
+---
+<form class="club-form" aria-label="Demande pour mon club sportif" name="club-lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-club/">
+  <input type="hidden" name="form-name" value="club-lead" />
+  <p hidden><label>Ne pas remplir <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+  <div class="club-form__grid">
+    <label>
+      Nom et prénom
+      <input type="text" name="nom_prenom" required autocomplete="name" />
+    </label>
+    <label>
+      Fonction dans le club
+      <input type="text" name="fonction" placeholder="Entraîneur, président, responsable sportif..." />
+    </label>
+    <label>
+      Nom du club
+      <input type="text" name="club" required autocomplete="organization" />
+    </label>
+    <label>
+      Discipline
+      <input type="text" name="discipline" required placeholder="Football, judo, natation..." />
+    </label>
+    <label>
+      Équipe ou catégorie concernée
+      <input type="text" name="categorie" placeholder="Seniors, U15, mixte..." />
+    </label>
+    <label>
+      Nombre approximatif de sportifs
+      <input type="text" name="nombre_sportifs" placeholder="ex. 18" />
+    </label>
+    <label>
+      Ville
+      <input type="text" name="ville" required />
+    </label>
+    <label>
+      Fréquence souhaitée
+      <select name="frequence">
+        <option value="1x-semaine">1 séance / semaine</option>
+        <option value="2x-semaine">2 séances / semaine</option>
+        <option value="3x-semaine">3 séances / semaine</option>
+        <option value="plusieurs-equipes">Plusieurs équipes / club entier</option>
+        <option value="a-definir">À définir ensemble</option>
+      </select>
+    </label>
+    <label>
+      Créneaux envisagés
+      <input type="text" name="creneaux" placeholder="ex. mardi/jeudi 18h-19h30" />
+    </label>
+    <label>
+      Objectif principal
+      <input type="text" name="objectif" placeholder="Préparation physique, prévention blessures..." />
+    </label>
+    <label>
+      Email
+      <input type="email" name="email" required autocomplete="email" />
+    </label>
+    <label>
+      Téléphone
+      <input type="tel" name="telephone" autocomplete="tel" />
+    </label>
+  </div>
+  <label class="club-form__message">
+    Message (facultatif)
+    <textarea name="message" rows="4" placeholder="Décrivez votre besoin, vos contraintes d'horaires, le niveau de pratique de vos sportifs..."></textarea>
+  </label>
+  <button type="submit" class="btn btn--primary">Demander mon diagnostic offert</button>
+  <p class="club-form__note">Sans engagement. Vos informations sont uniquement utilisées pour répondre à votre demande (<a href="/confidentialite/">confidentialité</a>).</p>
+</form>
+
+<style>
+  .club-form { display: flex; flex-direction: column; gap: 20px; max-width: 720px; }
+  .club-form__grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  .club-form label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; }
+  .club-form input, .club-form select, .club-form textarea {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    min-height: 48px;
+    background: var(--white);
+  }
+  .club-form textarea { min-height: 100px; resize: vertical; }
+  .club-form__note { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+
+  @media (min-width: 700px) {
+    .club-form__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

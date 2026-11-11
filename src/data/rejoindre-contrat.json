@@ -1,0 +1,14 @@
+{
+  "eyebrow": "Le contrat d'affiliation",
+  "titre": "Ce qu'il y a dans le contrat d'affiliation.",
+  "intro": "Tu peux voir le contrat avant de t'engager. Garry te le présente en vidéo, point par point.",
+  "points": [
+    "Contrat d'affiliation d'un an, tacitement reconduit",
+    "Préavis de résiliation de 6 mois",
+    "Tu fixes tes propres tarifs avec tes clients"
+  ],
+  "videos": [
+    { "titre": "Le contrat d'affiliation, point par point", "texte": "Garry ouvre le contrat et te montre concrètement ce qu'il contient.", "id": "" },
+    { "titre": "Durée, préavis et tarifs", "texte": "Ce que tu t'engages à faire, et ce que le réseau s'engage à faire.", "id": "" }
+  ]
+}

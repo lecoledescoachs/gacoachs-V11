@@ -1,0 +1,163 @@
+---
+// La France en chiffres : surpoids, sédentarité, mal de dos, cancers (sources officielles)
+const stats = [
+  { v: '48,8 %', p: 48.8, t: 'des adultes sont en surpoids ou obèses', d: 'dont 18,1 % en situation d\'obésité, soit près de 10 millions de personnes.', s: 'OFÉO, Ligue contre l\'obésité, 2024', u: 'https://www.gazettelabo.fr/diagnostic/385Obesite-France-OFEO-2024.html' },
+  { v: '95 %', p: 95, t: 'des adultes sont exposés à un risque pour leur santé', d: 'par manque d\'activité physique ou trop de temps passé assis.', s: 'ANSES, 2022', u: 'https://www.anses.fr/fr/content/manque-dactivite-physique-et-exces-de-sedentarite-une-priorite-de-sante-publique' },
+  { v: '4/5', p: 80, t: 'des personnes auront mal au dos au cours de leur vie', d: 'et le mal de dos coûte près de 900 millions d\'euros par an à l\'Assurance Maladie.', s: 'Assurance Maladie', u: 'https://rhumatologie.lequotidiendumedecin.fr/actus-medicales/politique-de-sante/lombalgies-la-cnam-cible-les-generalistes-et-le-grand-public-pour-prevenir-le-passage-la-chronicite' },
+  { v: '4/10', p: 40, t: 'des cancers sont liés à nos habitudes de vie', d: 'dont le manque d\'activité physique, sur environ 433 000 nouveaux cas par an.', s: 'INCa', u: 'https://pediatrie.lequotidiendumedecin.fr/actu-medicale/40-des-cancers-pourraient-etre-evites-en-france' },
+];
+import FR from '../../data/france-regions.json';
+// Obésité adulte par région, OFÉO 2024 (Ligue nationale contre l'obésité / Odoxa)
+const OB: Record<string, number> = { 'Hauts-de-France': 22.2, 'Centre-Val de Loire': 21.6, 'Normandie': 20.2, 'Nouvelle-Aquitaine': 19.8, 'Grand Est': 19.2, 'Bretagne': 17.8, 'Pays de la Loire': 17.7, 'Bourgogne-Franche-Comté': 17.4, "Provence-Alpes-Côte d'Azur": 16.8, 'Auvergne-Rhône-Alpes': 16.7, 'Île-de-France': 15.6, 'Occitanie': 15.5 };
+const LO = 15.5, HI = 22.2;
+const mix = (a: number[], b: number[], t: number) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * t)).join(',')})`;
+const shade = (v?: number) => v == null ? '#E3E9F5' : mix([191, 219, 254], [11, 42, 122], (v - LO) / (HI - LO));
+const ink = (v?: number) => v != null && (v - LO) / (HI - LO) > 0.42 ? '#fff' : '#0B1E3D';
+// Position des pourcentages : centre visuel de chaque région (point le plus éloigné des bords), calculé une fois.
+// Centre-Val de Loire : décalé pour ne pas recouvrir le repère d'Orléans.
+const LBL: Record<string, number[]> = {"Île-de-France": [212.4, 95.9], "Centre-Val de Loire": [184.0, 158.0], "Bourgogne-Franche-Comté": [261.0, 157.6], "Normandie": [142.0, 82.0], "Hauts-de-France": [216.8, 49.4], "Grand Est": [286.7, 94.9], "Pays de la Loire": [124.3, 138.4], "Bretagne": [76.4, 118.3], "Nouvelle-Aquitaine": [152.8, 216.0], "Occitanie": [192.3, 298.4], "Auvergne-Rhône-Alpes": [271.1, 228.7], "Provence-Alpes-Côte d'Azur": [313.3, 284.5]};
+const RANK = Object.keys(OB).sort((a, b) => OB[b] - OB[a]);
+const fr = (n: number) => n.toFixed(1).replace('.', ',') + ' %';
+const persons = (p: number) => Array.from({ length: 10 }, (_, i) => Math.max(0, Math.min(1, p / 10 - i)));
+---
+<section class="sec fs" id="la-france-en-chiffres">
+  <div class="inner">
+    <div class="fs-top">
+      <div class="fs-head">
+        <span class="eyebrow fs-eb"><span class="fs-flag" aria-hidden="true"><i></i><i></i><i></i></span>La France en chiffres</span>
+        <h2 class="h2">On bouge trop peu. <span class="fs-hl">Et notre santé le paie.</span></h2>
+        <p class="lead-p">Surpoids, sédentarité, mal de dos, cancers : les chiffres officiels sont sans appel. La bonne nouvelle, c'est qu'on peut agir sur une grande partie d'entre eux, en bougeant mieux et plus.</p>
+        <div class="fs-call">
+          <div class="fs-call-h">
+            <span class="fs-call-k">Chez nous, en Centre-Val de Loire</span>
+            <span class="fs-rank">2<sup>e</sup> région la plus touchée</span>
+          </div>
+          <p class="fs-call-big"><b>21,6 %</b> des adultes sont obèses, soit plus d'<strong>1 adulte sur 5</strong> autour de toi.</p>
+          <ul class="fs-bars">
+            {[['Centre-Val de Loire', 21.6, 1], ['Moyenne France', 18.1, 0], ['Occitanie, la moins touchée', 15.5, 0]].map(([n, v, hi]) => (
+              <li class={hi ? 'hi' : undefined}><span class="fs-bn">{n}</span><span class="fs-bt"><i style={`width:${((v as number) / 24) * 100}%`}></i></span><b>{fr(v as number)}</b></li>
+            ))}
+          </ul>
+          <a class="fs-s" href="https://gazette-du-midi.fr/au-sommaire/hommes-et-chiffres/barometre/obesite-pres-d-un-adulte-sur-cinq-concerne-en-france" target="_blank" rel="noopener noreferrer">Source : OFÉO, Ligue contre l'obésité, 2024</a>
+        </div>
+      </div>
+      <figure class="fs-map">
+        <div class="fs-mh">
+          <span class="fs-mt">Obésité adulte par région, 2024</span>
+          <span class="fs-info" aria-live="polite"><b>Centre-Val de Loire</b> 21,6 % · 2<sup>e</sup>/12</span>
+        </div>
+        <svg viewBox={`-6 -6 ${FR.w + 12} ${FR.h + 12}`} role="img" aria-label="Carte de France de l'obésité adulte par région en 2024 : Centre-Val de Loire 21,6 %, deuxième région la plus touchée, moyenne nationale 18,1 %">
+          {FR.r.map((r) => (
+            <path d={r.d} data-n={r.n} data-v={OB[r.n] ?? ''} data-r={OB[r.n] ? RANK.indexOf(r.n) + 1 : ''} fill={shade(OB[r.n])} stroke="#fff" stroke-width="1.6" stroke-linejoin="round" class={r.n === 'Centre-Val de Loire' ? 'fs-cvl' : undefined}><title>{OB[r.n] ? `${r.n} : ${fr(OB[r.n])}` : `${r.n} : non communiqué`}</title></path>
+          ))}
+          {FR.r.filter((r) => OB[r.n]).map((r) => {
+            const [x, y] = LBL[r.n] || r.c;
+            return <text x={x} y={y} text-anchor="middle" dominant-baseline="middle" fill={ink(OB[r.n])} class={r.n === 'Centre-Val de Loire' ? 'fs-lb fs-lb-hi' : r.n === 'Île-de-France' ? 'fs-lb fs-lb-s' : 'fs-lb'}>{fr(OB[r.n])}</text>;
+          })}
+          <circle class="fs-pulse" cx={FR.o[0]} cy={FR.o[1]} r="7" fill="#fff" />
+          <circle cx={FR.o[0]} cy={FR.o[1]} r="4.5" fill="#fff" stroke="#0B1E3D" stroke-width="2.5" />
+        </svg>
+        <figcaption class="fs-leg">
+          <span class="fs-scale"><span>15 %</span><i></i><span>22 %</span></span>
+          <span class="fs-hint">Survole ou touche une région</span>
+          <span class="fs-or"><i></i>Orléans, chez GA Coachs</span>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="fs-grid">
+      {stats.map((x) => (
+        <div class="fs-c">
+          <b class="fs-v">{x.v}</b>
+          <div class="fs-ppl" role="img" aria-label={`${x.p} personnes sur 100`}>
+            {persons(x.p).map((f) => <i style={`--f:${Math.round(f * 100)}%`}></i>)}
+          </div>
+          <p class="fs-t">{x.t}</p>
+          <p class="fs-d">{x.d}</p>
+          <a class="fs-s" href={x.u} target="_blank" rel="noopener noreferrer">Source : {x.s}</a>
+        </div>
+      ))}
+    </div>
+    <p class="fs-turn">Sur chacun de ces fronts, une activité physique régulière et encadrée fait partie des leviers les plus efficaces. <a href="/score-sante/">Tout commence par un bilan santé →</a></p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.fs-map').forEach((m) => {
+    const info = m.querySelector('.fs-info');
+    if (!info) return;
+    const def = info.innerHTML;
+    const show = (p: Element) => {
+      const n = p.getAttribute('data-n'), v = p.getAttribute('data-v'), r = p.getAttribute('data-r');
+      m.querySelectorAll('path.on').forEach((x) => x.classList.remove('on'));
+      p.classList.add('on');
+      info.innerHTML = `<b>${n}</b> ${v ? v.replace('.', ',') + ' %' + ' · ' + r + '<sup>e</sup>/12' : 'non communiqué'}`;
+    };
+    m.querySelectorAll('path[data-n]').forEach((p) => {
+      p.addEventListener('mouseenter', () => show(p));
+      p.addEventListener('click', () => show(p));
+    });
+    m.querySelector('svg')?.addEventListener('mouseleave', () => { m.querySelectorAll('path.on').forEach((x) => x.classList.remove('on')); info.innerHTML = def; });
+  });
+</script>
+
+<style is:global>
+  .fs .fs-top { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 24px 48px; align-items: center; }
+  .fs .fs-eb { display: inline-flex !important; align-items: center; gap: 8px; }
+  .fs .fs-flag { display: inline-flex; width: 22px; height: 15px; border-radius: 3px; overflow: hidden; box-shadow: 0 0 0 1px rgba(11,30,61,.15); }
+  .fs .fs-flag i { flex: 1; }
+  .fs .fs-flag i:nth-child(1) { background: #0055A4; }
+  .fs .fs-flag i:nth-child(2) { background: #fff; }
+  .fs .fs-flag i:nth-child(3) { background: #EF4135; }
+  .fs .fs-map { position: relative; margin: 0; justify-self: center; width: min(100%, 440px); }
+  .fs .fs-map svg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 22px 30px rgba(11,42,122,.18)); }
+  .fs .fs-map path { transition: opacity .2s; }
+  .fs .fs-map svg:hover path:not(:hover):not(.on) { opacity: .75; }
+  .fs .fs-cvl { stroke: #0B1E3D; stroke-width: 2.6; }
+  .fs .fs-lb { font-family: var(--display); font-weight: 700; font-size: 13px; pointer-events: none; }
+  .fs .fs-lb-s { font-size: 10px; }
+  .fs .fs-lb-hi { font-size: 16px; }
+  .fs .fs-pulse { transform-box: fill-box; transform-origin: center; animation: fs-pulse 2.2s ease-out infinite; }
+  @keyframes fs-pulse { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(3); opacity: 0; } }
+  .fs .fs-leg { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin-top: 14px; font-size: 13px; font-weight: 700; color: #3A4A66; }
+  .fs .fs-scale, .fs .fs-or { display: inline-flex; align-items: center; gap: 8px; }
+  .fs .fs-scale i { width: 90px; height: 10px; border-radius: 99px; background: linear-gradient(90deg, rgb(191,219,254), rgb(11,42,122)); }
+  .fs .fs-or i { width: 10px; height: 10px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2.5px #0B1E3D; }
+  .fs .fs-call { margin-top: 24px; padding: 22px 24px; border-radius: 20px; background: #fff; border: 1px solid #DCE6FA; box-shadow: 0 22px 44px -30px rgba(11,42,122,.55); position: relative; overflow: hidden; }
+  .fs .fs-call::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 5px; background: linear-gradient(#2F6FED, #0B2A7A); }
+  .fs .fs-call-h { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+  .fs .fs-call-k { font-size: 12px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: #0037B6; }
+  .fs .fs-rank { padding: 5px 11px; border-radius: 999px; background: #0B1E3D; color: #fff; font-size: 12px; font-weight: 700; }
+  .fs .fs-call-big { margin: 10px 0 16px; color: #3A4A66; font-size: 16px; line-height: 1.45; }
+  .fs .fs-call-big b { display: inline-block; margin-right: 6px; font-family: var(--display); font-size: 46px; line-height: 1; color: #0037B6; letter-spacing: -.02em; vertical-align: -6px; }
+  .fs .fs-call-big strong { color: #0B1E3D; }
+  .fs .fs-bars { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 9px; }
+  .fs .fs-bars li { display: grid; grid-template-columns: minmax(0, 170px) minmax(0, 1fr) 52px; align-items: center; gap: 12px; font-size: 13.5px; color: #3A4A66; }
+  .fs .fs-bars li b { text-align: right; color: #0B1E3D; }
+  .fs .fs-bt { height: 10px; border-radius: 99px; background: #EEF3FC; overflow: hidden; }
+  .fs .fs-bt i { display: block; height: 100%; border-radius: inherit; background: #9DBCF0; }
+  .fs .fs-bars li.hi { font-weight: 700; color: #0B1E3D; }
+  .fs .fs-bars li.hi .fs-bt i { background: linear-gradient(90deg, #2F6FED, #0B2A7A); }
+  .fs .fs-mh { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; margin-bottom: 10px; }
+  .fs .fs-mt { font-size: 12px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: #3A4A66; }
+  .fs .fs-info { font-size: 14px; color: #0037B6; font-weight: 700; }
+  .fs .fs-info b { color: #0B1E3D; margin-right: 4px; }
+  .fs .fs-map path[data-n] { cursor: pointer; }
+  .fs .fs-map path.on { stroke: #0B1E3D; stroke-width: 2.6; }
+  .fs .fs-hint { font-weight: 600; color: #5A6A86; }
+  @media (max-width: 560px) { .fs .fs-bars li { grid-template-columns: minmax(0, 1fr) 52px; } .fs .fs-bars .fs-bt { grid-column: 1 / -1; grid-row: 2; } .fs .fs-call-big b { display: block; margin: 0 0 6px; } }
+  @media (prefers-reduced-motion: reduce) { .fs .fs-pulse { animation: none; opacity: 0; } }
+  .fs .fs-hl { display: block; color: #0037B6; }
+  .fs .fs-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 32px; }
+  .fs .fs-c { display: flex; flex-direction: column; padding: 24px 22px; border-radius: 24px; background: #fff; border: 2px solid var(--line); box-shadow: 0 24px 50px -40px rgba(11,30,61,.5); }
+  .fs .fs-v { font-family: var(--display); font-size: clamp(38px, 3vw, 48px); line-height: 1; color: #0037B6; }
+  .fs .fs-ppl { display: flex; gap: 3px; margin: 14px 0 16px; }
+  .fs .fs-ppl i { flex: 1; aspect-ratio: 1 / 2.1; max-width: 22px; background: linear-gradient(90deg, #2F6FED var(--f), #DCE6FB var(--f)); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 42'%3E%3Ccircle cx='10' cy='6' r='5.5'/%3E%3Cpath d='M3 15a7 7 0 0 1 14 0v11h-3v16H6V26H3z'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 42'%3E%3Ccircle cx='10' cy='6' r='5.5'/%3E%3Cpath d='M3 15a7 7 0 0 1 14 0v11h-3v16H6V26H3z'/%3E%3C/svg%3E") center / contain no-repeat; }
+  .fs .fs-t { margin: 0; font-family: var(--display); font-size: 18px; line-height: 1.3; font-weight: 700; color: var(--ink); }
+  .fs .fs-d { margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: var(--muted); flex: 1; }
+  .fs .fs-s { margin-top: 14px; font-size: 12.5px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  .fs .fs-turn { margin: 26px 0 0; padding: 18px 22px; border-radius: 18px; background: var(--pill); font-size: 16px; font-weight: 700; color: var(--ink); }
+  .fs .fs-turn a { color: #0037B6; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+  @media (max-width: 860px) { .fs .fs-top { grid-template-columns: 1fr; } .fs .fs-map { width: min(100%, 420px); } }
+  @media (max-width: 1060px) { .fs .fs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .fs .fs-grid { grid-template-columns: 1fr; } .fs .fs-turn a { white-space: normal; } }
+</style>

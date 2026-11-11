@@ -1,0 +1,256 @@
+{
+  "slug": "professionnels-de-sante",
+  "path": "/professionnels-de-sante/",
+  "seo": {
+    "title": "Professionnels de santé : collaborer avec un coach sportif",
+    "description": "Médecins, kinés, ostéopathes : un coach sportif diplômé prend le relais pour la reprise d'activité de vos patients, avec leur accord. Centre-Val de Loire."
+  },
+  "hero": {
+    "eyebrow": "Professionnels de santé · Collaboration",
+    "h1": "Médecins, kinés, ostéopathes : collaborons pour vos patients.",
+    "lead": "GA Coachs recherche des professionnels de santé de la région Centre-Val de Loire avec qui travailler. Quand un patient est prêt à reprendre une activité physique, nos coachs diplômés prennent le relais en salle, à son rythme.",
+    "points": [
+      "Un relais concret pour vos patients",
+      "Des coachs diplômés, des séances adaptées",
+      "Un échange simple avec vous, avec l'accord du patient"
+    ]
+  },
+  "pourquoi": {
+    "titre": "Pourquoi travailler ensemble ?",
+    "items": [
+      {
+        "titre": "Un relais concret",
+        "texte": "Vous recommandez l'activité physique, nous aidons votre patient à la mettre en place : un coach, une salle près de chez lui, un programme adapté."
+      },
+      {
+        "titre": "La régularité dans la durée",
+        "texte": "Un suivi en salle aide les patients à tenir dans le temps, là où un conseil seul peut s'essouffler."
+      },
+      {
+        "titre": "Un cadre sécurisé",
+        "texte": "Les coachs respectent les précautions que vous indiquez et vous renvoient le patient en cas de doute."
+      },
+      {
+        "titre": "Un réseau de proximité",
+        "texte": "Des coachs dans les salles Basic-Fit d'Orléans et alentour, et des interventions possibles en établissement."
+      }
+    ]
+  },
+  "collaboration": {
+    "titre": "Ce que nous vous proposons",
+    "items": [
+      {
+        "titre": "Orienter vos patients",
+        "texte": "Une façon simple d'adresser un patient à un coach du réseau, près de chez lui."
+      },
+      {
+        "titre": "Des programmes adaptés",
+        "texte": "Des séances qui tiennent compte de vos recommandations et de ses limites."
+      },
+      {
+        "titre": "Des retours utiles",
+        "texte": "Des points sur l'assiduité et le ressenti du patient, avec son accord."
+      },
+      {
+        "titre": "Des interventions en établissement",
+        "texte": "EHPAD, maisons de retraite, résidences autonomie et hôpitaux : nous pouvons intervenir sur place."
+      },
+      {
+        "titre": "Des échanges de pratiques",
+        "texte": "Des rencontres pour mieux nous connaître et mieux orienter."
+      }
+    ]
+  },
+  "limites": {
+    "titre": "Notre rôle, et ce que nous ne faisons pas",
+    "texte": "Nos coachs ne posent aucun diagnostic, ne prescrivent aucun traitement et ne remplacent ni les soins ni la rééducation. Ils interviennent en complément, dans le respect des recommandations des professionnels de santé."
+  },
+  "etapes": [
+    {
+      "titre": "Un premier échange",
+      "texte": "Un appel ou une visio d'une vingtaine de minutes pour faire connaissance, sans engagement."
+    },
+    {
+      "titre": "On définit le cadre",
+      "texte": "Les patients concernés, les précautions à respecter et la façon dont vous souhaitez les adresser."
+    },
+    {
+      "titre": "Les premiers patients",
+      "texte": "Un coach du réseau accueille vos patients, et nous convenons ensemble des retours que vous souhaitez."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Quels professionnels de santé recherchez-vous ?",
+      "r": "Des médecins généralistes et spécialistes, masseurs-kinésithérapeutes, ostéopathes, infirmiers, diététiciens, ergothérapeutes, enseignants en activité physique adaptée, ainsi que des équipes d'établissements de santé."
+    },
+    {
+      "q": "Est-ce que cela m'engage ?",
+      "r": "Non. Le premier échange est sans engagement : il sert à voir si une collaboration a du sens pour vos patients et pour vous."
+    },
+    {
+      "q": "Vos coachs peuvent-ils accompagner des patients qui ont une pathologie ?",
+      "r": "Ils interviennent en complément de votre suivi, selon vos recommandations. Ils ne remplacent pas les soins et vous renvoient tout patient pour lequel une question médicale se pose."
+    },
+    {
+      "q": "Des informations sur le patient sont-elles partagées ?",
+      "r": "Seulement avec l'accord du patient, et uniquement ce qui est utile : assiduité, ressenti, difficultés rencontrées."
+    },
+    {
+      "q": "Qu'est-ce que BOOST SANTÉ ?",
+      "r": "BOOST SANTÉ est le programme de GA Coachs pour les professionnels de santé : quand un patient est prêt à reprendre une activité physique, un coach sportif diplômé du réseau prend le relais en salle ou en établissement, avec l'accord du patient et dans le respect de vos consignes."
+    },
+    {
+      "q": "Quels patients pouvez-vous accompagner ?",
+      "r": "Notamment les seniors (prévention des chutes), les patients en reprise d'activité après une blessure ou des soins, les personnes atteintes d'une maladie chronique stabilisée, les patients sédentaires ou en surpoids et les personnes qui souffrent du dos, toujours en complément de votre suivi."
+    },
+    {
+      "q": "Comment adresser un patient à un coach ?",
+      "r": "Lors du premier échange, nous définissons ensemble la façon la plus simple pour vous : les patients concernés, les précautions à respecter et le circuit d'orientation. Le patient est ensuite accueilli par un coach du réseau près de chez lui."
+    },
+    {
+      "q": "Où vos coachs accompagnent-ils les patients ?",
+      "r": "Dans les salles Basic-Fit d'Orléans et alentour, où les coachs du réseau GA interviennent, et sur place dans les établissements : EHPAD, maisons de retraite, résidences autonomie, cliniques et hôpitaux."
+    },
+    {
+      "q": "Vos coachs posent-ils un diagnostic ?",
+      "r": "Non. Ils ne posent aucun diagnostic, ne prescrivent aucun traitement et ne remplacent ni les soins ni la rééducation. En cas de doute, le patient vous est renvoyé."
+    },
+    {
+      "q": "Vos coachs sont-ils diplômés ?",
+      "r": "Oui. Tous les coachs du réseau GA sont des coachs sportifs diplômés. Le diplôme de chaque coach figure sur sa fiche."
+    },
+    {
+      "q": "Dans quelle zone intervenez-vous ?",
+      "r": "En région Centre-Val de Loire, en priorité à Orléans et dans sa métropole, selon la disponibilité des coachs du réseau."
+    },
+    {
+      "q": "Sous quel délai nous répondez-vous ?",
+      "r": "Chaque demande reçoit une réponse sous 48 h ouvrées, sans engagement. Le premier échange dure une vingtaine de minutes, par téléphone ou en visio."
+    }
+  ],
+  "form": {
+    "titre": "Proposer un partenariat",
+    "intro": "Dites-nous en trois minutes ce que vous imaginez. Nous revenons vers vous pour un premier échange, sans engagement.",
+    "delai": "Nous vous répondons sous 48 h ouvrées.",
+    "professions": [
+      [
+        "medecin",
+        "Médecin"
+      ],
+      [
+        "kine",
+        "Kinésithérapeute"
+      ],
+      [
+        "osteo",
+        "Ostéopathe"
+      ],
+      [
+        "infirmier",
+        "Infirmier(ère)"
+      ],
+      [
+        "dieteticien",
+        "Diététicien(ne)"
+      ],
+      [
+        "ergo-apa",
+        "Ergothérapeute ou enseignant en APA"
+      ],
+      [
+        "etablissement",
+        "Équipe d'un établissement de santé"
+      ],
+      [
+        "autre",
+        "Autre profession de santé"
+      ]
+    ],
+    "sujets": [
+      [
+        "orienter",
+        "Orienter des patients vers un coach"
+      ],
+      [
+        "etablissement",
+        "Une intervention dans votre établissement"
+      ],
+      [
+        "programmes",
+        "Construire des programmes ensemble"
+      ],
+      [
+        "echanger",
+        "Échanger sur nos pratiques"
+      ]
+    ],
+    "publics": [
+      [
+        "seniors",
+        "Seniors, prévention des chutes"
+      ],
+      [
+        "reprise",
+        "Reprise d'activité après blessure ou soins"
+      ],
+      [
+        "chronique",
+        "Maladie chronique stabilisée"
+      ],
+      [
+        "sedentarite",
+        "Sédentarité, surpoids"
+      ],
+      [
+        "dos",
+        "Douleurs de dos"
+      ]
+    ],
+    "departements": [
+      "Loiret (45)",
+      "Cher (18)",
+      "Eure-et-Loir (28)",
+      "Indre (36)",
+      "Indre-et-Loire (37)",
+      "Loir-et-Cher (41)",
+      "Autre"
+    ],
+    "contacts": [
+      [
+        "telephone",
+        "Par téléphone"
+      ],
+      [
+        "email",
+        "Par email"
+      ],
+      [
+        "visio",
+        "En visio"
+      ]
+    ],
+    "consentement": "J'accepte que GA Coachs utilise ces informations pour me recontacter au sujet de ce partenariat."
+  },
+  "charte": {
+    "titre": "Nos engagements envers vous et vos patients",
+    "items": [
+      {
+        "titre": "Votre cadre médical prime",
+        "texte": "Nous suivons vos précautions et vos contre-indications. En cas de doute, le patient vous est renvoyé."
+      },
+      {
+        "titre": "Le patient décide",
+        "texte": "Aucune information n'est échangée sans son accord, et seulement ce qui est utile."
+      },
+      {
+        "titre": "Des coachs diplômés",
+        "texte": "Chaque coach du réseau est qualifié et accompagne le patient à son rythme."
+      },
+      {
+        "titre": "Une réponse rapide",
+        "texte": "Chaque demande reçoit une réponse sous 48 h ouvrées, sans engagement."
+      }
+    ]
+  }
+}

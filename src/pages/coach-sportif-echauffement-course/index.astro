@@ -1,0 +1,227 @@
+---
+import BoostPCQ from '../../components/BoostPCQ.astro';
+// BOOST EVENT · COURSES : un coach sportif pour échauffer les participants des marches et courses
+// (5 km, 10 km, semi, marathon, trail, courses enfants, entreprises, caritatives). Page pour les organisateurs.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import Configurateur from '../../components/proto/Configurateur.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+import articles from '../../data/articles.json';
+
+const path = '/coach-sportif-echauffement-course/';
+const guides = (articles as any[]).filter((a) => a.ctaHref === path);
+const courses = [
+  { i: '🚶', t: 'Marches', d: 'Marches solidaires, randonnées, marche nordique : un réveil musculaire doux, accessible à tous les âges.' },
+  { i: '🏃', t: '5 km et 10 km', d: 'Le public le plus large, souvent débutant : un échauffement simple, rythmé, qui met l\'ambiance.' },
+  { i: '🥇', t: 'Semi-marathon et marathon', d: 'Un échauffement progressif qui prépare sans fatiguer, pour garder l\'énergie pour les kilomètres.' },
+  { i: '⛰️', t: 'Trail', d: 'Chevilles, appuis, montées et descentes : un échauffement pensé pour les terrains variés.' },
+  { i: '🧒', t: 'Courses enfants', d: 'Un échauffement ludique, en jeu, adapté à chaque âge.' },
+  { i: '🏢', t: 'Courses d\'entreprise et caritatives', d: 'Des participants de tous niveaux, souvent peu entraînés : sécurité et convivialité avant tout.' },
+];
+const missions = [
+  { t: 'L\'échauffement collectif avant le départ', d: 'Un coach sur le podium, micro en main, fait bouger toute la ligne de départ, avec des mouvements que chacun peut suivre dans la foule.' },
+  { t: 'Un échauffement par vague ou par sas', d: 'Pour les grandes courses à départs échelonnés, plusieurs coachs ou plusieurs passages, au bon moment pour chaque vague.' },
+  { t: 'Le retour au calme après l\'arrivée', d: 'Une séance de récupération douce dans la zone d\'arrivée ou sur le village, pour finir en beauté.' },
+  { t: 'L\'animation du village', d: 'Petites séances, défis, conseils aux coureurs : le village vit avant et après la course.' },
+  { t: 'Les vidéos avant la course', d: 'Des vidéos courtes pour vos réseaux : comment se préparer, comment s\'échauffer, quoi faire le jour J.' },
+  { t: 'Un partenaire sur plusieurs éditions', d: 'Le même coach d\'une année sur l\'autre : vos coureurs le reconnaissent et l\'attendent.' },
+];
+const deroule = [
+  { m: '20 min avant', t: 'Mise en place', d: 'Le coach se présente, explique le déroulé et capte l\'attention de la foule.' },
+  { m: '15 min avant', t: 'Mobilité', d: 'Chevilles, genoux, hanches, épaules : des mouvements amples et doux pour réveiller les articulations.' },
+  { m: '10 min avant', t: 'Cardio progressif', d: 'Petits pas sur place, montées de genoux légères, talons-fesses : le cœur monte doucement.' },
+  { m: '5 min avant', t: 'Activation et ambiance', d: 'Quelques mouvements plus dynamiques adaptés à la distance, respiration, mise en condition et compte à rebours.' },
+];
+const organisation = [
+  { t: 'Un podium ou une estrade', d: 'Visible depuis la ligne de départ, pour que tout le monde voie les mouvements, même au fond du peloton.' },
+  { t: 'La sonorisation et un micro', d: 'Micro sans fil ou serre-tête de préférence : le coach garde les mains libres pour montrer chaque geste.' },
+  { t: 'Un créneau dans le programme', d: 'Calé avec le speaker et le chronométrage, juste avant l\'appel au départ de chaque vague.' },
+  { t: 'Un référent le jour J', d: 'Une personne de l\'organisation à joindre pour les horaires, les changements et la sécurité.' },
+];
+const faq = [
+  { q: 'Qu\'est-ce que BOOST EVENT Courses ?', r: 'C\'est l\'offre de GA Coachs pour les organisateurs de courses et de marches : un coach sportif diplômé monte sur le podium et échauffe tous les participants avant le départ. Il peut aussi animer le village, guider le retour au calme après l\'arrivée et préparer des vidéos pour vos réseaux.' },
+  { q: 'Combien de temps dure l\'échauffement ?', r: 'En général 10 à 15 minutes juste avant le départ, adapté à la distance et au public. Pour un marathon, plus doux et plus progressif ; pour un 5 km, plus dynamique.' },
+  { q: 'Combien de participants un coach peut-il échauffer ?', r: 'Avec un podium visible et une bonne sonorisation, un coach échauffe toute une ligne de départ. Pour les très grandes courses ou les départs par vagues, nous prévoyons plusieurs coachs ou plusieurs passages.' },
+  { q: 'Que doit prévoir l\'organisation ?', r: 'Un podium ou une estrade visible, la sonorisation avec un micro (sans fil ou serre-tête de préférence), un créneau calé avec le speaker et un référent joignable le jour J. Nous faisons le point technique avec vous avant la course.' },
+  { q: 'Le son est-il fourni ?', r: 'Le coach s\'appuie sur la sonorisation et le podium de l\'organisation. Nous calons les détails techniques avec vous avant la course.' },
+  { q: 'Pouvez-vous gérer plusieurs départs ?', r: 'Oui, avec un ou plusieurs coachs selon le nombre de vagues et de distances. Chaque vague a son échauffement, au bon moment.' },
+  { q: 'L\'échauffement convient-il aux débutants et aux enfants ?', r: 'Oui. Les mouvements sont simples, sans matériel, faciles à suivre dans la foule et adaptés à tous les niveaux. Pour les courses enfants, l\'échauffement se fait sous forme de jeu.' },
+  { q: 'Faites-vous des étirements après l\'arrivée ?', r: 'Oui, sous forme de retour au calme : marche, respiration et mouvements de mobilité doux dans la zone d\'arrivée ou sur le village. Pas d\'étirements forcés juste après l\'effort.' },
+  { q: 'Et s\'il pleut ou s\'il fait très chaud ?', r: 'Le coach adapte la durée et l\'intensité à la météo : plus court et plus actif par temps froid ou humide, plus calme et avec des rappels d\'hydratation par forte chaleur.' },
+  { q: 'Le coach peut-il préparer les coureurs avant le jour J ?', r: 'Oui, avec des vidéos courtes pour vos réseaux et vos emails : comment s\'échauffer, comment se préparer, que faire le jour de la course. Voir aussi BOOST COMMUNICATION.' },
+  { q: 'Quel coach viendra sur notre course ?', r: 'Tous les coachs du réseau GA peuvent intervenir. Nous choisissons avec vous le coach le plus adapté à votre course, à votre public et à votre lieu.' },
+  { q: 'Où intervenez-vous ?', r: 'En Centre-Val de Loire et en Île-de-France en priorité, depuis Orléans. Pour une course ailleurs en France, la demande est étudiée selon la date et le lieu.' },
+  { q: 'Les coachs sont-ils assurés ?', r: 'Oui. Les coachs du réseau GA sont diplômés, titulaires de leur carte professionnelle et couverts par une assurance responsabilité civile professionnelle.' },
+  { q: 'Comment est fixé le tarif et quand réserver ?', r: 'Sur devis, selon le nombre de départs, la durée de présence, les animations demandées et le déplacement. Le mieux est de nous contacter dès que la date de votre course est fixée.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Coach sportif pour l\'échauffement des courses et des marches', serviceType: 'Échauffement collectif et animation sportive d\'événements de course à pied', audience: { '@type': 'Audience', audienceType: 'Organisateurs de courses, marches, trails, courses d\'entreprise et caritatives' }, provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr', founder: { '@type': 'Person', name: 'Garry Babaud', jobTitle: 'Coach en chef' } }, areaServed: ['Centre-Val de Loire', 'Île-de-France', 'France'], url: 'https://gacoachs.fr' + path, description: 'Un coach sportif diplômé échauffe les participants des courses et des marches avant le départ, anime le village et guide le retour au calme après l\'arrivée.', hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Prestations BOOST EVENT Courses', itemListElement: missions.map((m) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: m.t, description: m.d } })) } },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' }, { '@type': 'ListItem', position: 2, name: 'BOOST', item: 'https://gacoachs.fr/boost/' }, { '@type': 'ListItem', position: 3, name: 'Échauffement de courses', item: 'https://gacoachs.fr' + path }] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout title="Échauffement de courses : coach sportif sur le podium" description="Un coach sportif diplômé sur le podium pour échauffer vos coureurs et marcheurs : 5 km, 10 km, semi, trail, courses d'entreprise et solidaires. Sur devis." path={path} jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')} stickyCtaHref="#cf-course" stickyCtaLabel="Composer mon échauffement">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'BOOST', href: '/boost/' }, { label: 'Échauffement de courses', href: path }]} />
+      <span class="eyebrow eyebrow-dark">BOOST EVENT · Courses et marches</span>
+      <h1>Un coach sportif sur le podium pour <span class="hl-text">échauffer vos coureurs</span>.</h1>
+      <p class="phero-lead">Marches, 5 km, 10 km, semi-marathon, marathon, trail, courses enfants, d'entreprise ou solidaires : un coach sportif diplômé du réseau GA prend le micro et fait bouger toute la ligne de départ. Vos participants partent mieux préparés, l'ambiance monte d'un cran et votre événement gagne une image professionnelle.</p>
+      <ul class="facts-dark"><li>Un échauffement adapté à chaque distance</li><li>Des coachs diplômés, assurés, à l'aise au micro</li><li>Avant le départ, sur le village et après l'arrivée</li></ul>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#cf-course">Composer mon échauffement</a>
+        <a class="btn btn-glass" href="#deroule">Le déroulé type</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec ec-bref-sec">
+    <div class="inner">
+      <div class="ec-bref">
+        <p class="ec-bref-k">En bref</p>
+        <ul>
+          <li><b>Quoi :</b> un coach sportif diplômé échauffe tous vos participants au micro, juste avant le départ.</li>
+          <li><b>Pour qui :</b> organisateurs de marches, courses, semi-marathons, marathons, trails, courses enfants, d'entreprise et solidaires.</li>
+          <li><b>En plus :</b> animation du village, retour au calme après l'arrivée, vidéos de préparation pour vos réseaux.</li>
+          <li><b>Comment :</b> vous nous envoyez la date et le format, nous revenons vers vous sous 48 h ouvrées avec une proposition sur devis.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Pour quelles courses</span>
+      <h2 class="h2">Un échauffement pensé pour chaque distance.</h2>
+      <div class="ec-grid">{courses.map((c) => <div class="tile ec-t"><span class="ec-i" aria-hidden="true">{c.i}</span><h3>{c.t}</h3><p>{c.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec band" id="deroule">
+    <div class="inner">
+      <span class="eyebrow">Le déroulé type</span>
+      <h2 class="h2">Les 20 dernières minutes avant le départ.</h2>
+      <ol class="ec-tl">{deroule.map((d) => <li><span class="ec-m">{d.m}</span><div><b>{d.t}</b><p>{d.d}</p></div></li>)}</ol>
+      <p class="ec-n">Le déroulé s'adapte à la distance, à la météo, au public et au rythme de l'organisation.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Ce que nous faisons</span>
+      <h2 class="h2">Avant, pendant et après la course.</h2>
+      <div class="ec-grid">{missions.map((m) => <div class="tile ec-t"><h3>{m.t}</h3><p>{m.d}</p></div>)}</div>
+      <p class="ec-n">Des vidéos pour votre communication ? Voir aussi <a href="/coach-sportif-campagne-sport-sante/">BOOST COMMUNICATION</a>.</p>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Pourquoi un vrai coach</span>
+      <h2 class="h2">Un départ réussi commence par un bon échauffement.</h2>
+      <div class="ec-grid">
+        <div class="tile ec-t"><h3>Des coureurs mieux préparés</h3><p>Un échauffement progressif, adapté à la distance, prépare le corps à l'effort plutôt que de partir à froid.</p></div>
+        <div class="tile ec-t"><h3>Des gestes sûrs pour tous</h3><p>Dans une foule de tous niveaux, chaque mouvement doit être simple et sans risque. C'est le métier d'un coach.</p></div>
+        <div class="tile ec-t"><h3>Une ambiance et une image</h3><p>Un coach au micro fédère la ligne de départ et donne une image professionnelle à votre événement.</p></div>
+        <div class="tile ec-t"><h3>Un discours de prévention</h3><p>Partir à son rythme, s'hydrater, écouter son corps : le coach glisse les bons messages au bon moment, avec des mots simples.</p></div>
+        <div class="tile ec-t"><h3>Des participants qui reviennent</h3><p>Un départ convivial et bien encadré laisse un bon souvenir de la course, et donne envie de revenir l'année suivante.</p></div>
+        <div class="tile ec-t"><h3>Un interlocuteur unique</h3><p>Un seul contact pour le choix du coach, le déroulé et la logistique, de la demande jusqu'au jour J.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Côté organisation</span>
+      <h2 class="h2">Ce qu'il faut prévoir, et c'est tout.</h2>
+      <p class="ec-n">Le coach arrive avec son déroulé, ses mouvements et son énergie. De votre côté, quatre choses suffisent.</p>
+      <div class="ec-grid ec-grid4">{organisation.map((o, n) => <div class="tile ec-t"><span class="ec-num" aria-hidden="true">{n + 1}</span><h3>{o.t}</h3><p>{o.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <Configurateur cle="course" />
+
+  <section class="sec" id="contact">
+    <div class="inner ec-two">
+      <div>
+        <span class="eyebrow">Organisateurs</span>
+        <h2 class="h2">Parlons de votre course.</h2>
+        <p>Nom de la course, date, lieu, distances, nombre de participants : nous revenons vers vous sous 48 h ouvrées avec une proposition. Vos informations servent uniquement à répondre à votre demande (<a href="/confidentialite/">confidentialité</a>).</p>
+        <p class="ec-n">Vous êtes coureur et vous voulez vous préparer ? Voir notre <a href="/preparation-course/">préparation course</a>.</p>
+      </div>
+      <form class="ec-form" name="course" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-boost/" aria-label="Parler de votre course">
+        <input type="hidden" name="form-name" value="course" />
+        <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+        <label>Organisation ou association<input name="structure" required autocomplete="organization" /></label>
+        <label>Nom de la course<input name="course" required /></label>
+        <label>Date<input name="date" placeholder="Ex. : dimanche 12 avril 2027" /></label>
+        <label>Lieu<input name="lieu" required placeholder="Ville" /></label>
+        <label>Distances et formats<input name="distances" placeholder="Ex. : 5 km, 10 km, semi, marche" /></label>
+        <label>Nombre de participants <small>(environ)</small><input name="participants" inputmode="numeric" /></label>
+        <label>Ce dont vous avez besoin
+          <select name="besoin" required><option value="">Choisir</option>{missions.map((m) => <option value={m.t}>{m.t}</option>)}<option value="Plusieurs prestations">Plusieurs prestations</option></select>
+        </label>
+        <label>Prénom et nom<input name="nom" required autocomplete="name" /></label>
+        <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Téléphone <small>(facultatif)</small><input type="tel" name="telephone" autocomplete="tel" /></label>
+        <label>Précisions <small>(facultatif)</small><textarea name="message" rows="3"></textarea></label>
+        <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+      </form>
+    </div>
+  </section>
+
+  {guides.length > 0 && (
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Nos guides</span>
+      <h2 class="h2">Bien échauffer ses participants, distance par distance.</h2>
+      <ul class="ec-guides">{guides.map((a) => <li><a href={`/blog/${a.slug}/`}>{a.titre}</a></li>)}</ul>
+    </div>
+  </section>
+  )}
+
+  <BoostPCQ id="course" />
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Vos questions sur l'échauffement de course.</h2>
+      <div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title="Un coach sportif pour échauffer les coureurs de votre course" label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>
+
+<style>
+  .ec-bref-sec { padding-top: 28px; padding-bottom: 8px; }
+  .ec-bref { border-left: 4px solid #1D5BD8; background: #fff; border-radius: 0 18px 18px 0; padding: 18px 22px; box-shadow: 0 12px 30px -24px rgba(11,30,61,.5); }
+  .ec-bref-k { margin: 0 0 8px; font-weight: 700; text-transform: none; letter-spacing: .02em; font-size: 12px; color: #1D5BD8; }
+  .ec-bref ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #0B1E3D; line-height: 1.5; }
+  .ec-num { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #1D5BD8; color: #fff; font-weight: 700; }
+  .ec-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ec-t h3 { margin: 6px 0 8px; }
+  .ec-t p { margin: 0; line-height: 1.55; color: #2A3756; }
+  .ec-i { font-size: 30px; }
+  .ec-tl { list-style: none; padding: 0; margin: 22px 0 0; display: grid; border-left: 3px solid #1D5BD8; }
+  .ec-tl li { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 14px; padding: 14px 0 14px 18px; border-bottom: 1px solid #DCE6FB; }
+  .ec-m { font-weight: 700; color: #1D5BD8; }
+  .ec-tl b { color: #0B1E3D; }
+  .ec-tl p { margin: 4px 0 0; color: #2A3756; line-height: 1.5; }
+  .ec-n { color: #2A3756; margin-top: 14px; }
+  .ec-two { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .ec-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; } }
+  .ec-form { display: grid; gap: 12px; background: #fff; border: 1px solid #DCE6FB; border-radius: 20px; padding: 22px; min-width: 0; }
+  .ec-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; color: #0B1E3D; min-width: 0; }
+  .ec-form input, .ec-form select, .ec-form textarea { width: 100%; box-sizing: border-box; min-height: 46px; padding: 10px 12px; border: 1px solid #B8C6E3; border-radius: 12px; font: inherit; font-size: 16px; background: #fff; }
+  .ec-guides { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; }
+  .ec-guides a { display: block; padding: 12px 14px; border: 1px solid #DCE6FB; border-radius: 14px; background: #fff; color: #0B1E3D; font-weight: 600; line-height: 1.35; text-decoration: none; }
+  .ec-grid.ec-grid4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1100px) { .ec-grid.ec-grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px) { .ec-grid, .ec-grid.ec-grid4, .ec-guides { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 767px) { .ec-tl li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+</style>

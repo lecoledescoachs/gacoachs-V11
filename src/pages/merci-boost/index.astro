@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MerciProto from '../../components/proto/MerciProto.astro';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+    { '@type': 'ListItem', position: 2, name: 'BOOST 30 réservé', item: 'https://gacoachs.fr/merci-boost/' },
+  ],
+};
+---
+<BaseLayout
+  noindex={true}
+  title="BOOST 30 réservé · GA Coachs"
+  description="Ta séance BOOST 30 offerte a bien été réservée auprès de GA Coachs."
+  path="/merci-boost/"
+  stickyCtaHref={false}
+  jsonLd={jsonLd}
+>
+  <MerciProto v="boost" />
+</BaseLayout>
+
+
+<script define:vars={{ evenement: 'boost_lead_envoye' }}>
+  if (window.trackConversion) window.trackConversion(evenement);
+</script>
+
+
+

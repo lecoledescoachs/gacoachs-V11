@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Contenu from '../../components/proto/AssoContenu.astro';
+import '../../styles/proto-structures.css';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTAFinal from '../../components/CTAFinal.astro';
+import LeadQuiz from '../../components/LeadQuiz.astro';
+import Offres from '../../components/Offres.astro';
+import Simulateur from '../../components/Simulateur.astro';
+import articles from '../../data/articles.json';
+import asso from '../../data/associations.json';
+import villes from '../../data/villes.json';
+
+const siteUrl = 'https://gacoachs.fr';
+const url = siteUrl + asso.path;
+const guides = articles.filter((a) => a.ctaHref === asso.path);
+const { hero, definition, experience, services, benefices, etapes, zone, faq, contact, seo, quiz } = asso;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Coaching sportif pour associations de musculation',
+    serviceType: 'Intervention de coachs sportifs diplômés dans les salles de musculation associatives',
+    description: seo.description,
+    url,
+    provider: { '@type': 'Organization', name: 'GA Coachs', url: siteUrl + '/' },
+    areaServed: [
+      ...zone.departements.map((d) => ({ '@type': 'AdministrativeArea', name: d.nom })),
+      { '@type': 'AdministrativeArea', name: 'Centre-Val de Loire' },
+    ],
+    audience: { '@type': 'BusinessAudience', audienceType: 'Présidents et bureaux d\'associations de musculation' },
+  },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' }, { '@type': 'ListItem', position: 2, name: 'Associations de musculation', item: url }] },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+];
+import CopyBlocs from '../../components/CopyBlocs.astro';
+---
+<BaseLayout image="/images/og-boost-asso.jpg"
+  title={seo.title}
+  description={seo.description}
+  path={asso.path}
+  jsonLd={jsonLd}
+  stickyCtaHref="#as-quiz"
+  stickyCtaLabel="Faire le quiz (1 min)"
+>
+<div class="proto">
+  <Contenu />
+</div>
+<script type="application/json" id="ps-data" set:html={JSON.stringify({ kind: 'asso', tarifs: asso.simulateur.tarifs, quiz: asso.quiz })} />
+</BaseLayout>
+
+<script>
+  import '../../scripts/proto-struct.ts';
+</script>

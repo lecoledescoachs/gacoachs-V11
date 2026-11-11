@@ -1,0 +1,63 @@
+---
+interface CasClient {
+  entreprise: string;
+  salaries: number;
+  formule: string;
+  seances: number;
+  participation: string;
+  satisfaction: string;
+  evolutionScore?: string;
+  temoignageDirigeant?: string;
+  temoignageSalarie?: string;
+}
+interface Props {
+  cas: CasClient[];
+}
+const { cas } = Astro.props;
+---
+{cas.length > 0 ? (
+  <div class="cas-clients">
+    {cas.map((c) => (
+      <div class="cas-client card">
+        <h3>{c.entreprise}</h3>
+        <div class="cas-client__grid">
+          <div><span>Effectif</span><strong>{c.salaries} salariés</strong></div>
+          <div><span>Formule</span><strong>{c.formule}</strong></div>
+          <div><span>Séances réalisées</span><strong>{c.seances}</strong></div>
+          <div><span>Participation</span><strong>{c.participation}</strong></div>
+          <div><span>Satisfaction</span><strong>{c.satisfaction}</strong></div>
+          {c.evolutionScore && <div><span>Évolution BOOST Score</span><strong>{c.evolutionScore}</strong></div>}
+        </div>
+        {c.temoignageDirigeant && <blockquote>« {c.temoignageDirigeant} »<cite>Dirigeant, {c.entreprise}</cite></blockquote>}
+        {c.temoignageSalarie && <blockquote>« {c.temoignageSalarie} »<cite>Salarié, {c.entreprise}</cite></blockquote>}
+      </div>
+    ))}
+  </div>
+) : (
+  <div class="cas-clients__empty">
+    <p>Les premières études de cas clients seront publiées ici, avec l'accord explicite de chaque entreprise concernée : effectif, formule, séances réalisées, participation, satisfaction et témoignages. Aucun cas ni résultat n'est présenté tant qu'il n'est pas réel et vérifiable.</p>
+  </div>
+)}
+
+<style>
+  .cas-clients { display: grid; gap: 20px; grid-template-columns: 1fr; }
+  .cas-client { padding: 26px; }
+  .cas-client h3 { font-size: 17px; }
+  .cas-client__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
+  .cas-client__grid div { display: flex; flex-direction: column; gap: 2px; }
+  .cas-client__grid span { font-size: 11px; color: var(--text-muted); }
+  .cas-client__grid strong { font-size: 14px; color: var(--navy); }
+  .cas-client blockquote { margin: 16px 0 0; padding: 14px 16px; background: var(--ice); border-radius: var(--radius-sm); font-size: 13.5px; font-style: italic; color: var(--navy); }
+  .cas-client blockquote cite { display: block; margin-top: 6px; font-size: 12px; font-style: normal; color: var(--text-muted); }
+
+  .cas-clients__empty {
+    padding: 36px;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius-md);
+  }
+  .cas-clients__empty p { color: var(--text-muted); font-size: 14px; max-width: 68ch; }
+
+  @media (min-width: 700px) {
+    .cas-clients { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  }
+</style>

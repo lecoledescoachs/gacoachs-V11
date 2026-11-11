@@ -1,0 +1,146 @@
+---
+interface Props {
+  url: string;
+  title: string;
+}
+const { url, title } = Astro.props;
+const fullUrl = `https://gacoachs.fr${url}`;
+const encodedUrl = encodeURIComponent(fullUrl);
+const encodedTitle = encodeURIComponent(title);
+---
+<div class="share" data-url={fullUrl} data-title={title}>
+  <button type="button" class="share__toggle" id="share-toggle" aria-haspopup="true" aria-expanded="false">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="18" cy="5" r="3"></circle>
+      <circle cx="6" cy="12" r="3"></circle>
+      <circle cx="18" cy="19" r="3"></circle>
+      <line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line>
+      <line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line>
+    </svg>
+    Partager cette fiche
+  </button>
+
+  <div class="share__panel" id="share-panel" hidden>
+    <a href={`https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`} target="_blank" rel="noopener noreferrer" class="share__option" data-track-click="share_whatsapp">
+      WhatsApp
+    </a>
+    <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`} target="_blank" rel="noopener noreferrer" class="share__option" data-track-click="share_facebook">
+      Facebook
+    </a>
+    <a href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`} target="_blank" rel="noopener noreferrer" class="share__option" data-track-click="share_x">
+      X
+    </a>
+    <button type="button" class="share__option share__copy" id="share-copy" data-track-click="share_copy_link">
+      Copier le lien
+    </button>
+  </div>
+</div>
+
+<style>
+  .share { position: relative; display: inline-block; }
+  .share__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--white);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    transition: border-color .2s var(--ease), color .2s var(--ease);
+  }
+  .share__toggle:hover { border-color: var(--blue); color: var(--blue); }
+
+  .share__panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: 0 20px 40px -16px rgba(11, 30, 61, 0.3);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 180px;
+    z-index: 20;
+    animation: share-in .2s var(--ease);
+  }
+  .share__panel[hidden] { display: none !important; }
+  @keyframes share-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .share__option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--navy);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .share__option:hover { background: var(--ice); }
+  .share__copy--done { color: var(--blue); font-weight: 700; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.share').forEach((root) => {
+    const url = root.dataset.url || '';
+    const title = root.dataset.title || '';
+    const toggle = root.querySelector<HTMLButtonElement>('.share__toggle');
+    const panel = root.querySelector<HTMLElement>('.share__panel');
+    const copyBtn = root.querySelector<HTMLButtonElement>('.share__copy');
+
+    toggle?.addEventListener('click', async () => {
+      // Sur mobile, on privilégie le menu de partage natif du téléphone.
+      if (navigator.share) {
+        try {
+          await navigator.share({ title, url });
+          if (typeof (window as any).gtag === 'function') (window as any).gtag('event', 'share_native');
+        } catch (e) {
+          // annulation par l'utilisateur : rien à faire
+        }
+        return;
+      }
+      const isOpen = !panel?.hasAttribute('hidden');
+      if (isOpen) {
+        panel?.setAttribute('hidden', '');
+        toggle.setAttribute('aria-expanded', 'false');
+      } else {
+        panel?.removeAttribute('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!root.contains(e.target as Node)) {
+        panel?.setAttribute('hidden', '');
+        toggle?.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    copyBtn?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        const original = copyBtn.textContent;
+        copyBtn.textContent = 'Lien copié !';
+        copyBtn.classList.add('share__copy--done');
+        setTimeout(() => {
+          copyBtn.textContent = original;
+          copyBtn.classList.remove('share__copy--done');
+        }, 2000);
+        if (typeof (window as any).gtag === 'function') (window as any).gtag('event', 'share_copy_link');
+      } catch (e) {
+        // presse-papiers indisponible : rien de plus à faire
+      }
+    });
+  });
+</script>

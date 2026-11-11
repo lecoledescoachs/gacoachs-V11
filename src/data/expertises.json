@@ -1,0 +1,204 @@
+[
+  {
+    "slug": "coaching-sportif",
+    "nom": "Coaching sportif",
+    "resume": "Le cœur de l'activité GA Coachs : un accompagnement personnalisé pour perdre du poids, prendre du muscle, se remettre en forme ou reprendre le sport, avec un vrai suivi dans la durée, pas un programme générique.",
+    "sousThemes": [
+      "Perte de Poids",
+      "Prise de muscle",
+      "Remise en Forme",
+      "Reprise du sport"
+    ],
+    "publics": [
+      "Débutants complets",
+      "Sportifs confirmés qui veulent passer un palier",
+      "Reprise après une longue pause",
+      "Toute personne fatiguée de tenter seule sans résultat durable"
+    ],
+    "benefices": [
+      "Un accompagnement adapté à ton objectif réel, pas à un standard générique",
+      "Un suivi personnalisé en salle, avec correction technique en temps réel",
+      "Une progression mesurée et visible dans le temps",
+      "Une régularité qui tient au-delà des trois premières semaines"
+    ]
+  },
+  {
+    "slug": "preparation-physique",
+    "nom": "Préparation physique",
+    "resume": "Une préparation physique structurée pour sportifs, jeunes, parents, clubs et équipes.",
+    "sousThemes": [
+      "Sportifs",
+      "Jeunes",
+      "Parents",
+      "Clubs",
+      "Équipes"
+    ],
+    "publics": [
+      "Sportifs amateurs et confirmés",
+      "Clubs et équipes"
+    ],
+    "benefices": [
+      "Une préparation adaptée au sport pratiqué",
+      "Un travail sur la performance et la prévention des blessures"
+    ]
+  },
+  {
+    "slug": "preparation-concours",
+    "nom": "Préparation concours",
+    "resume": "Une préparation physique ciblée pour les concours avec tests physiques : CQP IF, BPJEPS APSF, Police, Gendarmerie, Armée, Pompiers.",
+    "sousThemes": [
+      "CQP IF",
+      "BPJEPS APSF",
+      "Police",
+      "Gendarmerie",
+      "Armée",
+      "Pompiers"
+    ],
+    "publics": [
+      "Candidats à un concours avec épreuves physiques"
+    ],
+    "benefices": [
+      "Un entraînement calé sur les épreuves réelles du concours",
+      "Un suivi de la progression jusqu'au jour J"
+    ],
+    "concoursIntro": "Chaque concours a ses épreuves, ses barèmes et ses dates. Voici ce que nous préparons, d'après les informations publiques : vérifie toujours la notice officielle de ta session, nous calons ton entraînement dessus.",
+    "concours": [
+      {
+        "nom": "Police nationale",
+        "sous": "Gardien de la paix",
+        "epreuves": [
+          "Parcours d'habileté motrice : 10 ateliers à enchaîner, chronométrés",
+          "Test d'endurance de type Luc Léger : des allers-retours de 20 m au rythme d'un signal sonore"
+        ],
+        "point": "Une note inférieure à 7/20 à l'un des deux tests est éliminatoire, et un certificat médical d'aptitude est exigé.",
+        "prepa": "Nous travaillons l'enchaînement des ateliers au chrono et la progression au test d'endurance.",
+        "source": {
+          "nom": "Digischool",
+          "url": "https://www.digischool.fr/articles/concours/gardien-de-la-paix/concours-gardien-de-la-paix-2027/"
+        },
+        "emoji": "🚓"
+      },
+      {
+        "nom": "Gendarmerie",
+        "sous": "Sous-officiers et officiers",
+        "epreuves": [
+          "Sous-officiers : parcours d'obstacles, simulation de combat et transport de poids",
+          "Officiers : 50 m, 3 000 m, abdominaux, tractions et suspension à la barre fixe"
+        ],
+        "point": "Des tests supplémentaires existent pour certaines unités (intervention, montagne, nautique).",
+        "prepa": "Nous développons la force, l'endurance et la puissance, puis les enchaînements propres à ton épreuve.",
+        "source": {
+          "nom": "Gendarmerie nationale",
+          "url": "https://www.gendarmerie.interieur.gouv.fr/gendinfo/dossiers/le-gout-de-l-effort/le-sport-fil-conducteur-de-la-formation"
+        },
+        "emoji": "🛡️"
+      },
+      {
+        "nom": "Sapeurs-pompiers",
+        "sous": "Sapeur-pompier professionnel",
+        "epreuves": [
+          "Natation, éliminatoire",
+          "Parcours professionnel adapté",
+          "Endurance cardio-respiratoire"
+        ],
+        "point": "Les épreuves sont organisées par les SDIS et varient selon les départements et les types de concours.",
+        "prepa": "Nous travaillons le cardio et la force fonctionnelle en salle. La natation se prépare en piscine : nous t'aidons à planifier ta progression.",
+        "source": {
+          "nom": "Digischool",
+          "url": "https://www.digischool.fr/articles/concours/sapeur-pompier/concours-sapeur-pompier-professionnel/"
+        },
+        "emoji": "🚒"
+      },
+      {
+        "nom": "Administration pénitentiaire",
+        "sous": "Surveillant pénitentiaire",
+        "epreuves": [
+          "Course de vitesse",
+          "Course de demi-fond",
+          "Lancer de poids"
+        ],
+        "point": "Les barèmes diffèrent entre les hommes et les femmes, et une note de 0 est éliminatoire.",
+        "prepa": "Nous travaillons la vitesse, l'endurance et la technique de lancer, avec des tests blancs.",
+        "source": {
+          "nom": "Carrières publiques",
+          "url": "https://www.carrieres-publiques.com/fiche-concours/detail/concours-surveillant-de-l-administration-penitentiaire-c-1050"
+        },
+        "emoji": "🔐"
+      },
+      {
+        "nom": "Armée",
+        "sous": "Militaires du rang, sous-officiers, officiers",
+        "epreuves": [
+          "Militaires du rang : une sélection sur deux jours avec des épreuves sportives",
+          "Sous-officiers de l'armée de Terre : des évaluations sportives",
+          "Officiers : des concours d'écoles militaires qui combinent épreuves académiques et sportives"
+        ],
+        "point": "Le contenu précis dépend de l'armée, du corps et de la spécialité visés.",
+        "prepa": "Nous préparons les qualités générales (course, force, endurance) et les épreuves de ta spécialité.",
+        "source": {
+          "nom": "L'Étudiant",
+          "url": "https://www.letudiant.fr/etudes/secteurs/armee-police_2.html"
+        },
+        "emoji": "🪖"
+      },
+      {
+        "nom": "Formations du sport",
+        "sous": "CQP IF, BPJEPS APSF",
+        "epreuves": [
+          "Des tests d'exigences préalables (TEP) vérifient ta condition physique et ta technique de base avant l'entrée en formation",
+          "Ils sont les mêmes partout en France, quel que soit l'organisme de formation"
+        ],
+        "point": "Un barème national : tu sais exactement ce qui t'attend, où que tu passes les tests.",
+        "prepa": "Nous t'entraînons sur les épreuves exactes des TEP, avec des tests blancs en conditions réelles.",
+        "emoji": "🏋️"
+      }
+    ]
+  },
+  {
+    "slug": "sport-sante",
+    "nom": "Sport Santé",
+    "resume": "Un accompagnement pour reprendre une activité physique en douceur, sortir de la sédentarité, prévenir les maladies liées à l'inactivité et améliorer durablement ta condition physique.",
+    "sousThemes": [
+      "Reprise d'activité",
+      "Sédentarité",
+      "Prévention",
+      "Condition physique"
+    ],
+    "publics": [
+      "Personnes sédentaires",
+      "Reprise d'activité après un arrêt prolongé",
+      "Recommandation médicale de bouger",
+      "Prévention santé au long cours",
+      "Résidents d'EHPAD et de maisons de retraite"
+    ],
+    "benefices": [
+      "Une reprise en douceur, à ton rythme, sans te blesser ni te décourager",
+      "Une amélioration progressive de ton endurance, ta force et ta mobilité",
+      "Un accompagnement qui tient compte de tes antécédents et de tes contraintes",
+      "Une réduction des risques associés à la sédentarité (maladies cardiovasculaires, diabète de type 2, certains cancers)"
+    ]
+  },
+  {
+    "slug": "mal-de-dos",
+    "nom": "Mal de dos",
+    "resume": "Un accompagnement centré sur la mobilité, le renforcement progressif du dos et le retour au mouvement, construit avec toi, à ton rythme. Il ne remplace pas un avis médical.",
+    "sousThemes": [
+      "Mobilité",
+      "Renforcement progressif",
+      "Prévention",
+      "Retour au mouvement"
+    ],
+    "publics": [
+      "Personnes souffrant de douleurs dorsales chroniques ou récurrentes",
+      "Prévention des récidives après un épisode aigu",
+      "Métiers sédentaires (position assise prolongée)",
+      "Reprise du mouvement après avis médical favorable"
+    ],
+    "benefices": [
+      "Un renforcement progressif et encadré du dos, sans jamais forcer au-delà de ce que ton corps supporte",
+      "Un retour au mouvement à ton rythme, en tenant compte de la douleur du jour",
+      "Un travail de mobilité pour retrouver de l'amplitude sans appréhension",
+      "Une prévention des récidives, en identifiant avec toi les postures et habitudes à corriger"
+    ]
+  }
+]

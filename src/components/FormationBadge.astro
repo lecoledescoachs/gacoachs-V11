@@ -1,0 +1,63 @@
+---
+interface Props {
+  nom: string;
+  organisme?: string;
+  logo?: string;
+}
+const { nom, organisme, logo } = Astro.props;
+---
+<div class="formation-badge">
+  {logo ? (
+    <img src={logo} alt={organisme ? `Logo ${organisme}` : `Logo ${nom}`} class="formation-badge__logo" loading="lazy" width="40" height="40" />
+  ) : (
+    <span class="formation-badge__placeholder" aria-hidden="true">🎓</span>
+  )}
+  <div class="formation-badge__text">
+    <span class="formation-badge__nom">{nom}</span>
+    {organisme && <span class="formation-badge__organisme">{organisme}</span>}
+  </div>
+</div>
+
+<style>
+  .formation-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+  }
+  .formation-badge__logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .formation-badge__placeholder {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ice);
+    border-radius: 6px;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .formation-badge__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .formation-badge__nom {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .formation-badge__organisme {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+</style>

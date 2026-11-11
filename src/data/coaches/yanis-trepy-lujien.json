@@ -1,0 +1,48 @@
+{
+  "slug": "yanis-trepy-lujien",
+  "prenom": "Yanis",
+  "codeBoutique": "YANIS",
+  "niveau": 3,
+  "nom": "Trépy-Lujien",
+  "salleSlug": "basic-fit-saran",
+  "role": "Coach sportif",
+  "tags": [
+    "Perte de Poids",
+    "Jeunes Adultes",
+    "Séances Ludiques",
+    "Spécial Débutants"
+  ],
+  "photo": "/images/coachs/yanis-trepy-lujien.webp",
+  "presentation": "J'aide les débutants à perdre du poids sans frustration, avec des séances variées et adaptées. Ensemble, on fait du sport un plaisir, et tes objectifs suivent.",
+  "publicCible": "Les jeunes adultes et les débutants qui veulent perdre du poids sans subir le sport : des séances qui deviennent des jeux, avec un objectif clair, souvent de 15 à 20 kg.",
+  "specialites": [
+    "Perte de Poids",
+    "Remise en Forme",
+    "Sculpter & Tonifier"
+  ],
+  "diplomes": [
+    "BPJEPS AF"
+  ],
+  "formations": [],
+  "methode": "On démarre toujours doucement, sans jamais te mettre en échec. Chaque séance est différente pour éviter la routine, et adaptée à ton niveau du moment.",
+  "resultats": "L'objectif : que tu prennes goût au sport, pas que tu le subisses. Les résultats suivent naturellement quand la régularité devient un plaisir plutôt qu'une contrainte.",
+  "temoignages": [],
+  "rcPro": "145142326 B - MCE - 001",
+  "cartePro": "04524ED0017",
+  "sourceNote": "Nom d'usage confirmé par Garry Babaud : Yanis Trépy-Lujien. La fiche officielle Basic-Fit correspondante (même numéro RC Pro) affiche « Yanis Shurda » (basic-fit.com/fr-fr/fitness/personal-trainer/yanis-shurda). Salle confirmée : Basic-Fit Saran.",
+  "reseauSocial": {
+    "type": "instagram",
+    "url": "https://www.instagram.com/toncoach_yanis/"
+  },
+  "avisGoogle": {
+    "note": 5.0,
+    "nombreAvis": 27,
+    "url": "https://www.google.com/maps/search/?api=1&query=Yanis%20Trepy%20coach%20sportif%20Saran"
+  },
+  "email": "yanisshurda@gmail.com",
+  "guides": [
+    "jamais-fait-de-sport-par-ou-commencer",
+    "pourquoi-on-abandonne-le-sport-apres-quelques-semaines",
+    "comment-rester-motive-pour-faire-du-sport"
+  ]
+}

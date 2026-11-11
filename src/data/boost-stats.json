@@ -1,0 +1,26 @@
+[
+  {
+    "chiffre": "17 %",
+    "description": "seulement des entreprises françaises proposent une offre sportive à leurs salariés, alors que 87 % des dirigeants reconnaissent les bienfaits du sport en entreprise.",
+    "source": "Harmonie Mutuelle, baromètre sport en entreprise",
+    "url": "https://www.magicfit.fr/sport-en-entreprise-120-milliards-deuros-dabsentisme-et-la-france-regarde-ses-voisins-faire/"
+  },
+  {
+    "chiffre": "90 %",
+    "description": "des maladies professionnelles reconnues en France sont des troubles musculosquelettiques (TMS).",
+    "source": "Assurance Maladie / INRS, 2024",
+    "url": "https://www.ameli.fr/assure/sante/themes/tms/comprendre-troubles-musculosquelettiques"
+  },
+  {
+    "chiffre": "11 M",
+    "description": "de journées de travail perdues en 2021 à cause des TMS, pour plus d'1 milliard d'euros de frais couverts par les entreprises.",
+    "source": "INRS, statistiques TMS",
+    "url": "https://www.inrs.fr/risques/tms-troubles-musculosquelettiques/statistiques.html"
+  },
+  {
+    "chiffre": "1/5",
+    "description": "des adultes déclarent passer plus de 7 heures par jour en position assise.",
+    "source": "Santé publique France, baromètre activité physique 2021",
+    "url": "https://www.lamedicale.fr/vous-informer/activite-physique-7-francais-sur-10-observent-les-recommandations-de-l-oms"
+  }
+]

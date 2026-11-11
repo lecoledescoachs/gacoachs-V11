@@ -1,0 +1,94 @@
+---
+// Bandeau de consentement : Google Analytics n'est chargé que si le visiteur accepte.
+// Accepter et refuser sont aussi simples l'un que l'autre (recommandations CNIL), et le choix
+// peut être modifié à tout moment via le lien « Gérer les cookies » du pied de page.
+---
+<div id="cookie-banner" class="cookie-banner" hidden role="dialog" aria-label="Choix des cookies">
+  <div class="cookie-banner__inner">
+    <p class="cookie-banner__text">
+      🍪 On utilise Google Analytics pour mesurer la fréquentation du site et l'améliorer. Ces cookies
+      ne sont déposés qu'avec ton accord, et refuser ne change rien à ta navigation.{' '}
+      <a href="/confidentialite/#cookies">En savoir plus</a>
+    </p>
+    <div class="cookie-banner__btns">
+      <button type="button" class="cookie-banner__btn" data-cookie-choix="non">Refuser</button>
+      <button type="button" class="cookie-banner__btn" data-cookie-choix="oui">Accepter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const banner = document.getElementById('cookie-banner') as HTMLElement;
+    const gc = (window as any).gaConsentement;
+    if (!banner || !gc) return; // aucun outil de mesure configuré : rien à demander
+
+    const ouvrir = () => {
+      banner.hidden = false;
+      requestAnimationFrame(() => banner.classList.add('cookie-banner--visible'));
+    };
+    const fermer = () => {
+      banner.classList.remove('cookie-banner--visible');
+      setTimeout(() => { banner.hidden = true; }, 250);
+    };
+    if (!gc.choix()) ouvrir();
+
+    banner.querySelectorAll<HTMLButtonElement>('[data-cookie-choix]').forEach((b) => {
+      b.addEventListener('click', () => { gc.enregistrer(b.dataset.cookieChoix); fermer(); });
+    });
+    // Lien « Gérer les cookies » du pied de page : rouvre le bandeau
+    document.querySelectorAll('[data-gerer-cookies]').forEach((l) => {
+      l.addEventListener('click', (e) => { e.preventDefault(); ouvrir(); });
+    });
+  });
+</script>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    z-index: 1900;
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--navy);
+    color: #fff;
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 30px -10px rgba(11, 30, 61, 0.5);
+    padding: 18px 20px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .3s var(--ease), transform .3s var(--ease);
+  }
+  @media (max-width: 640px) {
+    .cookie-banner { left: 10px; right: 10px; bottom: calc(76px + env(safe-area-inset-bottom)); padding: 12px 14px; }
+    .cookie-banner__text { font-size: 12.5px; line-height: 1.4; }
+    .cookie-banner__inner { gap: 8px; }
+  }
+  .cookie-banner[hidden] { display: none !important; }
+  .cookie-banner--visible { opacity: 1; transform: translateY(0); }
+
+  .cookie-banner__inner { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .cookie-banner__text { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.85); }
+  .cookie-banner__text a { color: #fff; text-decoration: underline; font-weight: 600; }
+  .cookie-banner__btns { display: flex; gap: 10px; flex-shrink: 0; }
+  .cookie-banner__btn {
+    flex-shrink: 0;
+    background: #fff;
+    color: var(--navy);
+    border: none;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .cookie-banner__btn:hover { background: var(--ice); }
+
+  @media (min-width: 700px) {
+    .cookie-banner__inner { flex-direction: row; align-items: center; justify-content: space-between; gap: 20px; }
+  }
+</style>

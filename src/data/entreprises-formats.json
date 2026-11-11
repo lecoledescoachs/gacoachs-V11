@@ -1,0 +1,66 @@
+[
+  {
+    "slug": "coaching-sportif",
+    "nom": "Coaching sportif hebdomadaire",
+    "duree": "30, 45 ou 60 min",
+    "positionnement": "Une régularité qui installe une vraie dynamique dans l'équipe.",
+    "details": ["Renforcement", "Mobilité", "Cardio", "Circuit training", "Pilates", "Running", "Marche active"],
+    "cta": "En savoir plus"
+  },
+  {
+    "slug": "marche-club",
+    "nom": "GA Marche Club",
+    "duree": "Pause déjeuner ou fin de journée",
+    "positionnement": "Le format le plus simple pour remettre les salariés en mouvement.",
+    "details": ["Accessible à tous", "Aucun matériel", "Faible barrière d'entrée", "Convivial", "Facilement récurrent"],
+    "cta": "Lancer un Marche Club"
+  },
+  {
+    "slug": "reveil-musculaire",
+    "nom": "Réveil musculaire",
+    "duree": "10 min avant la prise de poste",
+    "positionnement": "10 minutes pour mieux commencer la journée.",
+    "details": ["Mobilité", "Échauffement", "Activation", "Prévention"],
+    "cta": "En savoir plus"
+  },
+  {
+    "slug": "pause-active",
+    "nom": "Pause Active",
+    "duree": "10 à 20 min",
+    "positionnement": "Remplacer 15 minutes de sédentarité par 15 minutes de mouvement.",
+    "details": ["Mobilité", "Respiration", "Étirements actifs", "Renforcement léger"],
+    "cta": "En savoir plus"
+  },
+  {
+    "slug": "mal-de-dos",
+    "nom": "GA Dos Entreprise",
+    "duree": "Programme régulier",
+    "positionnement": "Réduire la sédentarité et apprendre à mieux bouger au quotidien.",
+    "details": ["Réduction de la sédentarité", "Renforcement progressif", "Amélioration de la mobilité", "Ne remplace pas un avis médical"],
+    "cta": "En savoir plus"
+  },
+  {
+    "slug": "team-building",
+    "nom": "Team Building Sportif",
+    "duree": "Format événementiel",
+    "positionnement": "Une expérience collective, pas juste une séance de sport.",
+    "details": ["Défis équipes", "Bootcamp", "Olympiades", "Circuit training", "Marche", "Running"],
+    "cta": "En savoir plus"
+  },
+  {
+    "slug": "challenges",
+    "nom": "GA Challenges",
+    "duree": "Sur plusieurs semaines",
+    "positionnement": "Une progression collective, mesurable et motivante.",
+    "details": ["30 jours actifs", "Challenge marche", "Challenge escaliers", "Kilomètres collectifs", "Défi mobilité"],
+    "cta": "En savoir plus"
+  },
+  {
+    "slug": "journee-sante-sport",
+    "nom": "Journée Santé & Sport",
+    "duree": "Format événementiel sur une journée",
+    "positionnement": "Un temps fort pour lancer ou marquer une dynamique santé.",
+    "details": ["Bilan", "Ateliers", "Mobilité", "Sport", "Nutrition", "Conférences", "Challenges"],
+    "cta": "En savoir plus"
+  }
+]

@@ -1,0 +1,144 @@
+---
+---
+<div class="calculateur" data-track-event="boost_calculator_used" id="boost-calculateur">
+  <div class="calculateur__form">
+    <label>
+      Nombre de participants
+      <select id="calc-salaries">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="50">50</option>
+      </select>
+    </label>
+    <div class="calculateur__freq">
+      <span>Formule</span>
+      <div class="calculateur__freq-options">
+        <label><input type="radio" name="calc-freq" value="essentiel" data-prix="299" data-seances="4.33" /> BOOST Essentiel · 1×/sem. (299 €/mois)</label>
+        <label><input type="radio" name="calc-freq" value="performance" data-prix="499" data-seances="8.66" checked /> BOOST Performance · 2×/sem. (499 €/mois)</label>
+        <label><input type="radio" name="calc-freq" value="5-7" data-prix="999" data-seances="21.65" /> BOOST 5/7 · 5×/sem. (999 €/mois)</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="calculateur__result">
+    <span class="eyebrow">Investissement sport-santé par collaborateur</span>
+    <div class="calculateur__numbers">
+      <div>
+        <span class="calculateur__value" id="calc-mensuel">49,90 €</span>
+        <span class="calculateur__label">/ participant / mois</span>
+      </div>
+      <div>
+        <span class="calculateur__value" id="calc-seance">57,64 €</span>
+        <span class="calculateur__label">/ séance (moyenne)</span>
+      </div>
+      <div>
+        <span class="calculateur__value" id="calc-participant-seance">5,76 €</span>
+        <span class="calculateur__label">/ participant / séance</span>
+      </div>
+    </div>
+    <p class="calculateur__note">
+      Et si 30 minutes devenaient l'un des rendez-vous préférés de vos équipes ?
+    </p>
+    <p class="calculateur__disclaimer">Estimation à titre indicatif. L'investissement individuel dépend du nombre réel de participants ; ce chiffre n'est pas une économie garantie.</p>
+    <a href="#lead-form" class="btn btn--primary calculateur__cta" id="calculateur-cta" data-track-click="boost_5_7_cta">Recevoir ma proposition</a>
+  </div>
+</div>
+
+<style>
+  .calculateur {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+  .calculateur__form { display: flex; flex-direction: column; gap: 20px; }
+  .calculateur__form label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; }
+  .calculateur__form select {
+    min-height: 48px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 0 14px;
+    font-size: 16px;
+    background: var(--white);
+  }
+  .calculateur__freq { display: flex; flex-direction: column; gap: 10px; font-size: 13px; font-weight: 600; }
+  .calculateur__freq-options { display: flex; flex-direction: column; gap: 8px; font-weight: 400; font-size: 13.5px; }
+  .calculateur__freq-options label { display: flex; align-items: center; gap: 8px; min-height: 40px; }
+
+  .calculateur__result {
+    background: var(--ice);
+    border-radius: var(--radius-md);
+    padding: 22px;
+  }
+  .calculateur__numbers { display: flex; gap: 24px; margin-top: 14px; flex-wrap: wrap; }
+  .calculateur__value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--navy);
+    display: block;
+  }
+  .calculateur__label { font-size: 11px; color: var(--text-muted); }
+  .calculateur__note { margin-top: 18px; font-weight: 600; font-size: 14px; color: var(--navy); }
+  .calculateur__disclaimer { margin-top: 10px; font-size: 12px; color: var(--text-muted); font-style: italic; }
+  .calculateur__result .btn { margin-top: 18px; }
+  .calculateur__cta { white-space: nowrap; font-size: 15px; }
+
+  @media (min-width: 700px) {
+    .calculateur { flex-direction: row; }
+    .calculateur__form { flex: 1; }
+    .calculateur__result { flex: 1.2; }
+  }
+</style>
+
+<script>
+  const root = document.getElementById('boost-calculateur');
+  const salariesSelect = document.getElementById('calc-salaries') as HTMLSelectElement;
+  const freqInputs = root?.querySelectorAll('input[name="calc-freq"]') as NodeListOf<HTMLInputElement>;
+  const mensuelEl = document.getElementById('calc-mensuel') as HTMLElement;
+  const seanceEl = document.getElementById('calc-seance') as HTMLElement;
+  const participantSeanceEl = document.getElementById('calc-participant-seance') as HTMLElement;
+
+  function fmt(n: number) {
+    return n.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  }
+
+  function calc() {
+    const salaries = Math.max(1, parseInt(salariesSelect.value, 10) || 1);
+    const checked = root?.querySelector('input[name="calc-freq"]:checked') as HTMLInputElement;
+    const prix = parseFloat(checked?.dataset.prix || '499');
+    const seancesParMois = parseFloat(checked?.dataset.seances || '8.66');
+
+    const mensuelParParticipant = prix / salaries;
+    const coutParSeance = prix / seancesParMois;
+    const coutParticipantSeance = coutParSeance / salaries;
+
+    mensuelEl.textContent = fmt(mensuelParParticipant);
+    seanceEl.textContent = fmt(coutParSeance);
+    participantSeanceEl.textContent = fmt(coutParticipantSeance);
+
+    if (typeof window.gtag === 'function') window.gtag('event', 'boost_5_7_calculator', { formule: checked?.value, participants: salaries });
+  }
+
+  salariesSelect?.addEventListener('change', calc);
+  freqInputs?.forEach((el) => el.addEventListener('change', calc));
+  calc();
+
+  // Garantit que le CTA tienne sur une seule ligne, sans jamais couper le texte.
+  const cta = document.getElementById('calculateur-cta');
+  if (cta) {
+    let size = parseFloat(getComputedStyle(cta).fontSize);
+    let guard = 0;
+    while (cta.scrollWidth > cta.clientWidth && size > 11 && guard < 20) {
+      size -= 0.5;
+      cta.style.fontSize = `${size}px`;
+      guard++;
+    }
+  }
+</script>

@@ -1,0 +1,93 @@
+---
+interface Stat {
+  value: number;
+  suffix?: string;
+  label: string;
+}
+interface Props {
+  stats: Stat[];
+}
+const { stats } = Astro.props;
+---
+<div class="stats-counters">
+  {stats.map((s, i) => (
+    <div class="stats-counters__item">
+      <span class="stats-counters__value" data-count-to={s.value} data-suffix={s.suffix || ''}>{s.value}{s.suffix}</span>
+      <span class="stats-counters__label">{s.label}</span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .stats-counters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .stats-counters__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+  }
+  .stats-counters__value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(30px, 6vw, 44px);
+    color: var(--navy);
+    letter-spacing: -0.02em;
+  }
+  .stats-counters__label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  @media (min-width: 640px) {
+    .stats-counters__label { font-size: 14px; }
+  }
+</style>
+
+<script>
+  function animateCount(el: HTMLElement) {
+    const target = parseInt(el.dataset.countTo || '0', 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1400;
+    const start = performance.now();
+    el.textContent = `0${suffix}`; // Ne repart de 0 qu'ici, au moment où le JS prend le relais.
+
+    function tick(now: number) {
+      const progress = Math.min((now - start) / duration, 1);
+      // easeOutExpo pour un ralentissement naturel en fin de course
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const current = Math.round(eased * target);
+      el.textContent = `${current}${suffix}`;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const counters = document.querySelectorAll('.stats-counters__value');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduceMotion) {
+    counters.forEach((el) => {
+      const e = el as HTMLElement;
+      e.textContent = `${e.dataset.countTo}${e.dataset.suffix || ''}`;
+    });
+  } else if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCount(entry.target as HTMLElement);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    counters.forEach((el) => observer.observe(el));
+  }
+</script>

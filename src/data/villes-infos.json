@@ -1,0 +1,811 @@
+{
+ "orleans": {
+  "lieux": [
+   {
+    "nom": "Quais de la Loire",
+    "type": "bords de Loire",
+    "texte": "Quais aménagés en promenade au bord de la Loire, pratiques pour la marche rapide ou un footing en centre-ville."
+   },
+   {
+    "nom": "La Loire à Vélo (EuroVelo 6)",
+    "type": "voie verte",
+    "texte": "L'Eurovéloroute des fleuves traverse la ville avec des pistes en bord de Loire, utiles pour rouler ou courir sur un parcours continu."
+   },
+   {
+    "nom": "Parc Pasteur",
+    "type": "parc",
+    "texte": "Parc du quartier Gare, Parc Pasteur et Saint-Vincent, pratique pour une marche ou un footing en ville."
+   }
+  ],
+  "acces": ""
+ },
+ "olivet": {
+  "lieux": [
+   {
+    "nom": "Bords du Loiret",
+    "type": "bords du Loiret",
+    "texte": "De nombreuses promenades pédestres et cyclables longent le Loiret, pratiques pour la marche ou un footing au calme."
+   },
+   {
+    "nom": "Parc du Poutyl",
+    "type": "parc",
+    "texte": "Parc en bordure du Loiret avec skate parc et aire de jeux, pratique pour combiner marche et exercices en plein air."
+   },
+   {
+    "nom": "Domaine du Donjon",
+    "type": "parcours de santé",
+    "texte": "Domaine boisé avec deux parcours de santé et de promenade, adapté au footing et au renforcement en extérieur."
+   }
+  ],
+  "acces": "La ligne A du tramway dessert Olivet par cinq stations : Zénith, Victor Hugo, Larry Saint-Fiacre, Les Aulnaies et Lorette."
+ },
+ "saint-jean-le-blanc": {
+  "lieux": [
+   {
+    "nom": "Île Charlemagne",
+    "type": "bords de Loire",
+    "texte": "Base de loisirs en bord de Loire traversée par des voies vertes, pratique pour marcher, courir ou rouler au vert."
+   },
+   {
+    "nom": "Parc de Loire",
+    "type": "bords de Loire",
+    "texte": "Grand espace naturel en bord de Loire avec un fil de balades à pied et à vélo, adapté aux sorties longues."
+   }
+  ],
+  "acces": "Les lignes de bus 5, 16, 40 et 41 desservent la commune, et le pont René Thinat la relie à Orléans."
+ },
+ "saint-cyr-en-val": {
+  "lieux": [
+   {
+    "nom": "Parc du château de Morchêne",
+    "type": "parc",
+    "texte": "Parc municipal ouvert au public avec étang, vieux arbres et chemins en sous-bois, agréable pour la marche ou un footing nature."
+   },
+   {
+    "nom": "Parc du château de la Motte",
+    "type": "parc",
+    "texte": "Parc municipal ouvert au public, pratique pour une marche ou quelques exercices au calme."
+   },
+   {
+    "nom": "Promenade du Dhuy",
+    "type": "parc",
+    "texte": "Promenade recensée parmi les lieux remarquables de la commune, utile pour une marche tranquille."
+   }
+  ],
+  "acces": "La commune est desservie par les lignes 13, 40 et 61 du réseau TAO et par la D2020 en venant d'Orléans."
+ },
+ "saint-hilaire-saint-mesmin": {
+  "lieux": [
+   {
+    "nom": "Bords du Loiret au pont Saint-Nicolas",
+    "type": "bords du Loiret",
+    "texte": "Point de départ de la boucle vélo des Moulins du Loiret, qui franchit deux fois la rivière, idéal pour une sortie à vélo ou à pied."
+   },
+   {
+    "nom": "La Loire à Vélo",
+    "type": "voie verte",
+    "texte": "Étape de l'itinéraire La Loire à Vélo, qui chemine en partie sur une levée de la Loire, pratique pour rouler ou courir longtemps."
+   }
+  ],
+  "acces": "La ligne de bus 16 de l'agglomération relie Saint-Denis-en-Val à l'arrêt Croix aux chats à Saint-Hilaire-Saint-Mesmin."
+ },
+ "saint-pryve-saint-mesmin": {
+  "lieux": [
+   {
+    "nom": "Pointe de Courpain",
+    "type": "bords de Loire",
+    "texte": "Confluence de la Loire et du Loiret dans la réserve naturelle de Saint-Mesmin, belle destination pour une marche nature."
+   },
+   {
+    "nom": "La Loire à Vélo et la levée",
+    "type": "voie verte",
+    "texte": "L'itinéraire La Loire à Vélo longe la Loire sur la levée depuis le pont de l'Europe jusqu'à la réserve, pratique pour rouler ou courir."
+   },
+   {
+    "nom": "Lac de Bel-Air",
+    "type": "étang",
+    "texte": "Plan d'eau situé sur la boucle vélo des Moulins du Loiret, utile pour une sortie à pied ou à vélo."
+   }
+  ],
+  "acces": "La commune est desservie par les lignes de bus 7, 16, 42 et 59 de l'agglomération orléanaise et par le transport à la demande Resa'ouest."
+ },
+ "saint-denis-en-val": {
+  "lieux": [
+   {
+    "nom": "Parc de Loire",
+    "type": "bords de Loire",
+    "texte": "Grand espace naturel en bord de Loire, à deux pas du centre-ville, avec balades à pied et à vélo et le sentier du Bois de l'Île."
+   },
+   {
+    "nom": "Levée de la Loire",
+    "type": "bords de Loire",
+    "texte": "Levée qui borde la commune le long de la Loire, pratique pour une marche ou un footing en ligne droite."
+   }
+  ],
+  "acces": ""
+ },
+ "ardon": {
+  "lieux": [
+   {
+    "nom": "Parc naturel départemental des Dolines de Limère",
+    "type": "forêt",
+    "texte": "Espace naturel sensible en accès libre avec plusieurs boucles balisées en forêt, adapté à la marche ou au trail."
+   }
+  ],
+  "acces": ""
+ },
+ "mezieres-lez-clery": {
+  "lieux": [
+   {
+    "nom": "Chemin des Marnières vers le Bois de Noras",
+    "type": "forêt",
+    "texte": "Chemin qui relie le village au Bois de Noras, pratique pour une marche en sous-bois."
+   }
+  ],
+  "acces": ""
+ },
+ "la-ferte-saint-aubin": {
+  "lieux": [
+   {
+    "nom": "Parc du Cosson",
+    "type": "parc",
+    "texte": "Parc de promenade en ville, pratique pour une marche ou un footing."
+   },
+   {
+    "nom": "Bords du Cosson",
+    "type": "parc",
+    "texte": "Parcours en sculptures le long du Cosson, agréable pour une marche au bord de l'eau."
+   },
+   {
+    "nom": "Étang des Aisses",
+    "type": "étang",
+    "texte": "Étang doté d'un sentier pédagogique en pleine nature, adapté à une marche tranquille."
+   }
+  ],
+  "acces": ""
+ },
+ "marcilly-en-villette": {
+  "lieux": [
+   {
+    "nom": "Promenade du Bourillon",
+    "type": "parc",
+    "texte": "Promenade et parc du bourg avec aire de jeux, pratique pour une marche près du centre."
+   },
+   {
+    "nom": "Boucles de randonnée balisées",
+    "type": "forêt",
+    "texte": "Trois boucles balisées au départ de la commune traversent plaines et forêts, adaptées à la marche ou au vélo."
+   }
+  ],
+  "acces": ""
+ },
+ "jouy-le-potier": {
+  "lieux": [
+   {
+    "nom": "Champs Breton",
+    "type": "étang",
+    "texte": "Espace de nature avec un étang, pratique pour une marche au calme."
+   },
+   {
+    "nom": "Boucle du Duveau",
+    "type": "forêt",
+    "texte": "Boucle balisée entre forêt, champs et village, ouverte aux marcheurs, cyclistes et cavaliers."
+   }
+  ],
+  "acces": ""
+ },
+ "ligny-le-ribault": {
+  "lieux": [
+   {
+    "nom": "Parcours de santé de l'étang",
+    "type": "parcours de santé",
+    "texte": "Parcours de santé aménagé sur une île au centre d'un étang, idéal pour le renforcement en plein air."
+   },
+   {
+    "nom": "Boucle du Bois des Chaises",
+    "type": "forêt",
+    "texte": "Boucle balisée au départ de la commune, pratique pour la marche en forêt."
+   }
+  ],
+  "acces": ""
+ },
+ "menestreau-en-villette": {
+  "lieux": [
+   {
+    "nom": "Domaine du Ciran",
+    "type": "forêt",
+    "texte": "Domaine de nature avec des boucles en libre accès à travers forêt, plaines et étang, adapté à la marche."
+   },
+   {
+    "nom": "Chemins pédestres Maurice Genevoix",
+    "type": "forêt",
+    "texte": "Chemins pédestres nommés d'après les œuvres de l'écrivain, pratiques pour des balades autour du village."
+   }
+  ],
+  "acces": ""
+ },
+ "sandillon": {
+  "lieux": [
+   {
+    "nom": "Point de vue sur l'île aux oiseaux",
+    "type": "bords de Loire",
+    "texte": "Point de vue sur la réserve naturelle de l'île aux oiseaux avec aire de pique-nique, bonne étape d'une sortie le long de la Loire."
+   }
+  ],
+  "acces": ""
+ },
+ "mareau-aux-pres": {
+  "lieux": [
+   {
+    "nom": "Sentier pédagogique des Isles",
+    "type": "bords de Loire",
+    "texte": "Sentier pédagogique le long de la Loire pour observer le fleuve et ses oiseaux, adapté à la marche."
+   },
+   {
+    "nom": "Bords de Loire de la réserve de Saint-Mesmin",
+    "type": "bords de Loire",
+    "texte": "Rives sauvages de la Loire classées en réserve naturelle, agréables pour une marche nature."
+   }
+  ],
+  "acces": ""
+ },
+ "vannes-sur-cosson": {
+  "lieux": [
+   {
+    "nom": "Sentier de grande randonnée 3C",
+    "type": "forêt",
+    "texte": "Le GR de pays de Sologne traverse la commune, pratique pour la marche sur de longues distances."
+   }
+  ],
+  "acces": ""
+ },
+ "vouzon": {
+  "lieux": [
+   {
+    "nom": "Étang communal",
+    "type": "étang",
+    "texte": "Étang du village propice au pique-nique, pratique pour une marche au calme."
+   },
+   {
+    "nom": "Forêt de Lamotte-Beuvron",
+    "type": "forêt",
+    "texte": "Forêt domaniale qui couvre une partie de la commune, adaptée à la marche ou au footing en sous-bois."
+   },
+   {
+    "nom": "Circuits de randonnée de Vouzon",
+    "type": "forêt",
+    "texte": "Dix circuits de randonnée autour du village, pratiques pour varier les sorties à pied."
+   }
+  ],
+  "acces": ""
+ },
+ "yvoy-le-marron": {
+  "lieux": [
+   {
+    "nom": "Étang communal et parc Jean Prouvost",
+    "type": "étang",
+    "texte": "Étang communal qui accueille les promeneurs toute l'année, pratique pour une marche au calme."
+   },
+   {
+    "nom": "Chemin de la Rosa",
+    "type": "forêt",
+    "texte": "Chemin en pleine nature qui mène à la fontaine Saint-Caprais, à environ 1 km du village, agréable pour une courte marche."
+   }
+  ],
+  "acces": ""
+ },
+ "lamotte-beuvron": {
+  "lieux": [
+   {
+    "nom": "Forêt de Lamotte-Beuvron",
+    "type": "forêt",
+    "texte": "Forêt qui occupe une partie du territoire communal, adaptée à la marche ou au footing en sous-bois."
+   },
+   {
+    "nom": "Canal de la Sauldre",
+    "type": "voie verte",
+    "texte": "Canal qui aboutit à Lamotte-Beuvron, repère d'un itinéraire balisé Sologne à Vélo vers Vouzon."
+   }
+  ],
+  "acces": ""
+ },
+ "chaumont-sur-tharonne": {
+  "lieux": [
+   {
+    "nom": "Promenades du Mardelay",
+    "type": "parc",
+    "texte": "Espace naturel avec chemins en boucle adaptés aux piétons et aux cyclistes, relié au centre-bourg."
+   },
+   {
+    "nom": "Chemins de randonnée communaux",
+    "type": "forêt",
+    "texte": "Cinq circuits balisés entre forêts, landes et étangs, dont une balade des familles sur chemins boisés."
+   }
+  ],
+  "acces": ""
+ },
+ "saran": {
+  "lieux": [
+   {
+    "nom": "Parc de la Médecinerie",
+    "type": "parc",
+    "texte": "Parc aménagé en plein centre-ville, près du lac de la Médecinerie, pratique pour marcher ou trottiner sans prendre la voiture."
+   },
+   {
+    "nom": "Coulée verte de Saran",
+    "type": "voie verte",
+    "texte": "Cette coulée verte relie le château de l'Étang à l'ancien aérodrome en passant par le lac de la Médecinerie, un fil continu pour une sortie à pied ou à vélo."
+   },
+   {
+    "nom": "Parc municipal des sports Roland-Rabartin",
+    "type": "stade",
+    "texte": "Ce parc regroupe la majorité des équipements sportifs de la ville et il est traversé par le chemin de la Caillerette, utile pour enchaîner footing et renforcement."
+   }
+  ],
+  "acces": "Saran est desservie par les bus du réseau TAO et traversée du nord au sud par la D 2020, l'ancienne RN 20."
+ },
+ "ingre": {
+  "lieux": [
+   {
+    "nom": "Sentier Bernard Janvier",
+    "type": "forêt",
+    "texte": "Sentier pédagogique de la Ville d'Ingré, aussi appelé Boucle des Queues de Forêt, prolongé par des boucles de petite randonnée balisées en jaune pour marcher entre bois, mares et vignes."
+   },
+   {
+    "nom": "Sentier de Chivache",
+    "type": "sentier",
+    "texte": "Sentier de découverte d'environ 5 km balisé en jaune par la commune, pour une marche au milieu des espaces naturels d'Ingré."
+   }
+  ],
+  "acces": "Ingré est desservie par les bus du réseau TAO et par la D 2157 et la D 602, reliées à la tangentielle d'Orléans ; la ligne B du tram traverse la commune sans y avoir de station."
+ },
+ "gidy": {
+  "lieux": [],
+  "acces": "La RD 702 relie Gidy à Orléans."
+ },
+ "ormes": {
+  "lieux": [],
+  "acces": "Ormes est desservie par des lignes de bus du réseau TAO et par la D 2157, l'ancienne route nationale 157."
+ },
+ "chanteau": {
+  "lieux": [
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "Le village est né d'une clairière de défrichement dans la forêt d'Orléans, ce qui place le massif boisé au plus près des habitants pour marcher ou courir."
+   }
+  ],
+  "acces": "Chanteau est desservie par des lignes de bus du réseau TAO et par le transport à la demande."
+ },
+ "artenay": {
+  "lieux": [],
+  "acces": "La RD 2020 traverse la commune et une ligne d'autocar du réseau Rémi relie Artenay à Orléans."
+ },
+ "cercottes": {
+  "lieux": [
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "Une partie du site Natura 2000 de la forêt d'Orléans se trouve sur la commune, un massif boisé où marcher au calme."
+   }
+  ],
+  "acces": "La RD 2020 traverse le bourg du nord au sud et la gare de Cercottes est desservie par des trains TER entre Paris et Orléans."
+ },
+ "bricy": {
+  "lieux": [],
+  "acces": ""
+ },
+ "chevilly": {
+  "lieux": [
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "Le territoire est partagé entre grandes cultures et massifs forestiers, dont une partie du site Natura 2000 de la forêt d'Orléans, pour marcher à l'ombre."
+   }
+  ],
+  "acces": "La RD 2020 traverse le bourg du nord au sud et la gare de Chevilly est desservie par des trains Intercités et TER vers Orléans."
+ },
+ "boulay-les-barres": {
+  "lieux": [],
+  "acces": ""
+ },
+ "bucy-saint-liphard": {
+  "lieux": [],
+  "acces": "La commune est traversée par la D 2157, l'ancienne RN 157."
+ },
+ "sougy": {
+  "lieux": [],
+  "acces": ""
+ },
+ "huetre": {
+  "lieux": [],
+  "acces": ""
+ },
+ "rebrechien": {
+  "lieux": [
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "La forêt d'Orléans occupe l'ouest de la commune, un terrain boisé tout proche pour la marche et la course."
+   }
+  ],
+  "acces": "La RD 8, qui relie Chécy à Neuville-aux-Bois, traverse la commune."
+ },
+ "saint-lye-la-foret": {
+  "lieux": [
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "Les forêts couvrent une large part de cette commune liée à la forêt d'Orléans, ce qui offre des sorties nature à deux pas du bourg."
+   },
+   {
+    "nom": "Chemin de promenade de l'église",
+    "type": "sentier",
+    "texte": "Chemin de promenade aménagé autour de l'église et de l'ancien presbytère, idéal pour une marche courte dans le bourg."
+   }
+  ],
+  "acces": "La RD 97, qui relie Orléans à Pannecières, dessert la commune."
+ },
+ "neuville-aux-bois": {
+  "lieux": [],
+  "acces": "La RD 97, qui relie Orléans à Pannecières, traverse la commune."
+ },
+ "chilleurs-aux-bois": {
+  "lieux": [
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "La commune est couverte en partie par le massif forestier d'Orléans, classé Natura 2000, un vaste terrain boisé pour marcher ou courir."
+   }
+  ],
+  "acces": ""
+ },
+ "loury": {
+  "lieux": [
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "La commune est à proximité immédiate de la forêt d'Orléans, qui couvre une bonne partie de son territoire et se prête à la marche."
+   }
+  ],
+  "acces": "Une ligne d'autocar du réseau Rémi dessert Loury en direction d'Orléans et la RD 2152 traverse la commune."
+ },
+ "trainou": {
+  "lieux": [
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "Traînou fait partie du massif forestier d'Orléans, un grand espace boisé à la porte du bourg pour marcher ou courir."
+   }
+  ],
+  "acces": "Une ligne d'autocar du réseau interurbain Rémi relie Traînou à Orléans en passant par Vennecy."
+ },
+ "vennecy": {
+  "lieux": [],
+  "acces": "Vennecy se trouve sur la ligne d'autocar interurbain qui relie Traînou à Orléans, desservie aujourd'hui par le réseau Rémi."
+ },
+ "ascheres-le-marche": {
+  "lieux": [],
+  "acces": "La RD 97, qui relie Orléans à Pannecières, dessert la commune."
+ },
+ "fleury-les-aubrais": {
+  "lieux": [
+   {
+    "nom": "Parc Princesse-de-Lamballe",
+    "type": "parc",
+    "texte": "Parc qui accueille le centre culturel La Passerelle et le conservatoire Maurice-Ravel, pratique pour une marche ou un footing en ville."
+   },
+   {
+    "nom": "Forêt d'Orléans (nord-est de la commune)",
+    "type": "forêt",
+    "texte": "La forêt d'Orléans occupe 108 hectares au nord-est de la commune et offre des chemins pour marcher ou courir au calme."
+   }
+  ],
+  "acces": "La ligne A du tramway dessert la commune avec les stations Gare des Aubrais, Bustière, Lamballe et Jules-Verne, terminus nord."
+ },
+ "semoy": {
+  "lieux": [
+   {
+    "nom": "Parc de la Valinière",
+    "type": "parc",
+    "texte": "Espace de convivialité de Semoy avec city stade, complexe sportif et rocher d'escalade, utile pour combiner marche et exercices en plein air."
+   },
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "La commune est bordée au nord-est par la forêt d'Orléans, un terrain naturel pour la marche et la course."
+   }
+  ],
+  "acces": "Semoy est desservie par les lignes de bus 7, 44, 55 et 62 du réseau TAO."
+ },
+ "saint-jean-de-braye": {
+  "lieux": [
+   {
+    "nom": "Parc de Charbonnière",
+    "type": "parc",
+    "texte": "Grand parc de 180 hectares avec forêt et grande prairie, idéal pour des sorties longues à pied ou en courant."
+   },
+   {
+    "nom": "Parc des Longues-Allées",
+    "type": "parc",
+    "texte": "Parc du château des Longues-Allées, ouvert au public, adapté à une marche ou une séance de renforcement au vert."
+   },
+   {
+    "nom": "Canal d'Orléans et bords de Loire",
+    "type": "canal",
+    "texte": "Le canal d'Orléans longe la Loire au sud de la commune et permet de marcher ou courir au bord de l'eau."
+   }
+  ],
+  "acces": "La ligne B du tramway, inaugurée en 2012, dessert Saint-Jean-de-Braye."
+ },
+ "saint-jean-de-la-ruelle": {
+  "lieux": [
+   {
+    "nom": "Bords de Loire et chemin de halage",
+    "type": "bords de Loire",
+    "texte": "La commune est située sur la rive droite de la Loire et ses berges, reliées au chemin de halage, se prêtent à la marche et à la course."
+   }
+  ],
+  "acces": "La commune est desservie principalement par la ligne B du tramway, notamment aux stations Trois Fontaines, Martin Luther-King et Rol-Tanguy."
+ },
+ "boigny-sur-bionne": {
+  "lieux": [
+   {
+    "nom": "Parc de Charbonnière",
+    "type": "parc",
+    "texte": "Parc public de 180 hectares partagé avec Saint-Jean-de-Braye et Marigny-les-Usages, pratique pour marcher ou courir en sous-bois."
+   },
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "La commune est en limite de la forêt d'Orléans, ce qui ouvre des itinéraires de marche et de course en forêt."
+   }
+  ],
+  "acces": "Boigny-sur-Bionne est desservie par les lignes de bus 12 et 15."
+ },
+ "mardie": {
+  "lieux": [
+   {
+    "nom": "Canal d'Orléans, bief de Pont-aux-Moines",
+    "type": "canal",
+    "texte": "Le canal d'Orléans traverse Mardié par le bief de Pont-aux-Moines, un cadre au bord de l'eau pour marcher ou courir."
+   },
+   {
+    "nom": "Levée de la Loire",
+    "type": "bords de Loire",
+    "texte": "La levée de la Loire traverse le territoire de la commune et offre un itinéraire plat le long du fleuve."
+   }
+  ],
+  "acces": "La ligne de bus 8 traverse la commune à raison d'un bus toutes les 30 minutes."
+ },
+ "bou": {
+  "lieux": [
+   {
+    "nom": "Levée de la Loire",
+    "type": "bords de Loire",
+    "texte": "Sur la levée, une route interdite à la circulation contourne le village par le sud et le GR 3 l'emprunte, de quoi marcher ou courir sans voitures."
+   },
+   {
+    "nom": "La Binette",
+    "type": "bords de Loire",
+    "texte": "Lieu aménagé au bord de la Loire avec des équipements récréatifs et sportifs, pratique pour une séance en extérieur."
+   }
+  ],
+  "acces": ""
+ },
+ "la-source": {
+  "lieux": [
+   {
+    "nom": "Bois de Concyr",
+    "type": "forêt",
+    "texte": "Espace boisé du quartier, adapté à la marche et au footing."
+   },
+   {
+    "nom": "Lac du campus universitaire",
+    "type": "étang",
+    "texte": "Lac situé au centre du campus universitaire, autour duquel il est facile de marcher ou courir."
+   }
+  ],
+  "acces": "La ligne A du tramway dessert le quartier, notamment aux stations Université, Parc Floral et Hôpital de la Source, terminus sud."
+ },
+ "tavers": {
+  "lieux": [
+   {
+    "nom": "Bords de Loire et GR 3",
+    "type": "bords de Loire",
+    "texte": "Tavers est riveraine de la Loire et le GR 3 suit la rive droite, un itinéraire pour marcher au bord du fleuve."
+   },
+   {
+    "nom": "La Loire à Vélo entre Tavers et Avaray",
+    "type": "voie verte",
+    "texte": "Une piste cyclable longe le fleuve entre Tavers et Avaray, utilisable aussi pour marcher ou courir."
+   }
+  ],
+  "acces": ""
+ },
+ "beaugency": {
+  "lieux": [
+   {
+    "nom": "Site naturel des Rives de Beaugency",
+    "type": "bords de Loire",
+    "texte": "Espace naturel sensible au sud de la Loire, géré par le Conservatoire d'espaces naturels, pour marcher dans un cadre naturel."
+   },
+   {
+    "nom": "Bords de Loire",
+    "type": "bords de Loire",
+    "texte": "Les bords de Loire accueillent le boulodrome et les Estivales, et se prêtent à la marche et au footing."
+   }
+  ],
+  "acces": ""
+ },
+ "jargeau": {
+  "lieux": [
+   {
+    "nom": "Bords de Loire et Jargeau plage",
+    "type": "bords de Loire",
+    "texte": "La Loire coule en lisière nord de la commune et ses bords, avec Jargeau plage en été, se prêtent à la marche et au sport."
+   },
+   {
+    "nom": "La Loire à Vélo, étape Jargeau-Orléans",
+    "type": "voie verte",
+    "texte": "Étape facile, principalement sur voies vertes, qui relie Jargeau à Orléans et sert aussi pour marcher ou courir."
+   },
+   {
+    "nom": "Mails Carnot et Madeleine",
+    "type": "parc",
+    "texte": "Mails aménagés à la place des anciens fossés de la ville médiévale, pratiques pour une marche en centre-bourg."
+   }
+  ],
+  "acces": ""
+ },
+ "chateauneuf-sur-loire": {
+  "lieux": [
+   {
+    "nom": "Parc du château",
+    "type": "parc",
+    "texte": "Parc paysager dessiné initialement par André Le Nôtre, avec un arboretum, agréable pour une marche."
+   },
+   {
+    "nom": "Promenade du Chastaing",
+    "type": "bords de Loire",
+    "texte": "Parc qui longe la Loire en amont du pont, pratique pour marcher ou courir au bord du fleuve."
+   },
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "Le site Natura 2000 de la forêt d'Orléans s'étend jusqu'à la commune, avec des chemins pour la marche et la course."
+   }
+  ],
+  "acces": ""
+ },
+ "tigy": {
+  "lieux": [
+   {
+    "nom": "Sentier historique de la vallée des rois (GRP)",
+    "type": "chemin de randonnée balisé",
+    "texte": "Ce sentier de grande randonnée de pays long de 150 km passe par Tigy et se prête aux longues marches comme aux sorties de course sur chemins balisés."
+   }
+  ],
+  "acces": ""
+ },
+ "pithiviers": {
+  "lieux": [
+   {
+    "nom": "Parc du château de Bellecour",
+    "type": "parcours de santé",
+    "texte": "Parc communal avec de nombreuses essences d'arbres, une aire de jeux et un parcours de santé, utile pour marcher et faire du renforcement."
+   },
+   {
+    "nom": "Les mails",
+    "type": "parc",
+    "texte": "Anciens fossés transformés en promenade accessible au public, pratique pour une marche en ville."
+   }
+  ],
+  "acces": ""
+ },
+ "saint-marceau": {
+  "lieux": [
+   {
+    "nom": "Jardin des Plantes d'Orléans",
+    "type": "parc",
+    "texte": "Jardin en accès libre et gratuit sur la rive gauche de la Loire, dans le quartier Saint-Marceau, adapté à une marche au vert."
+   }
+  ],
+  "acces": "Le Jardin des Plantes est à 500 mètres de la station Tourelles-Dauphine de la ligne A du tramway."
+ },
+ "la-chapelle-saint-mesmin": {
+  "lieux": [
+   {
+    "nom": "Bords de Loire et GR 3",
+    "type": "bords de Loire",
+    "texte": "Les bords de Loire offrent une grande diversité de paysages et le GR 3 emprunte l'ancien chemin de halage, idéal pour marcher ou courir."
+   },
+   {
+    "nom": "Parc municipal de la place des Grèves",
+    "type": "parc",
+    "texte": "Parc avec aire de pique-nique et jeux pour enfants, pratique pour une pause active."
+   },
+   {
+    "nom": "Parc de l'Espace Béraire",
+    "type": "parc",
+    "texte": "Parc municipal de la commune, adapté à une marche ou un footing."
+   }
+  ],
+  "acces": "La ligne B du tramway termine son parcours à la station Georges-Pompidou, sur la commune."
+ },
+ "saint-ay": {
+  "lieux": [
+   {
+    "nom": "Bords de Loire et GR 3",
+    "type": "bords de Loire",
+    "texte": "Saint-Ay est en bordure de la Loire, sur le GR 3 qui longe le fleuve, un itinéraire pour la marche."
+   },
+   {
+    "nom": "Réserve naturelle nationale de Saint-Mesmin",
+    "type": "bords de Loire",
+    "texte": "La réserve comprend une partie de la Loire en rive droite sur la commune, un cadre naturel pour marcher."
+   }
+  ],
+  "acces": ""
+ },
+ "chaingy": {
+  "lieux": [
+   {
+    "nom": "Bords de Loire et Fourneaux-Plage",
+    "type": "bords de Loire",
+    "texte": "La commune est longée au sud par la Loire, avec le site de Fourneaux-Plage, pour marcher ou courir au bord du fleuve."
+   },
+   {
+    "nom": "Réserve naturelle nationale de Saint-Mesmin",
+    "type": "bords de Loire",
+    "texte": "Réserve naturelle en bord de Loire, avec notamment les îles de Mareau, pour une sortie nature."
+   }
+  ],
+  "acces": "Les lignes 9 et 9A du réseau Rémi desservent Chaingy et relient Orléans à Beaugency."
+ },
+ "checy": {
+  "lieux": [
+   {
+    "nom": "Canal d'Orléans et chemin de halage",
+    "type": "canal",
+    "texte": "Chécy est traversée par le canal d'Orléans, dont le chemin de halage du bief de Combleux permet de marcher ou courir au bord de l'eau."
+   },
+   {
+    "nom": "Bords de Loire",
+    "type": "bords de Loire",
+    "texte": "La Loire forme la limite sud de la commune et ses rives se prêtent à la marche."
+   }
+  ],
+  "acces": "La RD 960 relie Chécy à Orléans à l'ouest."
+ },
+ "combleux": {
+  "lieux": [
+   {
+    "nom": "Entre Loire et canal d'Orléans",
+    "type": "canal",
+    "texte": "La portion entre la Loire et le canal, bordée d'anciennes maisons de mariniers, est un lieu de promenade privilégié."
+   },
+   {
+    "nom": "Bords de Loire et chemin de la Patache",
+    "type": "bords de Loire",
+    "texte": "La Loire garde ici un caractère naturel remarquable et le chemin de la Patache permet des promenades au bord du fleuve."
+   }
+  ],
+  "acces": ""
+ },
+ "marigny-les-usages": {
+  "lieux": [
+   {
+    "nom": "Étang du bois de Charbonnière",
+    "type": "étang",
+    "texte": "Étang situé à l'extrémité nord-est du bois de Charbonnière, cadre naturel pour une marche."
+   },
+   {
+    "nom": "Forêt d'Orléans",
+    "type": "forêt",
+    "texte": "Le site Natura 2000 de la forêt d'Orléans est présent sur la commune, propice à la marche et à la course en forêt."
+   }
+  ],
+  "acces": ""
+ }
+}

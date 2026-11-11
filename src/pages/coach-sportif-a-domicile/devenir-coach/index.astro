@@ -1,0 +1,213 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../../components/PartageReseaux.astro';
+import Crumbs from '../../../components/rb/Crumbs.astro';
+import Icones from '../../../components/rb/Icones.astro';
+import '../../../styles/rebrand.css';
+import offres from '../../../data/offres-emploi.json';
+const zones = (offres as any).offres.filter((o: any) => o.type === 'domicile');
+const path = '/coach-sportif-a-domicile/devenir-coach/';
+const CALENDLY = 'https://calendly.com/ga-coachs/candidature-coach-sportif';
+const recoit = [
+  { i: '🎓', t: 'Une formation au coaching à domicile', d: 'Bilan, programme sans salle, sécurité chez le client, gestion des annulations, premier contact : tout ce qu\'un coach doit maîtriser pour travailler chez les gens.' },
+  { i: '🧾', t: 'Un cadre administratif clair', d: 'Votre déclaration en service à la personne, votre assurance et vos factures : nous vous expliquons les démarches pas à pas. Vous facturez vos clients vous-même.' },
+  { i: '🧭', t: 'Un bilan qui amène des clients', d: 'Le Bilan Santé à domicile, la méthode qui a fait le succès de GA Coachs en salle, avec trames de programme, suivi des progrès et fiche coach sur gacoachs.fr.' },
+  { i: '🤝', t: 'Un accompagnement dans la durée', d: 'Des points réguliers, une communauté de coachs et un interlocuteur, pour progresser sur le terrain et installer une clientèle stable.' },
+];
+const modele = [
+  { t: 'Vous gardez vos séances', d: 'Vous fixez votre tarif et vous encaissez vos séances. Là où certaines plateformes reversent seulement la moitié de chaque heure au coach, GA Coachs ne prélève rien sur vos séances.' },
+  { t: 'Un droit d\'entrée, puis une redevance fixe', d: 'Vous payez une formation et un accompagnement, pas une part de votre chiffre d\'affaires. Le montant est présenté lors de l\'entretien, sans surprise.' },
+  { t: 'Des clients envoyés, en plus', d: 'Les demandes de Bilan Santé reçues sur gacoachs.fr peuvent vous être confiées. Dans ce cas seulement, une commission convenue à l\'avance s\'applique.' },
+];
+const profil = [
+  'Une carte professionnelle d\'éducateur sportif en cours de validité',
+  'Une assurance responsabilité civile professionnelle',
+  'Un statut pour facturer (auto-entrepreneur ou équivalent)',
+  'L\'envie de coacher des gens qui n\'iraient pas en salle : seniors, débutants, personnes isolées',
+  'Un véhicule ou une zone d\'intervention définie',
+];
+const etapes = [
+  { m: 'Étape 1', t: 'Un échange', d: 'Vous réservez un créneau avec Garry. On parle de votre parcours, de votre zone et de vos objectifs.' },
+  { m: 'Étape 2', t: 'La formation', d: 'Vous suivez la formation au coaching à domicile et vous mettez vos démarches en règle.' },
+  { m: 'Étape 3', t: 'Vos premiers clients', d: 'Votre fiche coach est en ligne. Vous recevez des demandes de votre zone et vous démarrez.' },
+  { m: 'Ensuite', t: 'Le suivi', d: 'Vous êtes accompagné dans la durée pour développer votre activité sereinement.' },
+];
+const faq = [
+  { q: 'Faut-il être déjà dans le réseau GA Coachs ?', r: 'Non. Vous pouvez rejoindre BOOST DOMICILE sans salle Basic-Fit de rattachement. Si vous êtes déjà dans le réseau, parlez-en lors de l\'entretien.' },
+  { q: 'Comment les premiers clients arrivent-ils ?', r: 'Par le Bilan Santé à domicile, réservé sur gacoachs.fr. C\'est la porte d\'entrée : vous encaissez directement le prix du bilan, vous remettez un mini plan et vous présentez votre accompagnement de 3 mois ou 1 an pendant le bilan.' },
+  { q: 'Qui encaisse le bilan et les séances ?', r: 'Vous. Le prix du bilan est réglé directement à vous, et vous fixez et encaissez vos séances. GA Coachs ne prélève pas de part sur chaque séance.' },
+  { q: 'Combien ça coûte ?', r: 'Il y a un droit d\'entrée pour la formation et l\'accompagnement, puis une redevance mensuelle fixe. Les montants vous sont présentés lors de l\'entretien.' },
+  { q: 'Prenez-vous un pourcentage sur mes séances ?', r: 'Non. Vous facturez vous-même vos clients. Seules les demandes que GA Coachs vous confie donnent lieu à une commission, convenue à l\'avance.' },
+  { q: 'Qui facture le client ?', r: 'Vous. Vous êtes indépendant et vous fixez et encaissez vos séances. Nous vous aidons pour les démarches liées au service à la personne.' },
+  { q: 'Que se passe-t-il pour le crédit d\'impôt de mes clients ?', r: 'Il dépend de votre déclaration en service à la personne et du type de séances. Nous vous expliquons les conditions actuelles, sans les promettre, car elles peuvent évoluer.' },
+  { q: 'Quelle est la durée de l\'engagement ?', r: 'Elle est précisée dans le contrat que nous vous présentons lors de l\'entretien, avant toute signature.' },
+  { q: 'Puis-je rester dans ma salle actuelle ?', r: 'Oui. BOOST DOMICILE est une activité en plus. Vous pouvez la mener en parallèle de vos séances en salle.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', name: 'Devenir coach sportif à domicile avec GA Coachs', description: 'Formation et accompagnement pour coachs sportifs indépendants qui veulent coacher à domicile.', url: 'https://gacoachs.fr/coach-sportif-a-domicile/devenir-coach/' },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout title="Devenir coach sportif à domicile avec GA Coachs" description="Formation et accompagnement pour coachs sportifs indépendants : coaching à domicile, vous facturez vos clients, redevance fixe, pas de part sur vos séances." path={path} jsonLd={jsonLd} stickyCtaHref="#candidature" stickyCtaLabel="Candidater">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'BOOST DOMICILE', href: '/coach-sportif-a-domicile/' }, { label: 'Devenir coach', href: path }]} />
+      <span class="eyebrow eyebrow-dark">Coachs indépendants</span>
+      <h1>Devenez <span class="hl-text">coach à domicile</span> et gardez l'essentiel de vos séances.</h1>
+      <p class="phero-lead">GA Coachs vous forme et vous accompagne pour coacher chez les gens. Vous facturez vos clients vous-même, sans qu'une plateforme prélève la moitié de chaque heure.</p>
+      <ul class="facts-dark"><li>Formation au coaching à domicile</li><li>Vous facturez vos clients</li><li>Droit d'entrée, puis redevance fixe</li></ul>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#candidature">Candidater</a>
+        <a class="btn btn-glass" href="#modele">Comment ça marche</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Ce que vous recevez</span>
+      <h2 class="h2">Une formation, un cadre et des outils.</h2>
+      <div class="ec-grid ec-grid4">{recoit.map((c) => <div class="tile ec-t"><span class="ec-i" aria-hidden="true">{c.i}</span><h3>{c.t}</h3><p>{c.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec band" id="modele">
+    <div class="inner">
+      <span class="eyebrow">Le modèle</span>
+      <h2 class="h2">Pas de prélèvement sur chaque séance.</h2>
+      <div class="ec-grid">{modele.map((c) => <div class="tile ec-t"><h3>{c.t}</h3><p>{c.d}</p></div>)}</div>
+      <p class="ec-n">Montants présentés lors de l'entretien, avant tout engagement.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="simulateur">
+    <div class="inner">
+      <span class="eyebrow">Simulateur</span>
+      <h2 class="h2">Simulez vos revenus à domicile.</h2>
+      <p class="ec-n">Réglez les curseurs avec vos propres chiffres. Exemple de départ : 8 clients, 4 séances par mois chacun, à 50 € de l'heure.</p>
+      <div class="dc-sim">
+        <label for="dc-c"><span>Clients suivis</span><b id="dc-cv">8</b></label>
+        <input type="range" id="dc-c" min="1" max="20" step="1" value="8" />
+        <label for="dc-s"><span>Séances par client et par mois</span><b id="dc-sv">4</b></label>
+        <input type="range" id="dc-s" min="1" max="8" step="1" value="4" />
+        <label for="dc-t"><span>Tarif de la séance</span><b id="dc-tv">50 €</b></label>
+        <input type="range" id="dc-t" min="30" max="100" step="5" value="50" />
+        <div class="dc-out" aria-live="polite"><span>Chiffre d'affaires par mois</span><p><b id="dc-ca">1 600</b> €</p><small>avant charges, cotisations sociales et redevance au réseau</small></div>
+        <p class="dc-w">Simulation avec vos propres chiffres, pas une promesse de résultat.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Ce qu'il faut</span>
+      <h2 class="h2">Le profil que nous cherchons.</h2>
+      <ul class="ec-list">{profil.map((p) => <li>{p}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Le parcours</span>
+      <h2 class="h2">De l'échange à vos premiers clients.</h2>
+      <ol class="ec-tl">{etapes.map((d) => <li><span class="ec-m">{d.m}</span><div><b>{d.t}</b><p>{d.d}</p></div></li>)}</ol>
+      <div class="ctas" style="margin-top:22px;"><a class="btn btn-primary" href="#candidature">Candidater</a></div>
+      <p class="ec-n">Vous êtes déjà coach en salle ? Voir aussi <a href="/rejoindre/">rejoindre le réseau GA Coachs</a>.</p>
+    </div>
+  </section>
+
+  <section class="sec band" id="candidature">
+    <div class="inner ec-two">
+      <div>
+        <span class="eyebrow">Candidature</span>
+        <h2 class="h2">Dites-nous où vous voulez coacher.</h2>
+        <p class="ec-n">Quelques informations, puis vous choisissez un créneau d'échange avec Garry. Pas de montant ici : ils vous sont présentés lors de l'échange, avant tout engagement.</p>
+      </div>
+      <form class="ec-form" name="candidature-domicile" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-candidature/" aria-label="Candidater pour devenir coach à domicile">
+        <input type="hidden" name="form-name" value="candidature-domicile" />
+        <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+        <label>Prénom et nom<input name="nom" required autocomplete="name" /></label>
+        <label>Téléphone<input type="tel" name="telephone" required autocomplete="tel" /></label>
+        <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Zone où vous voulez coacher
+          <select name="zone" id="dc-zone" required><option value="">Choisir une ville</option>{zones.map((z: any) => <option value={z.territoire}>{z.territoire} et alentours</option>)}<option value="autre">Une autre ville</option></select>
+        </label>
+        <label>Carte professionnelle d'éducateur sportif
+          <select name="carte" required><option value="">Choisir</option><option>Oui, en cours de validité</option><option>En cours d'obtention</option><option>Non, pas encore</option></select>
+        </label>
+        <label>Un message <small>(facultatif)</small><textarea name="message" rows="3"></textarea></label>
+        <button class="btn btn-primary" type="submit">Envoyer ma candidature</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Vos questions de coach.</h2>
+      <div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title="Devenir coach sportif à domicile avec GA Coachs" label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>
+<script>
+  const rg = ['dc-c', 'dc-s', 'dc-t'].map((id) => document.getElementById(id) as HTMLInputElement | null);
+  const fmt = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  const calc = () => {
+    if (rg.some((x) => !x)) return;
+    const [c, s, t] = rg.map((x) => +x!.value);
+    rg.forEach((x, i) => { const v = document.getElementById(x!.id + 'v'); if (v) v.textContent = x!.value + (i === 2 ? ' €' : ''); x!.style.setProperty('--p', ((+x!.value - +x!.min) / (+x!.max - +x!.min)) * 100 + '%'); });
+    const ca = document.getElementById('dc-ca'); if (ca) ca.textContent = fmt(c * s * t);
+  };
+  rg.forEach((x) => x?.addEventListener('input', calc)); calc();
+  const z = new URLSearchParams(location.search).get('zone'), sel = document.getElementById('dc-zone') as HTMLSelectElement | null;
+  if (z && sel) { const o = Array.from(sel.options).find((x) => x.value.toLowerCase() === z.toLowerCase()); if (o) sel.value = o.value; }
+</script>
+
+<style>
+  .ec-bref-sec { padding-top: 28px; padding-bottom: 8px; }
+  .ec-bref { border-left: 4px solid #1D5BD8; background: #fff; border-radius: 0 18px 18px 0; padding: 18px 22px; box-shadow: 0 12px 30px -24px rgba(11,30,61,.5); }
+  .ec-bref-k { margin: 0 0 8px; font-weight: 700; text-transform: none; letter-spacing: .02em; font-size: 12px; color: #1D5BD8; }
+  .ec-bref ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #0B1E3D; line-height: 1.5; }
+  .ec-num { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #1D5BD8; color: #fff; font-weight: 700; }
+  .ec-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ec-t h3 { margin: 6px 0 8px; }
+  .ec-t p { margin: 0; line-height: 1.55; color: #2A3756; }
+  .ec-i { font-size: 30px; }
+  .ec-tl { list-style: none; padding: 0; margin: 22px 0 0; display: grid; border-left: 3px solid #1D5BD8; }
+  .ec-tl li { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 14px; padding: 14px 0 14px 18px; border-bottom: 1px solid #DCE6FB; }
+  .ec-m { font-weight: 700; color: #1D5BD8; }
+  .ec-tl b { color: #0B1E3D; }
+  .ec-tl p { margin: 4px 0 0; color: #2A3756; line-height: 1.5; }
+  .ec-n { color: #2A3756; margin-top: 14px; }
+  .ec-two { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .ec-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; } }
+  .ec-form { display: grid; gap: 12px; background: #fff; border: 1px solid #DCE6FB; border-radius: 20px; padding: 22px; min-width: 0; }
+  .ec-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; color: #0B1E3D; min-width: 0; }
+  .ec-form input, .ec-form select, .ec-form textarea { width: 100%; box-sizing: border-box; min-height: 46px; padding: 10px 12px; border: 1px solid #B8C6E3; border-radius: 12px; font: inherit; font-size: 16px; background: #fff; }
+  .ec-guides { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; }
+  .ec-guides a { display: block; padding: 12px 14px; border: 1px solid #DCE6FB; border-radius: 14px; background: #fff; color: #0B1E3D; font-weight: 600; line-height: 1.35; text-decoration: none; }
+  .ec-grid.ec-grid4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1100px) { .ec-grid.ec-grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px) { .ec-grid, .ec-grid.ec-grid4, .ec-guides { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 767px) { .ec-tl li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+  .ec-grid.ec-grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ec-k { margin: 0; font-weight: 700; font-size: 12px; letter-spacing: .02em; color: #1D5BD8; }
+  @media (max-width: 900px) { .ec-grid.ec-grid2 { grid-template-columns: minmax(0, 1fr); } }
+  .ec-list { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 10px; }
+  .ec-list li { background: #fff; border: 1px solid #DCE6FB; border-radius: 14px; padding: 12px 16px; color: #0B1E3D; }
+  .dc-k { margin: 0; font-weight: 700; font-size: 28px; color: #1D5BD8; }
+  .dc-h3 { margin: 28px 0 0; color: #0B1E3D; }
+  .dc-sim { display: grid; gap: 10px; margin-top: 20px; background: #fff; border: 1px solid #DCE6FB; border-radius: 20px; padding: 22px; max-width: 640px; }
+  .dc-sim label { display: flex; justify-content: space-between; gap: 12px; font-weight: 600; color: #0B1E3D; margin-top: 6px; }
+  .dc-sim b { color: #1D5BD8; }
+  .dc-sim input[type=range] { width: 100%; min-height: 32px; accent-color: #1D5BD8; }
+  .dc-out { margin-top: 12px; padding: 16px; border-radius: 14px; background: #EAF1FF; color: #0B1E3D; }
+  .dc-out p { margin: 4px 0; font-size: 30px; font-weight: 700; }
+  .dc-out small, .dc-w { color: #2A3756; }
+  .dc-w { margin: 6px 0 0; font-size: 14px; }
+</style>

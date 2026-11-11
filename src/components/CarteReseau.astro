@@ -1,0 +1,119 @@
+---
+import sallesData from '../data/salles.json';
+const salles = sallesData.filter((s) => s.reseauOfficiel !== false);
+import villes from '../data/villes.json';
+import sallesCoords from '../data/salles-coordonnees.json';
+import villesCoords from '../data/villes-coordonnees.json';
+
+// On associe chaque salle à ses villes de chalandise réelles (dérivé de villes.json)
+const sallesAvecVilles = salles.map((s) => ({
+  slug: s.slug,
+  nom: s.nom,
+  ville: s.ville,
+  lat: (sallesCoords as any)[s.slug]?.lat,
+  lng: (sallesCoords as any)[s.slug]?.lng,
+  villesChalandise: villes
+    .filter((v) => v.salleSlugs.includes(s.slug) && v.slug !== 'orleans')
+    .map((v) => ({
+      slug: v.slug,
+      nom: v.nom,
+      lat: (villesCoords as any)[v.slug]?.lat,
+      lng: (villesCoords as any)[v.slug]?.lng,
+    }))
+    .filter((v) => v.lat && v.lng),
+}));
+
+const mapDataId = 'ga-carte-reseau-data';
+---
+<div class="carte-reseau">
+  <div id="ga-carte-reseau" class="carte-reseau__map" role="application" aria-label="Carte du réseau GA Coachs, salles et villes desservies"></div>
+  <p class="carte-reseau__credit">Fond de carte © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">contributeurs OpenStreetMap</a></p>
+</div>
+
+<script type="application/json" id={mapDataId} set:html={JSON.stringify(sallesAvecVilles)} />
+
+<style>
+  .carte-reseau { display: flex; flex-direction: column; gap: 10px; }
+  .carte-reseau__map {
+    width: 100%;
+    height: 460px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--ice);
+  }
+  .carte-reseau__credit { font-size: 11px; color: var(--text-muted); text-align: right; }
+  .carte-reseau__credit a { color: var(--text-muted); text-decoration: underline; }
+
+  :global(.leaflet-popup-content) { font-family: var(--font-body); font-size: 13px; }
+  :global(.leaflet-popup-content strong) { font-family: var(--font-display); }
+</style>
+
+<link rel="stylesheet" href="/vendor/leaflet/leaflet.css" />
+<script is:inline src="/vendor/leaflet/leaflet.js"></script>
+<script define:vars={{ mapDataId }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mapEl = document.getElementById('ga-carte-reseau');
+    const dataEl = document.getElementById(mapDataId);
+    if (!mapEl || !dataEl || typeof L === 'undefined') return;
+
+    const salles = JSON.parse(dataEl.textContent || '[]');
+
+    // Centré par défaut sur l'agglomération d'Orléans, dézoomable pour voir tout le secteur (jusqu'à Artenay au nord)
+    const map = L.map('ga-carte-reseau', { scrollWheelZoom: false }).setView([47.905, 1.92], 11);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; contributeurs OpenStreetMap',
+    }).addTo(map);
+
+    const salleIcon = L.divIcon({
+      className: 'ga-marker ga-marker--salle',
+      html: '<span></span>',
+      iconSize: [18, 18],
+    });
+    const villeIcon = L.divIcon({
+      className: 'ga-marker ga-marker--ville',
+      html: '<span></span>',
+      iconSize: [10, 10],
+    });
+
+    salles.forEach((salle) => {
+      if (!salle.lat || !salle.lng) return;
+      const marker = L.marker([salle.lat, salle.lng], { icon: salleIcon }).addTo(map);
+      marker.bindPopup(`<strong>${salle.nom}</strong><br/><a href="/salles/${salle.slug}/">Voir la salle</a>`);
+
+      (salle.villesChalandise || []).forEach((ville) => {
+        const vMarker = L.marker([ville.lat, ville.lng], { icon: villeIcon }).addTo(map);
+        vMarker.bindPopup(`${ville.nom}<br/><a href="/coach-sportif-${ville.slug}/">Coach sportif à ${ville.nom}</a>`);
+        L.polyline([[salle.lat, salle.lng], [ville.lat, ville.lng]], {
+          color: '#6EA8FE',
+          weight: 1,
+          opacity: 0.5,
+          dashArray: '3 4',
+        }).addTo(map);
+      });
+    });
+  });
+</script>
+
+<style is:global>
+  .ga-marker--salle span {
+    display: block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #0B1E3D;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(11, 30, 61, 0.4);
+  }
+  .ga-marker--ville span {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #2F6FED;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(47, 111, 237, 0.5);
+  }
+</style>

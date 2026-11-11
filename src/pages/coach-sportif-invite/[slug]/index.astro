@@ -1,0 +1,181 @@
+---
+// Pages « coach sportif invité » : une page par marché (podcasts, esport, médias, salons...). Données : src/data/boost-marches.json
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../../components/PartageReseaux.astro';
+import Crumbs from '../../../components/rb/Crumbs.astro';
+import Icones from '../../../components/rb/Icones.astro';
+import '../../../styles/rebrand.css';
+import '../../../styles/marches.css';
+import marches from '../../../data/boost-marches.json';
+
+export function getStaticPaths() {
+  return (marches as any[]).map((m) => ({ params: { slug: m.slug }, props: { m } }));
+}
+const { m } = Astro.props as { m: any };
+const path = `/coach-sportif-invite/${m.slug}/`;
+const part = !!m.particulier;
+const parts = String(m.h1).split('*');
+const liens = (m.liens as string[]).map((s) => (marches as any[]).find((x) => x.slug === s)).filter(Boolean);
+const ctaHref = part ? '/score-sante/' : '#contact';
+const ctaLabel = part ? 'Faire mon Score Santé' : 'Recevoir une proposition';
+const lbl = (n: string) => n;
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: `Coach sportif invité : ${m.nom}`, description: m.desc, url: 'https://gacoachs.fr' + path, serviceType: `Coach sportif diplômé pour ${m.nom.toLowerCase()}`,
+    audience: { '@type': 'Audience', audienceType: m.pourqui.join(', ') },
+    hasOfferCatalog: { '@type': 'OfferCatalog', name: `Formats : ${m.nom}`, itemListElement: m.formats.map((f: string) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: f } })) },
+    provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr', founder: { '@type': 'Person', name: 'Garry Babaud', jobTitle: 'Coach en chef', url: 'https://garrybabaud.com/' } },
+    areaServed: part ? ['Orléans', 'Loiret'] : ['France', 'Europe'] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: (m.faq as any[]).map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+const typesOrg = ['Agence de communication', 'Marque ou entreprise', 'Média ou société de production', 'Organisateur d\'événement', 'Mutuelle, assureur ou CSE', 'Institution ou collectivité', 'Créateur de contenu ou streamer', 'Autre'];
+const besoins = ['Invité de vidéo, de live ou d\'émission', 'Intervention ponctuelle', 'Série ou programme dans la durée', 'Contenus à réaliser', 'Je ne sais pas encore'];
+---
+<BaseLayout title={m.title} description={m.desc} path={path} jsonLd={jsonLd} stickyCtaHref={ctaHref} stickyCtaLabel={part ? 'Faire mon Score Santé' : 'Parler de votre projet'}>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Coach sportif invité', href: '/coach-sportif-invite/' }, { label: m.nom, href: path }]} />
+      <span class="eyebrow eyebrow-dark">Coach sportif invité · {m.nom}</span>
+      <h1>{parts.map((p, i) => i % 2 === 1 ? <span class="hl-text">{p}</span> : p)}</h1>
+      <p class="phero-lead">{m.lead}</p>
+      <ul class="mk-proof">
+        <li><b>Diplômés</b><span>des coachs sportifs professionnels</span></li>
+        <li><b>Tous éligibles</b><span>les coachs du réseau GA, présentés à égalité</span></li>
+        <li><b>{part ? 'Perte de Poids' : '704 397 vues'}</b><span>{part ? 'objectif le plus demandé' : 'avec Good Moves, programme européen'}</span></li>
+        <li><b>{part ? 'Basic-Fit' : 'France et Europe'}</b><span>{part ? 'dans la salle de ton coach' : 'déplacement ou visio'}</span></li>
+      </ul>
+      <div class="ctas">
+        <a class="btn btn-primary" href={ctaHref}>{ctaLabel}</a>
+        <a class="btn btn-glass" href="#faq">Voir les questions</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec mk-bref-sec">
+    <div class="inner">
+      <div class="mk-bref">
+        <p class="mk-bref-k">En bref</p>
+        <ul>
+          <li><b>Quoi :</b> {m.bref.quoi}.</li>
+          <li><b>Pour qui :</b> {m.bref.pour}.</li>
+          <li><b>Comment :</b> {m.bref.comment}.</li>
+          <li><b>Résultat :</b> {m.bref.resultat}.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Définition</span>
+      <h2 class="h2">{part ? 'Un coach sportif pour les futurs mariés : de quoi parle-t-on ?' : `Un coach sportif pour ${m.nom.toLowerCase()} : de quoi parle-t-on ?`}</h2>
+      <p class="mk-def">{m.defn}</p>
+      {m.exp && <p class="mk-exp">{m.exp}</p>}
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">{part ? 'Ce que tu y gagnes' : 'Ce que fait le coach'}</span>
+      <h2 class="h2">{part ? 'Un programme simple, progressif et tenable.' : 'Concrètement, ce que le coach apporte.'}</h2>
+      <div class="mk-grid">{(m.fait as any[]).map((f) => <div class="tile mk-t"><h3>{f.t}</h3><p>{f.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Formats</span>
+      <h2 class="h2">{part ? 'Les formules possibles.' : 'Les formats possibles.'}</h2>
+      <ul class="mk-chips">{(m.formats as string[]).map((f) => <li>{f}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">{part ? 'Pour qui' : 'Pour qui'}</span>
+      <h2 class="h2">{part ? 'Pour toi, et pour ton couple.' : 'Pour qui, exactement.'}</h2>
+      <ul class="mk-chips">{(m.pourqui as string[]).map((f) => <li>{f}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Comment ça se passe</span>
+      <h2 class="h2">{part ? 'Du Score Santé au jour J, en quatre étapes.' : 'De votre brief à la diffusion, en quatre étapes.'}</h2>
+      <ol class="mk-steps">{(m.etapes as string[]).map((e, i) => <li class="tile"><span class="mk-n">{i + 1}</span><p>{e}</p></li>)}</ol>
+    </div>
+  </section>
+
+  {part ? (
+  <section class="sec band" id="contact">
+    <div class="inner">
+      <span class="eyebrow">Première étape</span>
+      <h2 class="h2">Commence par ton Score Santé.</h2>
+      <p class="mk-lead">Le Score Santé te donne une première vue de ta forme. Tu réserves ensuite ton bilan avec le coach de ton choix, dans sa salle Basic-Fit.</p>
+      <div class="mk-cta">
+        <a class="btn btn-primary" href="/score-sante/">Faire mon Score Santé</a>
+        <a class="btn btn-out" href="/trouver-un-coach/">Trouver mon coach</a>
+        <a class="btn btn-out" href="/services-sur-mesure/evjf-evg-activite-sportive/">EVJF et EVG sportifs</a>
+      </div>
+    </div>
+  </section>
+  ) : (
+  <section class="sec band" id="contact">
+    <div class="inner mk-two">
+      <div>
+        <span class="eyebrow">Votre projet</span>
+        <h2 class="h2">Parlons de votre projet.</h2>
+        <p>Format, public visé, calendrier : nous revenons vers vous sous 48 h ouvrées avec une proposition et le coach adapté. Vos informations servent uniquement à répondre à votre demande (<a href="/confidentialite/">confidentialité</a>).</p>
+        <p class="mk-note">Journaliste ou marque pour une interview ? Voir notre <a href="/medias/">espace médias</a>.</p>
+      </div>
+      <form class="mk-form" name="communication" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-boost/" aria-label={`Parler de votre projet : ${m.nom}`}>
+        <input type="hidden" name="form-name" value="communication" />
+        <input type="hidden" name="marche" value={m.slug} />
+        <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+        <label>Organisme, agence, marque ou chaîne<input name="structure" required autocomplete="organization" /></label>
+        <label>Vous êtes
+          <select name="type_org" required><option value="">Choisir</option>{typesOrg.map((t) => <option>{t}</option>)}</select>
+        </label>
+        <label>Prénom et nom<input name="nom" required autocomplete="name" /></label>
+        <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Téléphone <small>(facultatif)</small><input type="tel" name="telephone" autocomplete="tel" /></label>
+        <label>Ce dont vous avez besoin
+          <select name="besoin" required><option value="">Choisir</option>{besoins.map((t) => <option>{t}</option>)}</select>
+        </label>
+        <label>Public visé <small>(facultatif)</small><input name="public" placeholder="Ex. : abonnés, auditeurs, joueurs, adhérents" /></label>
+        <label>Calendrier <small>(facultatif)</small><input name="echeance" placeholder="Ex. : enregistrement en mars, diffusion en avril" /></label>
+        <label>Votre projet <small>(facultatif)</small><textarea name="message" rows="4"></textarea></label>
+        <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+      </form>
+    </div>
+  </section>
+  )}
+
+  <section class="sec" id="faq">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">{part ? 'Tes questions.' : 'Vos questions.'}</h2>
+      <div class="faq-list">{(m.faq as any[]).map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">À découvrir aussi</span>
+      <h2 class="h2">{part ? 'Pour aller plus loin.' : 'D\'autres façons d\'inviter un coach.'}</h2>
+      <ul class="mk-links">
+        {liens.map((x: any) => <li><a href={`/coach-sportif-invite/${x.slug}/`}><b>{x.emoji} {x.nom}</b><small>{x.bref.quoi}</small></a></li>)}
+        {m.extra_lien && <li><a href={m.extra_lien.href}><b>{m.extra_lien.label}</b><small>Une autre offre du réseau GA Coachs.</small></a></li>}
+        {!part && <li><a href="/coach-sportif-campagne-sport-sante/"><b>BOOST COMMUNICATION</b><small>Vidéos UGC, visage de marque, invité YouTube et Twitch.</small></a></li>}
+        {!part && <li><a href="/medias/"><b>Espace médias</b><small>Interviews, égéries, expertise sport, nutrition et santé.</small></a></li>}
+        {!part && <li><a href="/conferences/"><b>Conférences</b><small>Un coach sportif en conférence, atelier ou table ronde.</small></a></li>}
+        <li><a href="/coach-sportif-invite/"><b>Tous les marchés</b><small>La liste complète des interventions possibles.</small></a></li>
+      </ul>
+    </div>
+  </section>
+
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title={`Coach sportif invité : ${m.nom}`} label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>

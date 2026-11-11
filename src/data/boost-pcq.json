@@ -1,0 +1,1009 @@
+{
+ "entreprise": {
+  "cible": "votre entreprise",
+  "pourquoiT": "Des équipes qui bougent, ça se sent au travail.",
+  "pourquoi": "Une journée de bureau, c'est des écrans, une chaise et des épaules qui se raidissent. Une coupure active de 30 minutes, animée par un coach diplômé, remet de l'énergie dans la journée et crée un moment partagé que les équipes apprécient.",
+  "comment": [
+   "On cadre ensemble : effectifs, lieux, horaires et contraintes.",
+   "Le coach vient sur site. Une salle de réunion ou un espace dégagé suffit.",
+   "Vous ajustez le rythme : séance ponctuelle ou rendez-vous régulier."
+  ],
+  "quand": "Le bon moment, c'est avant que la fatigue s'installe : rentrée, lancement de projet, semaine QVCT, arrivée de nouveaux collaborateurs. Une séance découverte permet de tester avant de vous engager.",
+  "croyances": [
+   {
+    "c": "« Mes salariés ne voudront pas venir. »",
+    "r": "C'est la première crainte. Un format court, sans tenue de sport ni douche, pendant le temps de travail, lève l'essentiel du frein. Le coach adapte l'intensité pour que chacun trouve sa place."
+   },
+   {
+    "c": "« Ça va désorganiser les équipes. »",
+    "r": "Le créneau se cale avec vous, sur l'horaire qui gêne le moins. Trente minutes, pas une demi-journée."
+   },
+   {
+    "c": "« Nous n'avons pas de salle de sport. »",
+    "r": "Vous n'en avez pas besoin. Selon le format choisi, un espace dégagé suffit."
+   },
+   {
+    "c": "« Je ne saurai pas si ça sert vraiment. »",
+    "r": "Vous démarrez par une séance découverte. Vous jugez sur pièces, puis vous décidez de la suite."
+   }
+  ],
+  "nom": "BOOST ENTREPRISE™",
+  "origineT": "Pourquoi nous avons créé BOOST ENTREPRISE™",
+  "origine": "Nos coachs sont diplômés et déjà sur le terrain chaque jour. Les entreprises, elles, n'avaient pas d'interlocuteur simple pour faire bouger leurs équipes sans salle, sans douche et sans perdre une demi-journée. Nous avons donc conçu un format court, sur site, porté par des coachs que vous pouvez rencontrer avant de décider.",
+  "liens": [
+   "senior",
+   "conferences",
+   "communication"
+  ]
+ },
+ "club": {
+  "cible": "votre club ou votre structure sportive",
+  "pourquoiT": "Un club où l'on s'entraîne mieux garde ses licenciés.",
+  "pourquoi": "Dans un club, les bénévoles et les entraîneurs font ce qu'ils peuvent, mais la préparation physique passe souvent après la technique. Un coach diplômé structure l'échauffement, la prévention des blessures et la condition physique, sans toucher au projet sportif de l'entraîneur.",
+  "comment": [
+   "On discute de vos équipes, de vos créneaux et de votre calendrier sportif.",
+   "Le coach propose un cadre : préparation physique, échauffement, prévention.",
+   "Il intervient sur vos créneaux, en lien avec vos entraîneurs, et ajuste selon les retours."
+  ],
+  "quand": "Idéalement avant la reprise ou avant un temps fort de la saison. Mieux vaut préparer les corps avant les premiers matchs que rattraper les blessures après.",
+  "croyances": [
+   {
+    "c": "« Un coach va marcher sur les plates-bandes de nos entraîneurs. »",
+    "r": "Il vient en complément. La technique et la tactique restent à vos entraîneurs, le coach s'occupe du physique."
+   },
+   {
+    "c": "« Nous n'avons pas le budget. »",
+    "r": "Le coach du réseau facture lui-même. Vous voyez d'abord ce qui est utile pour vos équipes, puis vous choisissez un format qui vous convient."
+   },
+   {
+    "c": "« Nos licenciés ne sont pas des athlètes. »",
+    "r": "Raison de plus. Le coach adapte l'intensité aux niveaux présents dans votre groupe."
+   },
+   {
+    "c": "« Nos bénévoles n'auront pas le temps de s'organiser. »",
+    "r": "Le coach prend l'organisation de la séance en charge. Votre rôle se limite à confirmer le créneau."
+   }
+  ],
+  "nom": "BOOST CLUB",
+  "origineT": "Pourquoi nous avons créé BOOST CLUB",
+  "origine": "Les clubs sont tenus par des bénévoles et des entraîneurs passionnés, mais la préparation physique passe souvent après la technique. Notre réseau de coachs diplômés a l'expertise du terrain : nous l'avons mise à la disposition des clubs, sans toucher au projet sportif.",
+  "liens": [
+   "asso",
+   "course",
+   "entreprise"
+  ]
+ },
+ "senior": {
+  "cible": "votre résidence ou votre établissement",
+  "pourquoiT": "Rester actif, c'est rester autonome plus longtemps.",
+  "pourquoi": "Beaucoup de résidents ont peur de tomber, de se faire mal ou de ne plus savoir faire. Résultat : ils bougent moins, et perdent en force et en équilibre. Des séances adaptées, animées par un coach diplômé, redonnent confiance et gardent le plaisir du mouvement.",
+  "comment": [
+   "On échange sur vos résidents, leurs capacités et vos équipes soignantes.",
+   "Le coach construit des séances adaptées, en petit groupe, assis ou debout.",
+   "Il anime sur un rythme régulier et vous fait un retour sur la participation."
+  ],
+  "quand": "Plus tôt on commence, plus on garde. Une activité régulière avant qu'une perte d'autonomie s'installe vaut mieux qu'un rattrapage après une chute.",
+  "croyances": [
+   {
+    "c": "« Nos résidents sont trop fragiles pour faire du sport. »",
+    "r": "Le but n'est pas de faire du sport. Ce sont des mouvements doux, choisis selon les capacités de chacun, et la séance se fait en sécurité."
+   },
+   {
+    "c": "« Ils n'ont plus envie de rien. »",
+    "r": "La convivialité compte autant que le mouvement. Un moment partagé, en musique et en douceur, redonne envie à beaucoup."
+   },
+   {
+    "c": "« Ça va mobiliser mes équipes. »",
+    "r": "Le coach anime seul. Vos équipes n'ont qu'à orienter les résidents vers la salle."
+   },
+   {
+    "c": "« Et si un résident se fait mal ? »",
+    "r": "Le coach adapte les exercices, reste attentif à chacun et travaille en lien avec votre équipe soignante."
+   }
+  ],
+  "nom": "BOOST SENIOR",
+  "origineT": "Pourquoi nous avons créé BOOST SENIOR",
+  "origine": "Bouger moins fait perdre en force et en confiance, et la peur de tomber alimente le cercle. Des coachs diplômés savent adapter les mouvements aux capacités de chacun. Nous avons créé ce programme pour que les résidences puissent proposer une activité régulière, douce et encadrée.",
+  "liens": [
+   "sante",
+   "entreprise",
+   "asso"
+  ]
+ },
+ "asso": {
+  "cible": "votre association",
+  "pourquoiT": "Une association de musculation qui encadre ses adhérents les garde.",
+  "pourquoi": "Dans une association, chacun s'entraîne à son rythme, souvent sans programme ni correction de posture. Les nouveaux hésitent à venir, les anciens stagnent. Un coach diplômé apporte un cadre : initiation, programmes, sécurité, et un vrai accueil des débutants.",
+  "comment": [
+   "On prend connaissance de votre association, de vos horaires et de vos adhérents.",
+   "Le coach propose une intervention : initiation, ateliers, programmes ou suivi.",
+   "Il intervient chez vous, sur vos créneaux, et vous gardez la main sur le fonctionnement."
+  ],
+  "quand": "Pour une rentrée d'adhésions, pour accueillir des débutants ou pour relancer l'envie d'un groupe qui tourne en rond.",
+  "croyances": [
+   {
+    "c": "« Chez nous, chacun fait à sa façon, ça marche. »",
+    "r": "Pour les habitués, oui. Pour les nouveaux, un cadre et quelques repères évitent les blessures et le découragement."
+   },
+   {
+    "c": "« Le coach va changer l'esprit de l'association. »",
+    "r": "Il s'adapte à votre fonctionnement. L'association reste la vôtre."
+   },
+   {
+    "c": "« Nous n'avons pas les moyens. »",
+    "r": "Vous choisissez le format qui convient à votre budget. Une intervention ponctuelle est possible."
+   },
+   {
+    "c": "« Les adhérents ne voudront pas être corrigés. »",
+    "r": "Un coach corrige avec bienveillance et explique pourquoi. Les adhérents comprennent vite l'intérêt."
+   }
+  ],
+  "nom": "BOOST ASSOCIATION",
+  "origineT": "Pourquoi nous avons créé BOOST ASSOCIATION",
+  "origine": "Les associations de musculation reposent sur l'entraide, mais les débutants manquent de repères et les habitués de nouveauté. Nous avons créé ce programme pour apporter un cadre professionnel, sans changer l'esprit de l'association.",
+  "liens": [
+   "club",
+   "sante",
+   "event"
+  ]
+ },
+ "sante": {
+  "cible": "votre cabinet ou votre structure de santé",
+  "pourquoiT": "Après les soins, il faut que le mouvement reprenne.",
+  "pourquoi": "Vos patients reçoivent le conseil de bouger, mais rarement un accompagnement concret pour le faire. Beaucoup ont peur de se faire mal, ne savent pas par où commencer, ou n'osent pas entrer dans une salle. Un coach diplômé prend le relais, en lien avec vous.",
+  "comment": [
+   "On définit ensemble le cadre : profils de patients, limites, contre-indications.",
+   "Le patient rencontre un coach pour un bilan, puis un programme progressif.",
+   "Le coach reste dans son rôle de coach sportif et vous orientez vos patients vers lui."
+  ],
+  "quand": "Quand vos patients sont prêts à reprendre : fin de rééducation, suivi d'une pathologie stable, besoin de reprise d'activité physique régulière.",
+  "croyances": [
+   {
+    "c": "« Le coach va empiéter sur mon rôle de soignant. »",
+    "r": "Non. Le coach ne soigne pas, ne diagnostique pas. Il accompagne l'activité physique, dans un cadre que vous posez."
+   },
+   {
+    "c": "« Mes patients ne vont jamais oser aller en salle. »",
+    "r": "Le premier rendez-vous est un bilan en douceur, avec un coach qui connaît le public. C'est souvent ce qui lève la peur."
+   },
+   {
+    "c": "« Je ne sais pas à qui adresser mes patients. »",
+    "r": "Le réseau est local, diplômé, et chaque coach affiche ses spécialités."
+   },
+   {
+    "c": "« Et si le patient aggrave son état ? »",
+    "r": "Le coach adapte, reste dans les limites que vous fixez et vous renvoie le patient en cas de doute."
+   }
+  ],
+  "nom": "BOOST SANTÉ",
+  "origineT": "Pourquoi nous avons créé BOOST SANTÉ",
+  "origine": "Le conseil de bouger est donné tous les jours dans les cabinets, mais l'accompagnement concret manque souvent. Nous avons créé ce programme pour que les professionnels de santé disposent d'un relais local de coachs diplômés, dans un cadre clair et sans empiéter sur leur rôle.",
+  "liens": [
+   "senior",
+   "entreprise",
+   "asso"
+  ]
+ },
+ "tourisme": {
+  "cible": "votre hôtel ou votre établissement",
+  "pourquoiT": "Un séjour réussi inclut le bien-être.",
+  "pourquoi": "Vos clients attendent de se sentir bien pendant leur séjour, mais la salle de sport de l'hôtel est vide ou mal utilisée. Un coach diplômé propose un moment de mouvement qui devient un vrai plus de séjour et un argument de différence.",
+  "comment": [
+   "On voit ensemble votre clientèle, vos espaces et vos créneaux.",
+   "Le coach propose une animation : réveil musculaire, séance en groupe, session privée.",
+   "Vous la proposez à vos clients, il l'anime, et vous ajustez selon la fréquentation."
+  ],
+  "quand": "Avant la haute saison, pour un séminaire, un week-end à thème ou une montée en gamme de votre offre bien-être.",
+  "croyances": [
+   {
+    "c": "« Mes clients viennent pour se reposer, pas pour du sport. »",
+    "r": "C'est justement l'intérêt d'un format doux : étirements, mobilité, réveil musculaire, sans effort imposé."
+   },
+   {
+    "c": "« Je n'ai pas d'espace dédié. »",
+    "r": "Un jardin, une terrasse ou une salle polyvalente peut suffire."
+   },
+   {
+    "c": "« Ça va demander trop d'organisation. »",
+    "r": "Le coach prend l'animation en charge. Vous communiquez le créneau à vos clients."
+   },
+   {
+    "c": "« Personne ne s'inscrira. »",
+    "r": "On commence petit, sur un créneau précis, et on mesure avant de développer."
+   }
+  ],
+  "nom": "BOOST TOURISME",
+  "origineT": "Pourquoi nous avons créé BOOST TOURISME",
+  "origine": "Un séjour réussi se joue aussi sur le bien-être. Beaucoup d'établissements ont une salle ou un espace qui reste vide faute d'animation. Nous avons créé ce programme pour offrir à vos clients un vrai moment encadré par un coach diplômé.",
+  "liens": [
+   "event",
+   "prive",
+   "entreprise"
+  ]
+ },
+ "event": {
+  "cible": "votre événement ou votre établissement",
+  "pourquoiT": "Un événement qui fait bouger se retient.",
+  "pourquoi": "Les soirées et événements se ressemblent vite. Un coach diplômé qui anime un temps d'échauffement, un défi ou une séance collective donne de l'énergie à la journée et offre un souvenir fort à vos invités.",
+  "comment": [
+   "On cadre ensemble : type d'événement, nombre de personnes, lieu et durée.",
+   "Le coach prépare une animation adaptée à votre public.",
+   "Il l'anime sur place, avec l'énergie et la sécurité d'un professionnel."
+  ],
+  "quand": "Quelques semaines avant la date, pour caler l'animation, la communication et le matériel.",
+  "croyances": [
+   {
+    "c": "« Les invités ne voudront pas participer. »",
+    "r": "Une animation courte, ludique et sans pression de performance fait participer beaucoup plus de monde qu'on ne l'imagine."
+   },
+   {
+    "c": "« Ça ne colle pas à l'ambiance de l'événement. »",
+    "r": "Le coach adapte le format : du plus calme au plus dynamique, selon votre public."
+   },
+   {
+    "c": "« Je n'ai pas de matériel ni de place. »",
+    "r": "Le format s'ajuste à vos contraintes, avec peu de matériel."
+   },
+   {
+    "c": "« C'est trop compliqué à organiser. »",
+    "r": "Le coach vous guide dès le départ et gère l'animation le jour J."
+   }
+  ],
+  "nom": "BOOST ÉVÉNEMENT",
+  "origineT": "Pourquoi nous avons créé BOOST ÉVÉNEMENT",
+  "origine": "Les événements se ressemblent vite, et le sport reste souvent un décor. Nous avons créé ce programme pour qu'un coach diplômé anime un vrai moment collectif, sûr et énergique, qui reste dans les mémoires.",
+  "liens": [
+   "tourisme",
+   "course",
+   "conferences"
+  ]
+ },
+ "prive": {
+  "cible": "vous",
+  "pourquoiT": "Le coach attitré de ceux qui n'ont pas de temps à perdre.",
+  "pourquoi": "Quand on est exposé, on a peur de la fuite, du regard des autres et du coach qui parle. Quand l'agenda est chargé, on a peur de la séance qu'on annule. Un coach attitré, avec confidentialité écrite, vient à vous et s'adapte à votre emploi du temps.",
+  "comment": [
+   "On échange en toute discrétion sur vos objectifs, vos contraintes et votre agenda.",
+   "Un coach attitré est choisi, avec un engagement de confidentialité écrit.",
+   "Il intervient à domicile ou au lieu de votre choix, sur des créneaux souples."
+  ],
+  "quand": "Avant un tournage, un match, une campagne, une échéance importante, ou simplement le jour où l'on décide de reprendre la main sur sa forme.",
+  "croyances": [
+   {
+    "c": "« Je ne veux pas que ça se sache. »",
+    "r": "La confidentialité est écrite. Rien n'est partagé, et le coach n'en parle pas."
+   },
+   {
+    "c": "« Je n'ai pas le temps. »",
+    "r": "Le coach vient à vous, sur des créneaux souples, et adapte la séance à la durée dont vous disposez."
+   },
+   {
+    "c": "« J'ai déjà essayé, ça ne dure jamais. »",
+    "r": "Un coach attitré, c'est un rendez-vous fixe et quelqu'un qui s'adapte quand le planning change."
+   },
+   {
+    "c": "« Je ne veux pas d'un coach qui me juge. »",
+    "r": "Le coach est là pour vous accompagner, sans jugement, avec un cadre clair dès le départ."
+   }
+  ],
+  "nom": "BOOST PRIVÉ",
+  "origineT": "Pourquoi nous avons créé BOOST PRIVÉ",
+  "origine": "Les personnalités et les dirigeants ont un agenda chargé et une exigence de discrétion. Nous avons créé ce programme pour proposer un coach attitré, avec une confidentialité écrite, qui s'adapte aux contraintes de chacun.",
+  "liens": [
+   "scene",
+   "tournee",
+   "mannequin"
+  ]
+ },
+ "communication": {
+  "cible": "votre marque",
+  "pourquoiT": "Un vrai coach rend vos contenus crédibles.",
+  "pourquoi": "Les contenus sport-santé sonnent faux quand le discours ne vient pas d'un vrai professionnel. Le public le sent, les plateformes aussi. Un coach diplômé, qui parle de ce qu'il fait tous les jours, rend vos vidéos et vos campagnes plus crédibles.",
+  "comment": [
+   "On cadre ensemble : message, format, plateforme et cible.",
+   "Le coach prépare ou tourne avec vous : vidéo, présence, invité, campagne.",
+   "Vous validez le résultat avant diffusion."
+  ],
+  "quand": "Au lancement d'une gamme, d'une campagne ou d'une saison, avant que vos contenus ne ressemblent à ceux des autres.",
+  "croyances": [
+   {
+    "c": "« Mon audience ne verra pas la différence. »",
+    "r": "Un vrai coach répond aux questions de façon juste et incarnée. Ça s'entend dès la première minute."
+   },
+   {
+    "c": "« Ça va dénaturer mon message. »",
+    "r": "Vous validez le contenu. Le coach apporte l'expertise, pas un discours imposé."
+   },
+   {
+    "c": "« Je n'ai pas le budget d'un tournage. »",
+    "r": "Les formats vont du simple au plus ambitieux. On démarre par ce qui correspond à votre budget."
+   },
+   {
+    "c": "« Je ne sais pas ce que je veux dire. »",
+    "r": "On commence par la question de votre audience, et le coach aide à formuler."
+   }
+  ],
+  "nom": "BOOST COMMUNICATION",
+  "origineT": "Pourquoi nous avons créé BOOST COMMUNICATION",
+  "origine": "Les contenus sport-santé sonnent faux quand le discours ne vient pas d'un professionnel. Nous avons créé ce programme pour que les marques puissent travailler avec un vrai coach diplômé, qui parle de ce qu'il fait tous les jours.",
+  "liens": [
+   "invite",
+   "medias",
+   "conferences"
+  ]
+ },
+ "mannequin": {
+  "cible": "vous",
+  "pourquoiT": "Un corps qui tient la pose, sans régime.",
+  "pourquoi": "Dans le mannequinat, on a peur de grossir, d'être jugé et de rater un shooting. La réponse n'est pas le régime. C'est la posture, l'endurance et la mobilité, travaillées avec un coach qui connaît ces contraintes.",
+  "comment": [
+   "On parle de vos échéances, de votre agenda et de votre rapport à votre corps.",
+   "Le coach construit un programme centré sur la posture, la mobilité et l'endurance.",
+   "Vous suivez vos séances jusqu'à la date, et ajustez selon vos retours."
+  ],
+  "quand": "Quelques semaines avant un shooting, un défilé ou un gala. Mais le mieux est de s'y mettre avant d'avoir une date en vue.",
+  "croyances": [
+   {
+    "c": "« Un coach va me demander de perdre du poids. »",
+    "r": "Le coach ne vous demande pas de maigrir. L'accent est mis sur la posture, l'endurance et la mobilité."
+   },
+   {
+    "c": "« Je n'ai pas le temps entre les castings. »",
+    "r": "Les séances s'adaptent à votre agenda et peuvent être courtes."
+   },
+   {
+    "c": "« Je ne veux pas changer mon physique. »",
+    "r": "Le but est de mieux tenir la pose et de tenir la journée, pas de transformer ce que vous êtes."
+   },
+   {
+    "c": "« J'ai peur d'être jugé(e). »",
+    "r": "Le coach accompagne sans jugement, avec un cadre clair dès le premier échange."
+   }
+  ],
+  "nom": "BOOST MANNEQUIN",
+  "origineT": "Pourquoi nous avons créé BOOST MANNEQUIN",
+  "origine": "Dans le mannequinat, la pression sur le corps pousse vers les régimes. Nous avons créé ce programme pour proposer une autre voie : un travail de posture, d'endurance et de mobilité, avec un coach qui respecte la personne.",
+  "liens": [
+   "prive",
+   "scene",
+   "medias"
+  ]
+ },
+ "invite": {
+  "cible": "votre projet",
+  "pourquoiT": "Un expert invité, c'est un contenu qui se retient.",
+  "pourquoi": "Un podcast ou un live sport-santé sans invité sérieux tourne vite en rond. Un coach diplômé apporte des réponses concrètes, de l'énergie et de la crédibilité. L'audience retient ce qui est simple et vrai.",
+  "comment": [
+   "On cadre : thème, format, durée, angle.",
+   "Le coach prépare ses points clés avec vous.",
+   "Il intervient, puis vous pouvez relayer l'échange."
+  ],
+  "quand": "Quand vous préparez une émission, une saison de contenus, un salon ou un lancement, et que vous cherchez une parole d'expert.",
+  "croyances": [
+   {
+    "c": "« Un coach va faire de la pub pour lui. »",
+    "r": "Il vient pour informer, sur le thème que vous choisissez. Le cadre de l'échange vous appartient."
+   },
+   {
+    "c": "« Il ne sera pas à l'aise à l'antenne. »",
+    "r": "Le coach se prépare avec vous et choisit un ton simple et naturel."
+   },
+   {
+    "c": "« Je ne sais pas quel sujet lui proposer. »",
+    "r": "On part de votre audience et de ce qu'elle se demande réellement."
+   },
+   {
+    "c": "« Ça va compliquer mon organisation. »",
+    "r": "Le format s'adapte : en studio, en visio ou sur place, sur le créneau qui vous convient."
+   }
+  ],
+  "nom": "COACH INVITÉ",
+  "origineT": "Pourquoi nous avons créé COACH INVITÉ",
+  "origine": "Les podcasts, lives et médias sport-santé cherchent des experts fiables. Les coachs de notre réseau sont diplômés et à l'aise pour expliquer simplement. Nous avons créé ce programme pour les mettre en relation avec ceux qui produisent du contenu.",
+  "liens": [
+   "medias",
+   "conferences",
+   "communication"
+  ]
+ },
+ "course": {
+  "cible": "votre course",
+  "pourquoiT": "Un départ bien échauffé, c'est une course plus sûre.",
+  "pourquoi": "Les coureurs arrivent au départ le stress au ventre. Certains sautent l'échauffement par peur d'être fatigués avant le coup de feu. Un coach sur le podium rassure, échauffe le groupe et lance l'ambiance.",
+  "comment": [
+   "On cadre : format de course, nombre de participants, scène ou podium.",
+   "Le coach prépare un échauffement collectif simple et efficace.",
+   "Il l'anime avant le départ, avec le micro si besoin."
+  ],
+  "quand": "Quelques semaines avant la date, pour caler l'horaire de l'échauffement dans le programme de la journée.",
+  "croyances": [
+   {
+    "c": "« Les coureurs n'auront pas envie de s'échauffer. »",
+    "r": "Un échauffement court, rythmé, animé par un coach en musique, fait participer beaucoup plus de monde."
+   },
+   {
+    "c": "« Ça va retarder le départ. »",
+    "r": "Le coach cale la durée avec vous, quelques minutes suffisent."
+   },
+   {
+    "c": "« Nous n'avons pas de scène. »",
+    "r": "Un podium simple ou un coin du départ suffit, avec un micro."
+   },
+   {
+    "c": "« Ça n'apporte rien à l'événement. »",
+    "r": "Les participants repartent avec un vrai souvenir de départ, et vous gagnez en image."
+   }
+  ],
+  "nom": "ÉCHAUFFEMENT DE COURSES",
+  "origineT": "Pourquoi nous avons créé ÉCHAUFFEMENT DE COURSES",
+  "origine": "Beaucoup de coureurs arrivent au départ sans échauffement, par stress ou par habitude. Nous avons créé ce programme pour qu'un coach diplômé mène un échauffement collectif simple, sûr et motivant avant le départ.",
+  "liens": [
+   "event",
+   "club",
+   "invite"
+  ]
+ },
+ "conferences": {
+  "cible": "votre événement",
+  "pourquoiT": "Une conférence qui fait bouger, ça se retient.",
+  "pourquoi": "Les conférences sur la santé et le sport restent souvent théoriques. Un coach diplômé mêle les messages clés, des exemples concrets et des gestes que le public peut refaire dès le lendemain.",
+  "comment": [
+   "On cadre : public, thème, durée, lieu.",
+   "Le coach construit l'intervention avec des temps de pratique.",
+   "Il anime sur place et peut laisser un support aux participants."
+  ],
+  "quand": "Pour une semaine santé, un séminaire, un salon ou une journée d'équipe : quelques semaines avant la date.",
+  "croyances": [
+   {
+    "c": "« Le public va s'ennuyer. »",
+    "r": "Une conférence courte, ponctuée de gestes, tient l'attention bien mieux qu'un exposé seul."
+   },
+   {
+    "c": "« Ça ne colle pas à notre thème. »",
+    "r": "Le coach adapte le contenu à votre public et à votre sujet."
+   },
+   {
+    "c": "« Il n'y a pas de place pour bouger. »",
+    "r": "Quelques gestes, debout, sur place, suffisent."
+   },
+   {
+    "c": "« Un coach n'est pas un conférencier. »",
+    "r": "Il parle de ce qu'il fait tous les jours, avec des exemples concrets que le public comprend."
+   }
+  ],
+  "nom": "CONFÉRENCES",
+  "origineT": "Pourquoi nous avons créé CONFÉRENCES",
+  "origine": "Les conférences sur la santé et le sport restent trop souvent théoriques. Nous avons créé ce programme pour proposer des interventions de coachs diplômés, ancrées dans la pratique, avec des gestes à refaire dès le lendemain.",
+  "liens": [
+   "entreprise",
+   "medias",
+   "invite"
+  ]
+ },
+ "medias": {
+  "cible": "votre média ou votre marque",
+  "pourquoiT": "Un expert diplômé parle juste, et ça rassure.",
+  "pourquoi": "Les journalistes cherchent des experts clairs, fiables et disponibles. Les marques cherchent des visages crédibles. Un coach diplômé répond sans jargon, sur le sport, la santé et la remise en forme.",
+  "comment": [
+   "On cadre : sujet, angle, format, délai.",
+   "Le coach prépare ses réponses avec vous.",
+   "Il intervient à l'antenne, en studio ou en visio."
+  ],
+  "quand": "Quand vous préparez une rubrique, un dossier, une émission ou une campagne, avant le bouclage.",
+  "croyances": [
+   {
+    "c": "« Je ne sais pas si le coach sera clair. »",
+    "r": "Il explique simplement et reste factuel. Vous pouvez en juger lors d'un premier échange."
+   },
+   {
+    "c": "« Il va vouloir se mettre en avant. »",
+    "r": "Il intervient sur votre thème, avec votre angle."
+   },
+   {
+    "c": "« Je n'ai pas le temps de préparer. »",
+    "r": "Un échange rapide suffit en amont, le coach se prépare ensuite."
+   },
+   {
+    "c": "« Je ne sais pas s'il est légitime. »",
+    "r": "Les coachs du réseau sont diplômés et certains sont déjà passés dans les médias."
+   }
+  ],
+  "nom": "ESPACE MÉDIAS",
+  "origineT": "Pourquoi nous avons créé ESPACE MÉDIAS",
+  "origine": "Les rédactions et les marques cherchent des experts clairs et disponibles. Certains coachs de notre réseau sont déjà passés dans les médias. Nous avons créé cet espace pour faciliter la mise en relation.",
+  "liens": [
+   "invite",
+   "communication",
+   "conferences"
+  ]
+ },
+ "scene": {
+  "cible": "votre artiste ou votre équipe",
+  "pourquoiT": "Un artiste en forme tient la scène.",
+  "pourquoi": "Avant une série de dates, l'artiste a peur de la blessure, du souffle qui lâche et de la voix qui accroche. Une préparation physique pensée pour la scène aide à tenir.",
+  "comment": [
+   "Un bilan offert pose le point de départ.",
+   "Le coach construit une préparation adaptée à la scène.",
+   "Un filage physique avant la date vérifie que tout tient."
+  ],
+  "quand": "Quelques semaines avant les dates, pour laisser le temps de progresser.",
+  "croyances": [
+   {
+    "c": "« Je n'ai pas le temps avant la date. »",
+    "r": "La préparation est calée sur votre calendrier, avec des séances courtes."
+   },
+   {
+    "c": "« J'ai peur de me blesser. »",
+    "r": "Le coach adapte la charge et les exercices à votre état."
+   },
+   {
+    "c": "« Je ne veux pas changer ma façon de faire scène. »",
+    "r": "Le travail sert votre spectacle, sans le modifier."
+   },
+   {
+    "c": "« Je ne sais pas par où commencer. »",
+    "r": "Le bilan offert sert à poser les bases."
+   }
+  ],
+  "nom": "BOOST SCÈNE",
+  "origineT": "Pourquoi nous avons créé BOOST SCÈNE",
+  "origine": "Monter sur scène demande un souffle, une endurance et un corps qui tiennent. Nous avons créé ce programme pour préparer les artistes avant leurs dates, avec un bilan offert et un filage physique.",
+  "liens": [
+   "tournee",
+   "prive",
+   "mannequin"
+  ]
+ },
+ "tournee": {
+  "cible": "votre tournée",
+  "pourquoiT": "Un coach sur la route, un artiste en forme sur toutes les dates.",
+  "pourquoi": "Une tournée, c'est des trajets, des nuits courtes et des repas décalés. L'artiste et l'équipe perdent vite leurs repères. Un coach dédié garde la forme et l'énergie sur la durée.",
+  "comment": [
+   "On cadre : calendrier, équipe, contraintes de route.",
+   "Un coach dédié suit l'artiste et l'équipe.",
+   "Il propose des séances adaptées à chaque étape."
+  ],
+  "quand": "Avant le départ de la tournée, pour partir avec un plan, et pas après les premières dates.",
+  "croyances": [
+   {
+    "c": "« On n'a pas le temps sur la route. »",
+    "r": "Les séances sont courtes et adaptées au lieu : loge, hôtel ou salle du coin."
+   },
+   {
+    "c": "« Un coach de plus dans l'équipe, c'est lourd. »",
+    "r": "Il s'intègre à l'équipe et reste discret."
+   },
+   {
+    "c": "« La fatigue, c'est normal en tournée. »",
+    "r": "Elle l'est, mais elle se gère mieux avec du sommeil, de la mobilité et de l'activité."
+   },
+   {
+    "c": "« On verra une fois partis. »",
+    "r": "C'est justement le moment où il est le plus difficile de s'y mettre."
+   }
+  ],
+  "nom": "BOOST TOURNÉE",
+  "origineT": "Pourquoi nous avons créé BOOST TOURNÉE",
+  "origine": "La route use. Les trajets, les nuits courtes et les repas décalés fatiguent l'artiste et l'équipe. Nous avons créé ce programme pour qu'un coach dédié garde la forme du groupe pendant toute la tournée.",
+  "liens": [
+   "scene",
+   "prive",
+   "event"
+  ]
+ },
+ "coaching-sportif": {
+  "nom": "Coaching sportif",
+  "origineT": "Pourquoi GA Coachs existe",
+  "origine": "GA Coachs est né en 2018 d'un partenariat officiel avec Basic-Fit. L'idée de départ : que chaque personne qui entre dans une salle puisse être accompagnée par un coach diplômé, reconnaissable à son polo bleu, plutôt que de s'entraîner seule.",
+  "pourquoiT": "Un coach, ça change tout quand tu as déjà essayé seul.",
+  "pourquoi": "Tu as sans doute déjà essayé : un programme trouvé en ligne, une salle, une motivation qui retombe au bout de quelques semaines. Un coach diplômé t'apporte ce qui manque quand on est seul : un plan adapté, des corrections, un rendez-vous qui te tient.",
+  "comment": [
+   "Tu fais ton Score Santé en 2 minutes.",
+   "Tu rencontres ton coach pour un bilan d'environ une heure en salle.",
+   "Il construit ton programme et te suit séance après séance."
+  ],
+  "quand": "Le bon moment, c'est maintenant plutôt qu'après la prochaine bonne résolution : une rentrée, une reprise après une pause, un nouvel objectif, ou le jour où tu sens que tu tournes en rond.",
+  "croyances": [
+   {
+    "c": "« Je n'ai pas le niveau pour avoir un coach. »",
+    "r": "Les coachs accompagnent tous les niveaux, y compris les vrais débutants. C'est justement fait pour ça."
+   },
+   {
+    "c": "« J'ai peur d'être jugé en salle. »",
+    "r": "Ton coach est là pour t'accompagner sans jugement, et il connaît la salle dans laquelle il t'entraîne."
+   },
+   {
+    "c": "« Je n'ai pas le temps. »",
+    "r": "Les séances se calent sur ton emploi du temps, et un bon programme n'a pas besoin de plusieurs heures par jour."
+   },
+   {
+    "c": "« Je ne sais pas si ça me conviendra. »",
+    "r": "Le bilan santé sert à ça : tu rencontres le coach, tu vois si le courant passe, avant de t'engager."
+   }
+  ],
+  "liens": [
+   "preparation-physique",
+   "sport-sante",
+   "mal-de-dos"
+  ],
+  "cible": "toi",
+  "tu": true,
+  "cta": {
+   "label": "Faire mon Score Santé",
+   "href": "/score-sante/"
+  }
+ },
+ "preparation-physique": {
+  "nom": "Préparation physique",
+  "origineT": "Pourquoi une préparation physique",
+  "origine": "GA Coachs est né en 2018 d'un partenariat officiel avec Basic-Fit. L'idée de départ : que chaque personne qui entre dans une salle puisse être accompagnée par un coach diplômé, reconnaissable à son polo bleu, plutôt que de s'entraîner seule.",
+  "pourquoiT": "Un corps préparé encaisse mieux et performe plus.",
+  "pourquoi": "Beaucoup de sportifs s'entraînent dur mais sans plan : plateaux, blessures à répétition, fatigue qui s'installe. Un coach diplômé construit une préparation qui renforce ce qui lâche, soigne l'échauffement et laisse du temps pour récupérer.",
+  "comment": [
+   "Un bilan fait le point sur ta forme, ton sport et ton calendrier.",
+   "Le coach construit un plan par phases, adapté à ta discipline.",
+   "Il ajuste au fil des semaines selon ton ressenti et tes résultats."
+  ],
+  "quand": "Idéalement plusieurs semaines avant la saison ou la compétition. Plus tu t'y prends tôt, plus la préparation est douce et efficace.",
+  "croyances": [
+   {
+    "c": "« Je m'entraîne déjà, je n'ai pas besoin de prépa. »",
+    "r": "S'entraîner et se préparer ne sont pas la même chose. La préparation vise ce que ton sport ne travaille pas assez."
+   },
+   {
+    "c": "« Ça va me fatiguer avant ma compétition. »",
+    "r": "Le plan est construit par phases, avec de la récupération. L'objectif est d'arriver frais, pas épuisé."
+   },
+   {
+    "c": "« Je n'ai pas le temps en plus de mon sport. »",
+    "r": "Les séances sont ciblées et s'intègrent à ton planning, sans doubler ta charge."
+   },
+   {
+    "c": "« J'ai peur de me blesser en forçant. »",
+    "r": "La charge monte progressivement et le coach corrige ta technique à chaque séance."
+   }
+  ],
+  "liens": [
+   "coaching-sportif",
+   "preparation-concours",
+   "mal-de-dos"
+  ],
+  "cible": "toi",
+  "tu": true,
+  "cta": {
+   "label": "Faire mon Score Santé",
+   "href": "/score-sante/"
+  }
+ },
+ "preparation-concours": {
+  "nom": "Préparation concours",
+  "origineT": "Pourquoi une préparation concours",
+  "origine": "GA Coachs est né en 2018 d'un partenariat officiel avec Basic-Fit. L'idée de départ : que chaque personne qui entre dans une salle puisse être accompagnée par un coach diplômé, reconnaissable à son polo bleu, plutôt que de s'entraîner seule.",
+  "pourquoiT": "Les épreuves physiques se préparent, comme le reste.",
+  "pourquoi": "Pour un concours, la partie écrite se révise facilement, mais les tests physiques se découvrent souvent trop tard. Un coach diplômé t'aide à connaître les épreuves, à te tester, puis à progresser avec méthode.",
+  "comment": [
+   "Un bilan mesure ton point de départ face aux épreuves visées.",
+   "Le coach construit un plan sur les semaines qu'il te reste.",
+   "Vous refaites des tests réguliers pour suivre ta progression."
+  ],
+  "quand": "Le plus tôt possible après ton inscription. Quelques semaines de préparation régulière valent mieux qu'un rush de dernière minute.",
+  "croyances": [
+   {
+    "c": "« Je ne passerai jamais les tests. »",
+    "r": "Rien n'est garanti, mais un point de départ clair et un plan progressif changent beaucoup de choses. On avance par étapes."
+   },
+   {
+    "c": "« Je n'ai pas de méthode. »",
+    "r": "C'est justement ce que le coach apporte : un plan, des repères et des tests réguliers."
+   },
+   {
+    "c": "« Il est déjà trop tard. »",
+    "r": "Même avec peu de semaines, on peut cibler l'essentiel et progresser sur les épreuves qui comptent."
+   },
+   {
+    "c": "« Je stresse le jour J. »",
+    "r": "Se tester en situation réelle avant l'épreuve aide beaucoup à arriver plus serein."
+   }
+  ],
+  "liens": [
+   "preparation-physique",
+   "coaching-sportif",
+   "sport-sante"
+  ],
+  "cible": "toi",
+  "tu": true,
+  "cta": {
+   "label": "Faire mon Score Santé",
+   "href": "/score-sante/"
+  }
+ },
+ "sport-sante": {
+  "nom": "Sport santé",
+  "origineT": "Pourquoi le sport santé",
+  "origine": "GA Coachs est né en 2018 d'un partenariat officiel avec Basic-Fit. L'idée de départ : que chaque personne qui entre dans une salle puisse être accompagnée par un coach diplômé, reconnaissable à son polo bleu, plutôt que de s'entraîner seule.",
+  "pourquoiT": "Bouger doucement, mais régulièrement, ça change la vie.",
+  "pourquoi": "Après une pause, une période difficile ou des années d'inactivité, on a peur de mal faire. Le sport santé remet le mouvement à ta portée, à ton rythme, avec un coach diplômé qui adapte chaque séance. En cas de doute sur ton état de santé, parles-en d'abord à ton médecin.",
+  "comment": [
+   "Tu fais le point avec ton coach lors d'un bilan, en lui disant tes contraintes.",
+   "Il construit un programme progressif et adapté.",
+   "Vous ajustez ensemble au fil des séances."
+  ],
+  "quand": "Dès que tu te sens prêt à reprendre, avec l'accord de ton médecin si besoin. Commencer petit vaut mieux qu'attendre d'être « prêt ».",
+  "croyances": [
+   {
+    "c": "« J'ai peur de me faire mal. »",
+    "r": "Le coach adapte les exercices à ton état et reste attentif à chaque séance. On avance doucement."
+   },
+   {
+    "c": "« Mon médecin ne sera pas d'accord. »",
+    "r": "En cas de doute, parles-en à ton médecin. Le coach travaille dans le cadre que tu lui indiques."
+   },
+   {
+    "c": "« Je suis trop essoufflé pour commencer. »",
+    "r": "On commence par des efforts très courts, qui augmentent peu à peu."
+   },
+   {
+    "c": "« À mon âge, c'est trop tard. »",
+    "r": "Il n'est jamais trop tard pour bouger. Les séances s'adaptent à ton âge et à ta forme."
+   }
+  ],
+  "liens": [
+   "mal-de-dos",
+   "coaching-sportif",
+   "preparation-physique"
+  ],
+  "cible": "toi",
+  "tu": true,
+  "cta": {
+   "label": "Faire mon Score Santé",
+   "href": "/score-sante/"
+  }
+ },
+ "mal-de-dos": {
+  "nom": "Mal de dos",
+  "origineT": "Pourquoi un accompagnement pour le dos",
+  "origine": "GA Coachs est né en 2018 d'un partenariat officiel avec Basic-Fit. L'idée de départ : que chaque personne qui entre dans une salle puisse être accompagnée par un coach diplômé, reconnaissable à son polo bleu, plutôt que de s'entraîner seule.",
+  "pourquoiT": "Quand le dos fait mal, on a peur de bouger. C'est là qu'il faut s'y remettre.",
+  "pourquoi": "Beaucoup de personnes évitent de bouger par peur d'aggraver leur douleur, et leur dos se raidit encore plus. Un coach diplômé t'accompagne avec de la mobilité, du renforcement progressif et des gestes adaptés. Il ne remplace pas un avis médical : en cas de douleur persistante, vois ton médecin.",
+  "comment": [
+   "Tu expliques ta situation et ce que ton médecin t'a dit.",
+   "Le coach construit un programme progressif de mobilité et de renforcement.",
+   "Il ajuste chaque séance selon tes sensations."
+  ],
+  "quand": "Quand ton médecin t'a donné le feu vert, ou dès que tu sens que tu n'ose plus bouger. Plus tu attends, plus la raideur s'installe.",
+  "croyances": [
+   {
+    "c": "« J'ai peur d'aggraver ma douleur. »",
+    "r": "Le coach adapte chaque exercice et s'arrête là où tu le demandes. On avance sans forcer."
+   },
+   {
+    "c": "« Il faut que je reste au repos. »",
+    "r": "Selon ton cas, ton médecin peut recommander de bouger. Demande-lui son avis et dis-le à ton coach."
+   },
+   {
+    "c": "« Je suis trop raide pour commencer. »",
+    "r": "On part de ta mobilité actuelle, avec des mouvements simples et doux."
+   },
+   {
+    "c": "« J'ai déjà essayé, sans résultat. »",
+    "r": "Un programme adapté et suivi change la donne. Le coach t'aide à tenir dans la durée."
+   }
+  ],
+  "liens": [
+   "sport-sante",
+   "preparation-physique",
+   "coaching-sportif"
+  ],
+  "cible": "toi",
+  "tu": true,
+  "cta": {
+   "label": "Faire mon Score Santé",
+   "href": "/score-sante/"
+  }
+ },
+ "perte-de-poids": {
+  "nom": "Perte de poids",
+  "origineT": "Pourquoi un coach pour perdre du poids",
+  "origine": "GA Coachs est né en 2018 d'un partenariat officiel avec Basic-Fit. L'idée de départ : que chaque personne qui entre dans une salle puisse être accompagnée par un coach diplômé, reconnaissable à son polo bleu, plutôt que de s'entraîner seule.",
+  "pourquoiT": "Perdre du poids sans souffrir, et sans tout reprendre.",
+  "pourquoi": "Les régimes stricts fonctionnent un temps, puis les kilos reviennent. Un coach diplômé t'aide à bâtir des habitudes tenables : activité adaptée, rythme réaliste et suivi bienveillant.",
+  "comment": [
+   "Tu fais ton Score Santé, puis un bilan avec ton coach.",
+   "Il construit un plan d'activité réaliste, séance par séance.",
+   "Vous faites le point régulièrement pour tenir dans la durée."
+  ],
+  "quand": "Le bon moment, c'est quand tu es prêt à essayer autrement : pas besoin d'attendre le lundi parfait ou la prochaine échéance.",
+  "croyances": [
+   {
+    "c": "« Je vais tout reprendre. »",
+    "r": "Le but n'est pas un effort de quelques semaines, mais des habitudes que tu peux garder."
+   },
+   {
+    "c": "« Les régimes ne marchent jamais sur moi. »",
+    "r": "Ici, pas de régime imposé. Le coach t'aide à bouger et à construire un rythme qui te convient."
+   },
+   {
+    "c": "« Je n'aime pas le sport. »",
+    "r": "Beaucoup de gens pensent ça avant de trouver le format qui leur plaît. Le coach adapte les séances."
+   },
+   {
+    "c": "« Je n'ai pas assez de volonté. »",
+    "r": "La volonté s'appuie sur un cadre. Un rendez-vous fixe et un coach qui te suit aident à tenir."
+   }
+  ],
+  "liens": [
+   "remise-en-forme",
+   "coaching-sportif",
+   "sport-sante"
+  ],
+  "cible": "toi",
+  "tu": true,
+  "cta": {
+   "label": "Faire mon Score Santé",
+   "href": "/score-sante/"
+  }
+ },
+ "remise-en-forme": {
+  "nom": "Remise en forme",
+  "origineT": "Pourquoi un coach pour se remettre en forme",
+  "origine": "GA Coachs est né en 2018 d'un partenariat officiel avec Basic-Fit. L'idée de départ : que chaque personne qui entre dans une salle puisse être accompagnée par un coach diplômé, reconnaissable à son polo bleu, plutôt que de s'entraîner seule.",
+  "pourquoiT": "Se remettre en forme, ça commence plus petit qu'on ne le croit.",
+  "pourquoi": "Après une pause, on se sent loin de ce qu'on faisait. On remet le projet à plus tard, par peur de tout recommencer. Un coach diplômé te remet en mouvement par petites étapes, avec un plan qui te redonne confiance.",
+  "comment": [
+   "Tu fais ton Score Santé pour poser le point de départ.",
+   "Tu rencontres ton coach pour un bilan en salle.",
+   "Il bâtit ton programme et te suit séance après séance."
+  ],
+  "quand": "Dès que tu te dis « il faudrait que je m'y remette ». C'est le bon moment, avant que la pause ne s'allonge.",
+  "croyances": [
+   {
+    "c": "« Je suis trop loin de mon ancien niveau. »",
+    "r": "On part d'où tu en es aujourd'hui, pas d'où tu étais avant."
+   },
+   {
+    "c": "« Je n'ai plus l'âge. »",
+    "r": "Les séances s'adaptent à ton âge et à ta forme. Il n'y a pas d'âge limite pour bouger."
+   },
+   {
+    "c": "« J'ai déjà abandonné plusieurs fois. »",
+    "r": "Avec un coach et un rendez-vous fixe, c'est plus difficile de lâcher. Et on avance par petites étapes."
+   },
+   {
+    "c": "« Je ne sais pas par où commencer. »",
+    "r": "C'est le rôle du bilan : définir ensemble un point de départ simple."
+   }
+  ],
+  "liens": [
+   "perte-de-poids",
+   "coaching-sportif",
+   "sport-sante"
+  ],
+  "cible": "toi",
+  "tu": true,
+  "cta": {
+   "label": "Faire mon Score Santé",
+   "href": "/score-sante/"
+  }
+ },
+ "boost": {
+  "nom": "BOOST",
+  "origineT": "Pourquoi une gamme BOOST",
+  "origine": "Nos coachs sont diplômés et déjà sur le terrain chaque jour. Entreprises, clubs, résidences, artistes, médias : chacun avait besoin d'un interlocuteur simple. Nous avons donc réuni ces programmes dans une même gamme, portée par le même réseau.",
+  "pourquoiT": "Un réseau de coachs, un programme pour chaque projet.",
+  "pourquoi": "Chaque structure a ses contraintes : temps, lieu, public, budget. Plutôt qu'une offre unique, BOOST propose des programmes pensés pour chaque cas, avec des coachs diplômés qui s'adaptent.",
+  "comment": [
+   "Vous nous dites qui vous êtes et ce que vous cherchez.",
+   "Nous vous orientons vers le programme et le coach adaptés.",
+   "Le coach intervient chez vous et vous ajustez ensemble."
+  ],
+  "quand": "Quand vous avez un projet en tête : rentrée, événement, lancement, nouvelle saison. Plus vous nous écrivez tôt, plus nous pouvons caler le programme.",
+  "croyances": [
+   {
+    "c": "« Notre cas est trop particulier. »",
+    "r": "C'est pour ça qu'il existe plusieurs programmes, et du sur-mesure quand aucun ne convient."
+   },
+   {
+    "c": "« Je ne sais pas par où commencer. »",
+    "r": "Un premier échange suffit : vous décrivez votre besoin, nous proposons un format."
+   },
+   {
+    "c": "« Je crains que ce soit compliqué à mettre en place. »",
+    "r": "Le coach prend en charge l'animation. Vous validez le cadre et le calendrier."
+   },
+   {
+    "c": "« Je ne connais pas ces coachs. »",
+    "r": "Tous sont diplômés et présentés sur le site. Vous pouvez les rencontrer avant de décider."
+   }
+  ],
+  "liens": [
+   "entreprise",
+   "club",
+   "senior"
+  ],
+  "cible": "votre structure",
+  "tu": false,
+  "cta": {
+   "label": "Parler de mon projet",
+   "href": "/services-sur-mesure/#sm-contact"
+  }
+ },
+ "sur-mesure": {
+  "nom": "Services sur mesure",
+  "origineT": "Pourquoi du sur-mesure",
+  "origine": "Quand aucun programme de la gamme ne correspond exactement, nous construisons avec vous une offre adaptée à votre lieu, votre public et votre calendrier, portée par les coachs diplômés du réseau.",
+  "pourquoiT": "Votre projet n'entre dans aucune case ? Nous le construisons avec vous.",
+  "pourquoi": "Chaque structure a ses contraintes : temps, lieu, public, budget. Plutôt qu'une offre unique, BOOST propose des programmes pensés pour chaque cas, avec des coachs diplômés qui s'adaptent.",
+  "comment": [
+   "Vous nous dites qui vous êtes et ce que vous cherchez.",
+   "Nous vous orientons vers le programme et le coach adaptés.",
+   "Le coach intervient chez vous et vous ajustez ensemble."
+  ],
+  "quand": "Quand vous avez un projet en tête : rentrée, événement, lancement, nouvelle saison. Plus vous nous écrivez tôt, plus nous pouvons caler le programme.",
+  "croyances": [
+   {
+    "c": "« Notre cas est trop particulier. »",
+    "r": "C'est pour ça qu'il existe plusieurs programmes, et du sur-mesure quand aucun ne convient."
+   },
+   {
+    "c": "« Je ne sais pas par où commencer. »",
+    "r": "Un premier échange suffit : vous décrivez votre besoin, nous proposons un format."
+   },
+   {
+    "c": "« Je crains que ce soit compliqué à mettre en place. »",
+    "r": "Le coach prend en charge l'animation. Vous validez le cadre et le calendrier."
+   },
+   {
+    "c": "« Je ne connais pas ces coachs. »",
+    "r": "Tous sont diplômés et présentés sur le site. Vous pouvez les rencontrer avant de décider."
+   }
+  ],
+  "liens": [
+   "entreprise",
+   "club",
+   "senior"
+  ],
+  "cible": "votre structure",
+  "tu": false,
+  "cta": {
+   "label": "Parler de mon projet",
+   "href": "/services-sur-mesure/#sm-contact"
+  }
+ },
+ "domicile": {
+  "nom": "BOOST DOMICILE",
+  "cible": "vous",
+  "origineT": "Pourquoi nous avons créé BOOST DOMICILE",
+  "origine": "Beaucoup de gens ne mettront jamais les pieds dans une salle, et le coaching à domicile se vend souvent à la séance, avec un coach différent à chaque fois. Nous avons créé ce programme pour proposer un coach dédié, un bilan, un programme et un suivi, chez vous.",
+  "pourquoiT": "Le sport chez vous, sans le regard des autres.",
+  "pourquoi": "Quand on a peur du jugement, qu'on manque de temps ou qu'on est loin d'une salle, on repousse. Un coach qui vient chez vous, toujours le même, enlève ces freins et rend la régularité possible.",
+  "comment": [
+   "On fait le point chez vous lors d'un Bilan Santé : votre forme, votre logement, votre rythme et votre objectif.",
+   "Le coach vous présente sa proposition pendant le bilan, selon ce que vous avez vu ensemble, puis vient chez vous à un rythme régulier.",
+   "Un bilan à 12 semaines mesure ce qui a changé, puis vous choisissez la suite."
+  ],
+  "quand": "Dès que vous vous dites « je devrais m'y mettre » sans trouver le moment : après une pause, une période chargée, un coup de mou ou un besoin de reprendre en douceur.",
+  "croyances": [
+   {
+    "c": "« Je n'ai pas la place chez moi. »",
+    "r": "Un espace de 2 mètres sur 2 suffit en général, et le coach s'adapte au matériel que vous avez."
+   },
+   {
+    "c": "« Un coach à domicile, c'est trop cher. »",
+    "r": "Le tarif dépend du rythme et de la durée. Le devis est clair, et un abonnement sur 3 mois ou 1 an évite de payer des séances qui ne servent à rien."
+   },
+   {
+    "c": "« Je suis trop âgé(e) ou trop fatigué(e). »",
+    "r": "Le bilan tient compte de votre forme du jour. Les exercices sont adaptés, et le coach avance à votre rythme."
+   },
+   {
+    "c": "« Je vais me lasser. »",
+    "r": "Un coach dédié, un programme et un bilan à 12 semaines donnent des repères. C'est ce qui aide à rester régulier."
+   }
+  ],
+  "liens": [
+   "prive",
+   "senior",
+   "perte-de-poids"
+  ]
+ }
+}

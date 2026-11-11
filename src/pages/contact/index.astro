@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Contenu from '../../components/proto/ContactContenu.astro';
+import '../../styles/proto-pages.css';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+    { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://gacoachs.fr/contact/' },
+  ],
+};
+---
+<BaseLayout
+  title="Contacter un coach sportif GA"
+  description="Contacte le réseau GA Coachs, coachs sportifs partenaires de Basic-Fit à Orléans."
+  path="/contact/"
+  jsonLd={jsonLd}
+>
+<div class="proto">
+  <Contenu />
+</div>
+</BaseLayout>
+

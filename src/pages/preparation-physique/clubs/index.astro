@@ -1,0 +1,298 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Contenu from '../../../components/proto/ClubsContenu.astro';
+import '../../../styles/proto-structures.css';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import LogoMarquee from '../../../components/LogoMarquee.astro';
+import ClubLeadForm from '../../../components/ClubLeadForm.astro';
+import CTAFinal from '../../../components/CTAFinal.astro';
+import RelatedLinks from '../../../components/RelatedLinks.astro';
+import StatCard from '../../../components/boost/StatCard.astro';
+import Accordion from '../../../components/boost/Accordion.astro';
+import BoostTOC from '../../../components/boost/BoostTOC.astro';
+import clubsClients from '../../../data/clubs-clients.json';
+import entreprisesLogosDefilants from '../../../data/entreprises-logos-defilants.json';
+import { coachesReseau as coaches } from '../../../data/coaches.js';
+import salles from '../../../data/salles.json';
+
+const salleParSlug = Object.fromEntries(salles.map((s) => [s.slug, s]));
+const coachsPrepaPhysique = coaches.filter((c) => c.specialites.includes('Remise en Forme') || c.tags.includes('Remise en Forme'));
+
+const statistiques = [
+  { chiffre: '30 à 50%', description: "C'est la baisse du taux de blessures observée avec un programme d'échauffement structuré type FIFA 11+, appliqué régulièrement par une équipe.", source: 'FIFA', url: 'https://www.dkmfootballconsulting.com/blog/generale/fifa-11-5' },
+  { chiffre: '32%', description: "Réduction des blessures de cheville mesurée sur plus de 3 000 joueurs (5 essais randomisés), grâce à un programme de renforcement et de proprioception.", source: 'Méta-analyse, revue systématique', url: 'https://www.kinesport.fr/blog/effets-des-programmes-de-prevention-fifa-sur-les-blessures-aux-chevilles' },
+  { chiffre: '2 à 4x', description: "Une augmentation du volume d'entraînement supérieure à 10% par semaine multiplie par 2 à 4 le risque de blessure chez les coureurs.", source: 'Institut de Kinésithérapie Paris', url: 'https://www.institut-kinesitherapie.paris/actualites/prevenir-blessures-sportives-ce-que-science-montre/' },
+  { chiffre: '80%', description: "des coureurs se blessent au cours de leur première année d'entraînement, souvent faute d'une préparation physique progressive et adaptée.", source: 'Institut de Kinésithérapie Paris', url: 'https://www.institut-kinesitherapie.paris/actualites/prevenir-blessures-sportives-ce-que-science-montre/' },
+];
+
+const sportsFamilles = [
+  { titre: 'Sports de combat & préhension', icone: '🥋', sports: ['Judo', 'MMA', 'Lutte', 'Boxe', 'Grappling'], ceQueChangeLaPrepa: "L'affrontement direct expose à des chocs et des déséquilibres constants. La préparation physique développe la force explosive, le gainage et la capacité à encaisser sans se blesser, round après round.", avantApres: [ { avant: "La fatigue fait chuter la précision sur la fin d'un combat", apres: "L'intensité et la lucidité tactique tiennent jusqu'au bout" }, { avant: 'Une chute ou une projection mal encaissée devient une blessure', apres: "Le gainage et les appuis permettent d'encaisser sans se faire mal" } ] },
+  { titre: 'Sports collectifs à forte intensité', icone: '⚽', sports: ['Football', 'Rugby', 'Basket', 'Handball', 'Hockey sur glace', 'Volley', 'Foot américain'], ceQueChangeLaPrepa: "Accélérations répétées, changements de direction brusques, contacts : ce sont les efforts qui usent le plus vite un corps mal préparé. Le travail porte sur la répétition d'effort et la prévention des blessures classiques (ischio-jambiers, genoux, chevilles).", avantApres: [ { avant: "Les jambes lâchent dans le dernier quart d'heure du match", apres: "Les accélérations restent franches jusqu'au coup de sifflet final" }, { avant: 'Une déchirure aux ischio-jambiers arrête la saison', apres: 'Le renforcement ciblé réduit ce risque de blessure classique' } ] },
+  { titre: "Sports d'endurance", icone: '🏃', sports: ['Athlétisme', 'Course à pied', 'Trail', 'Aviron', 'Natation', 'BMX', 'Kayak'], ceQueChangeLaPrepa: "Ici, la préparation physique ne remplace jamais le volume d'entraînement spécifique. Elle vient en renfort : économie de geste, renforcement pour éviter les blessures de surutilisation qui arrêtent une saison entière.", avantApres: [ { avant: "Une douleur de surutilisation (genou, tibia) apparaît après plusieurs semaines de volume", apres: "Le corps encaisse mieux la charge, avec moins d'interruptions forcées" }, { avant: "Le geste se dégrade dans le dernier tiers de l'effort", apres: "L'économie de geste reste stable même quand la fatigue s'installe" } ] },
+  { titre: 'Sports de précision & technique', icone: '🎾', sports: ['Golf', 'Tennis', 'Badminton', 'Padel', 'Escrime', 'Équitation', 'Baseball'], ceQueChangeLaPrepa: "Des gestes répétés du même côté du corps, souvent des milliers de fois par saison. La préparation physique corrige les déséquilibres que ça crée, et travaille la mobilité rotationnelle qui fait la différence sur la puissance du geste.", avantApres: [ { avant: "Un déséquilibre musculaire s'installe d'un côté du corps à force de répéter le même geste", apres: "Un travail bilatéral corrige ce déséquilibre et protège l'épaule et le dos" }, { avant: 'La puissance du geste plafonne malgré la pratique technique', apres: 'La mobilité rotationnelle débloque de la puissance dans le swing ou le service' } ] },
+  { titre: 'Sports artistiques & esthétiques', icone: '🩰', sports: ['Danse', 'Patinage', 'Pilates', 'Pole dance'], ceQueChangeLaPrepa: "Amplitude articulaire extrême et contrôle postural fin sont exigés en permanence. Le travail se concentre sur la mobilité active et le renforcement des stabilisateurs, pour tenir la position sans se faire mal.", avantApres: [ { avant: 'Une position tenue trop longtemps devient vite douloureuse', apres: 'Le renforcement des stabilisateurs permet de la tenir sans compenser' }, { avant: 'Une amplitude qui manque limite certains mouvements techniques', apres: 'Un travail de mobilité active repousse cette limite en toute sécurité' } ] },
+  { titre: "Sports d'adresse & de préhension", icone: '🧗', sports: ['Escalade'], ceQueChangeLaPrepa: "La force de préhension et la mobilité des épaules sont sollicitées à l'extrême, bien au-delà de ce qu'un entraînement uniquement technique développe naturellement.", avantApres: [ { avant: 'Les avant-bras saturent avant la fin de la voie', apres: 'Une force de préhension développée spécifiquement tient plus longtemps' }, { avant: 'Une épaule instable freine les mouvements amples', apres: 'Un renforcement ciblé des épaules sécurise ces mouvements' } ] },
+];
+
+const changementsTerrain = [
+  'Maintenir davantage d\'intensité pendant les matchs et les compétitions',
+  'Développer sa force, sa vitesse et son explosivité',
+  "Mieux supporter l'enchaînement des entraînements",
+  "Reprendre progressivement après une période d'arrêt",
+  'Réduire les écarts de condition physique au sein du groupe',
+  'Intégrer un travail régulier de mobilité et de prévention',
+  'Mieux gérer les différentes périodes de la saison',
+  'Suivre les progrès grâce à des tests reproductibles',
+  "Donner à l'entraîneur des informations utiles pour ajuster la charge",
+  'Offrir aux licenciés un encadrement plus structuré et plus professionnel',
+];
+
+const methodeBoost = [
+  { lettre: 'B', titre: 'Bilan du groupe', texte: "Nous échangeons avec le staff et identifions les besoins physiques prioritaires : discipline, âge et niveau des sportifs, objectifs de l'équipe, calendrier, qualités physiques prioritaires, équipements disponibles, contraintes du staff et charge déjà supportée par le groupe." },
+  { lettre: 'O', titre: 'Objectifs partagés', texte: "Nous définissons avec l'entraîneur des objectifs réalistes, adaptés au niveau du groupe et aux ambitions de la saison." },
+  { lettre: 'O', titre: 'Organisation de la saison', texte: 'Nous intégrons les entraînements, les compétitions, les périodes de reprise, les trêves et les échéances importantes.' },
+  { lettre: 'S', titre: 'Séances progressives', texte: 'Le préparateur physique anime des séances adaptées au sport, à la période et au niveau réel des participants.' },
+  { lettre: 'T', titre: 'Tests et suivi', texte: "Selon la formule choisie, nous mesurons l'évolution du groupe, partageons les résultats avec le staff et ajustons la programmation." },
+];
+
+const piliersAccompagnement = [
+  { titre: 'Un préparateur physique sélectionné', texte: 'GA Coachs identifie le professionnel adapté à votre discipline, vos objectifs et vos créneaux.' },
+  { titre: 'Une programmation cohérente', texte: "Les séances s'inscrivent dans une progression. Elles ne sont pas choisies au hasard le jour de l'intervention." },
+  { titre: 'Une collaboration avec le staff', texte: "Le préparateur physique intervient en complément de l'entraîneur. Chacun conserve son rôle et son domaine d'expertise." },
+  { titre: "Une continuité d'accompagnement", texte: "L'intervention est portée par GA Coachs et son réseau, ce qui permet d'anticiper davantage les absences et les besoins de remplacement." },
+  { titre: 'Des résultats suivis', texte: 'Les tests, les échanges et les bilans permettent de suivre la progression et de faire évoluer le travail proposé.' },
+];
+
+const formules = [
+  {
+    nom: 'BOOST CLUB ESSENTIEL',
+    accroche: 'Pour installer une préparation physique régulière dans votre club',
+    items: ['1 séance collective par semaine', 'Programmation adaptée à la discipline', "Coordination avec l'entraîneur", 'Adaptation aux différentes périodes de la saison', 'Bilan collectif trimestriel'],
+    prix: 'À partir de 390 € par mois',
+    cta: 'Découvrir BOOST Essentiel',
+  },
+  {
+    nom: 'BOOST CLUB PERFORMANCE',
+    accroche: 'Pour progresser et suivre les résultats du groupe pendant toute la saison',
+    items: ['2 séances collectives par semaine', 'Diagnostic physique initial', 'Programmation adaptée au calendrier sportif', 'Tests physiques trimestriels', "Suivi de l'évolution du groupe", 'Échanges réguliers avec le staff', 'Ajustement selon les compétitions', 'Bilan complet de fin de saison'],
+    prix: 'À partir de 690 € par mois',
+    cta: 'Choisir BOOST Performance',
+    recommande: true,
+  },
+  {
+    nom: 'BOOST CLUB HAUTE PERFORMANCE',
+    accroche: 'Pour les équipes ayant des objectifs élevés et recherchant un accompagnement renforcé',
+    items: ["Jusqu'à 3 interventions par semaine", 'Programmation complète de la préparation physique', 'Tests et suivi individualisé', 'Reporting mensuel', 'Échanges réguliers avec le staff technique', 'Adaptation selon les matchs, compétitions et déplacements', 'Accompagnement renforcé pendant les périodes stratégiques', 'Bilan complet de fin de saison'],
+    prix: 'À partir de 990 € par mois',
+    cta: 'Choisir Haute Performance',
+  },
+  {
+    nom: 'BOOST 360',
+    accroche: "Pour les clubs qui veulent accompagner plusieurs équipes ou tout le club, avec un préparateur dédié",
+    items: [
+      'Accompagnement de plusieurs équipes ou du club entier',
+      'Préparateur physique dédié et attitré',
+      'Créneaux réservés en priorité, y compris en haute saison',
+      'Suivi individualisé de chaque sportif',
+      'Coordination avec tous les entraîneurs du club',
+      'Reporting complet et régulier à la direction sportive',
+      'Ateliers exclusifs (récupération, nutrition, prévention)',
+      'Interlocuteur unique dédié pour tout le club',
+    ],
+    prix: 'Sur devis',
+    cta: 'Construire mon offre BOOST 360',
+    premium: true,
+  },
+];
+
+const saisons = [
+  { titre: 'Avant la reprise', texte: 'Retrouver progressivement les qualités physiques, préparer les sportifs à l\'augmentation de la charge et construire des bases solides.' },
+  { titre: 'En début de saison', texte: 'Poursuivre le développement physique tout en intégrant le retour des compétitions.' },
+  { titre: 'Pendant la saison', texte: 'Entretenir les qualités prioritaires, adapter la charge et répondre aux besoins observés par le staff.' },
+  { titre: 'Avant les échéances importantes', texte: 'Préserver la fraîcheur, ajuster le volume de travail et préparer les sportifs aux exigences de la compétition.' },
+  { titre: 'Pendant les trêves', texte: "Maintenir un niveau d'activité cohérent, travailler certains points individuels et préparer la reprise collective." },
+];
+
+const solutionsComplementaires = [
+  { titre: 'Tests physiques de pré-saison', texte: 'Évaluation du groupe, identification des priorités et restitution au staff.', prix: 'À partir de 490 €' },
+  { titre: 'Stage de préparation physique', texte: 'Une demi-journée ou une journée pour préparer la reprise, une compétition ou créer un temps fort collectif.', prix: 'À partir de 390 € la demi-journée' },
+  { titre: 'Préparation estivale', texte: 'Un programme de plusieurs semaines pour arriver à la reprise dans de meilleures conditions.', prix: 'À partir de 990 €' },
+  { titre: 'Atelier mobilité et prévention', texte: "Une intervention pratique autour de l'échauffement, de la mobilité, de la récupération et des habitudes utiles aux sportifs.", prix: 'À partir de 290 €' },
+  { titre: 'Accompagnement individuel', texte: 'Un suivi complémentaire peut être proposé aux sportifs souhaitant travailler des objectifs personnels, en cohérence avec le staff.', prix: 'À partir de 79 € par mois et par sportif' },
+];
+
+const financementOptions = [
+  'Financement direct par le club',
+  'Participation intégrée à la cotisation des licenciés',
+  'Financement partagé entre plusieurs équipes',
+  "Accompagnement d'une seule équipe pilote",
+  'Intervention concentrée sur la pré-saison',
+  "Participation d'un sponsor ou d'un partenaire local",
+];
+
+const pourquoiGACoachs = [
+  { titre: 'Vous renforcez votre staff sans recruter', texte: "Vous accédez à une compétence supplémentaire sans supporter l'organisation d'un recrutement à temps plein." },
+  { titre: 'Vous gagnez du temps', texte: 'L\'entraîneur peut se concentrer davantage sur la technique, la tactique et la gestion du collectif.' },
+  { titre: 'Vous professionnalisez l\'expérience de vos licenciés', texte: "Une préparation physique structurée améliore la qualité perçue de l'encadrement proposé par le club." },
+  { titre: 'Vous disposez d\'un cadre clair', texte: 'Objectifs, calendrier, séances, tests et bilans sont intégrés à un accompagnement défini dès le départ.' },
+  { titre: 'Vous valorisez votre projet sportif', texte: 'BOOST CLUB peut devenir un argument pour fidéliser les licenciés, attirer de nouveaux sportifs et présenter un projet plus ambitieux aux partenaires.' },
+];
+
+const etapesDemarrage = [
+  { titre: 'Vous nous présentez votre club', texte: 'Discipline, équipe, niveau, objectifs, créneaux, contraintes et budget.' },
+  { titre: 'Nous réalisons votre diagnostic', texte: "Nous identifions les besoins prioritaires et le format d'intervention pertinent." },
+  { titre: 'Vous recevez une proposition claire', texte: 'Fréquence, contenu, calendrier, suivi et tarif : vous savez précisément ce qui est prévu.' },
+  { titre: "Nous lançons l'accompagnement", texte: 'Le préparateur physique rencontre le staff, réalise les premières évaluations prévues et démarre la programmation.' },
+  { titre: 'Nous suivons la progression', texte: 'Les séances et la programmation évoluent selon les résultats, les compétitions et les retours du staff.' },
+];
+
+const faqClub = [
+  { q: 'BOOST CLUB est-il réservé aux équipes de haut niveau ?', r: 'Non. L\'accompagnement est conçu pour les clubs amateurs, associations, académies et équipes de différents niveaux. Le contenu est adapté aux capacités réelles des participants.' },
+  { q: 'Pouvez-vous intervenir uniquement pendant la pré-saison ?', r: 'Oui. Vous pouvez choisir un accompagnement sur la saison, une préparation de plusieurs semaines, une journée de tests ou un stage ponctuel.' },
+  { q: 'Le préparateur physique remplace-t-il notre entraîneur ?', r: "Non. Il intervient en complément. L'entraîneur conserve la responsabilité du projet technique et sportif, tandis que le préparateur physique prend en charge son domaine d'expertise." },
+  { q: 'Où les séances se déroulent-elles ?', r: "Dans les installations du club, dans un espace extérieur adapté ou, lorsque cela est pertinent, au sein d'une structure partenaire." },
+  { q: 'Combien de sportifs peuvent participer ?', r: "Le format dépend de la discipline, de l'âge, de l'espace disponible, du contenu de la séance et du niveau d'encadrement nécessaire. Ce point est défini avant le lancement." },
+  { q: 'Pouvons-nous commencer avec une seule équipe ?', r: "Oui. Une équipe pilote constitue souvent le meilleur moyen de lancer le projet, mesurer son intérêt puis l'étendre progressivement." },
+  { q: "Comment financer l'accompagnement ?", r: 'Le financement peut être assuré par le club, les licenciés, un sponsor ou une combinaison de plusieurs solutions. Nous pouvons vous aider à identifier le modèle le plus réaliste.' },
+  { q: "Quelle est la durée de l'engagement ?", r: 'Les formules principales sont généralement pensées sur la saison sportive et mensualisées. Les stages, tests et préparations spécifiques disposent de formats plus courts.' },
+  { q: "Qu'est-ce que BOOST CLUB ?", r: "BOOST CLUB est la préparation physique externalisée de GA Coachs pour les clubs sportifs : un préparateur physique sélectionné, une programmation cohérente sur la saison, des tests et un suivi, en complément de votre entraîneur." },
+  { q: "Le diagnostic de départ est-il offert ?", r: "Oui. Le diagnostic permet d'identifier les besoins physiques prioritaires du groupe avec le staff avant de proposer une formule." },
+  { q: "Pour quels sports intervenez-vous ?", r: "Sports collectifs, sports de combat, sports d'endurance, sports de précision, sports artistiques et escalade : la préparation est adaptée aux exigences de chaque discipline." },
+  { q: "Faites-vous des tests physiques ?", r: "Oui, selon la formule : des tests reproductibles mesurent l'évolution du groupe, les résultats sont partagés avec le staff et la programmation est ajustée." },
+  { q: 'Que se passe-t-il en cas d\'absence du préparateur physique ?', r: 'GA Coachs anticipe la continuité de l\'accompagnement et recherche une solution de remplacement lorsque les conditions et les délais le permettent.' },
+];
+
+const beneficesFinaux = [
+  "d'un préparateur physique sélectionné",
+  "d'une programmation adaptée à votre sport",
+  "d'un travail coordonné avec votre entraîneur",
+  "d'un suivi construit autour de votre saison",
+  "d'une solution accessible sans recrutement à temps plein",
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'BOOST CLUB',
+    serviceType: 'Préparation physique pour clubs sportifs',
+    provider: { '@type': 'Organization', name: 'GA Coachs' },
+    areaServed: ['Orléans', 'Olivet', 'Saran', 'Fleury-les-Aubrais'],
+    description: "BOOST CLUB, le programme GA Coachs de préparation physique externalisée pour clubs sportifs, à Orléans, Olivet, Saran, Fleury-les-Aubrais et dans les communes voisines.",
+    offers: formules.map((f) => ({ '@type': 'Offer', name: f.nom, price: f.prix })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+      { '@type': 'ListItem', position: 2, name: 'Préparation physique', item: 'https://gacoachs.fr/preparation-physique/' },
+      { '@type': 'ListItem', position: 3, name: 'Clubs sportifs', item: 'https://gacoachs.fr/preparation-physique/clubs/' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqClub.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.r },
+    })),
+  },
+];
+---
+<BaseLayout
+  title="BOOST CLUB : coach sportif et préparateur physique, clubs"
+  description="BOOST CLUB : préparation physique externalisée pour les clubs sportifs à Orléans. Tests, programmation et suivi, diagnostic offert."
+  path="/preparation-physique/clubs/"
+  jsonLd={jsonLd}
+  image="/images/og-boost-club.jpg"
+  stickyCtaHref="#k-form"
+  stickyCtaLabel="Demander mon diagnostic offert"
+>
+<div class="proto proto-club">
+  <Contenu />
+</div>
+</BaseLayout>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fr = (v: number, d: number) => v.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const FORMS = [
+    { label: 'Essentiel', prix: 390, f: 1 },
+    { label: 'Performance', prix: 690, f: 2 },
+    { label: 'Haute Performance', prix: 990, f: 3 },
+  ];
+  // Simulateur BOOST CLUB
+  const host = document.getElementById('simClubPage');
+  if (host) {
+    const st = { n: 20, f: 1, c: 10 }, min = 8, max = 60, shown: any = { a: 0, b: 0, c: 0 };
+    let raf = 0;
+    const range = host.querySelector<HTMLInputElement>('.bsim-range')!, nOut = host.querySelector<HTMLElement>('[data-o="n"]')!;
+    const people = host.querySelectorAll<SVGElement>('.crowd svg');
+    const oa = host.querySelector<HTMLElement>('[data-o="a"]')!, ob = host.querySelector<HTMLElement>('[data-o="b"]')!, oc = host.querySelector<HTMLElement>('[data-o="c"]')!, ol = host.querySelector<HTMLElement>('[data-o="live"]')!;
+    const ofin = host.querySelector<HTMLElement>('[data-o="fin"]')!, bar = host.querySelector<HTMLElement>('.fin-bar i')!;
+    const paint = () => { oa.textContent = ol.textContent = fr(shown.a, 2); ob.textContent = fr(shown.b, 2) + ' €'; oc.textContent = fr(shown.c, 2) + ' €'; };
+    function update(instant: boolean) {
+      const F = FORMS[st.f], per = F.prix / (F.f * 4.33), got = st.c * st.n, pct = Math.min(100, Math.round((got / F.prix) * 100)), rest = Math.max(0, F.prix - got);
+      const tgt: any = { a: F.prix / st.n, b: per, c: per / st.n }, from = { ...shown };
+      cancelAnimationFrame(raf);
+      if (instant || reduce) { Object.assign(shown, tgt); paint(); }
+      else { let t0 = 0; const step = (now: number) => { if (!t0) t0 = now; const p = Math.min(1, (now - t0) / 450), e = 1 - Math.pow(1 - p, 3); for (const k in tgt) shown[k] = from[k] + (tgt[k] - from[k]) * e; paint(); if (p < 1) raf = requestAnimationFrame(step); }; raf = requestAnimationFrame(step); }
+      bar.style.width = pct + '%';
+      if (!st.c) ofin.innerHTML = 'Sans participation des licenciés, le club peut aussi s\'appuyer sur un partenaire local : « La préparation physique de l\'équipe, soutenue par [nom du partenaire] ».';
+      else if (got >= F.prix) ofin.innerHTML = `Avec ${st.c} € par mois et par sportif, vos ${st.n} sportifs financent toute la formule : <b>${got} € réunis chaque mois</b>.`;
+      else ofin.innerHTML = `Avec ${st.c} € par mois et par sportif, vos ${st.n} sportifs réunissent déjà <b>${got} € par mois</b>, soit ${pct} % de la formule. Il reste ${rest} € à financer par le club ou un partenaire local.`;
+    }
+    function setN(n: number, init = false) {
+      n = Math.max(min, Math.min(max, Math.round(n)));
+      st.n = n; range.value = String(n); range.style.setProperty('--p', (((n - min) / (max - min)) * 100).toFixed(1) + '%'); nOut.textContent = String(n);
+      if (!init && !reduce) { nOut.classList.remove('bump'); void nOut.offsetWidth; nOut.classList.add('bump'); }
+      people.forEach((p, i) => p.classList.toggle('on', i < n));
+      update(init);
+    }
+    const radio = (b: Element) => b.parentElement!.querySelectorAll(':scope > *').forEach((x) => x.setAttribute('aria-checked', String(x === b)));
+    range.addEventListener('input', () => setN(parseInt(range.value, 10)));
+    host.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      const s = t.closest<HTMLElement>('.bsim-step'); if (s) { setN(st.n + parseInt(s.dataset.d || '0', 10)); return; }
+      const f = t.closest<HTMLElement>('.bsim-form'); if (f) { radio(f); st.f = parseInt(f.dataset.i || '0', 10); update(false); return; }
+      const c = t.closest<HTMLElement>('.contrib button'); if (c) { radio(c); st.c = parseInt(c.dataset.c || '0', 10); update(false); }
+    });
+    setN(st.n, true);
+    // demande de diagnostic depuis le simulateur : envoyée dans le formulaire Netlify « club-lead »
+    const lb = host.querySelector<HTMLFormElement>('form.lead-box');
+    lb?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const err = lb.querySelector<HTMLElement>('.lb-err')!, ok = lb.querySelector<HTMLElement>('.lb-ok')!;
+      const club = (lb.elements.namedItem('club') as HTMLInputElement).value.trim(), contact = (lb.elements.namedItem('contact') as HTMLInputElement).value.trim();
+      if (!club || !contact) { err.hidden = false; err.textContent = 'À compléter : le nom du club et un email ou un téléphone.'; return; }
+      err.hidden = true;
+      const mail = /@/.test(contact);
+      const body = new URLSearchParams({ 'form-name': 'club-lead', club, nom_prenom: '-', discipline: '-', ville: '-', email: mail ? contact : '', telephone: mail ? '' : contact, nombre_sportifs: String(st.n), message: `Simulateur : ${st.n} sportifs, formule ${FORMS[st.f].label}, participation ${st.c} € par sportif` });
+      try { await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() }); } catch (_) { /* rien */ }
+      lb.querySelector<HTMLElement>('.lb-fields')!.hidden = true;
+      ok.hidden = false; ok.textContent = `Merci ! Nous revenons vers vous rapidement pour préparer le diagnostic de ${club} (${st.n} sportifs, formule ${FORMS[st.f].label}).`; ok.focus();
+    });
+  }
+  // Avant / avec BOOST CLUB
+  let autoFam = true;
+  const setFam = (f: Element, side: string) => { f.querySelector('.fam-ba')!.setAttribute('data-s', side); f.querySelectorAll('.fam-tabs button').forEach((b) => b.setAttribute('aria-pressed', String((b as HTMLElement).dataset.s === side))); };
+  document.getElementById('k-sports')?.addEventListener('click', (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>('.fam-tabs button'); if (b) { autoFam = false; setFam(b.closest('.fam')!, b.dataset.s!); } });
+  if ('IntersectionObserver' in window && !reduce) {
+    const fio = new IntersectionObserver((es) => es.forEach((en) => { if (!en.isIntersecting || !autoFam) return; fio.unobserve(en.target); setTimeout(() => { if (autoFam) setFam(en.target, 'avec'); }, 1600); }), { threshold: 0.6 });
+    document.querySelectorAll('.proto-club .fam').forEach((f) => fio.observe(f));
+  }
+  // Image qui suit la souris
+  document.querySelectorAll<HTMLElement>('.proto-club [data-tilt]').forEach((t) => {
+    if (reduce) return;
+    t.addEventListener('pointermove', (e) => { if (e.pointerType !== 'mouse') return; const r = t.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5; t.style.setProperty('--ry', (x * 10).toFixed(2) + 'deg'); t.style.setProperty('--rx', (-y * 8).toFixed(2) + 'deg'); });
+    t.addEventListener('pointerleave', () => { t.style.setProperty('--ry', '0deg'); t.style.setProperty('--rx', '0deg'); });
+  });
+  // Sous-menu qui suit la lecture
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.proto-club .subnav a[href^="#k-"]:not(.subnav-cta)'));
+  if ('IntersectionObserver' in window) {
+    const spy = new IntersectionObserver((es) => es.forEach((en) => { if (!en.isIntersecting) return; links.forEach((a) => a.classList.toggle('is-on', a.getAttribute('href') === '#' + en.target.id)); }), { rootMargin: '-35% 0px -60% 0px' });
+    links.forEach((a) => { const t = document.getElementById(a.getAttribute('href')!.slice(1)); if (t) spy.observe(t); });
+  }
+</script>

@@ -1,0 +1,185 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import CoachCard from '../../components/CoachCard.astro';
+import '../../styles/rebrand.css';
+import C from '../../data/course.json';
+import articles from '../../data/articles.json';
+import salles from '../../data/salles.json';
+import { coachesReseau as coaches } from '../../data/coaches.js';
+
+const siteUrl = 'https://gacoachs.fr';
+const salleParSlug = Object.fromEntries(salles.map((s) => [s.slug, s]));
+const guideSlugs = [...new Set(C.epreuves.flatMap((e) => [e.article, ...e.articlesLies]))];
+const guides = guideSlugs.map((s) => (articles as any[]).find((a) => a.slug === s)).filter(Boolean).slice(0, 6);
+const nomsSalles = salles.filter((s: any) => s.reseauOfficiel !== false).map((s) => s.nom);
+const enBref = [
+  `GA Coachs prépare les coureurs d'Orléans et du Loiret à ${C.epreuves.length} types d'épreuves : ${C.epreuves.map((e) => e.nom).join(', ')}.`,
+  `La préparation est construite par un coach sportif GA diplômé, à partir de ton niveau, de ton historique de blessures et de ta date de course.`,
+  `Le travail combine la course, le renforcement musculaire et la mobilité, avec des ajustements chaque semaine.`,
+  `Les séances encadrées ont lieu en salle Basic-Fit : ${nomsSalles.join(', ')}.`,
+  `Durées conseillées : pour un premier 5 km, ${C.epreuves[0].duree} ; pour un ultra-trail, ${C.epreuves[C.epreuves.length - 1].duree}.`,
+];
+const faqTout = [
+  ...C.faq,
+  { q: 'Où se passent les séances de préparation course à Orléans ?', r: `Les séances encadrées ont lieu en salle Basic-Fit dans le réseau GA Coachs (${nomsSalles.join(', ')}). Les sorties de course se font en extérieur, selon le plan construit avec ton coach.` },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Préparation course à Orléans', serviceType: 'Préparation physique course à pied', url: siteUrl + C.path, description: C.seo.description, areaServed: ['Orléans', 'Orléans Métropole', 'Loiret'], provider: { '@type': 'Organization', name: 'GA Coachs', url: siteUrl + '/' } },
+  { '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: C.epreuves.map((e, i) => ({ '@type': 'ListItem', position: i + 1, name: e.nom, url: `${siteUrl}${C.path}${e.slug}/` })) },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqTout.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout title={C.seo.title} description={C.seo.description} path={C.path} jsonLd={jsonLd} stickyCtaHref="/trouver-un-coach/" stickyCtaLabel="Trouver mon coach">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Préparation physique', href: '/preparation-physique/' }, { label: 'Préparation course', href: C.path }]} />
+      <div class="pc-hero">
+        <div>
+          <span class="eyebrow eyebrow-dark">{C.hero.eyebrow}</span>
+          <h1>Prépare ta course avec un <span class="hl-text">coach sportif GA</span>.</h1>
+          <p class="phero-lead">{C.hero.lead}</p>
+          <div class="ctas">
+            <a class="btn btn-primary" href="#epreuves">Choisir mon épreuve</a>
+            <a class="btn btn-glass" href="/trouver-un-coach/">Trouver mon coach</a>
+          </div>
+        </div>
+        <div role="note" class="pc-card">
+          <span class="bt-k">Ce qui change avec un coach</span>
+          <ul class="bt-list">{C.hero.points.map((p) => <li>{p}</li>)}</ul>
+          <div class="pc-emo" aria-hidden="true">{C.epreuves.map((e) => <span>{e.emoji}</span>)}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="epreuves">
+    <div class="inner">
+      <span class="eyebrow">{C.epreuves.length} épreuves</span>
+      <h2 class="h2">Quelle course prépares-tu ?</h2>
+      <div class="pc-eps">
+        {C.epreuves.map((e) => (
+          <a class="tile pc-ep" href={`/preparation-course/${e.slug}/`}>
+            <span class="pc-ep-e" aria-hidden="true">{e.emoji}</span>
+            <b>{e.nom}</b>
+            <small>{e.distance}</small>
+            <span class="pc-dur"><svg class="ic" aria-hidden="true"><use href="#i-clock"></use></svg>{e.duree}</span>
+            <em>Voir la préparation →</em>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner vb2">
+      <div>
+        <span class="eyebrow">En bref</span>
+        <h2 class="h2">La préparation course à Orléans en 30 secondes.</h2>
+      </div>
+      <ul class="vb-list">{enBref.map((t) => <li>{t}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Le travail</span>
+      <h2 class="h2">Ce que ton coach travaille avec toi.</h2>
+      <div class="pc-app">{C.apports.map((s) => <div class="tile"><span class="pc-ep-e" aria-hidden="true">{s.emoji}</span><h3>{s.titre}</h3><p>{s.texte}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec navy">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <span class="eyebrow">Comment ça se passe</span>
+      <h2 class="h2">Trois étapes jusqu'à la ligne d'arrivée.</h2>
+      <div class="steps3">{C.etapes.map((e, i) => <div class="st"><div class="st-n">{i + 1}</div><h3>{e.titre}</h3><p>{e.texte}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner"><p style="margin:0;padding:18px 20px;border-radius:18px;background:#EAF1FF;color:#0B1E3D;font-weight:600">Tu organises une course ou une marche ? Nos coachs viennent échauffer tes participants sur la ligne de départ. <a href="/coach-sportif-echauffement-course/">Découvrir l'échauffement de courses →</a></p></div>
+  </section>
+
+  <section class="sec band" id="coachs">
+    <div class="inner">
+      <span class="eyebrow">L'équipe</span>
+      <h2 class="h2">Choisis ton coach.</h2>
+      <div class="pc-coachs">{coaches.map((c: any) => <CoachCard slug={c.slug} prenom={c.prenom} nom={c.nom} salleNom={salleParSlug[c.salleSlug]?.nom ?? ''} tags={c.tags} photo={c.photo} avisGoogle={c.avisGoogle} role={c.role} />)}</div>
+    </div>
+  </section>
+
+  <section class="sec" id="faq">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Tes questions avant de te lancer.</h2>
+      <div class="faq-list">{faqTout.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+
+  {guides.length > 0 && (
+    <section class="sec band">
+      <div class="inner">
+        <span class="eyebrow">Nos guides</span>
+        <h2 class="h2">Nos guides course et endurance.</h2>
+        <div class="guides">{guides.map((a: any) => <a class="guide" href={`/blog/${a.slug}/`}><small>Guide{a.tempsLecture ? ` · ${a.tempsLecture} min` : ''}</small><b>{a.titre}</b><p>{a.extrait}</p><em>Lire le guide →</em></a>)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="sec">
+    <div class="inner">
+      <h2 class="h2" style="font-size: 24px;">Nos autres expertises</h2>
+      <div class="chips-row">
+        <a class="chip-link" href="/preparation-physique/">Préparation physique <small>Expertise</small></a>
+        <a class="chip-link" href="/coaching-sportif/">Coaching sportif <small>Expertise</small></a>
+        <a class="chip-link" href="/sport-sante/">Sport Santé <small>Expertise</small></a>
+        <a class="chip-link" href="/preparation-physique/clubs/">Clubs sportifs <small>Structures</small></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">Prêt à préparer ta course ?</h2>
+      <a class="btn-final" href="/trouver-un-coach/"><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Trouver mon coach<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+
+<style>
+  .pc-hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 32px 56px; align-items: center; }
+  .pc-card { padding: 28px; border-radius: 26px; background: #fff; color: var(--ink); box-shadow: 0 40px 70px -40px rgba(0,0,0,.6); }
+  .pc-card .bt-k { display: block; margin-bottom: 14px; }
+  .pc-emo { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .pc-emo span { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; background: var(--pill); font-size: 21px; }
+  .pc-eps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+  .pc-ep { display: flex !important; flex-direction: column; gap: 4px; color: var(--ink); transition: transform .25s ease, border-color .25s ease; }
+  .pc-ep:hover { transform: translateY(-4px); border-color: #BFD3FB; }
+  .pc-ep-e { font-size: 30px; }
+  .pc-ep b { font-family: var(--display); font-size: 21px; line-height: 1.2; margin-top: 8px; }
+  .pc-ep small { font-size: 13.5px; color: var(--muted); font-weight: 700; }
+  .pc-dur { display: flex; gap: 6px; align-items: flex-start; margin-top: 10px; font-size: 13.5px; line-height: 1.4; font-weight: 700; flex: 1; }
+  .pc-dur .ic { width: 16px; height: 16px; color: var(--blue); margin-top: 1px; }
+  .pc-ep em { font-style: normal; font-size: 13.5px; font-weight: 700; color: var(--blue-deep); margin-top: 12px; }
+  .vb2 { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 24px 48px; align-items: start; }
+  .vb-list { list-style: none; margin: 0; padding: 24px 28px; display: grid; gap: 12px; background: #fff; border: 2px solid var(--line); border-radius: 24px; }
+  .vb-list li { display: flex; gap: 10px; font-size: 15.5px; line-height: 1.5; font-weight: 600; }
+  .vb-list li::before { content: ""; width: 20px; height: 20px; margin-top: 2px; border-radius: 50%; flex-shrink: 0; background: var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.2 4.2L19 7'/%3E%3C/svg%3E") center / 12px no-repeat; }
+  .pc-app { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+  .pc-app h3 { font-family: var(--display); font-size: 20px; margin: 10px 0 6px; }
+  .pc-app p { font-size: 14.5px; color: var(--muted); }
+  .pc-coachs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin-top: 28px; }
+  @media (max-width: 960px) {
+    .pc-hero, .vb2 { grid-template-columns: 1fr; }
+    .pc-eps, .pc-app, .pc-coachs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  }
+  @media (max-width: 520px) { .pc-app { grid-template-columns: 1fr; } .pc-card { padding: 22px; } .pc-ep b { font-size: 18px; } }
+</style>

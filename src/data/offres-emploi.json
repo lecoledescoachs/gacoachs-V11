@@ -1,0 +1,95 @@
+{
+  "_notice": "Pour ajouter une ville : { \"slug\": \"coach-sportif-a-domicile-ville\", \"type\": \"domicile\", \"territoire\": \"Ville\", \"dep\": \"45\" }. Les offres en salle utilisent salleSlug.",
+  "offres": [
+    {
+      "slug": "coach-sportif-basic-fit-olivet",
+      "type": "salle",
+      "salleSlug": "basic-fit-olivet",
+      "territoire": "Olivet"
+    },
+    {
+      "slug": "coach-sportif-basic-fit-orleans-sud",
+      "type": "salle",
+      "salleSlug": "basic-fit-orleans-sud",
+      "territoire": "Orléans Sud"
+    },
+    {
+      "slug": "coach-sportif-basic-fit-orleans-liberation",
+      "type": "salle",
+      "salleSlug": "basic-fit-orleans-liberation",
+      "territoire": "Orléans Libération"
+    },
+    {
+      "slug": "coach-sportif-basic-fit-saran",
+      "type": "salle",
+      "salleSlug": "basic-fit-saran",
+      "territoire": "Saran"
+    },
+    {
+      "slug": "coach-sportif-basic-fit-fleury-les-aubrais",
+      "type": "salle",
+      "salleSlug": "basic-fit-fleury-les-aubrais",
+      "territoire": "Fleury-les-Aubrais"
+    },
+    {
+      "slug": "coach-sportif-a-domicile-orleans",
+      "type": "domicile",
+      "territoire": "Orléans",
+      "dep": "45"
+    },
+    {
+      "slug": "coach-sportif-a-domicile-tours",
+      "type": "domicile",
+      "territoire": "Tours",
+      "dep": "37"
+    },
+    {
+      "slug": "coach-sportif-a-domicile-bourges",
+      "type": "domicile",
+      "territoire": "Bourges",
+      "dep": "18"
+    },
+    {
+      "slug": "coach-sportif-a-domicile-blois",
+      "type": "domicile",
+      "territoire": "Blois",
+      "dep": "41"
+    },
+    {
+      "slug": "coach-sportif-a-domicile-chartres",
+      "type": "domicile",
+      "territoire": "Chartres",
+      "dep": "28"
+    },
+    {
+      "slug": "coach-sportif-a-domicile-chateauroux",
+      "type": "domicile",
+      "territoire": "Châteauroux",
+      "dep": "36"
+    },
+    {
+      "slug": "coach-sportif-a-domicile-dreux",
+      "type": "domicile",
+      "territoire": "Dreux",
+      "dep": "28"
+    },
+    {
+      "slug": "coach-sportif-a-domicile-joue-les-tours",
+      "type": "domicile",
+      "territoire": "Joué-lès-Tours",
+      "dep": "37"
+    },
+    {
+      "slug": "coach-sportif-a-domicile-vierzon",
+      "type": "domicile",
+      "territoire": "Vierzon",
+      "dep": "18"
+    },
+    {
+      "slug": "coach-sportif-a-domicile-montargis",
+      "type": "domicile",
+      "territoire": "Montargis",
+      "dep": "45"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+---
+interface Jour {
+  jour: string;
+  code: string;
+  nom: string;
+  accroche: string;
+  contenu: string;
+  objectif: string;
+}
+interface Props {
+  semaine: Jour[];
+}
+const { semaine } = Astro.props;
+---
+<div class="week">
+  <div class="week__strip" aria-hidden="true">
+    {semaine.map((j, i) => (
+      <div class="week__day" style={`--delay: ${i * 0.15}s`}>
+        <span class="week__code">{j.code}</span>
+        <span class="week__min">30 MIN</span>
+      </div>
+    ))}
+    <div class="week__day week__day--repos">
+      <span class="week__code">SAM</span>
+      <span class="week__min">REPOS</span>
+    </div>
+    <div class="week__day week__day--repos">
+      <span class="week__code">DIM</span>
+      <span class="week__min">REPOS</span>
+    </div>
+  </div>
+  <p class="week__total">2 H 30 D'ACTIVITÉ EN SEMAINE, WEEK-END DE REPOS BIEN MÉRITÉ.</p>
+
+  <div class="week__cards">
+    {semaine.map((j) => (
+      <div class="week__card card">
+        <span class="week__card-jour">{j.jour} · {j.nom}</span>
+        <p class="week__card-accroche">{j.accroche}</p>
+        <p class="week__card-contenu">{j.contenu}</p>
+        <p class="week__card-objectif"><strong>Objectif :</strong> {j.objectif}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .week__strip {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-top: 32px;
+  }
+  .week__day {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 3px;
+    border-radius: var(--radius-md);
+    background: var(--ice);
+    border: 1px solid var(--line);
+    opacity: 0.35;
+    animation: week-light-up 0.6s var(--ease) forwards;
+    animation-delay: var(--delay, 0s);
+  }
+  .week__day--repos {
+    opacity: 1;
+    animation: none;
+    background: transparent;
+    border: 1px dashed var(--line);
+  }
+  .week__day--repos .week__code { color: var(--text-muted); animation: none; }
+  .week__day--repos .week__min { color: var(--text-muted); animation: none; }
+  @keyframes week-light-up {
+    0% { opacity: 0.35; transform: scale(0.92); background: var(--ice); }
+    60% { opacity: 1; transform: scale(1.03); }
+    100% { opacity: 1; transform: scale(1); background: var(--blue); }
+  }
+  .week__day .week__code, .week__day .week__min { transition: color .3s var(--ease); }
+  .week__day { color: var(--navy); }
+  @keyframes week-light-up-text {
+    100% { color: #fff; }
+  }
+  .week__day .week__code { font-family: var(--font-display); font-weight: 700; font-size: clamp(11px, 3.4vw, 15px); animation: week-light-up-text 0.6s var(--ease) forwards; animation-delay: var(--delay, 0s); }
+  .week__day .week__min { font-size: clamp(7.5px, 2.2vw, 10px); font-weight: 700; letter-spacing: 0.02em; animation: week-light-up-text 0.6s var(--ease) forwards; animation-delay: var(--delay, 0s); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .week__day { animation: none; opacity: 1; background: var(--blue); }
+    .week__day .week__code, .week__day .week__min { animation: none; color: #fff; }
+  }
+
+  .week__total {
+    text-align: center;
+    margin-top: 20px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(15px, 2.5vw, 19px);
+    color: var(--navy);
+  }
+
+  .week__cards {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+    margin-top: 36px;
+  }
+  .week__card { padding: 22px; }
+  .week__card-jour { font-family: var(--font-display); font-weight: 700; color: var(--blue); font-size: 13px; text-transform: none; letter-spacing: 0.03em; }
+  .week__card-accroche { margin-top: 10px; font-weight: 600; font-size: 15px; color: var(--navy); }
+  .week__card-contenu { margin-top: 8px; font-size: 13.5px; color: var(--text-muted); }
+  .week__card-objectif { margin-top: 10px; font-size: 12.5px; color: var(--text-muted); }
+
+  @media (min-width: 700px) {
+    .week__cards { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .week__strip { gap: 10px; }
+    .week__day { padding: 18px 10px; gap: 6px; }
+  }
+</style>

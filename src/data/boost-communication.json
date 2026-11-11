@@ -1,0 +1,35 @@
+{
+  "cas": {
+    "coach": "fabien-rakotoarimanana",
+    "titre": "Good Moves, un programme européen de sport-santé",
+    "texte": "Fabien, coach sportif du réseau GA, a été sollicité pour Good Moves, un programme européen de sport-santé : des vidéos courtes au format UGC pour TikTok, déclinées dans plusieurs pays d'Europe, pour donner envie de bouger avec des gestes simples et justes.",
+    "videos": [
+      {
+        "pays": "fr",
+        "langue": "Version française",
+        "url": "https://vm.tiktok.com/ZGdXNFv3P/",
+        "vues": null,
+        "id": "",
+        "image": ""
+      },
+      {
+        "pays": "es",
+        "langue": "Version espagnole",
+        "url": "https://vm.tiktok.com/ZGdXNujcg/",
+        "vues": null,
+        "id": "",
+        "image": ""
+      },
+      {
+        "pays": "pl",
+        "langue": "Version polonaise",
+        "url": "https://vm.tiktok.com/ZGdXNANen/",
+        "vues": null,
+        "id": "",
+        "image": ""
+      }
+    ],
+    "programme": "Good Moves",
+    "vuesTotal": 704397
+  }
+}

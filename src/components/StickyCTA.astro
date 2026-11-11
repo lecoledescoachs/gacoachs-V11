@@ -1,0 +1,27 @@
+---
+interface Props {
+  href?: string;
+  label?: string;
+}
+const { href = '/trouver-un-coach/', label = 'Trouver mon coach' } = Astro.props;
+---
+<aside class="sticky-cta" aria-label="Réserver">
+  <a href={href} class="btn btn--primary">{label}</a>
+</aside>
+
+<style>
+  .sticky-cta {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 40;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+  }
+  .sticky-cta .btn { width: 100%; }
+
+  @media (min-width: 900px) {
+    .sticky-cta { display: none; }
+  }
+</style>

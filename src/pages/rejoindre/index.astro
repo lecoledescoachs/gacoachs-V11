@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Contenu from '../../components/proto/RejoindreContenu.astro';
+import '../../styles/proto-pages.css';
+
+const CALENDLY = 'https://calendly.com/ga-coachs/candidature-coach-sportif';
+
+const faqItems = [
+  {
+    q: "C'est trop cher de rejoindre le réseau ?",
+    r: "Les droits d'entrée et la cotisation te sont présentés lors de l'appel, avant toute signature. La cotisation monte progressivement sur les premiers mois. L'idée : te laisser le temps de construire ta clientèle avant de monter en charge, plutôt que de te demander le tarif plein dès le premier mois alors que rien n'est encore lancé.",
+  },
+  {
+    q: "Est-ce que ça vaut vraiment le coup d'investir pour rejoindre le réseau ?",
+    r: "Le réseau te donne un cadre prêt à l'emploi (formation, contrat coach/client, fiche coach, lien Score Santé) et l'accès au flux de clients de Basic-Fit, que tu mettrais du temps à construire seul. Pour te donner un repère, le tarif moyen observé en France est d'environ 50 € de l'heure. Chaque coach fixe ses tarifs et aucun résultat n'est garanti : le plus simple est d'en parler avec Garry lors de l'appel.",
+  },
+  {
+    q: "C'est quel type de contrat ?",
+    r: "Un contrat d'affiliation, d'une durée d'un an, tacitement reconduit, avec un préavis de résiliation de 6 mois si tu souhaites quitter le réseau.",
+  },
+  {
+    q: "Pourquoi Basic-Fit plutôt qu'une salle indépendante ?",
+    r: "Un club Basic-Fit, c'est en général entre 2 000 et 6 000 adhérents, avec un accès possible à plus de 900 salles en France (2 100 en Europe) et des amplitudes d'ouverture qui dépassent souvent les 100 h par semaine, voire 24h/24, 7j/7. Concrètement, ça veut dire un bassin de clients potentiels que tu n'aurais pas en démarchant seul salle par salle.",
+  },
+  {
+    q: "Combien de clients potentiels dans une salle Basic-Fit ?",
+    r: "Sur environ 2 000 adhérents, l'expérience du réseau montre qu'entre 5 et 10% sont intéressés par du coaching sportif à un moment ou un autre, soit un vivier de 100 à 200 clients potentiels par club.",
+  },
+  {
+    q: "Je débute, je peux quand même candidater ?",
+    r: "Oui. Ce qui compte, c'est ta carte professionnelle, ton RC Pro et ta capacité à t'investir. Le réseau apporte le flux de clients, la structure et l'accompagnement business : tu n'as pas besoin d'arriver avec un book de clients déjà rempli.",
+  },
+  {
+    q: "Combien de temps avant de vivre de mon activité de coach dans le réseau ?",
+    r: "Ça dépend de ton implication et du temps que tu peux y consacrer, mais la cotisation progressive sur les premiers mois est justement pensée pour te laisser le temps de construire ta clientèle sans pression financière immédiate.",
+  },
+  {
+    q: "Puis-je garder mes clients actuels si j'en ai déjà ?",
+    r: "Cette question se traite au cas par cas selon ta situation actuelle. Aborde-la directement lors de ton premier échange avec Garry, pour clarifier ce qui est possible.",
+  },
+  {
+    q: "Suis-je vraiment libre de fixer mes propres tarifs ?",
+    r: "Oui, chaque coach du réseau reste indépendant et fixe ses propres tarifs avec ses clients. Le réseau apporte la structure et le flux, pas une grille tarifaire imposée.",
+  },
+  {
+    q: "Que se passe-t-il si je veux quitter le réseau après un an ?",
+    r: "Le contrat est reconductible tacitement avec un préavis de résiliation de 6 mois. C'est une décision qui se prépare, pas une sortie du jour au lendemain.",
+  },
+  {
+    q: "Y a-t-il un accompagnement pour développer mon activité, au-delà de l'accès à la salle ?",
+    r: "Oui, le réseau accompagne aussi sur la partie business : structuration de l'offre, positionnement, et un suivi rapproché des 8 premières semaines pour t'aider à démarrer dans de bonnes conditions.",
+  },
+];
+
+const etudesDeCas = [
+  { id: 'OFMZGPkZxpw', sp: '01cxAOAmscg011iniU4NnS', min: 49, t: "L'histoire d'Alexis Baudu : vivre du coaching en zone rurale" },
+  { id: 'ikUh-mwX3ws', sp: '6KC9Axq6FbyiXaYDDCKblM', min: 49, t: "Le parcours de Thomas Das Neves : il a quitté l'armée pour être libre et utile" },
+  { id: 'lxHnP1RRCpg', sp: '2tJ1zeUha6laG5bUQ8CEgG', min: 59, t: "L'histoire de Fabien Rakotoarimanana : de -600 € à +6 000 € par mois en 9 mois" },
+  { id: 'xK4igRIJukE', sp: '6sSmeJPMPufYG3WkqhXXOA', min: 49, t: "L'histoire de Yanis Trépy : diplômé en 2020, il explose en 2025" },
+  { id: 'z3Gp2kdgdlU', sp: '1TrxuzsyIYjGCPpTeyukoS', min: 47, t: "L'histoire de Nathan Sapin : 26 ans, père de 3 enfants" },
+  { id: 'brjHBFDD9wc', sp: '3vmWcehOcdi4yTOXFIPOQf', min: 37, t: 'Brice Chopin : du 77 à Orléans, une nouvelle vie de coach sportif' },
+];
+const coachsAVenir: string[] = [];
+// Épisodes du podcast Coach Sportif Indépendant (Spotify)
+const podcasts = etudesDeCas.filter((c: any) => c.sp) as { id: string; sp: string; min: number; t: string }[];
+
+const temoignagesVideo = [
+  { id: 'ssbL-ICvZ8w' },
+  { id: 'yLObPPfCiqg' },
+  { id: 'kAnTk2nl9zY' },
+  { id: 'iZERcX7MEqo' },
+  { id: 'caYmTGOYoTg' },
+  { id: 'm03J0E09LtM' },
+  { id: 'AnpCLQ_AMJM' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+      { '@type': 'ListItem', position: 2, name: 'Rejoindre GA Coachs', item: 'https://gacoachs.fr/rejoindre/' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.r },
+    })),
+  },
+];
+
+const problemes = [
+  'Tu travailles à côté pour boucler les fins de mois',
+  "Tu n'as pas de vrai process pour transformer un contact en client",
+  'Tu manques de visibilité, personne ne te trouve',
+  "Tu n'as pas de contrat coach/client clair",
+  "Tu ne sais pas vraiment comment vendre une prestation",
+  'La partie administrative te fait peur ou te prend un temps fou',
+];
+
+const paysComparaison = [
+  { drapeau: '🇩🇪', pays: 'Allemagne', ratio: '4 à 10 coachs/salle', tarif: '80 €/h en moyenne' },
+  { drapeau: '🇧🇪', pays: 'Belgique', ratio: '4 à 10 coachs/salle', tarif: '60 €/h en moyenne' },
+  { drapeau: '🇨🇭', pays: 'Suisse', ratio: '6 à 12 coachs/salle', tarif: '140 CHF/h en moyenne' },
+  { drapeau: '🇪🇸', pays: 'Espagne', ratio: '4 à 10 coachs/salle', tarif: '85 €/h en moyenne' },
+  { drapeau: '🇺🇸', pays: 'États-Unis', ratio: '20 à 60 coachs/salle', tarif: '100 $/h en moyenne' },
+  { drapeau: '🇫🇷', pays: 'France', ratio: '0 à 4 coachs/salle', tarif: '50 €/h en moyenne', accent: true },
+];
+
+import formation from '../../data/rejoindre-formation.json';
+import contrat from '../../data/rejoindre-contrat.json';
+const phases = [
+  { num: '01', titre: 'Formation initiale', texte: "Business model, contrat coach/client, méthode : tu démarres avec un cadre clair, pas une feuille blanche." },
+  { num: '02', titre: 'Accompagnement 8 semaines', texte: "Un suivi rapproché pendant tes deux premiers mois, le moment où la plupart des coachs indépendants abandonnent faute de structure." },
+  { num: '03', titre: 'Coaching business en groupe', texte: "Une fois lancé, tu restes accompagné dans la durée, avec les autres coachs du réseau." },
+];
+
+const criteres = [
+  { titre: 'Carte professionnelle', texte: "Délivrée par la SDJES, à jour. C'est la base : sans elle, pas de coaching sportif rémunéré possible, et on ne transige pas là-dessus." },
+  { titre: 'RC Pro', texte: "Une assurance responsabilité civile professionnelle active, obligatoire dans le Code du Sport pour exercer." },
+  { titre: 'Une vraie approche pédagogique', texte: "On cherche des coachs capables d'écouter un objectif, de l'adapter à une vraie personne, pas d'appliquer un programme générique." },
+];
+
+const avantages = [
+  { titre: 'Un flux de clients réel', texte: "Partenaire officiel Basic-Fit depuis 2018 : tu n'as pas à démarcher salle par salle, le réseau t'apporte des clients qui cherchent déjà un coach." },
+  { titre: 'Zéro paperasse pour démarrer', texte: "Contrat coach/client, mise en relation, visibilité sur le site, outils de suivi : le réseau porte la structure pour que tu te concentres sur le coaching." },
+  { titre: 'Tes propres outils de prospection', texte: "Un lien Score Santé personnalisé à partager en salle ou sur tes réseaux, avec un tableau de bord qui te montre en temps réel combien de personnes l'ont testé et sont prêtes à être recontactées." },
+  { titre: 'Une progression claire', texte: "Cotisation au réseau progressive sur les 4 premiers mois, pour te laisser le temps de construire ta clientèle avant de monter en charge." },
+  { titre: 'Un réseau qui grandit', texte: "GA Coachs est né à Orléans et continue de s'étendre. On échange en ce moment avec des coachs partout en France pour construire les prochaines étapes du réseau." },
+];
+---
+<BaseLayout
+  title="Rejoindre GA Coachs · Devenir coach sportif partenaire"
+  description="Tu es coach sportif à Orléans ou ailleurs en France ? Découvre comment rejoindre le réseau GA Coachs, partenaire officiel de Basic-Fit depuis 2018."
+  path="/rejoindre/"
+  jsonLd={jsonLd}
+>
+<div class="proto">
+  <Contenu />
+</div>
+</BaseLayout>
+
+<script>
+  const cks = Array.from(document.querySelectorAll<HTMLButtonElement>('.rj-ck'));
+  const bar = document.getElementById('rjBar'), msg = document.getElementById('rjMsg'), go = document.getElementById('rjGo');
+  const upd = () => {
+    const n = cks.filter((b) => b.getAttribute('aria-pressed') === 'true').length;
+    if (bar) bar.style.width = (n / cks.length) * 100 + '%';
+    if (msg) msg.textContent = !n ? 'Coche ce qui te ressemble.' : `${n} sur ${cks.length}` + (n < 3 ? ' : un cadre clair règle déjà une bonne partie du problème.' : n < 6 ? " : c'est exactement ce que le réseau prend en charge." : " : on a tout ce qu'il faut pour en parler.");
+    if (go) go.hidden = !n;
+  };
+  cks.forEach((b) => b.addEventListener('click', () => { b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true')); upd(); }));
+  const r = document.getElementById('rjN') as HTMLInputElement | null, nv = document.getElementById('rjNv'), lo = document.getElementById('rjLo'), hi = document.getElementById('rjHi');
+  const fmt = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  r?.addEventListener('input', () => { const n = +r.value; if (nv) nv.textContent = fmt(n); r.style.setProperty('--p', (n - 2000) / 40 + '%'); if (lo) lo.textContent = fmt(n * 0.05); if (hi) hi.textContent = fmt(n * 0.1); });
+  const rc = ['rcC', 'rcS', 'rcT'].map((id) => document.getElementById(id) as HTMLInputElement | null);
+  const calc = () => {
+    if (rc.some((x) => !x)) return;
+    const [c, s, t] = rc.map((x) => +x!.value);
+    rc.forEach((x, i) => { const v = document.getElementById(x!.id + 'v'); if (v) v.textContent = x!.value + (i === 2 ? ' €' : ''); x!.style.setProperty('--p', ((+x!.value - +x!.min) / (+x!.max - +x!.min)) * 100 + '%'); });
+    const ca = document.getElementById('rcCA'), se = document.getElementById('rcSe');
+    if (ca) ca.textContent = fmt(c * s * t);
+    if (se) se.textContent = String(Math.ceil(700 / t));
+  };
+  rc.forEach((x) => x?.addEventListener('input', calc));
+  // Couvertures Spotify : si l'image ne charge pas, on garde la vignette bleue
+  document.querySelectorAll<HTMLImageElement>('.rj-cv img, img.ext, img.rj-vid-th').forEach((im) => {
+    const off = () => im.remove();
+    if (im.complete && im.naturalWidth === 0 && im.currentSrc) off(); else im.addEventListener('error', off, { once: true });
+  });
+  const lb = document.querySelector<HTMLFormElement>('#rjLead form');
+  lb?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const err = lb.querySelector<HTMLElement>('.lb-err')!, ok = lb.querySelector<HTMLElement>('.lb-ok')!;
+    const prenom = (lb.elements.namedItem('prenom') as HTMLInputElement).value.trim(), tel = (lb.elements.namedItem('telephone') as HTMLInputElement).value.trim();
+    if (!prenom || !tel) { err.hidden = false; err.textContent = 'À compléter : ton prénom et ton téléphone.'; return; }
+    err.hidden = true;
+    try { await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(lb) as any).toString() }); } catch (_) { /* rien */ }
+    lb.querySelector<HTMLElement>('.lb-fields')!.hidden = true;
+    ok.hidden = false; ok.textContent = `Merci ${prenom} ! On te recontacte rapidement pour caler ton appel de candidature.`; ok.focus();
+  });
+</script>

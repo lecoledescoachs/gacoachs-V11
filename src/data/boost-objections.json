@@ -1,0 +1,74 @@
+[
+  {
+    "objection": "Nous n'avons pas de salle de sport.",
+    "reponse": "Vous n'en avez pas besoin. Une salle de réunion dégagée, un espace extérieur ou un espace disponible dans vos locaux peut suffire selon le format choisi."
+  },
+  {
+    "objection": "Nous n'avons pas de douche.",
+    "reponse": "La séance peut être conçue avec une intensité adaptée au contexte professionnel."
+  },
+  {
+    "objection": "Mes salariés ne sont pas sportifs.",
+    "reponse": "C'est précisément pour eux que BOOST a été conçu. Les séances sont adaptables et accessibles aux différents niveaux."
+  },
+  {
+    "objection": "30 minutes, est-ce vraiment utile ?",
+    "reponse": "Notre objectif n'est pas de remplacer l'ensemble de l'activité physique recommandée dans une semaine. BOOST permet de remettre régulièrement les salariés en mouvement et d'encourager une pratique plus active."
+  },
+  {
+    "objection": "Nous n'avons pas le temps.",
+    "reponse": "C'est précisément la raison pour laquelle nous avons choisi 30 minutes plutôt qu'une heure."
+  },
+  {
+    "objection": "Nous avons des horaires différents.",
+    "reponse": "Nous pouvons étudier plusieurs créneaux ou groupes."
+  },
+  {
+    "objection": "Nous avons plusieurs établissements.",
+    "reponse": "GA Coachs peut organiser un déploiement multisite selon les zones couvertes."
+  },
+  {
+    "objection": "Que se passe-t-il si notre coach est absent ?",
+    "reponse": "L'avantage d'un réseau est justement de ne pas faire dépendre tout le programme d'un seul intervenant. Lorsque les conditions le permettent, GA Coachs organise un remplacement."
+  },
+  {
+    "objection": "Nous ne savons pas si les salariés vont participer.",
+    "reponse": "Nous pouvons commencer progressivement et mesurer la participation avant d'étendre le dispositif."
+  },
+  {
+    "objection": "Ça coûte cher.",
+    "reponse": "Vu autrement : 299 €/mois représente un investissement d'environ 69 €/semaine. Pour 10 participants, cela représente environ 6,90 € par participant et par semaine (base 4,33 semaines/mois). Utilisez le calculateur ci-dessus pour votre propre effectif."
+  },
+  {
+    "objection": "Nous avons déjà un CSE / programme QVCT.",
+    "reponse": "BOOST peut venir compléter les actions déjà existantes."
+  },
+  {
+    "objection": "Nous avons déjà un coach.",
+    "reponse": "Très bien. GA Coachs peut devenir pertinent lorsque l'entreprise souhaite sécuriser la continuité, développer plusieurs sites, ajouter des services ou structurer davantage son programme."
+  },
+  {
+    "objection": "Et si personne ne participe à BOOST 30 ?",
+    "reponse": "C'est précisément pour cela que BOOST 30 existe. Le test permet d'observer l'adhésion avant de mettre en place un abonnement."
+  },
+  {
+    "objection": "Est-ce que BOOST 30 est vraiment offert ?",
+    "reponse": "Oui, BOOST 30 est offert pour les entreprises éligibles dans les zones actuellement couvertes par GA Coachs. Aucun abonnement n'est automatiquement déclenché après le test."
+  },
+  {
+    "objection": "Faut-il signer un contrat avant BOOST 30 ?",
+    "reponse": "Non. BOOST 30 est une étape de découverte, sans engagement."
+  },
+  {
+    "objection": "Est-ce que BOOST 30 est un bilan médical ?",
+    "reponse": "Non. BOOST 30 n'est pas un diagnostic médical. C'est un test opérationnel du programme et un retour sur son intégration dans l'entreprise."
+  },
+  {
+    "objection": "Combien de salariés peuvent participer à BOOST 30 ?",
+    "reponse": "Le nombre dépend de l'espace disponible et du contexte de l'entreprise. Nous validons cela avant l'intervention."
+  },
+  {
+    "objection": "Est-ce que vous nous forcez à signer après BOOST 30 ?",
+    "reponse": "Non. Nous pouvons vous faire une recommandation et une proposition, mais la décision reste entièrement à votre entreprise."
+  }
+]

@@ -1,0 +1,81 @@
+/* DA "jeu" commune à tout le site : niveaux, barres d'XP, boutons et cartes en relief.
+   Chargé en dernier ; le préfixe "body :is(.rb, .proto)" l'emporte sur les styles de chaque page. */
+:root { --g-edge: #C3D3F6; --g-edge-dark: #1F55C9; --g-glow: rgba(124, 196, 255, .55); }
+
+/* Texte et sélection */
+::selection { background: #1D5BD8; color: #fff; }
+html { scrollbar-color: #1D5BD8 #0B1E3D; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: #0B1E3D; }
+::-webkit-scrollbar-thumb { background: #1D5BD8; border: 3px solid #0B1E3D; border-radius: 8px; }
+
+/* Focus clavier : cadre lumineux net */
+body :is(a, button, summary, input, select, textarea, [tabindex]):focus-visible { outline: 3px solid #7CC4FF; outline-offset: 3px; border-radius: 10px; }
+
+/* Étiquettes (eyebrow) : badge de niveau */
+body :is(.rb, .proto) .eyebrow { border-radius: 8px; border: 2px solid #1D5BD8; border-bottom-width: 4px; background: #fff; color: #0B1E3D; font-family: var(--display); font-weight: 700; font-size: 12.5px; letter-spacing: .02em; text-transform: none; padding: 5px 12px 4px; display: block; width: fit-content; }
+body :is(.rb, .proto) .eyebrow::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 8px; background: #1D5BD8; box-shadow: 0 0 0 2px rgba(29, 91, 216, .25); transform: translateY(-1px); }
+body :is(.rb, .proto) :is(.navy, .phero, .final, .hero) .eyebrow,
+body :is(.rb, .proto) .eyebrow-dark { background: rgba(11, 30, 61, .6); color: #BFE2FF; border-color: #7CC4FF; }
+body :is(.rb, .proto) :is(.navy, .phero, .final, .hero) .eyebrow::before,
+body :is(.rb, .proto) .eyebrow-dark::before { background: #7CC4FF; box-shadow: 0 0 0 2px rgba(124, 196, 255, .3); }
+
+/* Titres : un peu plus carrés */
+body :is(.rb, .proto) .h2 { letter-spacing: -.005em; }
+
+/* Boutons : touches en relief, appui visible */
+body :is(.rb, .proto) .btn { border-radius: 14px; font-family: var(--display); font-weight: 700; letter-spacing: .02em; transition: transform .12s ease, box-shadow .12s ease, background .12s ease; }
+body :is(.rb, .proto) .btn-primary { box-shadow: 0 6px 0 var(--blue-deep), 0 14px 24px -12px var(--g-glow); }
+body :is(.rb, .proto) .btn-primary:hover { transform: translateY(2px); box-shadow: 0 4px 0 var(--blue-deep), 0 10px 20px -12px var(--g-glow); }
+body :is(.rb, .proto) .btn-primary:active { transform: translateY(6px); box-shadow: 0 0 0 var(--blue-deep); }
+body :is(.rb, .proto) .btn-ghost { border: 2px solid #1D5BD8; border-bottom-width: 5px; background: #fff; color: #0B1E3D; }
+body :is(.rb, .proto) .btn-ghost:hover { transform: translateY(2px); border-bottom-width: 3px; }
+body :is(.rb, .proto) .btn-ghost:active { transform: translateY(4px); border-bottom-width: 1px; }
+body :is(.rb, .proto) .btn-final { border-radius: 14px; font-family: var(--display); font-weight: 700; }
+
+/* Cartes : relief et survol */
+body :is(.rb, .proto) .tile { border-radius: 18px; border: 2px solid var(--g-edge); border-bottom-width: 6px; transition: transform .15s ease, border-color .15s ease; }
+body :is(.rb, .proto) a.tile:hover, body :is(.rb, .proto) .tile:hover { transform: translateY(-3px); border-color: #1D5BD8; }
+body :is(.rb, .proto) .tile:active { transform: translateY(1px); }
+body :is(.rb, .proto) :is(.navy, .phero, .final) .tile { border-color: rgba(124, 196, 255, .35); }
+
+/* Pastilles et choix */
+body :is(.rb, .proto) .chip, body :is(.rb, .proto) .chip-link { border-radius: 12px; border: 2px solid var(--g-edge); border-bottom-width: 4px; font-family: var(--display); font-weight: 700; }
+body :is(.rb, .proto) .chip:hover, body :is(.rb, .proto) .chip-link:hover { border-color: #1D5BD8; transform: translateY(-2px); }
+body :is(.rb, .proto) .chip:active { transform: translateY(2px); border-bottom-width: 2px; }
+body :is(.rb, .proto) .chip[aria-pressed="true"], body :is(.rb, .proto) .chip.on, body :is(.rb, .proto) .chip.is-on { background: #1D5BD8; border-color: #0B1E3D; color: #fff; }
+
+/* Questions fréquentes : "quêtes" à débloquer */
+body :is(.rb, .proto) .faq-item { border-radius: 14px; border: 2px solid var(--g-edge); border-bottom-width: 5px; }
+body :is(.rb, .proto) .faq-item:hover { border-color: #1D5BD8; }
+body :is(.rb, .proto) .faq-item[open] { border-color: #1D5BD8; box-shadow: 0 0 0 3px var(--g-glow); }
+body :is(.rb, .proto) .faq-item summary::after { border-radius: 8px; background: #1D5BD8; color: #fff; width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
+
+/* Champs de formulaire */
+body :is(.rb, .proto) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea) { border: 2px solid var(--g-edge); border-bottom-width: 4px; border-radius: 12px; }
+body :is(.rb, .proto) :is(input, select, textarea):focus { border-color: #1D5BD8; }
+
+/* Fonds : grille discrète sur les bandes claires */
+body :is(.rb, .proto) .band:not(.navy) { background-image: radial-gradient(rgba(29, 91, 216, .10) 1.2px, transparent 1.4px); background-size: 22px 22px; }
+
+/* Barre d'XP de lecture, fixée en haut de page (ajoutée par le script du gabarit) */
+.g-xp { position: fixed; inset: 0 0 auto 0; height: 6px; z-index: 2147483000; pointer-events: none; background: rgba(11, 30, 61, .55); }
+.g-xp i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, #1D5BD8 0 calc(5% - 3px), transparent calc(5% - 3px) 5%), linear-gradient(90deg, #1D5BD8, #7CC4FF); box-shadow: 0 0 10px var(--g-glow); }
+@media (prefers-reduced-motion: no-preference) { .g-xp i { transition: width .12s linear; } }
+@media (prefers-reduced-motion: reduce) {
+  body :is(.rb, .proto) :is(.btn, .tile, .chip, .chip-link, .faq-item) { transition: none; }
+  body :is(.rb, .proto) :is(a.tile, .tile):hover { transform: none; }
+}
+
+/* Badge de niveau des coachs (1 à 5) */
+.lv-badge { position: absolute; top: 10px; left: 10px; z-index: 2; display: inline-flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 9px 7px; border-radius: 10px; background: #0B1E3D; border: 2px solid #7CC4FF; border-bottom-width: 4px; color: #fff; line-height: 1; box-shadow: 0 0 0 2px rgba(11, 30, 61, .35); }
+.lv-badge b { font-family: var(--display); font-size: 12px; font-weight: 700; letter-spacing: .02em; }
+.lv-pips { display: flex; gap: 3px; }
+.lv-pips i { display: block; width: 8px; height: 8px; background: rgba(124, 196, 255, .25); border-radius: 2px; }
+.lv-pips i.on { background: #7CC4FF; box-shadow: 0 0 6px rgba(124, 196, 255, .8); }
+.lv-badge--l { position: static; margin-top: 12px; padding: 8px 14px 9px; }
+.lv-badge--l b { font-size: 14px; }
+.lv-badge--l .lv-pips i { width: 12px; height: 12px; }
+
+/* Mobile : pas de badge de niveau sur les cartes coach (photo trop petite) */
+@media (max-width: 760px) { .lv-badge:not(.lv-badge--l) { display: none; } }

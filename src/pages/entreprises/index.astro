@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EntreprisesContenu from '../../components/proto/EntreprisesContenu.astro';
+import '../../styles/proto-entreprises.css';
+
+
+const pertesGains = [
+  {
+    perte: "Vous restez dans les 83% d'entreprises françaises qui ne proposent aucune offre sportive, pendant que la concurrence commence à s'en servir comme argument de recrutement.",
+    gain: "Une vraie offre bien-être à mettre en avant auprès des candidats, pas juste une salle de sport vide dans la plaquette RH.",
+  },
+  {
+    perte: "Les TMS restent la première cause de maladie professionnelle reconnue en France, sans action de prévention active dans vos équipes.",
+    gain: "Des collaborateurs qui bougent régulièrement, avec un travail préventif sur les douleurs les plus fréquentes (dos, épaules, nuque).",
+  },
+  {
+    perte: "Des journées de travail perdues année après année, sans qu'aucun levier concret ne soit activé pour les réduire.",
+    gain: "Un levier de prévention régulier, dont vous suivez la participation et la satisfaction dès les premières semaines de mise en place.",
+  },
+  {
+    perte: "Des collaborateurs qui n'ont, la plupart du temps, aucun moment collectif hors réunions de travail.",
+    gain: "Un vrai temps de cohésion partagé, le seul moment où toute une équipe bouge ensemble, sans hiérarchie de sujet.",
+  },
+  {
+    perte: "Aucun temps dégagé pour la santé de vos équipes : entre les réunions et la charge de travail, ça finit toujours par passer après.",
+    gain: "30 minutes seulement, directement dans vos locaux, sans vestiaire ni trajet à prévoir. Le format pensé pour tenir dans un agenda réel.",
+  },
+  {
+    perte: "L'absentéisme pèse sur toute l'organisation : remplacements, retards, charge reportée sur les collègues.",
+    gain: "Une action de prévention concrète, de 299€ à 999€/mois pour toute l'équipe, à comparer à vos propres coûts d'absence.",
+  },
+];
+import offres from '../../data/boost-offres.json';
+import boostSemaine from '../../data/boost-semaine.json';
+import faq from '../../data/boost-faq.json';
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'BOOST ENTREPRISE™',
+    alternateName: 'Coaching entreprise',
+    serviceType: 'Coaching sportif en entreprise',
+    provider: { '@type': 'Organization', name: 'GA Coachs' },
+    areaServed: ['Orléans', 'Olivet', 'Saran', 'Fleury-les-Aubrais'],
+    description: "BOOST ENTREPRISE™ : programme de coaching sportif en entreprise de GA Coachs, séances de 30 minutes, 1 à 2 fois par semaine, sur site.",
+    offers: offres.map((o) => ({
+      '@type': 'Offer',
+      name: o.nom,
+      price: o.prix.match(/\d+/)?.[0] ?? '',
+      priceCurrency: 'EUR',
+      description: `${o.frequence}, ${o.duree}`,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+      { '@type': 'ListItem', position: 2, name: 'BOOST ENTREPRISE™', item: 'https://gacoachs.fr/entreprises/' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
+  },
+];
+---
+<BaseLayout
+  title="Coach sportif en entreprise à Orléans · BOOST ENTREPRISE™"
+  description="Coaching entreprise, coaching sportif en entreprise : BOOST ENTREPRISE™ améliore la santé et la cohésion de vos équipes. Par GA Coachs, partenaire Basic-Fit."
+  path="/entreprises/"
+  jsonLd={jsonLd}
+  image="/images/og-entreprises.jpg"
+  stickyCtaHref="#e-form"
+  stickyCtaLabel="Réserver mon BOOST 30 offert"
+>
+<div class="proto proto-ent">
+  <EntreprisesContenu />
+</div>
+<script type="application/json" id="ent-data" set:html={JSON.stringify({ semaine: boostSemaine, offres: offres.map((o) => ({ nom: o.nom, prix: parseInt(o.prix, 10), f: parseInt(o.frequence, 10) })) })} />
+</BaseLayout>
+
+<style is:global>
+  .proto-ent .fmt-more { display: inline-block; margin-top: 14px; font-size: 14px; font-weight: 700; color: var(--blue-deep); }
+  .proto-ent .fmt-more:hover { text-decoration: underline; text-underline-offset: 3px; }
+</style>
+
+<script>
+  const $ = (id: string) => document.getElementById(id) as HTMLElement;
+  const D = JSON.parse(($('ent-data') as HTMLElement).textContent || '{}');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fr = (v: number, d: number) => v.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+  // Sans action / avec BOOST : cartes qui se retournent
+  const pgGrid = $('ePg'), pgBtns = document.querySelectorAll<HTMLButtonElement>('.proto-ent .seg2 button');
+  let pgT: number[] = [];
+  const cards = () => Array.from(pgGrid.querySelectorAll<HTMLElement>('.pg-card'));
+  const flip = (b: HTMLElement, on: boolean) => { b.classList.toggle('is-flipped', on); b.setAttribute('aria-pressed', String(on)); };
+  const sync = () => { const n = pgGrid.querySelectorAll('.pg-card.is-flipped').length; pgBtns.forEach((bt) => bt.setAttribute('aria-pressed', String(bt.dataset.side === 'avec' ? n === cards().length : n === 0))); };
+  const stopPg = () => { pgT.forEach(clearTimeout); pgT = []; };
+  cards().forEach((b) => b.addEventListener('click', () => { flip(b, !b.classList.contains('is-flipped')); sync(); stopPg(); }));
+  pgBtns.forEach((bt) => bt.addEventListener('click', () => { stopPg(); const on = bt.dataset.side === 'avec'; cards().forEach((c, i) => pgT.push(window.setTimeout(() => { flip(c, on); sync(); }, i * 110))); }));
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { io.disconnect(); cards().forEach((c, i) => pgT.push(window.setTimeout(() => { flip(c, true); sync(); }, 1900 + i * 260))); } }), { threshold: 0.35 });
+    io.observe(pgGrid);
+  }
+
+  // BOOST 5/7 : la semaine jour par jour
+  const week = $('eWeek'), dayCard = $('eDay');
+  let dayIdx = 0, dayAuto: number | null = null, touched = false;
+  const days = Array.from(week.querySelectorAll<HTMLButtonElement>('button.day'));
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' } as any)[c]);
+  function showDay(i: number) {
+    dayIdx = i; const d = D.semaine[i];
+    days.forEach((b, k) => b.setAttribute('aria-selected', String(k === i)));
+    dayCard.innerHTML = `<div class="k">${esc(d.jour.toUpperCase())} · ${esc(d.nom.toUpperCase())}</div><h3>${esc(d.accroche)}</h3><p>${esc(d.contenu)}</p><p class="day-obj"><b>Objectif :</b> ${esc(d.objectif)}</p>`;
+    dayCard.classList.remove('swap'); void dayCard.offsetWidth; dayCard.classList.add('swap');
+  }
+  const stopDays = () => { if (dayAuto) clearInterval(dayAuto); dayAuto = null; };
+  days.forEach((b, i) => b.addEventListener('click', () => { touched = true; stopDays(); showDay(i); }));
+  if (!reduce && 'IntersectionObserver' in window) {
+    new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting && !touched) { stopDays(); dayAuto = window.setInterval(() => showDay((dayIdx + 1) % D.semaine.length), 3200); } else stopDays(); }), { threshold: 0.3 }).observe(week);
+  }
+
+  // FAQ : recherche et « voir plus »
+  const faqList = $('faqList'), faqMore = $('faqMore') as HTMLButtonElement, faqSearch = $('faqSearch') as HTMLInputElement, FIRST = 8;
+  let faqAll = false;
+  const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  function filterFaq() {
+    const q = norm(faqSearch.value.trim()); let shown = 0; const items = Array.from(faqList.children) as HTMLElement[];
+    items.forEach((d, i) => { const ok = q ? norm(d.dataset.text || '').includes(q) : (faqAll || i < FIRST); d.hidden = !ok; if (ok) shown++; });
+    faqMore.hidden = !!q || faqAll;
+    faqMore.textContent = `Voir les ${items.length - FIRST} autres questions`;
+    $('faqCount').textContent = q ? `${shown} question${shown > 1 ? 's trouvées' : ' trouvée'}` : `${items.length} questions`;
+  }
+  faqSearch.addEventListener('input', filterFaq);
+  faqMore.addEventListener('click', () => { faqAll = true; filterFaq(); });
+  filterFaq();
+
+  // Simulateur
+  const host = $('simEntPage');
+  if (host) {
+    const forms = D.offres; const st = { n: 10, f: 1 }; const min = 5, max = 50;
+    const range = host.querySelector<HTMLInputElement>('.bsim-range')!, nOut = host.querySelector<HTMLElement>('[data-o="n"]')!;
+    const people = host.querySelectorAll<SVGElement>('.crowd svg');
+    const oa = host.querySelector<HTMLElement>('[data-o="a"]')!, ob = host.querySelector<HTMLElement>('[data-o="b"]')!, oc = host.querySelector<HTMLElement>('[data-o="c"]')!, ol = host.querySelector<HTMLElement>('[data-o="live"]')!;
+    const shown: any = { a: 0, b: 0, c: 0 }; let raf = 0;
+    const paint = () => { oa.textContent = ol.textContent = fr(shown.a, 2); ob.textContent = fr(shown.b, 2) + ' €'; oc.textContent = fr(shown.c, 2) + ' €'; };
+    function update(instant: boolean) {
+      const F = forms[st.f], per = F.prix / (F.f * 4.33), tgt: any = { a: F.prix / st.n, b: per, c: per / st.n }, from = { ...shown };
+      cancelAnimationFrame(raf);
+      if (instant || reduce) { Object.assign(shown, tgt); paint(); return; }
+      let t0 = 0;
+      const step = (now: number) => { if (!t0) t0 = now; const p = Math.min(1, (now - t0) / 450), e = 1 - Math.pow(1 - p, 3); for (const k in tgt) shown[k] = from[k] + (tgt[k] - from[k]) * e; paint(); if (p < 1) raf = requestAnimationFrame(step); };
+      raf = requestAnimationFrame(step);
+    }
+    function setN(n: number, init = false) {
+      n = Math.max(min, Math.min(max, Math.round(n)));
+      st.n = n; range.value = String(n); range.style.setProperty('--p', (((n - min) / (max - min)) * 100).toFixed(1) + '%'); nOut.textContent = String(n);
+      if (!init && !reduce) { nOut.classList.remove('bump'); void nOut.offsetWidth; nOut.classList.add('bump'); }
+      people.forEach((p, i) => p.classList.toggle('on', i < n));
+      update(init);
+    }
+    range.addEventListener('input', () => setN(parseInt(range.value, 10)));
+    host.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      const s = t.closest<HTMLElement>('.bsim-step'); if (s) { setN(st.n + parseInt(s.dataset.d || '0', 10)); return; }
+      const f = t.closest<HTMLElement>('.bsim-form');
+      if (f) { f.parentElement!.querySelectorAll('.bsim-form').forEach((x) => x.setAttribute('aria-checked', String(x === f))); st.f = parseInt(f.dataset.i || '0', 10); update(false); }
+    });
+    setN(st.n, true);
+    // demande de proposition : envoyée dans le formulaire Netlify « boost-lead »
+    const lb = host.querySelector<HTMLFormElement>('form.lead-box');
+    lb?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const err = lb.querySelector<HTMLElement>('.lb-err')!, ok = lb.querySelector<HTMLElement>('.lb-ok')!;
+      const email = (lb.elements.namedItem('email') as HTMLInputElement).value.trim(), ent = (lb.elements.namedItem('entreprise') as HTMLInputElement).value.trim();
+      if (!email || !ent || !/^\S+@\S+\.\S+$/.test(email)) { err.hidden = false; err.textContent = 'Merci d\'indiquer un email professionnel valide et le nom de votre entreprise.'; return; }
+      err.hidden = true;
+      const body = new URLSearchParams({ 'form-name': 'boost-lead', entreprise: ent, email, nom: '-', prenom: '-', salaries: '', participants_attendus: String(st.n), message: `Simulateur : ${st.n} participants, formule ${forms[st.f].nom}` });
+      try { await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() }); } catch (_) { /* rien */ }
+      lb.querySelector<HTMLElement>('.lb-fields')!.hidden = true;
+      ok.hidden = false; ok.textContent = `Merci ! Nous revenons vers vous rapidement avec une proposition pour ${ent} : ${st.n} participants en ${forms[st.f].nom}.`; ok.focus();
+    });
+  }
+
+  // Chrono 00:00 → 30:00
+  const tOut = $('eTimer');
+  if (tOut && !reduce) {
+    tOut.textContent = '00:00'; let t0 = 0;
+    const step = (now: number) => { if (!t0) t0 = now; const p = Math.min(1, (now - t0) / 2400), e = 1 - Math.pow(1 - p, 3), s = Math.round(e * 1800); tOut.textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; if (p < 1) requestAnimationFrame(step); };
+    setTimeout(() => requestAnimationFrame(step), 500);
+  }
+
+  // Image BOOST qui suit la souris
+  document.querySelectorAll<HTMLElement>('.proto-ent [data-tilt]').forEach((t) => {
+    if (reduce) return;
+    t.addEventListener('pointermove', (e) => { if (e.pointerType !== 'mouse') return; const r = t.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5; t.style.setProperty('--ry', (x * 10).toFixed(2) + 'deg'); t.style.setProperty('--rx', (-y * 8).toFixed(2) + 'deg'); });
+    t.addEventListener('pointerleave', () => { t.style.setProperty('--ry', '0deg'); t.style.setProperty('--rx', '0deg'); });
+  });
+
+  // Sous-menu qui suit la lecture
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('#eSubnav a[href^="#e-"]:not(.subnav-cta)'));
+  if ('IntersectionObserver' in window) {
+    const spy = new IntersectionObserver((es) => es.forEach((en) => {
+      if (!en.isIntersecting) return;
+      links.forEach((a) => { const on = a.getAttribute('href') === '#' + en.target.id; a.classList.toggle('is-on', on); const box = a.parentElement!; if (on && box.scrollWidth > box.clientWidth) box.scrollTo({ left: a.offsetLeft - 16, behavior: 'smooth' }); });
+    }), { rootMargin: '-35% 0px -60% 0px' });
+    links.forEach((a) => { const t = document.getElementById(a.getAttribute('href')!.slice(1)); if (t) spy.observe(t); });
+  }
+</script>

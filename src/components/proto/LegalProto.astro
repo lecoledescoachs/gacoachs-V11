@@ -1,0 +1,15 @@
+---
+import '../../styles/proto-pages.css';
+const { titre, slug } = Astro.props;
+const TABS = [['mentions-legales', 'Mentions légales'], ['cgv', 'CGV'], ['cgu', 'CGU'], ['confidentialite', 'Confidentialité']];
+---
+<div class="proto">
+<section class="phero compact lg-hero"><div class="lightning-bg" aria-hidden="true"></div><div class="inner"><nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span aria-hidden="true">›</span><span>{titre}</span></nav><div class="phero-solo"><span class="eyebrow eyebrow-dark">Informations légales</span><h1>{titre}</h1><nav class="lg-tabs" aria-label="Pages légales">{TABS.map((t) => <a href={`/${t[0]}/`} aria-current={t[0] === slug ? 'page' : undefined}>{t[1]}</a>)}</nav></div></div></section>
+<section class="sec lg-sec"><div class="inner lg-lay"><div class="lg-body"><slot /></div><div role="note" class="lg-toc"><div class="ar-toc-in"><p class="ar-tk">Sur cette page</p><nav id="lgToc" aria-label="Sommaire"></nav></div></div></div></section>
+</div>
+<script>
+  const hs = Array.from(document.querySelectorAll<HTMLElement>('.lg-body h2'));
+  const toc = document.getElementById('lgToc');
+  hs.forEach((h, i) => { if (!h.id) h.id = 'lg-' + i; const a = document.createElement('a'); a.href = '#' + h.id; a.textContent = h.textContent; toc?.appendChild(a); });
+  if (hs.length < 3) document.querySelector('.lg-lay')?.classList.add('no-toc');
+</script>

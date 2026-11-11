@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LegalProto from '../../components/proto/LegalProto.astro';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+    { '@type': 'ListItem', position: 2, name: 'CGU', item: 'https://gacoachs.fr/cgu/' },
+  ],
+};
+---
+<BaseLayout
+  title="Conditions Générales d'Utilisation · GA Coachs"
+  description="Conditions générales d'utilisation de gacoachs.fr : accès au site, Score Santé, espace coach, contenus et responsabilités de chacun."
+  path="/cgu/"
+  jsonLd={jsonLd}
+>
+
+  <LegalProto titre="Conditions Générales d'Utilisation" slug="cgu">
+
+
+      <p class="legal__intro">Dernière mise à jour : 21 octobre 2026.</p>
+
+      <h2>1. Objet</h2>
+      <p>
+        Les présentes conditions générales d'utilisation (CGU) régissent l'accès et l'utilisation du site
+        gacoachs.fr, édité par Garry Babaud (EI), sous le nom commercial GA Coachs (voir la page
+        <a href="/mentions-legales/">Mentions légales</a>). Toute navigation sur le site implique l'acceptation
+        pleine et entière des présentes CGU.
+      </p>
+
+      <h2>2. Accès au site</h2>
+      <p>
+        Le site est accessible gratuitement à tout utilisateur disposant d'un accès à Internet. Tous les frais
+        nécessaires à cet accès (matériel, connexion) sont à la charge exclusive de l'utilisateur. GA Coachs met
+        en œuvre les moyens raisonnables pour assurer l'accès au site, sans garantie de disponibilité continue :
+        le site peut être interrompu pour maintenance, mise à jour, ou pour toute cause indépendante de sa volonté.
+      </p>
+
+      <h2>3. Contenu du site</h2>
+      <p>
+        Le site présente le réseau GA Coachs, ses coachs sportifs partenaires, ses salles partenaires, ses
+        expertises, ses outils gratuits (Score Santé, programme personnalisé) et la gamme BOOST destinée aux entreprises,
+        clubs et structures. Les informations diffusées (présentations des coachs,
+        expertises, tarifs indicatifs) sont fournies à titre informatif et peuvent être modifiées sans préavis.
+        GA Coachs s'efforce d'assurer l'exactitude des informations publiées mais ne peut garantir qu'elles
+        soient exemptes d'erreur à tout moment.
+      </p>
+      <p>
+        Les contenus santé et les outils du site (articles, Score Santé, âge métabolique estimé, programme personnalisé)
+        fournissent des informations générales sur l'activité physique, calculées à partir de vos seules réponses. Ils ne
+        constituent ni un diagnostic, ni un avis médical, et ne remplacent pas une consultation. En cas de douleur, de
+        maladie ou de doute, consultez votre médecin avant de commencer ou de reprendre une activité physique.
+      </p>
+
+      <h2>4. Rôle d'intermédiaire de mise en relation</h2>
+      <p>
+        Concernant le coaching sportif individuel, le site permet de découvrir les coachs du réseau et de les
+        contacter. GA Coachs agit en tant qu'intermédiaire de mise en relation ; la prestation de coaching elle-même
+        est contractée directement entre l'utilisateur et le coach sportif indépendant choisi. Voir le détail de
+        ce fonctionnement dans les <a href="/cgv/">Conditions Générales de Vente</a>.
+      </p>
+
+      <h2>5. Formulaires et prise de contact</h2>
+      <p>
+        Les formulaires du site (contact, demande BOOST Entreprise, mise en relation avec un coach) permettent
+        à l'utilisateur de transmettre une demande à GA Coachs. La transmission d'un formulaire n'emporte pas
+        formation automatique d'un contrat de prestation. Le traitement des données transmises via ces
+        formulaires est décrit dans la <a href="/confidentialite/">Politique de confidentialité</a>.
+      </p>
+
+      <h2>6. Propriété intellectuelle</h2>
+      <p>
+        L'ensemble des éléments du site (textes, structure, mise en page, éléments graphiques, marque GA Coachs)
+        est protégé par le droit de la propriété intellectuelle et demeure la propriété exclusive de GA Coachs,
+        sauf mention contraire. Toute reproduction, représentation, modification ou exploitation totale ou
+        partielle du site, par quelque procédé que ce soit, sans autorisation préalable écrite, est interdite et
+        constitutive d'une contrefaçon.
+      </p>
+
+      <h2>7. Liens hypertextes</h2>
+      <p>
+        Le site peut contenir des liens vers des sites tiers (partenaires, réseaux sociaux, salles Basic-Fit).
+        GA Coachs n'exerce aucun contrôle sur le contenu de ces sites tiers et décline toute responsabilité
+        quant à leur contenu ou leur fonctionnement.
+      </p>
+
+      <h2>8. Responsabilité</h2>
+      <p>
+        GA Coachs ne saurait être tenu responsable des dommages directs ou indirects résultant de l'utilisation
+        du site, d'une interruption de service, d'un dysfonctionnement technique, ou d'un accès non autorisé aux
+        données par un tiers, dans les limites autorisées par la loi applicable.
+      </p>
+
+      <h2>9. Données personnelles et cookies</h2>
+      <p>
+        Le traitement des données personnelles collectées sur le site (formulaires, Score Santé, programme
+        personnalisé) ainsi que l'usage de l'outil de mesure d'audience Google Analytics, activé uniquement avec
+        votre accord, sont décrits dans la
+        <a href="/confidentialite/">Politique de confidentialité</a>.
+      </p>
+
+      <h2>10. Espaces réservés</h2>
+      <p>
+        L'espace coach et l'espace d'administration sont réservés aux personnes disposant d'identifiants. Ces
+        identifiants sont personnels et confidentiels : leur titulaire est responsable de leur usage et doit signaler
+        sans délai toute utilisation non autorisée.
+      </p>
+
+      <h2>11. Modification des CGU</h2>
+      <p>
+        GA Coachs se réserve le droit de modifier les présentes CGU à tout moment, notamment pour se conformer à
+        toute évolution législative, réglementaire ou technique. Les CGU applicables sont celles en vigueur à la
+        date de consultation du site.
+      </p>
+
+      <h2>12. Droit applicable et juridiction</h2>
+      <p>
+        Les présentes CGU sont soumises au droit français. En cas de litige, et à défaut d'accord amiable, les
+        tribunaux compétents sont ceux du ressort du siège de GA Coachs (La Chapelle-Saint-Mesmin, Loiret), sous
+        réserve des règles de compétence impératives applicables aux consommateurs.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Pour toute question relative aux présentes CGU :
+        <a href="mailto:ga.coachs@gmail.com">ga.coachs@gmail.com</a>.
+      </p>
+    </LegalProto>
+
+</BaseLayout>
+
+<style>
+  .legal { max-width: 72ch; }
+  .legal__warning {
+    margin-top: 20px;
+    padding: 18px 20px;
+    background: var(--ice);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--navy);
+    line-height: 1.6;
+  }
+  .legal h2 { margin-top: 32px; font-size: 18px; }
+  .legal p { margin-top: 12px; color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+  .legal a { color: var(--blue); text-decoration: underline; }
+</style>

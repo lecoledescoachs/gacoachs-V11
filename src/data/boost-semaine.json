@@ -1,0 +1,42 @@
+[
+  {
+    "jour": "Lundi",
+    "code": "LUN",
+    "nom": "BOOST Énergie",
+    "accroche": "On démarre la semaine en mouvement.",
+    "contenu": "Mobilisation générale, activation, exercices dynamiques et activité cardiovasculaire adaptée.",
+    "objectif": "Remettre le corps en mouvement et commencer la semaine avec de l'énergie."
+  },
+  {
+    "jour": "Mardi",
+    "code": "MAR",
+    "nom": "BOOST Mobilité",
+    "accroche": "On redonne du mouvement au corps.",
+    "contenu": "Mobilité des épaules, hanches, colonne, chevilles et mouvements adaptés aux contraintes professionnelles.",
+    "objectif": "Bouger davantage et travailler les amplitudes de mouvement."
+  },
+  {
+    "jour": "Mercredi",
+    "code": "MER",
+    "nom": "BOOST Renforcement",
+    "accroche": "Un corps plus fort pour le quotidien.",
+    "contenu": "Exercices simples au poids du corps ou avec petit matériel.",
+    "objectif": "Entretenir les principales qualités musculaires utiles au quotidien."
+  },
+  {
+    "jour": "Jeudi",
+    "code": "JEU",
+    "nom": "BOOST Décompression",
+    "accroche": "30 minutes pour relâcher la pression physique.",
+    "contenu": "Mobilité douce, mouvements contrôlés, respiration et récupération active.",
+    "objectif": "Relâcher les tensions physiques accumulées dans la semaine."
+  },
+  {
+    "jour": "Vendredi",
+    "code": "VEN",
+    "nom": "BOOST Team",
+    "accroche": "On termine ensemble.",
+    "contenu": "Challenges accessibles, jeux, exercices en équipe et activité collective.",
+    "objectif": "Mouvement, plaisir et cohésion pour clôturer la semaine."
+  }
+]

@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MerciProto from '../../components/proto/MerciProto.astro';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+    { '@type': 'ListItem', position: 2, name: 'Message envoyé', item: 'https://gacoachs.fr/merci/' },
+  ],
+};
+---
+<BaseLayout
+  noindex={true}
+  title="Message envoyé · GA Coachs"
+  description="Ton message a bien été envoyé à GA Coachs."
+  path="/merci/"
+  stickyCtaHref={false}
+  jsonLd={jsonLd}
+>
+  <MerciProto v="" />
+</BaseLayout>
+
+
+<script define:vars={{ evenement: 'contact_envoye' }}>
+  if (window.trackConversion) window.trackConversion(evenement);
+</script>
+
+
+

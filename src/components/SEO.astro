@@ -1,0 +1,58 @@
+---
+import fs from 'node:fs';
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  jsonLd?: Record<string, any> | Record<string, any>[];
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  noindex?: boolean;
+}
+const { title, description, path = '/', jsonLd, image, imageWidth = 1200, imageHeight = 630, noindex = false } = Astro.props;
+const siteUrl = 'https://gacoachs.fr';
+const canonical = new URL(path, siteUrl).toString();
+// Titre court pour Google (environ 60 caractères affichés) : la marque n'est ajoutée que si elle tient.
+const baseTitle = title.replace(/\s*[·|]\s*GA Coachs\s*$/, '').trim();
+// Chaque titre doit contenir « coach sportif » : sinon la signature devient « Coach sportif GA ».
+const aCoach = /coach sportif/i.test(baseTitle);
+const fullTitle = !aCoach && `${baseTitle} | Coach sportif GA`.length <= 64
+  ? `${baseTitle} | Coach sportif GA`
+  : /GA Coachs/.test(baseTitle) || `${baseTitle} | GA Coachs`.length > 60 ? baseTitle : `${baseTitle} | GA Coachs`;
+// Description Google : au-delà de 160 caractères, on coupe à la dernière phrase complète (ou au dernier mot).
+function couper(d: string, max = 160) {
+  const s = d.replace(/\s+/g, ' ').trim();
+  if (s.length <= max) return s;
+  const phrase = s.slice(0, max).match(/^.*[.!?](?=\s|$)/);
+  if (phrase && phrase[0].length >= 90) return phrase[0];
+  return s.slice(0, max - 1).replace(/\s+\S*$/, '').replace(/[,;:]$/, '') + '…';
+}
+const metaDescription = couper(description);
+const ldList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+// Image de partage générée par page (public/images/og/<chemin>.jpg), sinon image par défaut.
+const ogSlug = path === '/' ? 'accueil' : path.replace(/^\/|\/$/g, '').replace(/\//g, '--');
+const ogAuto = !image && fs.existsSync(`${process.cwd()}/public/images/og/${ogSlug}.jpg`) ? `/images/og/${ogSlug}.jpg` : null;
+const shareImage = image ? `${siteUrl}${image}` : ogAuto ? `${siteUrl}${ogAuto}` : `${siteUrl}/images/og-image.jpg`;
+---
+<title>{fullTitle}</title>
+<meta name="description" content={metaDescription} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta property="og:type" content="website" />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={metaDescription} />
+<meta property="og:url" content={canonical} />
+<meta property="og:site_name" content="GA Coachs" />
+<meta property="og:locale" content="fr_FR" />
+<meta property="og:image" content={shareImage} />
+<meta property="og:image:width" content={String(imageWidth)} />
+<meta property="og:image:height" content={String(imageHeight)} />
+<meta property="og:image:alt" content="GA Coachs · Réseau de coachs sportifs partenaire Basic-Fit à Orléans" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={metaDescription} />
+<meta name="twitter:image" content={shareImage} />
+{ldList.map((entry) => (
+  <script type="application/ld+json" set:html={JSON.stringify(entry)} />
+))}

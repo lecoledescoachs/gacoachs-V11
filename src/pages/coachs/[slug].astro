@@ -1,0 +1,549 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InstaCoach from '../../components/InstaCoach.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import { accroches, accrocheDefaut, pointsBilan } from '../../data/bilan-accroches';
+import '../../styles/rebrand.css';
+import coaches from '../../data/coaches.js';
+import articles from '../../data/articles.json';
+import salles from '../../data/salles.json';
+import villes from '../../data/villes.json';
+import expertises from '../../data/expertises.json';
+import sallesCoords from '../../data/salles-coordonnees.json';
+
+export function getStaticPaths() {
+  return coaches.map((c) => ({ params: { slug: c.slug }, props: { coach: c } }));
+}
+
+const { coach } = Astro.props;
+const salle = salles.find((s) => s.slug === coach.salleSlug);
+const dePrenom = /^[aeiouàâéèêëîïôöûü]/i.test(coach.prenom) ? `d'${coach.prenom}` : `de ${coach.prenom}`;
+const aStats = Array.isArray(coach.stats) && coach.stats.length > 0;
+const aVideos = Array.isArray(coach.temoignagesVideo) && coach.temoignagesVideo.length > 0;
+const aAvis = !!coach.avisGoogle || aVideos;
+const villeCoach = salle?.ville ?? 'Orléans';
+const descCoach = coach.descriptionSeo ?? `${coach.prenom} ${coach.nom}, coach sportif à ${villeCoach}${salle ? ` (${salle.nom})` : ''} : ${coach.tags.map((t: string) => t.toLowerCase()).join(', ')}. Commence par un bilan santé avec ${coach.prenom}.`;
+const titreH1 = (coach.titrePersonnalise ?? `${coach.prenom} ${coach.nom}, coach sportif à ${salle?.ville ?? 'Orléans'}`).replace(/\.$/, '');
+const ville = villes.find((v) => v.salleSlugs.includes(coach.salleSlug));
+const expertisesLiees = expertises.filter((e) =>
+  e.sousThemes.some((t: string) => coach.specialites.includes(t) || coach.tags.includes(t))
+);
+const autresCoachsSalle = coaches.filter((c) => c.salleSlug === coach.salleSlug && c.slug !== coach.slug);
+const autresSalles = (coach.autresSalles || []).map((slug: string) => salles.find((s) => s.slug === slug)).filter(Boolean);
+const villesCouvertes = villes.filter((v) => v.salleSlugs.includes(coach.salleSlug) && v.slug !== 'orleans');
+
+const relatedLinks = [
+  ...(salle ? [{ label: salle.nom, href: `/salles/${salle.slug}/`, meta: 'Salle' }] : []),
+  ...autresSalles.map((s: any) => ({ label: s.nom, href: `/salles/${s.slug}/`, meta: 'Intervient aussi ici' })),
+  ...(ville ? [{ label: `Coach sportif à ${ville.nom}`, href: `/coach-sportif-${ville.slug}/`, meta: 'Zone locale' }] : []),
+  ...expertisesLiees.map((e) => ({ label: e.nom, href: `/${e.slug}/`, meta: 'Expertise' })),
+  ...autresCoachsSalle.map((c) => ({ label: `${c.prenom} ${c.nom}`, href: `/coachs/${c.slug}/`, meta: 'Autre coach de la salle' })),
+  ...(coach.siteExterne ? [{ label: coach.siteExterne.label, href: coach.siteExterne.url, meta: 'Autre site' }] : []),
+];
+
+const salleExerciseGym = salle && {
+  '@type': 'ExerciseGym',
+  name: salle.nom,
+  url: `https://gacoachs.fr/salles/${salle.slug}/`,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: salle.adresse.split(',')[0],
+    addressLocality: salle.ville,
+    postalCode: salle.codePostal,
+    addressCountry: 'FR',
+  },
+  ...(sallesCoords[salle.slug] && {
+    geo: { '@type': 'GeoCoordinates', latitude: sallesCoords[salle.slug].lat, longitude: sallesCoords[salle.slug].lng },
+  }),
+  ...(salle.horaires && { openingHours: salle.horaires }),
+};
+
+const jsonLdPerson = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `https://gacoachs.fr/coachs/${coach.slug}/#person`,
+  memberOf: { '@type': 'Organization', '@id': 'https://gacoachs.fr/#organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' },
+  name: `${coach.prenom} ${coach.nom}`,
+  url: `https://gacoachs.fr/coachs/${coach.slug}/`,
+  image: `https://gacoachs.fr${coach.photo}`,
+  jobTitle: coach.role || 'Coach sportif',
+  worksFor: salleExerciseGym || { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' },
+  description: coach.presentation,
+  knowsAbout: coach.specialites,
+  ...(coach.diplomes && coach.diplomes.length > 0
+    ? {
+        hasCredential: coach.diplomes.map((d: string) => ({
+          '@type': 'EducationalOccupationalCredential',
+          credentialCategory: 'certification',
+          name: d,
+        })),
+      }
+    : {}),
+  ...((coach.reseauSocial || coach.siteWeb) ? { sameAs: [coach.siteWeb, coach.reseauSocial?.url].filter(Boolean) } : {}),
+  ...(salleExerciseGym ? { workLocation: salleExerciseGym } : {}),
+  ...(salle ? { areaServed: salle.ville } : {}),
+};
+const acc = accroches[coach.slug] ?? accrocheDefaut;
+const nom = `${coach.prenom} ${coach.nom}`;
+const urlFiche = `https://gacoachs.fr/coachs/${coach.slug}/`;
+const paras = (t?: string) => String(t || '').split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean);
+const formationsNoms: string[] = coach.formationsDetail?.length ? coach.formationsDetail.map((f: any) => f.nom) : (coach.formations || []);
+const ytId = (u: string) => (u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/) || [])[1];
+const videos = (coach.temoignagesVideo || []).map((v: any) => ({ ...v, id: ytId(v.url) })).filter((v: any) => v.id);
+const h1Reste = titreH1.startsWith(nom) ? titreH1.slice(nom.length) : titreH1;
+const h1Nom = titreH1.startsWith(nom) ? nom : '';
+const chips = relatedLinks.filter((l) => l.meta !== 'Autre coach de la salle' && l.meta !== 'Expertise');
+const fmtNote = (n: number) => n.toFixed(1).replace('.', ',');
+// Contenus fournis par le coach (vides tant qu'ils ne sont pas renseignés dans l'admin) : rien ne s'affiche sans eux
+const videoPres = coach.videoPresentation ? ytId(coach.videoPresentation) : null;
+const interview: { q: string; r: string }[] = (coach.interview || []).filter((x: any) => x && x.q && x.r);
+const temEcrits: { prenom: string; texte: string; resultat?: string }[] = (coach.temoignagesEcrits || []).filter((x: any) => x && x.prenom && x.texte && x.accord === true);
+const photosAction: { src: string; alt?: string }[] = (coach.photosAction || []).filter((x: any) => x && x.src);
+const whatsapp = coach.whatsapp ? String(coach.whatsapp).replace(/[^0-9]/g, '').replace(/^0/, '33') : '';
+const signature = coach.signature && coach.signature.nom ? coach.signature : null;
+const Q1 = ['Jamais ou presque', '1 fois par semaine', '2 à 3 fois par semaine', '4 fois par semaine ou plus'];
+const presParas = paras(coach.presentation);
+const accroche = presParas[0] ?? '';
+const lettre = presParas.slice(1);
+const diplome = coach.diplomes?.[0];
+const icSpec = ['target', 'flame', 'dumbbell', 'spark'];
+// Guides du blog les plus proches du profil du coach
+const motsCoach = [...coach.tags, ...coach.specialites].join(' ').toLowerCase().split(/[^a-zàâçéèêëîïôûùüÿ0-9-]+/).filter((m: string) => m.length > 4);
+const expSlugs = expertisesLiees.map((e) => e.slug);
+const guides = (coach.guides?.length ? coach.guides.map((g: string) => (articles as any[]).find((a) => a.slug === g)).filter(Boolean) : (articles as any[])
+  .map((a) => {
+    const txt = `${a.titre} ${a.extrait}`.toLowerCase();
+    const score = motsCoach.reduce((n: number, m: string) => n + (txt.includes(m) ? 2 : 0), 0) + ((a.expertisesLiees || []).some((x: string) => expSlugs.includes(x)) ? 1 : 0);
+    return { a, score };
+  })
+  .filter((x) => x.score > 1)
+  .sort((x, y) => y.score - x.score)
+  .slice(0, 3)
+  .map((x) => x.a));
+const itineraire = salle ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(salle.nom + ', ' + salle.adresse)}` : '';
+const il = 'il';
+const diplomeDe = (d: string) => /^licence/i.test(d) ? `d'une ${d.charAt(0).toLowerCase()}${d.slice(1)}` : /^(DEUG|DEUST|master)/i.test(d) ? `d'un ${d}` : `du ${d}`;
+const faqCoach = [
+  ...(salle ? [{ q: `Où ${coach.prenom} coache-t-${il} ?`, r: `${coach.prenom} accompagne ses clients à ${salle.nom}, ${salle.adresse}.${salle.horaires ? (/24h/.test(salle.horaires) ? ' La salle est ouverte 24h/24 et 7j/7.' : ` Horaires de la salle : ${salle.horaires}.`) : ''}` }] : []),
+  { q: `Comment démarrer avec ${coach.prenom} ?`, r: `Tout commence par le Score Santé avec ${coach.prenom} (2 minutes en ligne), puis un bilan santé d'environ ${coach.dureeBilan ?? '1 heure'} avec ${coach.prenom} : une séance de mise en situation, des analyses (cardio, posture, habitudes de vie) et un retour clair, avant de te proposer un accompagnement.` },
+  { q: `Combien coûte un accompagnement avec ${coach.prenom} ?`, r: `Chaque coach du réseau GA fixe ses propres tarifs. ${coach.prenom} te présente les formules possibles pendant le bilan santé, selon ton objectif et ton rythme.` },
+  { q: `À qui s'adresse l'accompagnement ${dePrenom} ?`, r: coach.publicCible },
+  { q: `${coach.prenom} est-${il} diplômé et assuré ?`, r: `Oui. ${coach.prenom} est titulaire ${coach.diplomes.map(diplomeDe).join(' et ')}${coach.rcPro ? `, d'une assurance RC Pro (n° ${String(coach.rcPro).replace(/^n°\s*/i, '')})` : ''}${coach.cartePro ? ` et d'une carte professionnelle d'éducateur sportif (n° ${coach.cartePro})` : ''}.` },
+  ...(salle ? [{ q: `Faut-il un abonnement Basic-Fit pour s'entraîner avec ${coach.prenom} ?`, r: `Oui : les séances ont lieu à ${salle.nom}, il te faut donc un abonnement ou un pass journée Basic-Fit valide. Le coaching se règle à part, directement avec ${coach.prenom}.` }] : []),
+];
+
+import FormationsCoach from '../../components/FormationsCoach.astro';
+import BandeFormations from '../../components/BandeFormations.astro';
+---
+<BaseLayout
+  title={titreH1.replace(/\.$/, '').length <= 60 ? `${titreH1.replace(/\.$/, '')} · GA Coachs` : `${coach.prenom} ${coach.nom}, coach sportif à ${salle?.ville ?? 'Orléans'}`}
+  description={descCoach}
+  path={`/coachs/${coach.slug}/`}
+  jsonLd={[jsonLdPerson, { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqCoach.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) }]}
+  image={`/images/og-coachs/${coach.slug}.jpg`}
+  imageWidth={1280}
+  imageHeight={720}
+  stickyCtaHref={`/score-sante/?coach=${coach.slug}`}
+  stickyCtaLabel={`Réserver mon bilan avec ${coach.prenom}`}
+>
+<div class="rb">
+  <Icones />
+
+  <section class="ch">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[
+        { label: 'Accueil', href: '/' },
+        { label: 'Trouver un coach', href: '/trouver-un-coach/' },
+        { label: nom, href: `/coachs/${coach.slug}/` },
+      ]} />
+      <div class="ch-grid">
+        <div>
+          <span class="ch-k"><span class="dot" aria-hidden="true"></span>{coach.role && coach.role !== 'Coach sportif' ? coach.role : 'Coach GA'}{salle ? ` · ${salle.nom}` : ''}</span>
+          <h1>{h1Nom && <span class="hl-text">{h1Nom}</span>}{h1Reste}</h1>
+          {signature && <p class="ch-sig"><b>{signature.nom}</b>{signature.phrase && <span>{signature.phrase}</span>}</p>}
+          {accroche && <p class="ch-acc">{accroche}</p>}
+          <div class="cp-tags">{coach.tags.map((t: string) => <span>{t}</span>)}</div>
+          <div class="ctas">
+            <a class="btn btn-primary" href={`/score-sante/?coach=${coach.slug}`}>Réserver mon bilan avec {coach.prenom}</a>
+            <a class="btn btn-glass" href={`/mon-programme/?salle=${coach.salleSlug}`}>💪 Mon programme gratuit</a>
+          </div>
+          {coach.engagement && <p class="ch-eng"><svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg>{coach.engagement}</p>}
+          {whatsapp && <a class="ch-wa" href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(`Bonjour ${coach.prenom}, je viens de ta fiche sur gacoachs.fr, j'ai une question :`)}`} target="_blank" rel="noopener noreferrer" data-track-click="whatsapp_coach">💬 Poser une question à {coach.prenom} sur WhatsApp</a>}
+          <ul class="ch-trust">
+            {diplome && <li><svg class="ic" aria-hidden="true"><use href="#i-medal"></use></svg>{diplome}</li>}
+            {(coach.rcPro || coach.cartePro) && <li><svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg>Assurance et carte pro vérifiées</li>}
+            <li><svg class="ic" aria-hidden="true"><use href="#i-badge"></use></svg>Réseau partenaire Basic-Fit</li>
+          </ul>
+          {(coach.reseauSocial || coach.siteExterne) && (
+            <div class="cp-links">
+              <InstaCoach coach={coach} />
+              {coach.siteExterne && <a class="cp-ext" href={coach.siteExterne.url} target="_blank" rel="noopener noreferrer">{coach.siteExterne.label}</a>}
+            </div>
+          )}
+        </div>
+        <div class="ch-vis">
+          <div class="cp-card"><div class="cp-flip">
+            <img class="face" src={coach.photo} alt={`${nom}, coach sportif à ${villeCoach}`} width="312" height="416" fetchpriority="high" />
+            <span class="bk"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237" loading="lazy" /></span>
+          </div></div>
+          {salle && <span class="ch-float f1"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg></span><span>{salle.ville}<small>{salle.nom}</small></span></span>}
+          {coach.avisGoogle && <a class="ch-float f2" href={coach.avisGoogle.url} target="_blank" rel="noopener noreferrer"><span class="ico"><svg class="ic fill" aria-hidden="true"><use href="#i-star"></use></svg></span><span>{fmtNote(coach.avisGoogle.note)} / 5<small>{coach.avisGoogle.nombreAvis} avis Google</small></span></a>}
+          {diplome && <span class="ch-float f3"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-medal"></use></svg></span><span>{diplome}<small>Diplômé</small></span></span>}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="facts">
+    <div class="inner">
+      <div class="facts-in">
+        {coach.avisGoogle ? (
+          <div class="fact"><span class="ico"><svg class="ic fill" aria-hidden="true"><use href="#i-star"></use></svg></span><div><b>{fmtNote(coach.avisGoogle.note)}/5</b><span>{coach.avisGoogle.nombreAvis} avis Google</span></div></div>
+        ) : (
+          <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-medal"></use></svg></span><div><b>{diplome ?? 'Diplômé'}</b><span>Diplôme</span></div></div>
+        )}
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg></span><div><b>{villeCoach}</b><span>{salle?.nom ?? 'GA Coachs'}</span></div></div>
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-clock"></use></svg></span><div><b>{coach.dureeBilan ?? '1 heure'}</b><span>Bilan santé pour démarrer</span></div></div>
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-spark"></use></svg></span><div><b>{coach.tags[0]}</b><span>Spécialité phare</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  {videoPres && (
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">En vidéo</span>
+        <h2 class="h2">Rencontre {coach.prenom} en 30 secondes.</h2>
+        <button type="button" class="cv-facade" data-yt={videoPres} aria-label={`Lire la vidéo de présentation de ${nom}`}>
+          <img src={`https://i.ytimg.com/vi/${videoPres}/hqdefault.jpg`} alt="" width="480" height="360" loading="lazy" />
+          <span class="cv-play" aria-hidden="true">▶</span>
+        </button>
+      </div>
+    </section>
+  )}
+
+  <section class="sec">
+    <div class="inner">
+      <div class="csq" data-up>
+        <div class="csq-h">
+          <img src={coach.photo} alt="" width="64" height="64" loading="lazy" />
+          <div><span class="eyebrow">Score Santé avec {coach.prenom}</span><b>Réponds à la première question ici, la suite prend 2 minutes.</b></div>
+        </div>
+        <p class="csq-q">🏃 Combien de fois par semaine pratiques-tu une activité physique ?</p>
+        <div class="csq-o">
+          {Q1.map((o, i) => <a href={`/score-sante/?coach=${coach.slug}&q1=${i}`}>{o}</a>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {lettre.length > 0 && (
+    <section class="sec">
+      <div class="inner mot">
+        <div data-up>
+          <span class="eyebrow">Le mot {dePrenom}</span>
+          <h2 class="h2">Pourquoi je fais ce métier.</h2>
+          <p class="lead-p">Avant de parler programme, {coach.prenom} t'explique ce qui change avec un accompagnement pensé pour toi.</p>
+        </div>
+        <div class="mot-q" data-up>
+          {lettre.map((p) => <p>{p}</p>)}
+          <div class="sign"><img src={coach.photo} alt="" width="48" height="48" loading="lazy" /><div><b>{coach.prenom}</b><span>{coach.role || 'Coach sportif'}{salle ? ` · ${salle.nom}` : ''}</span></div></div>
+          {photosAction.length > 0 && <div class="mot-ph">{photosAction.slice(0, 3).map((ph) => <img src={ph.src} alt={ph.alt || `${coach.prenom} en séance à ${salle?.nom ?? 'la salle'}`} width="400" height="300" loading="lazy" />)}</div>}
+          {coach.siteWeb && <a class="mot-web" href={coach.siteWeb} target="_blank" rel="noopener">Pour en savoir plus sur moi : <b>{coach.siteWeb.replace(/^https?:\/\//, '').replace(/\/$/, '')}</b> →</a>}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {interview.length > 0 && (
+    <section class="sec band">
+      <div class="inner">
+        <span class="eyebrow">{coach.prenom} en {interview.length} questions</span>
+        <h2 class="h2">Pour mieux le connaître.</h2>
+        <div class="itv">
+          {interview.map((x) => <div class="itv-i" data-up><b>{x.q}</b><p>« {x.r} »</p></div>)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class={lettre.length > 0 ? 'sec band' : 'sec'}>
+    <div class="inner">
+      <span class="eyebrow">Pour qui</span>
+      <h2 class="h2">Tu te reconnais ?</h2>
+      <div class="pq">
+        <div class="pq-main" data-up>
+          <div class="bt-k"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg>Avec qui {coach.prenom} travaille</div>
+          <p>{coach.publicCible}</p>
+        </div>
+        <div class="pq-list">
+          {coach.tags.map((x: string, i: number) => (
+            <div class="pq-it" data-up><span class="ico"><svg class="ic" aria-hidden="true"><use href={`#i-${icSpec[i % icSpec.length]}`}></use></svg></span>{x}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec navy">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <span class="eyebrow">La méthode</span>
+      <h2 class="h2">Comment ça se passe avec {coach.prenom}.</h2>
+      <div class="steps3">
+        <div class="st" data-up><span class="st-n">1</span><h3>Le bilan santé</h3><p>{acc.sousTitre}</p><p>Durée : {coach.dureeBilan ?? '1 heure'}.</p></div>
+        <div class="st" data-up><span class="st-n">2</span><h3>Ton programme sur mesure</h3>{paras(coach.methode).map((p) => <p>{p}</p>)}</div>
+        <div class="st" data-up><span class="st-n">3</span><h3>Le suivi et les résultats</h3>{paras(coach.resultats).map((p) => <p>{p}</p>)}</div>
+      </div>
+    </div>
+  </section>
+
+  <BandeFormations slug={coach.slug} prenom={coach.prenom} />
+  <section class="sec" id="bilan-coach">
+    <div class="inner">
+      <div class="blc" data-up>
+        <div class="blc-l">
+          <div class="lightning-bg" aria-hidden="true"></div>
+          <span class="bl-badge">Étape 1</span>
+          <h2 class="h2">{acc.titre}</h2>
+          <p class="lead-p">{acc.sousTitre}</p>
+          <div class="bl-cta">
+            <a class="btn btn-primary" href={`/score-sante/?coach=${coach.slug}`}>Réserver mon bilan avec {coach.prenom}</a>
+            <span class="bl-meta">Durée : {coach.dureeBilan ?? '1 heure'} · Tarif fixé directement par {coach.prenom}.</span>
+          </div>
+        </div>
+        <div class="blc-r">
+          <p class="bl-k">Le Bilan Santé, c'est quoi ?</p>
+          {pointsBilan.map((p, i) => (
+            <div class="bl-pt"><span class="n">{i + 1}</span><div><b>{p.label}</b><span>{p.detail}</span></div></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <div class="cprog" data-up>
+        <div>
+          <span class="eyebrow">Pas encore prêt ?</span>
+          <h2 class="h2">Commence avec ton programme gratuit.</h2>
+          <p class="lead-p">Sept questions, deux minutes : un programme de musculation sur 8 semaines, adapté à ton objectif, à faire à {salle?.nom ?? 'ta salle Basic-Fit'}. Quand tu voudras être accompagné, {coach.prenom} sera ton coach.</p>
+        </div>
+        <a class="btn btn-primary" href={`/mon-programme/?salle=${coach.salleSlug}`}>Créer mon programme gratuit</a>
+      </div>
+    </div>
+  </section>
+
+  {temEcrits.length > 0 && (
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">Témoignages</span>
+        <h2 class="h2">Ils se sont lancés avec {coach.prenom}.</h2>
+        <div class="tem">
+          {temEcrits.map((t) => <figure class="tem-i" data-up><blockquote>« {t.texte} »</blockquote><figcaption><b>{t.prenom}</b>{t.resultat && <span>{t.resultat}</span>}</figcaption></figure>)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {(aStats || coach.avisGoogle) && (
+    <section class="sec navy">
+      <div class="lightning-bg" aria-hidden="true"></div>
+      <div class="inner">
+        <span class="eyebrow">{aStats ? 'Résultats et avis' : 'Avis'}</span>
+        <h2 class="h2">{aStats ? `Le travail ${dePrenom} en chiffres.` : `La note ${dePrenom} sur Google.`}</h2>
+        <div class="cp-res">
+          {aStats && coach.stats.map((x: any, i: number) => (
+            <div class="glass" data-up>
+              <div class="bigstat"><span data-wow-num="1">{x.value}</span>{x.suffix}</div>
+              <p class="stat-txt">{x.label}</p>
+              {x.suffix === '%' && <span class="pbar" aria-hidden="true"><i style={`width:${Math.min(100, Math.round((x.value / Math.max(...coach.stats.filter((y: any) => y.suffix === '%').map((y: any) => y.value))) * 100))}%`}></i></span>}
+              {i === coach.stats.length - 1 && <span class="src">{coach.statsNote ?? `Chiffres agrégés sur l'ensemble des clients accompagnés par ${coach.prenom}. Les résultats individuels varient selon les personnes, leurs objectifs et leur engagement : ils ne constituent pas une promesse de résultat.`}</span>}
+            </div>
+          ))}
+          {coach.avisGoogle && (
+            <div class="gcard" data-up>
+              <span class="gk">Avis Google</span>
+              <div class="gn"><b>{fmtNote(coach.avisGoogle.note)}</b><span>/5</span></div>
+              <div class="gs" aria-hidden="true">{[0, 1, 2, 3, 4].map(() => <svg class="ic fill"><use href="#i-star"></use></svg>)}</div>
+              <a class="lnk" href={coach.avisGoogle.url} target="_blank" rel="noopener noreferrer">Voir ses avis sur Google <svg class="ic" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {videos.length > 0 && (
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">Témoignages</span>
+        <h2 class="h2">Ils racontent leur parcours avec {coach.prenom}.</h2>
+        <div class="videos">
+          {videos.map((v: any, i: number) => (
+            <div class="video" data-up><iframe src={`https://www.youtube-nocookie.com/embed/${v.id}`} title={`Témoignage vidéo d'un client de ${nom} (${i + 1} sur ${videos.length})`} loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class={videos.length > 0 ? 'sec band' : 'sec'}>
+    <div class="inner">
+      <span class="eyebrow">Coach vérifié</span>
+      <h2 class="h2">Diplômé, assuré, identifié.</h2>
+      <div class="cert" data-up>
+        <span class="seal" aria-hidden="true"><svg class="ic"><use href="#i-shield"></use></svg></span>
+        <div>
+          <h3>Diplômes et formations</h3>
+          <FormationsCoach items={[...coach.diplomes, ...formationsNoms]} />
+        </div>
+        {(coach.rcPro || coach.cartePro) ? (
+          <div>
+            <h3>Identification professionnelle</h3>
+            {coach.rcPro && <div class="vf-row"><span>Assurance RC Pro</span><b>{coach.rcPro}</b></div>}
+            {coach.cartePro && <div class="vf-row"><span>Carte professionnelle</span><b>{coach.cartePro}</b></div>}
+            <p class="small-note">Vérifiées sur la fiche officielle Basic-Fit du coach.</p>
+          </div>
+        ) : <div></div>}
+      </div>
+    </div>
+  </section>
+
+  {salle && (
+    <section class="sec band">
+      <div class="inner">
+        <span class="eyebrow">La salle</span>
+        <h2 class="h2">Où t'entraîner avec {coach.prenom}.</h2>
+        <div class="salle" data-up>
+          <div class="salle-l">
+            <h3>{salle.nom}</h3>
+            <p>{salle.presentation}</p>
+          </div>
+          <div class="salle-r">
+            <div class="salle-row"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg></span><div><b>Adresse</b><span>{salle.adresse}</span></div></div>
+            {salle.horaires && <div class="salle-row"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-clock"></use></svg></span><div><b>Horaires</b><span>{salle.horaires}</span></div></div>}
+            <div class="salle-row"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-badge"></use></svg></span><div><b>Accès</b><span>Abonnement ou pass journée Basic-Fit valide</span></div></div>
+            <div class="ctas">
+              <a class="btn-out" href={itineraire} target="_blank" rel="noopener noreferrer">Itinéraire <svg class="ic" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+              <a class="btn-out" href={`/salles/${salle.slug}/`}>Voir la salle <svg class="ic" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {(guides.length > 0 || expertisesLiees.length > 0) && (
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">Les conseils</span>
+        <h2 class="h2">Pour avancer avant ton premier rendez-vous.</h2>
+        {guides.length > 0 && (
+          <div class="guides">
+            {guides.map((a: any) => (
+              <a class="guide" href={`/blog/${a.slug}/`} data-up>
+                <small>Guide{a.tempsLecture ? ` · ${a.tempsLecture} min` : ''}</small>
+                <b>{a.titre}</b>
+                <p>{a.extrait}</p>
+                <em>Lire le guide →</em>
+              </a>
+            ))}
+          </div>
+        )}
+        {expertisesLiees.length > 0 && (
+          <div class="exps">
+            {expertisesLiees.map((e) => <a class="chip-link" href={`/${e.slug}/`}>{e.nom} <small>Expertise</small></a>)}
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2 class="h2">Tes questions sur {coach.prenom}.</h2>
+      <div class="faq-list">
+        {faqCoach.map((f) => <details class="faq-item" data-up><summary>{f.q}</summary><p>{f.r}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  {villesCouvertes.length > 0 && (
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow">Ses clients</span>
+        <h2 class="h2">{coach.prenom} accueille aussi les habitants de ces villes.</h2>
+        <p class="lead-p">Toutes les séances ont lieu à {salle?.nom ?? 'sa salle partenaire'} : {coach.prenom} ne coache que dans cette salle.</p>
+        <div class={villesCouvertes.length > 12 ? 'zone is-short' : 'zone'}>
+          {villesCouvertes.map((v) => (
+            <a href={`/coach-sportif-${v.slug}/${coach.slug}/`}><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg>{v.nom}</a>
+          ))}
+          <button type="button" class="zone-more">+ {villesCouvertes.length - 12} {villesCouvertes.length - 12 > 1 ? 'autres villes' : 'autre ville'}</button>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Pour aller plus loin</span>
+      {autresCoachsSalle.length > 0 && (
+        <>
+          <h2 class="h2">Les autres coachs de {salle?.nom}.</h2>
+          <div class="cgrid">
+            {autresCoachsSalle.map((c) => (
+              <a class="cg" href={`/coachs/${c.slug}/`} data-up>
+                <div class="cg-photo">
+                  <img src={c.photo} alt={`${c.prenom} ${c.nom}, coach sportif GA`} width="312" height="416" loading="lazy" />
+                  {c.avisGoogle && <span class="cg-note">★ {fmtNote(c.avisGoogle.note)}</span>}
+                </div>
+                <div class="cg-name">{c.prenom} {c.nom}</div>
+                <div class="cg-salle">{salle?.nom}</div>
+                <div class="cg-more">Voir le profil →</div>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+      <div class="chips-row" style={autresCoachsSalle.length > 0 ? 'margin-top: 26px;' : ''}>
+        {chips.map((l) => (
+          <a class="chip-link" href={l.href} {...(l.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{l.label} <small>{l.meta}</small></a>
+        ))}
+      </div>
+      <div class="share-lt">
+        <span>Partager cette fiche</span>
+        <a href={`https://api.whatsapp.com/send?text=${encodeURIComponent(nom + ' · GA Coachs ' + urlFiche)}`} target="_blank" rel="noopener noreferrer" data-track-click="share_whatsapp">WhatsApp</a>
+        <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlFiche)}`} target="_blank" rel="noopener noreferrer" data-track-click="share_facebook">Facebook</a>
+        <button type="button" data-copy={urlFiche}>Copier le lien</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">Envie de travailler avec {coach.prenom} ?</h2>
+      <a class="btn-final" href={`/score-sante/?coach=${coach.slug}`}><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Réserver mon bilan avec {coach.prenom}<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={`/coachs/${coach.slug}/`} title={`${coach.prenom} ${coach.nom}, coach sportif GA`} label="Partager cette fiche" /></div></section>
+</div>
+</BaseLayout>
+
+
+<script>
+  // Vidéo de présentation : le lecteur YouTube n'est chargé qu'au clic (page plus légère)
+  document.querySelectorAll<HTMLButtonElement>('.cv-facade[data-yt]').forEach((b) => b.addEventListener('click', () => {
+    const f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + b.dataset.yt + '?autoplay=1';
+    f.title = b.getAttribute('aria-label') || 'Vidéo de présentation';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture'; f.allowFullscreen = true;
+    f.className = 'cv-frame'; b.replaceWith(f);
+  }));
+</script>

@@ -1,0 +1,4 @@
+{
+  "_notice": "Coachs disponibles pour le Bilan Santé à domicile. Pour en ajouter un : { \"slug\": \"slug-du-coach-dans-coaches\", \"zones\": [\"orleans\", \"olivet\"] ou [\"tout\"], \"calendlyUrl\": \"https://calendly.com/...\" (facultatif) }. Sans calendlyUrl, le client laisse ses coordonnées et le coach le rappelle.",
+  "coaches": []
+}

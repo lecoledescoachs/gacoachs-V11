@@ -1,0 +1,6 @@
+---
+import ArCover from './ArCover.astro';
+import { arCats } from '../../data/blog-cats';
+const { a, i = 0, off = false } = Astro.props;
+---
+<a class={`ar-card${off ? ' is-off' : ''}`} href={`/blog/${a.slug}/`} data-i={i} data-cats={arCats(a).join(' ')}><ArCover a={a} /><div class="ar-txt"><h3>{a.titre}</h3><p>{a.extrait}</p><span class="more">Lire l'article →</span></div></a>

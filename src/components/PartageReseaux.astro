@@ -1,0 +1,91 @@
+---
+// Barre de partage avec les vrais logos des réseaux (tracés officiels simple-icons, couleurs de marque).
+// Instagram n'a pas de lien de partage web : on ouvre le partage natif du téléphone, sinon on copie le lien.
+import L from '../data/logos-reseaux.json';
+const { url, title, label = 'Partager cette page' } = Astro.props as { url: string; title: string; label?: string };
+const full = url.startsWith('http') ? url : `https://gacoachs.fr${url}`;
+const u = encodeURIComponent(full);
+const t = encodeURIComponent(title);
+const liens = [
+  { k: 'whatsapp', href: `https://api.whatsapp.com/send?text=${t}%20${u}` },
+  { k: 'facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${u}` },
+  { k: 'instagram', href: '' },
+  { k: 'linkedin', href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}` },
+] as const;
+const logo = (k: string) => (L as any)[k];
+// logos 3D fournis par Garry (public/images/reseaux), sinon tracé officiel
+const IMG3D = ['whatsapp', 'facebook', 'instagram', 'linkedin'];
+const icone = (k: string) => IMG3D.includes(k) ? `<img src="/images/reseaux/${k}.webp" alt="" width="40" height="40" loading="lazy" />` : `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${logo(k).path}" /></svg>`;
+---
+<div class="gsh" data-url={full} data-title={title}>
+  <p class="gsh-k">{label}</p>
+  <ul class="gsh-l">
+    {liens.map((r) => (
+      <li>
+        {r.href ? (
+          <a class={`gsh-b gsh-${r.k}`} href={r.href} target="_blank" rel="noopener noreferrer" aria-label={`Partager sur ${logo(r.k).nom}`} data-track-click={`share_${r.k}`}>
+            <span class={`gsh-i${IMG3D.includes(r.k) ? ' gsh-3d' : ''}`} set:html={icone(r.k)} />
+            <span class="gsh-n">{logo(r.k).nom === 'X' ? 'X' : logo(r.k).nom}</span>
+          </a>
+        ) : (
+          <button type="button" class={`gsh-b gsh-${r.k} gsh-insta`} aria-label="Partager sur Instagram" data-track-click="share_instagram">
+            <span class={`gsh-i${IMG3D.includes(r.k) ? ' gsh-3d' : ''}`} set:html={icone(r.k)} />
+            <span class="gsh-n">Instagram</span>
+          </button>
+        )}
+      </li>
+    ))}
+    <li>
+      <button type="button" class="gsh-b gsh-copy" aria-label="Copier le lien" data-track-click="share_copy_link">
+        <span class="gsh-i"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5" /><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5" /></svg></span>
+        <span class="gsh-n">Copier</span>
+      </button>
+    </li>
+  </ul>
+  <p class="gsh-msg" role="status" aria-live="polite" hidden></p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.gsh').forEach((box) => {
+    const url = box.dataset.url || location.href;
+    const title = box.dataset.title || document.title;
+    const msg = box.querySelector<HTMLElement>('.gsh-msg');
+    const dire = (t: string) => { if (!msg) return; msg.textContent = t; msg.hidden = false; setTimeout(() => { msg.hidden = true; }, 4000); };
+    const copier = async () => { try { await navigator.clipboard.writeText(url); return true; } catch (e) { return false; } };
+    box.querySelector('.gsh-copy')?.addEventListener('click', async () => {
+      dire((await copier()) ? 'Lien copié.' : url);
+    });
+    box.querySelector('.gsh-insta')?.addEventListener('click', async () => {
+      // sur téléphone : la feuille de partage du système propose Instagram (story, message)
+      if ((navigator as any).share) { try { await (navigator as any).share({ title, url }); return; } catch (e) { /* annulé */ } }
+      dire((await copier()) ? 'Lien copié : il ne reste qu\'à le coller dans Instagram (story ou message).' : url);
+    });
+  });
+</script>
+
+<style>
+  .gsh { display: grid; gap: 10px; }
+  .gsh-k { margin: 0; font-weight: 700; font-size: 14px; color: #13284F; }
+  .gsh-l { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .gsh-b { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 14px 6px 6px; border-radius: 999px; border: 1px solid #DCE6FB; background: #fff; color: #13284F; font: inherit; font-weight: 700; font-size: 14px; text-decoration: none; cursor: pointer; }
+  .gsh-b:hover { border-color: #1D5BD8; }
+  .gsh-b:focus-visible { outline: 3px solid #2F8BFF; outline-offset: 2px; }
+  .gsh-i { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; color: #fff; flex: 0 0 32px; }
+  .gsh-i :global(svg) { width: 18px; height: 18px; fill: currentColor; }
+  .gsh-3d { background: none !important; width: 40px !important; height: 40px !important; flex-basis: 40px !important; }
+  .gsh-3d :global(img) { width: 40px; height: 40px; display: block; }
+  .gsh-whatsapp .gsh-i { background: #25D366; }
+  .gsh-facebook .gsh-i { background: #0866FF; }
+  .gsh-instagram .gsh-i { background: radial-gradient(circle at 30% 107%, #FDF497 0%, #FDF497 5%, #FD5949 45%, #D6249F 60%, #285AEB 90%); }
+  .gsh-linkedin .gsh-i { background: #0A66C2; }
+  .gsh-x .gsh-i { background: #000; }
+  .gsh-copy .gsh-i { background: #13284F; }
+  .gsh-copy .gsh-i svg { fill: none; width: 18px; height: 18px; }
+  .gsh-msg { margin: 0; font-size: 14px; font-weight: 600; color: #1D5BD8; word-break: break-all; }
+  @media (max-width: 600px) {
+    .gsh-l { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+    .gsh-l li { display: flex; }
+    .gsh-b { width: 100%; flex-direction: column; gap: 4px; padding: 8px 2px; border-radius: 14px; font-size: 11.5px; justify-content: center; text-align: center; min-height: 0; }
+    .gsh-i, .gsh-3d, .gsh-3d :global(img) { width: 34px !important; height: 34px !important; flex-basis: 34px !important; }
+  }
+</style>

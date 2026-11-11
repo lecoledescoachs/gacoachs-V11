@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import BlogSprite from '../../components/proto/BlogSprite.astro';
+import ArCard from '../../components/proto/ArCard.astro';
+import ProtoFinal from '../../components/proto/ProtoFinal.astro';
+import { BLOG_LABEL, arCat, frDate } from '../../data/blog-cats';
+import '../../styles/proto-blog.css';
+import articles from '../../data/articles.json';
+import expertisesData from '../../data/expertises.json';
+import villesData from '../../data/villes.json';
+import sallesData from '../../data/salles.json';
+import entreprisesFormatsData from '../../data/entreprises-formats.json';
+
+export function getStaticPaths() {
+  return articles.map((a) => ({ params: { article: a.slug }, props: { article: a } }));
+}
+
+const { article } = Astro.props;
+
+const expertisesLiees = expertisesData.filter((e) => article.expertisesLiees?.includes(e.slug));
+const villesLiees = villesData.filter((v) => article.villesLiees?.includes(v.slug));
+const sallesLiees = sallesData.filter((s) => article.sallesLiees?.includes(s.slug));
+const entreprisesLiees = entreprisesFormatsData.filter((f) => article.entreprisesLiees?.includes(f.slug));
+
+const relatedLinks = [
+  ...expertisesLiees.map((e) => ({ label: e.nom, href: `/${e.slug}/`, meta: 'Expertise' })),
+  ...villesLiees.map((v) => ({ label: `Coach sportif à ${v.nom}`, href: `/coach-sportif-${v.slug}/`, meta: 'Zone locale' })),
+  ...sallesLiees.map((s) => ({ label: s.nom, href: `/salles/${s.slug}/`, meta: 'Salle' })),
+  ...entreprisesLiees.map((f) => ({ label: f.nom, href: `/entreprises/${f.slug}/`, meta: 'Entreprises' })),
+  ...(article.entreprisesBoost ? [{ label: 'BOOST ENTREPRISE™', href: '/entreprises/', meta: 'Coaching sportif en entreprise' }] : []),
+  ...((article.liensLies ?? []) as { label: string; href: string; meta: string }[]),
+];
+
+// liens sources dans le texte : [texte](https://...) devient un lien externe, le reste est échappé
+const avecLiens = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>').replace(/\[([^\]]+)\]\((\/[^)\s]*)\)/g, '<a href="$2">$1</a>');
+// sources externes citées dans le texte : liste visible en fin d'article (utile pour les moteurs de réponse et pour la vérification)
+const sourcesCitees: { label: string; href: string }[] = [];
+for (const m of [article.intro, ...article.sections.map((x: any) => x.texte)].join('\n').matchAll(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g)) {
+  if (!sourcesCitees.some((x) => x.href === m[2])) sourcesCitees.push({ label: m[1], href: m[2] });
+}
+const nbMots = [article.intro, ...article.sections.map((x: any) => x.texte)].join(' ').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').split(/\s+/).filter(Boolean).length;
+const faq: { q: string; r: string }[] = article.faq || [];
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.titre,
+  description: article.extrait,
+  datePublished: article.datePublication,
+  dateModified: article.dateModification || article.datePublication,
+  mainEntityOfPage: `https://gacoachs.fr/blog/${article.slug}/`,
+  inLanguage: 'fr-FR',
+  wordCount: 0,
+  author: { '@type': 'Person', '@id': 'https://gacoachs.fr/coachs/garry-babaud/#person', name: 'Garry Babaud', jobTitle: 'Coach sportif, fondateur de GA Coachs', url: 'https://gacoachs.fr/coachs/garry-babaud/', sameAs: ['https://garrybabaud.com/'] },
+  publisher: { '@type': 'Organization', '@id': 'https://gacoachs.fr/#organization', name: 'GA Coachs', url: 'https://gacoachs.fr/', logo: { '@type': 'ImageObject', url: 'https://gacoachs.fr/images/logos/ga-coachs-logo-google.png' } },
+  image: `https://gacoachs.fr/images/og/blog--${article.slug}.jpg`,
+  about: { '@type': 'Thing', name: article.titre },
+  isPartOf: { '@type': 'Blog', name: 'Le blog des coachs GA', url: 'https://gacoachs.fr/blog/' },
+};
+// La FAQ de l'article est aussi déclarée en données structurées, pour Google et les moteurs de réponse.
+articleLd.wordCount = nbMots;
+(articleLd as any).timeRequired = `PT${article.tempsLecture}M`;
+(articleLd as any).articleSection = BLOG_LABEL[arCat(article) as keyof typeof BLOG_LABEL] ?? 'Coaching sportif';
+(articleLd as any).speakable = { '@type': 'SpeakableSpecification', cssSelector: ['.ar-intro', '.ar-bref'] };
+if (sourcesCitees.length) (articleLd as any).citation = sourcesCitees.slice(0, 8).map((x) => ({ '@type': 'CreativeWork', name: x.label, url: x.href }));
+const jsonLd = faq.length
+  ? [articleLd, {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+    }]
+  : articleLd;
+const dateFr = (d: string) => new Date(d + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+const paragraphes = (t: string) => String(t || '').split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean);
+
+function slugifyTitre(titre: string) {
+  return titre
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+const sectionsAvecId = article.sections.map((s: { titre: string; texte: string }) => ({
+  ...s,
+  id: slugifyTitre(s.titre),
+}));
+const cat = arCat(article);
+const toc = sectionsAvecId.length > 2;
+const cta = article.ctaHref || '/score-sante/';
+const B2B = /ehpad|associations-de-musculation|services-sur-mesure/.test(cta);
+// Maillage : chaque article pointe vers ses voisins de catégorie (3 suivants en cartes, 3 précédents en liens),
+// pour que chaque article reçoive des liens internes, pas seulement les plus récents.
+const memeCat = [...articles].sort((a, b) => b.datePublication.localeCompare(a.datePublication) || a.slug.localeCompare(b.slug)).filter((x) => arCat(x) === cat);
+const pos = memeCat.findIndex((x) => x.slug === article.slug);
+const voisin = (d: number) => memeCat[(pos + d + memeCat.length * 10) % memeCat.length];
+const nbV = Math.min(3, Math.floor((memeCat.length - 1) / 2));
+const also = memeCat.length > 1 ? [1, 2, 3].slice(0, Math.max(1, Math.min(3, memeCat.length - 1))).map(voisin) : [];
+const etAussi = nbV > 0 ? [-1, -2, -3].slice(0, nbV).map(voisin).filter((x) => !also.includes(x) && x.slug !== article.slug) : [];
+const fin = /ehpad/.test(cta) ? { t: 'Et si vos résidents bougeaient un peu plus chaque semaine ?', l: 'Faire le quiz', h: '/sport-sante/ehpad-maisons-de-retraite/#eh-quiz' }
+  : /services-sur-mesure/.test(cta) ? { t: 'Et si un coach diplômé intervenait chez vous ?', l: article.ctaLabel, h: cta }
+  : /associations-de-musculation/.test(cta) ? { t: 'Et si votre salle avait un coach diplômé chaque semaine ?', l: 'Faire le quiz', h: '/associations-de-musculation/#as-quiz' }
+  : { t: 'Prêt à trouver le coach qui te correspond ?', l: 'Trouver mon coach', h: '/trouver-un-coach/' };
+---
+<BaseLayout
+  popupScore={!/ehpad|associations-de-musculation|services-sur-mesure|professionnels-de-sante|entreprises/.test(article.ctaHref ?? '')}
+  title={article.titreSeo ?? article.titre}
+  description={article.extrait}
+  path={`/blog/${article.slug}/`}
+  jsonLd={jsonLd}
+>
+<div class="proto">
+<BlogSprite />
+<div class="ar-prog" aria-hidden="true"><i id="arProg"></i></div>
+<section class="phero ar-hero"><div class="lightning-bg" aria-hidden="true"></div><div class="inner"><nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span aria-hidden="true">›</span><a href="/blog/">Blog</a><span aria-hidden="true">›</span><span>{article.titre}</span></nav><div class="phero-solo"><span class="eyebrow eyebrow-dark">Blog GA Coachs · {BLOG_LABEL[cat] || ''}</span><h1>{article.titre}</h1><div class="ar-meta"><img src="/images/fondateur/garry-babaud-carre.webp" alt="" width="44" height="44"><span><b>Garry Babaud, fondateur de GA Coachs</b><small>{article.tempsLecture} min de lecture · <time datetime={article.datePublication}>{frDate(article.datePublication)}</time>{article.dateModification && article.dateModification !== article.datePublication && <> · mis à jour le <time datetime={article.dateModification}>{frDate(article.dateModification)}</time></>}</small></span></div></div></div></section>
+<section class="sec ar-sec"><div class={`inner ar-lay${toc ? '' : ' no-toc'}`}><article class="ar-body" id="arBody">
+  <p class="ar-intro">{article.intro}</p>
+  {article.enBref && article.enBref.length > 0 && <div class="ar-bref"><span class="ar-bk"><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-bolt"></use></svg>En bref</span><ul class="bt-list">{article.enBref.map((p: string) => <li>{p}</li>)}</ul></div>}
+  {sectionsAvecId.map((s: any, i: number) => <>
+    <div class="ar-s" id={s.id}><h2>{s.titre}</h2><div>{paragraphes(s.texte).map((p) => <p set:html={avecLiens(p)} />)}</div></div>
+    {i === 1 && sectionsAvecId.length > 3 && !B2B && <a class="score-strip" href="/score-sante/" style="margin-top: 30px;"><span class="em" aria-hidden="true">🎯</span><p>Envie de savoir où tu en es, concrètement ? Fais ton Score Santé gratuit en 2 minutes.</p><span class="go" aria-hidden="true">→</span></a>}
+  </>)}
+  {faq.length > 0 && <div class="ar-s ar-faq" id="faq"><h2>Questions fréquentes</h2><div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div></div>}
+  {sourcesCitees.length > 0 && <div class="ar-s ar-src" id="sources"><h2>Sources</h2><ul>{sourcesCitees.map((x) => <li><a href={x.href} target="_blank" rel="noopener">{x.label}</a></li>)}</ul></div>}
+  <div class="ar-end"><a class="btn btn-primary" href={cta}>{article.ctaLabel} <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></a><button type="button" class="btn btn-ghost" data-copy={`https://gacoachs.fr/blog/${article.slug}/`}>Copier le lien de l'article</button></div>
+<div class="ar-share"><PartageReseaux url={`/blog/${article.slug}/`} title={article.titre} label="Partager cet article" /></div>
+</article>
+{toc && <div role="note" class="ar-toc"><div class="ar-toc-in"><p class="ar-tk">Dans cet article</p><nav aria-label="Sommaire de l'article">{sectionsAvecId.map((s: any) => <a href={`#${s.id}`}>{s.titre}</a>)}{faq.length > 0 && <a href="#faq">Questions fréquentes</a>}</nav><a class="ar-tcta" href={cta}>{article.ctaLabel} →</a></div></div>}
+</div></section>
+{relatedLinks.length > 0 && <section class="sec band" style="padding-block: 48px;"><div class="inner"><h2 class="h2" style="font-size: 26px;">Lié à cet article</h2><div class="chips-row">{relatedLinks.map((l) => <a class="chip-link" href={l.href}>{l.label} <small>{l.meta}</small></a>)}</div></div></section>}
+{also.length > 0 && <section class="sec"><div class="inner"><div class="sec-k"><div><span class="eyebrow">À lire aussi</span><h2 class="h2">Sur le même thème.</h2></div><a class="lnk" href="/blog/">Tous les articles <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></a></div><div class="ar-grid" style="margin-top: 26px;">{also.map((a, i) => <ArCard a={a} i={i} />)}</div>{etAussi.length > 0 && <div class="ar-more"><b>Et aussi :</b>{etAussi.map((a) => <a href={`/blog/${a.slug}/`}>{a.titre}</a>)}</div>}</div></section>}
+<ProtoFinal titre={fin.t} label={fin.l} href={fin.h} />
+</div>
+</BaseLayout>
+
+<script>
+  const body = document.getElementById('arBody'), bar = document.getElementById('arProg');
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.ar-toc nav a'));
+  let tick = false;
+  function up() {
+    tick = false; if (!body || !bar) return;
+    const r = body.getBoundingClientRect(), vh = window.innerHeight, p = Math.min(1, Math.max(0, (vh * 0.35 - r.top) / Math.max(1, r.height - vh * 0.4)));
+    bar.style.transform = `scaleX(${p.toFixed(3)})`;
+    let cur: string | null = null;
+    body.querySelectorAll<HTMLElement>('.ar-s').forEach((s) => { if (s.getBoundingClientRect().top < vh * 0.3) cur = s.id; });
+    links.forEach((l) => l.classList.toggle('on', l.getAttribute('href') === '#' + cur));
+  }
+  window.addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(up); } }, { passive: true });
+  up();
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
+    const t = b.textContent;
+    try { await navigator.clipboard.writeText(b.dataset.copy || location.href); b.textContent = 'Lien copié ✓'; } catch (_) { b.textContent = 'Copie impossible'; }
+    setTimeout(() => { b.textContent = t; }, 1800);
+  }));
+</script>

@@ -1,0 +1,177 @@
+---
+// Bloc copywriting des pages BOOST : pourquoi, comment, quand + ce que le public se dit (peurs, blocages, croyances).
+import data from '../data/boost-pcq.json';
+interface Props { id: string; }
+const d = (data as any)[Astro.props.id];
+const HREF: Record<string, string> = {
+  entreprise: '/entreprises/', club: '/preparation-physique/clubs/', senior: '/sport-sante/ehpad-maisons-de-retraite/', asso: '/associations-de-musculation/', sante: '/professionnels-de-sante/',
+  tourisme: '/services-sur-mesure/coach-sportif-hotel/', event: '/services-sur-mesure/coach-sportif-evenement-bar/', prive: '/services-sur-mesure/coach-sportif-vip/', communication: '/coach-sportif-campagne-sport-sante/',
+  mannequin: '/coach-sportif-mannequins/', domicile: '/coach-sportif-a-domicile/', invite: '/coach-sportif-invite/', course: '/coach-sportif-echauffement-course/', conferences: '/conferences/', medias: '/medias/',
+  'coaching-sportif': '/coaching-sportif/', 'preparation-physique': '/preparation-physique/', 'preparation-concours': '/preparation-concours/', 'sport-sante': '/sport-sante/', 'mal-de-dos': '/mal-de-dos/', 'perte-de-poids': '/objectifs/perte-de-poids/', 'remise-en-forme': '/objectifs/remise-en-forme/',
+  scene: '/services-sur-mesure/coach-sportif-preparation-scene/', tournee: '/services-sur-mesure/coach-sportif-tournee-artistes/',
+};
+const howTo = d && {
+  '@context': 'https://schema.org', '@type': 'HowTo',
+  name: `Comment fonctionne ${d.nom} avec GA Coachs`,
+  description: d.pourquoi,
+  step: d.comment.map((t: string, i: number) => ({ '@type': 'HowToStep', position: i + 1, text: t })),
+};
+---
+{d && (
+<section class="sec pcq" id="pourquoi-comment-quand" aria-labelledby="pcq-h">
+  <script type="application/ld+json" set:html={JSON.stringify(howTo)} />
+  <div class="inner">
+    <span class="eyebrow" data-a="pop">{d.origineT}</span>
+    <h2 class="h2" id="pcq-h" data-a="words">{d.pourquoiT}</h2>
+    <p class="pcq-origine" data-a="up"><b>{d.nom}</b> : {d.origine}</p>
+    <div class="pcq-grid">
+      <article class="pcq-c" data-a="up">
+        <span class="pcq-k">Pourquoi</span>
+        <p>{d.pourquoi}</p>
+      </article>
+      <article class="pcq-c" data-a="up">
+        <span class="pcq-k">Comment</span>
+        <ol class="pcq-steps">{d.comment.map((x: string) => <li>{x}</li>)}</ol>
+      </article>
+      <article class="pcq-c" data-a="up">
+        <span class="pcq-k">Quand</span>
+        <p>{d.quand}</p>
+      </article>
+    </div>
+    <h3 class="pcq-h3" data-a="pop">{d.tu ? 'Ce que tu te dis peut-être' : (d.cible === 'vous' ? 'Ce que vous vous dites peut-être' : `Ce que vous vous dites peut-être pour ${d.cible}`)}</h3>
+    <div class="pcq-qs">
+      {d.croyances.map((c: any) => (
+        <div class="pcq-q" data-a="up">
+          <p class="pcq-c1">{c.c}</p>
+          <p class="pcq-r">{c.r}</p>
+        </div>
+      ))}
+    </div>
+    <div class="pcq-end" data-a="up">
+      <a class="btn btn-primary" href={d.cta?.href ?? '/services-sur-mesure/#sm-contact'}>{d.cta?.label ?? `Parler de mon projet ${d.nom}`}</a>
+      <p class="pcq-more">À voir aussi : {d.liens.map((l: string, i: number) => (<><a href={HREF[l]}>{(data as any)[l].nom}</a>{i < d.liens.length - 1 ? ' · ' : ''}</>))}</p>
+    </div>
+  </div>
+</section>
+)}
+<style is:global>
+  .pcq-origine { max-width: 74ch; margin: 14px 0 0; font-size: 17px; line-height: 1.65; color: var(--muted, #5A6785); }
+  .pcq-origine b { color: var(--navy, #0B1E3D); }
+  .pcq-end { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
+  .pcq-more { margin: 0; color: var(--muted, #5A6785); }
+  .pcq-more a { color: var(--navy, #0B1E3D); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .pcq-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
+  .pcq-c { padding: 24px; border-radius: 20px; background: #fff; border: 2px solid #DCE6FB; border-bottom-width: 6px; }
+  .pcq-k { display: inline-block; padding: 5px 12px; border-radius: 8px; background: #0B1E3D; color: #fff; font-family: var(--display); font-size: 12.5px; font-weight: 700; letter-spacing: .02em; text-transform: none; }
+  .pcq-c p, .pcq-r, .pcq-steps li { max-width: none; }
+  .pcq-c p { margin: 14px 0 0; line-height: 1.6; color: var(--muted, #5A6785); }
+  .pcq-steps { margin: 14px 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 12px; }
+  .pcq-steps li { counter-increment: s; position: relative; padding-left: 38px; line-height: 1.5; color: var(--muted, #5A6785); }
+  .pcq-steps li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 8px; background: #2F6FED; color: #fff; font-weight: 700; font-size: 14px; display: grid; place-items: center; }
+  .pcq-h3 { margin: 40px 0 0; font-family: var(--display); font-size: clamp(20px, 16px + 1vw, 26px); color: var(--navy, #0B1E3D); }
+  .pcq-qs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+  .pcq-q { padding: 20px 22px; border-radius: 18px; background: #F1F6FF; border-left: 6px solid #2F6FED; }
+  .pcq-c1 { margin: 0; font-weight: 700; color: var(--navy, #0B1E3D); line-height: 1.4; }
+  .pcq-r { margin: 8px 0 0; line-height: 1.6; color: var(--muted, #5A6785); }
+  @media (max-width: 900px) { .pcq-grid, .pcq-qs { grid-template-columns: minmax(0, 1fr); } .pcq-c { padding: 20px; } }
+
+  /* ===== Effets waouh : actifs seulement si le JS ajoute .pcq-anim (sinon tout reste visible) ===== */
+  .pcq-c { position: relative; overflow: hidden; transform-style: preserve-3d; transition: box-shadow .25s ease; }
+  .pcq-c::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .25s; background: radial-gradient(circle at var(--gx, 50%) var(--gy, 0%), rgba(124,196,255,.45), transparent 55%); }
+  .pcq-c.is-tilt { box-shadow: 0 26px 40px -22px rgba(11,30,61,.5); }
+  .pcq-c.is-tilt::after { opacity: 1; }
+  .pcq-k { position: relative; overflow: hidden; }
+  .pcq-k::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent); }
+  .pcq-end .btn { position: relative; }
+  .pcq-spark { position: absolute; bottom: -10px; width: 6px; height: 6px; border-radius: 50%; background: #7CC4FF; box-shadow: 0 0 10px 2px rgba(124,196,255,.8); pointer-events: none; opacity: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .pcq-anim .pcq-origine .w { opacity: .18; transition: opacity .45s ease; transition-delay: calc(var(--i) * 35ms); }
+    .pcq-anim.is-in .pcq-origine .w { opacity: 1; }
+    .pcq-anim .pcq-c { opacity: 0; transform: translateY(46px) rotate(var(--r, -3deg)) scale(.94); transition: opacity .6s ease, transform .7s cubic-bezier(.2,.9,.25,1.2); transition-delay: calc(var(--k) * 140ms + 250ms); }
+    .pcq-anim.is-in .pcq-c { opacity: 1; transform: none; }
+    .pcq-anim.is-in .pcq-c.is-tilt { transition-delay: 0s; transition-duration: .12s; }
+    .pcq-anim.is-in .pcq-k::after { animation: pcq-shine 1.2s ease .9s 1; }
+    @keyframes pcq-shine { to { left: 130%; } }
+    .pcq-anim .pcq-steps li { opacity: 0; transform: translateX(-18px); transition: opacity .5s ease, transform .5s ease; transition-delay: calc(var(--j) * 380ms + 900ms); }
+    .pcq-anim.is-in .pcq-steps li { opacity: 1; transform: none; }
+    .pcq-anim .pcq-steps li::before { transform: scale(0); transition: transform .45s cubic-bezier(.2,1.6,.4,1); transition-delay: calc(var(--j) * 380ms + 900ms); }
+    .pcq-anim.is-in .pcq-steps li::before { transform: scale(1); box-shadow: 0 0 0 0 rgba(47,111,237,.6); animation: pcq-ping 1s ease calc(var(--j) * 380ms + 1000ms) 1; }
+    @keyframes pcq-ping { 0% { box-shadow: 0 0 0 0 rgba(47,111,237,.6); } 100% { box-shadow: 0 0 0 14px rgba(47,111,237,0); } }
+    .pcq-steps li:not(:last-child)::after { content: ""; position: absolute; left: 12px; top: 28px; bottom: -12px; width: 2px; background: linear-gradient(#2F6FED, rgba(47,111,237,.15)); transform-origin: top; }
+    .pcq-anim .pcq-steps li:not(:last-child)::after { transform: scaleY(0); transition: transform .4s ease; transition-delay: calc(var(--j) * 380ms + 1200ms); }
+    .pcq-anim.is-in .pcq-steps li:not(:last-child)::after { transform: scaleY(1); }
+    .pcq-anim .pcq-q { opacity: 0; transform: translateX(var(--dx, -40px)); transition: opacity .6s ease, transform .7s cubic-bezier(.2,.9,.25,1.1); transition-delay: calc(var(--q) * 160ms); }
+    .pcq-anim .pcq-q.is-seen { opacity: 1; transform: none; }
+    .pcq-anim .pcq-c1 { position: relative; display: inline; background: linear-gradient(#FFB4B4, #FFB4B4) no-repeat 0 62% / 0 3px; transition: background-size .6s ease .5s, color .4s ease .9s; }
+    .pcq-anim .pcq-q.is-seen .pcq-c1 { background-size: 100% 3px; color: #5A6785; }
+    .pcq-anim .pcq-r { opacity: 0; filter: blur(5px); transform: translateY(8px); transition: opacity .6s ease 1s, filter .6s ease 1s, transform .6s ease 1s; position: relative; padding-left: 30px; }
+    .pcq-anim .pcq-q.is-seen .pcq-r { opacity: 1; filter: none; transform: none; }
+    .pcq-r::before { content: "✓"; position: absolute; left: 0; top: 1px; width: 22px; height: 22px; border-radius: 50%; background: #1FA463; color: #fff; font-size: 13px; line-height: 22px; text-align: center; font-weight: 700; }
+    .pcq-anim .pcq-r::before { transform: scale(0); transition: transform .45s cubic-bezier(.2,1.8,.4,1) 1.35s; }
+    .pcq-anim .pcq-q.is-seen .pcq-r::before { transform: scale(1); }
+    .pcq-anim .pcq-end .btn { animation: none; }
+    @keyframes pcq-pulse { 0%,100% { box-shadow: 0 6px 0 var(--blue-deep, #1F55C9), 0 0 0 0 rgba(47,111,237,.5); } 50% { box-shadow: 0 6px 0 var(--blue-deep, #1F55C9), 0 0 0 14px rgba(47,111,237,0); } }
+    .pcq-spark { animation: none; }
+    @keyframes pcq-rise { 0% { transform: translateY(0) scale(.6); opacity: 0; } 12% { opacity: .9; } 100% { transform: translateY(-560px) translateX(var(--x, 20px)) scale(1.2); opacity: 0; } }
+    .phero .hl-text { color: #57A8FF; animation: none; }
+    @keyframes pcq-hl { to { background-position: -220% 0; } }
+    .phero .lightning-bg { animation: pcq-flash 7s steps(1, end) infinite; }
+    @keyframes pcq-flash { 0%, 100% { opacity: .5; } 4% { opacity: .95; } 6% { opacity: .45; } 8% { opacity: 1; } 11% { opacity: .5; } 52% { opacity: .5; } 54% { opacity: .85; } 56% { opacity: .5; } }
+  }
+</style>
+
+<script>
+  const root = document.getElementById('pourquoi-comment-quand');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (root && !reduce && 'IntersectionObserver' in window) {
+    // texte d'origine : mots révélés un à un
+    const og = root.querySelector<HTMLElement>('.pcq-origine');
+    if (og) {
+      let i = 0;
+      const wrap = (node: Node) => {
+        Array.from(node.childNodes).forEach((n) => {
+          if (n.nodeType === 3) {
+            const frag = document.createDocumentFragment();
+            (n.textContent || '').split(/(\s+)/).forEach((t) => {
+              if (!t) return;
+              if (/^\s+$/.test(t)) { frag.appendChild(document.createTextNode(t)); return; }
+              const sp = document.createElement('span'); sp.className = 'w'; sp.style.setProperty('--i', String(i++)); sp.textContent = t; frag.appendChild(sp);
+            });
+            node.replaceChild(frag, n);
+          } else if (n.nodeType === 1) wrap(n);
+        });
+      };
+      wrap(og);
+    }
+    root.querySelectorAll<HTMLElement>('.pcq-c').forEach((c, k) => { c.style.setProperty('--k', String(k)); c.style.setProperty('--r', (k % 2 ? 3 : -3) + 'deg'); });
+    root.querySelectorAll<HTMLElement>('.pcq-steps li').forEach((li, j) => li.style.setProperty('--j', String(j)));
+    root.querySelectorAll<HTMLElement>('.pcq-q').forEach((q, n) => { q.style.setProperty('--q', String(n)); q.style.setProperty('--dx', (n % 2 ? 40 : -40) + 'px'); });
+    root.classList.add('pcq-anim');
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { root.classList.add('is-in'); io.disconnect(); } }), { threshold: 0.12 });
+    io.observe(root);
+    const qo = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { (e.target as HTMLElement).classList.add('is-seen'); qo.unobserve(e.target); } }), { threshold: 0.35 });
+    root.querySelectorAll('.pcq-q').forEach((q) => qo.observe(q));
+    // inclinaison 3D + reflet qui suit le pointeur
+    if (window.matchMedia('(hover: hover)').matches) {
+      root.querySelectorAll<HTMLElement>('.pcq-c').forEach((c) => {
+        c.addEventListener('pointermove', (e) => {
+          const r = c.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+          c.classList.add('is-tilt');
+          c.style.transform = `perspective(700px) rotateY(${(x - .5) * 10}deg) rotateX(${(.5 - y) * 8}deg) translateY(-4px)`;
+          c.style.setProperty('--gx', x * 100 + '%'); c.style.setProperty('--gy', y * 100 + '%');
+        });
+        c.addEventListener('pointerleave', () => { c.classList.remove('is-tilt'); c.style.transform = ''; });
+      });
+    }
+    // étincelles qui montent dans le hero
+    const hero = document.querySelector<HTMLElement>('.phero');
+    if (hero) {
+      hero.style.position = hero.style.position || 'relative';
+      for (let i = 0; i < 16; i++) {
+        const sp = document.createElement('span'); sp.className = 'pcq-spark'; sp.setAttribute('aria-hidden', 'true');
+        sp.style.left = (4 + Math.random() * 92) + '%'; sp.style.setProperty('--d', (Math.random() * 6).toFixed(1) + 's'); sp.style.setProperty('--t', (5 + Math.random() * 5).toFixed(1) + 's'); sp.style.setProperty('--x', (Math.random() * 60 - 30).toFixed(0) + 'px');
+        hero.appendChild(sp);
+      }
+    }
+  }
+</script>

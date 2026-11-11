@@ -1,0 +1,26 @@
+---
+// Bloc d'étapes numérotées (fond clair), réutilisable sur les pages rebrand
+interface Props { eyebrow: string; titre: string; lead?: string; items: { t: string; p: string }[]; band?: boolean }
+const { eyebrow, titre, lead, items, band = false } = Astro.props;
+---
+<section class={band ? 'sec band' : 'sec'}>
+  <div class="inner">
+    <span class="eyebrow">{eyebrow}</span>
+    <h2 class="h2">{titre}</h2>
+    {lead && <p class="lead-p et-lead">{lead}</p>}
+    <ol class="et-list">
+      {items.map((x, i) => (
+        <li class="et-it" data-up><span class="et-n">{i + 1}</span><div><h3>{x.t}</h3><p>{x.p}</p></div></li>
+      ))}
+    </ol>
+  </div>
+</section>
+<style is:global>
+  .rb .et-lead { max-width: 720px; }
+  .rb .et-list { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(var(--et-cols, 3), minmax(0, 1fr)); gap: 16px; }
+  .rb .et-it { display: flex; gap: 16px; align-items: flex-start; background: #fff; border: 2px solid #E1E8FA; border-radius: 22px; padding: 22px; }
+  .rb .et-n { flex: none; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(150deg, #2F6FED, #0037B6); color: #fff; font-family: var(--display); font-weight: 700; font-size: 20px; }
+  .rb .et-it h3 { margin: 4px 0 6px; font-family: var(--display); font-size: 19px; line-height: 1.25; color: #0B1E3D; }
+  .rb .et-it p { margin: 0; font-size: 15px; line-height: 1.55; color: #4A5878; }
+  @media (max-width: 900px) { .rb .et-list { grid-template-columns: minmax(0, 1fr); } }
+</style>

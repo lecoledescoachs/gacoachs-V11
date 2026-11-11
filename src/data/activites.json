@@ -1,0 +1,12 @@
+[
+  { "f": "force", "e": "🏋️", "n": "Musculation", "p": "Prendre du muscle et de la force, avec une technique propre." },
+  { "f": "force", "e": "🏆", "n": "Force athlétique", "p": "Squat, développé couché, soulevé de terre : tes 3 records." },
+  { "f": "force", "e": "🤸", "n": "Streetlifting et calisthenics", "p": "Tractions, dips, figures : la force au poids du corps." },
+  { "f": "cardio", "e": "⚙️", "n": "Entraînement fonctionnel", "p": "Pousser, tirer, porter, se relever : un corps utile au quotidien." },
+  { "f": "cardio", "e": "🔥", "n": "HIIT et circuit training", "p": "Des formats courts et intenses, Tabata compris, pour brûler fort." },
+  { "f": "cardio", "e": "🥊", "n": "Boxe", "p": "Technique, cardio et défoulement, sans contact." },
+  { "f": "cardio", "e": "🪢", "n": "TRX", "p": "Des sangles et ton poids du corps pour un gainage permanent." },
+  { "f": "bien", "e": "🧘", "n": "Yoga", "p": "Souplesse, respiration et concentration, à ton rythme." },
+  { "f": "bien", "e": "🌀", "n": "Pilates", "p": "Des muscles profonds solides pour un dos protégé." },
+  { "f": "bien", "e": "🤲", "n": "Mobilité et stretching", "p": "Plus d'amplitude, moins de tensions au quotidien." }
+]

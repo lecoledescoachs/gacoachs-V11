@@ -1,0 +1,15 @@
+---
+// Bloc « Notre offre » BOOST en haut d'une page de structure
+import gamme from '../../data/boost-gamme.json';
+const { id, cta, ctaLabel = 'Nous contacter', texte, k, sub, img } = Astro.props;
+const base = gamme.find((x) => x.id === id)!;
+// k, sub et img permettent d'afficher un sous-programme (BOOST SCÈNE, BOOST TOURNÉE) avec son propre visuel
+const g = { ...base, k: k || base.k, sub: sub || base.sub, img: img || base.img };
+---
+<section class="sec band bsr"><div class="inner bsr-g"><a class="bsr-img" href={cta} tabindex="-1" aria-hidden="true">{g.img ? <img src={g.img} alt="" width="1000" height="525" loading="lazy" /> : <div style="aspect-ratio:1000/525;width:100%;background:linear-gradient(135deg,#0B1E3D,#1D5BD8)" aria-hidden="true"></div>}</a><div><span class="eyebrow">Notre offre</span><h2 class="h2">{g.k}&nbsp;: {g.sub}.</h2><p class="lead-p">{texte || g.p}</p><div class="ctas" style="margin-top: 22px; justify-content: flex-start;"><a class="btn btn-primary" href={cta}>{ctaLabel}</a><a class="btn-sm" href="/services-sur-mesure/">Toute la gamme BOOST</a></div></div></div></section>
+<style is:global>
+  .proto .bsr-g { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px 48px; align-items: center; }
+  .proto .bsr-img { display: block; border-radius: 24px; overflow: hidden; box-shadow: 0 30px 60px -34px rgba(11,30,61,.6); }
+  .proto .bsr-img img { display: block; width: 100%; height: auto; }
+  @media (max-width: 900px) { .proto .bsr-g { grid-template-columns: 1fr; } }
+</style>

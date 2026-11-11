@@ -1,0 +1,25 @@
+---
+// Diplômes et formations d'un coach, avec le logo de l'organisme s'il est fourni.
+// Logo : déposer public/images/formations/<nom-en-minuscules-sans-accents-ni-espaces>.webp (ou .png), ex. cqp-if.webp, rehab-u.webp.
+interface Props { items: string[] }
+const { items } = Astro.props;
+const slug = (n: string) => n.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const logos = import.meta.glob('/public/images/formations/*.{webp,png,svg}', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+const logoDe = (n: string) => { const s = slug(n); const k = Object.keys(logos).find((p) => { const b = p.split('/').pop()!.replace(/\.[a-z]+$/, ''); return s === b || s.startsWith(b + '-'); }); return k ? k.replace('/public', '') : ''; };
+---
+<ul class="fc-list">
+  {items.map((x) => (
+    <li class="fc-i">
+      {logoDe(x) ? <img src={logoDe(x)} alt="" width="40" height="40" loading="lazy" decoding="async" /> : <span class="fc-e" aria-hidden="true">🎓</span>}
+      <span>{x}</span>
+    </li>
+  ))}
+</ul>
+<p class="fc-phrase">🌱 Nos coachs continuent de se former tout au long de l'année, pour apporter le maximum de valeur à ton accompagnement.</p>
+<style is:global>
+.fc-list{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:8px}
+.fc-i{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #E1E8FA;border-radius:12px;padding:8px 12px;font-weight:700;color:#13203B}
+.fc-i img{width:40px;height:40px;object-fit:contain;flex:none}
+.fc-e{font-size:1.5rem;width:40px;text-align:center;flex:none}
+.fc-phrase{margin:0;font-size:.92rem;color:#4A5672}
+</style>

@@ -1,0 +1,2025 @@
+[
+  {
+    "slug": "coach-sportif-vip",
+    "cle": "vip",
+    "nom": "VIP et personnalités",
+    "emoji": "👑",
+    "seo": {
+      "title": "BOOST PRIVÉ : coach sportif privé VIP, personnalités",
+      "description": "Coach sportif privé pour footballeurs, acteurs, stars de télé, artistes, élus et dirigeants : à domicile ou à l'hôtel, confidentialité écrite, PRIVÉ 12."
+    },
+    "hero": {
+      "eyebrow": "Services sur mesure · VIP et personnalités",
+      "h1": "Coach sportif privé pour personnalités : vous êtes connu, votre entraînement restera privé.",
+      "lead": "Personnalités publiques, responsables politiques, sportifs de haut niveau, artistes, dirigeants très exposés : un coach diplômé du réseau GA vient à vous, à domicile, à l'hôtel ou sur un lieu privé, avec une confidentialité totale et écrite.",
+      "points": [
+        "Engagement de confidentialité écrit",
+        "À domicile, à l'hôtel ou sur un lieu privé",
+        "Séances calées sur votre agenda",
+        "Un seul interlocuteur, en lien avec votre équipe"
+      ]
+    },
+    "pourquoi": {
+      "titre": "Ce que les personnalités attendent d'un coach privé.",
+      "items": [
+        {
+          "titre": "Une discrétion absolue",
+          "texte": "Engagement de confidentialité signé avant la première séance. Aucune photo, aucune publication, aucune mention de votre nom à d'autres clients."
+        },
+        {
+          "titre": "Un agenda qui bouge sans cesse",
+          "texte": "Les séances s'adaptent à vos tournages, concerts, compétitions et déplacements. Un report se règle en un message, avec vous ou votre assistant."
+        },
+        {
+          "titre": "Une préparation à la hauteur de l'enjeu",
+          "texte": "Préparer un rôle, une tournée, une saison ou une apparition publique : un objectif physique précis et un suivi serré, semaine après semaine."
+        }
+      ]
+    },
+    "formats": {
+      "titre": "Les formats possibles.",
+      "items": [
+        {
+          "emoji": "🏠",
+          "titre": "À domicile",
+          "texte": "Le coach se déplace chez vous avec son matériel, à l'heure qui vous convient."
+        },
+        {
+          "emoji": "🏨",
+          "titre": "À l'hôtel",
+          "texte": "Lors de vos passages dans la région, en chambre ou dans la salle de fitness de l'hôtel."
+        },
+        {
+          "emoji": "🔒",
+          "titre": "Sur un lieu privé",
+          "texte": "Dans un lieu de votre choix, à l'abri des regards."
+        },
+        {
+          "emoji": "🎬",
+          "titre": "Préparation d'un projet",
+          "texte": "Un programme ciblé avant un tournage, une tournée, une compétition ou un événement."
+        },
+        {
+          "emoji": "🎤",
+          "titre": "En tournée",
+          "texte": "Un coach de tournée pour les artistes : préparation, échauffement avant chaque show, récupération et suivi en déplacement."
+        },
+        {
+          "emoji": "📲",
+          "titre": "À distance",
+          "texte": "Un programme à suivre seul en déplacement, avec des points réguliers avec votre coach."
+        }
+      ]
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce que BOOST PRIVÉ ?",
+        "r": "Le service de coach sportif privé de GA Coachs pour les personnalités : un coach diplômé vient à vous, chez vous, à l'hôtel ou sur un lieu privé, à l'heure qui vous arrange, avec une confidentialité écrite. Notre programme signature s'appelle PRIVÉ 12."
+      },
+      {
+        "q": "À qui s'adresse BOOST PRIVÉ ?",
+        "r": "Aux footballeurs et sportifs professionnels, acteurs et actrices, visages de la télé, journalistes, mannequins, chanteurs, humoristes, créateurs de contenu, élus, chefs et dirigeants : toutes les personnes dont le corps est un outil de travail et une image."
+      },
+      {
+        "q": "Comment la confidentialité est-elle garantie ?",
+        "r": "Oui. Un engagement de confidentialité écrit est signé avant la première séance. Aucune photo, aucune vidéo, aucune publication, et votre nom n'apparaît jamais dans nos références sans votre accord écrit. Votre adresse, votre agenda et votre état de forme ne sont partagés avec personne."
+      },
+      {
+        "q": "Où ont lieu les séances ?",
+        "r": "Chez vous, dans votre suite ou la salle de fitness de votre hôtel, ou sur un lieu privé de votre choix, à l'abri des regards. En déplacement, un programme à suivre seul prend le relais, avec des points réguliers avec votre coach."
+      },
+      {
+        "q": "Comment se passe le premier rendez-vous ?",
+        "r": "Un échange confidentiel de 30 minutes, offert, avec Garry Babaud, Coach en chef, en visio ou par téléphone. Puis le contrat et l'engagement de confidentialité, un bilan physique de départ chez vous ou à l'hôtel, et vos premières séances."
+      },
+      {
+        "q": "Qu'est-ce que le programme PRIVÉ 12 ?",
+        "r": "Un coach privé sur 12 semaines pour un projet précis, ou sur 1 an au rythme de vos projets. Un bilan au début et à la fin des 12 semaines, puis chaque trimestre si vous continuez sur l'année."
+      },
+      {
+        "q": "Mon agenda change tout le temps : comment faire ?",
+        "r": "Les séances se calent sur vos tournages, matchs, tournées et déplacements. Un report se règle en un message, avec vous ou votre assistant, et un programme à suivre seul voyage avec vous."
+      },
+      {
+        "q": "La réservation peut-elle passer par mon équipe ?",
+        "r": "Oui. Votre assistant, votre agent, votre cabinet ou votre staff peuvent gérer les créneaux, les reports et les échanges, sans que votre nom circule."
+      },
+      {
+        "q": "Pouvez-vous travailler avec le staff de mon club ?",
+        "r": "Oui, si vous le souhaitez. Le coach peut se coordonner avec votre préparateur physique, votre kiné ou votre staff, pour un travail complémentaire qui ne contredit jamais celui du club."
+      },
+      {
+        "q": "Pouvez-vous me préparer pour un rôle ?",
+        "r": "Oui. On part de la date du premier jour de tournage et des exigences du rôle, puis on construit une préparation progressive, sans méthode extrême."
+      },
+      {
+        "q": "Accompagnez-vous des responsables politiques ?",
+        "r": "Oui. Les séances s'adaptent aux agendas d'élus et de campagne : tôt le matin, en soirée, à domicile ou à l'hôtel, avec la même confidentialité écrite. Les créneaux peuvent être gérés par votre cabinet."
+      },
+      {
+        "q": "Mon entourage ou mon conjoint peut-il s'entraîner avec moi ?",
+        "r": "Oui. Les séances peuvent se faire à deux, avec la même confidentialité."
+      },
+      {
+        "q": "Quelle différence entre BOOST PRIVÉ, BOOST SCÈNE et BOOST TOURNÉE ?",
+        "r": "BOOST PRIVÉ est un coach privé à l'année ou sur 12 semaines, sur vos objectifs. Pour les artistes, BOOST SCÈNE prépare un show avant une tournée ou une grande date, et BOOST TOURNÉE met un coach à vos côtés pendant la tournée."
+      },
+      {
+        "q": "Intervenez-vous en dehors d'Orléans ?",
+        "r": "Nos coachs sont basés à Orléans, à environ une heure de Paris en train, et interviennent dans le Loiret. Pour une tournée, le coach peut vous suivre en France et à l'étranger. Pour les autres déplacements, la demande est étudiée au cas par cas."
+      },
+      {
+        "q": "Comment le tarif est-il fixé ?",
+        "r": "Sur devis, selon la durée de l'accompagnement, le lieu, les horaires et les déplacements."
+      }
+    ],
+    "article": "coach-sportif-prive-vip-orleans",
+    "signature": {
+      "nom": "PRIVÉ 12",
+      "emoji": "👑",
+      "duree": "12 semaines ou 1 an",
+      "accroche": "Un coach privé pour les personnalités, au service de votre agenda et de vos projets.",
+      "contenu": [
+        "Un engagement de confidentialité signé avant la première séance",
+        "Un bilan de départ chez vous, à l'hôtel ou sur un lieu privé",
+        "Des séances calées sur vos tournages, tournées ou compétitions",
+        "Un programme à suivre seul quand vous êtes en déplacement",
+        "Une coordination possible avec votre agent ou votre assistant"
+      ],
+      "obtenu": [
+        "Un objectif physique précis, préparé dans la discrétion",
+        "Un seul interlocuteur, disponible selon votre agenda"
+      ],
+      "formules": [
+        {
+          "duree": "12 semaines",
+          "texte": "Un projet précis en 3 mois, comme la préparation d'un tournage ou d'une tournée, avec un bilan au début et à la fin.",
+          "label": "Pour tester"
+        },
+        {
+          "duree": "1 an",
+          "texte": "Un coach privé toute l'année, au rythme de vos projets, avec un bilan chaque trimestre.",
+          "label": "Notre spécialité"
+        }
+      ]
+    },
+    "constat": {
+      "titre": "Quand on est connu, s'entraîner devient compliqué.",
+      "items": [
+        {
+          "emoji": "📸",
+          "titre": "Impossible d'aller en salle tranquille",
+          "texte": "Les regards, les photos, les demandes : une séance en salle publique n'en est plus vraiment une."
+        },
+        {
+          "emoji": "🗓️",
+          "titre": "Un agenda qui change sans arrêt",
+          "texte": "Tournages, tournées, compétitions, déplacements : un créneau fixe chaque semaine est presque impossible à tenir."
+        },
+        {
+          "emoji": "🔐",
+          "titre": "Une confiance difficile à accorder",
+          "texte": "Faire entrer quelqu'un chez soi ou dans son quotidien demande des garanties que peu de coachs savent offrir."
+        }
+      ]
+    },
+    "avantApres": {
+      "titre": "Ce qui change avec un coach GA.",
+      "lignes": [
+        [
+          "Des séances sautées au gré des déplacements",
+          "Un coach qui s'adapte à votre agenda, même au dernier moment"
+        ],
+        [
+          "La crainte d'une indiscrétion",
+          "Un engagement de confidentialité écrit, signé avant de commencer"
+        ],
+        [
+          "Un objectif flou",
+          "Un objectif précis, préparé pour votre prochain projet"
+        ],
+        [
+          "Plusieurs interlocuteurs",
+          "Un seul coach, en lien avec votre équipe"
+        ]
+      ]
+    },
+    "boost": "prive"
+  },
+  {
+    "slug": "coach-sportif-preparation-scene",
+    "cle": "scene",
+    "nom": "BOOST SCÈNE : préparation scène",
+    "emoji": "🎤",
+    "seo": {
+      "title": "BOOST SCÈNE : coach sportif, préparation physique artistes",
+      "description": "Préparation physique avant une tournée, un concert ou un festival : cardio, souffle, renforcement et filages construits sur votre show. Bilan 30 min offert."
+    },
+    "hero": {
+      "eyebrow": "BOOST PRIVÉ · SCÈNE",
+      "h1": "Préparation physique pour la scène : arrivez prêt le soir J.",
+      "lead": "",
+      "points": []
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce que BOOST SCÈNE ?",
+        "r": "Le programme de préparation physique de GA Coachs pour les artistes : un coach sportif diplômé construit votre préparation sur votre show (cardio, souffle, renforcement, filages) avant une tournée, une grande date, un festival ou un showcase."
+      },
+      {
+        "q": "À qui s'adresse BOOST SCÈNE ?",
+        "r": "Aux chanteurs, rappeurs, humoristes, musiciens, danseurs, comédiens, DJ et troupes de comédie musicale qui préparent une grande salle, un festival, un showcase ou une tournée. Toute l'équipe artistique peut être préparée, avec des séances collectives et un suivi individuel."
+      },
+      {
+        "q": "Quelle différence avec BOOST TOURNÉE ?",
+        "r": "BOOST SCÈNE vous prépare avant. BOOST TOURNÉE vous accompagne pendant : échauffement avant chaque show, récupération et suivi sur la route. Les deux s'enchaînent avec le même coach."
+      },
+      {
+        "q": "Quelle différence avec BOOST PRIVÉ ?",
+        "r": "BOOST PRIVÉ est un coaching privé à l'année pour les personnalités, sur un objectif de forme global. BOOST SCÈNE est construit sur un show et une date précise : votre setlist, vos passages les plus intenses, votre souffle."
+      },
+      {
+        "q": "Comment se déroule la préparation ?",
+        "r": "Un Bilan offert de 30 minutes, puis un bilan physique de départ et l'analyse de votre show. Le coach construit ensuite un programme de cardio, de souffle, de renforcement et de gainage, vérifie que vous tenez avec des filages physiques et ajuste jusqu'à la date."
+      },
+      {
+        "q": "Que se passe-t-il pendant le Bilan offert de 30 minutes ?",
+        "r": "Un échange avec Garry Babaud, Coach en chef de GA Coachs, en visio ou par téléphone, avec vous ou avec votre équipe : votre show, vos dates, votre forme, vos anciennes blessures et le temps nécessaire. Vous repartez avec une proposition claire, sans engagement."
+      },
+      {
+        "q": "Combien de temps avant la date faut-il commencer ?",
+        "r": "Le plus tôt possible. La durée dépend de votre niveau de départ, de votre show et de la date. Elle se fixe lors du Bilan offert de 30 minutes."
+      },
+      {
+        "q": "Faut-il être sportif pour commencer ?",
+        "r": "Non. La préparation part de votre niveau, mesuré lors du bilan, et progresse sans vous épuiser avant la date."
+      },
+      {
+        "q": "Qu'est-ce qu'un filage physique ?",
+        "r": "Enchaîner l'effort de votre set entier, dans des conditions proches du show, pour vérifier que vous tenez jusqu'au dernier titre. C'est le meilleur moyen de savoir ce qu'il reste à travailler avant le soir J."
+      },
+      {
+        "q": "Où se passent les séances ?",
+        "r": "Chez vous, à Paris ou ailleurs en France, sur un lieu privé, ou pendant vos résidences et répétitions. Basés à Orléans, à environ une heure de Paris en train, nous venons à vous. Une partie peut se faire à distance."
+      },
+      {
+        "q": "Ma préparation reste-t-elle confidentielle ?",
+        "r": "Oui. Un engagement de confidentialité écrit est signé avant la première séance. Aucune photo, aucune vidéo, aucune publication, et votre nom n'apparaît jamais dans nos références sans votre accord écrit."
+      },
+      {
+        "q": "Mon équipe peut-elle organiser la préparation ?",
+        "r": "Oui. Votre management, votre tour manager, votre production ou votre assistant peuvent gérer les créneaux, les reports et les échanges avec le coach."
+      },
+      {
+        "q": "Le coach remplace-t-il un coach vocal ou un kiné ?",
+        "r": "Non. Il prépare le corps qui porte la voix et travaille en complément de votre coach vocal et de vos professionnels de santé. Il ne pose aucun diagnostic."
+      },
+      {
+        "q": "Que se passe-t-il après la date ?",
+        "r": "Vous gardez un programme d'entretien pour ne pas perdre ce que vous avez construit. Si une tournée suit, BOOST TOURNÉE prend le relais avec le même coach. Vous pouvez aussi continuer à l'année avec BOOST PRIVÉ."
+      },
+      {
+        "q": "Comment est fixé le tarif ?",
+        "r": "Sur devis, selon la durée de la préparation, le lieu, la fréquence des séances et les déplacements du coach."
+      }
+    ],
+    "article": null,
+    "boost": "prive"
+  },
+  {
+    "slug": "coach-sportif-tournee-artistes",
+    "cle": "tournee",
+    "nom": "BOOST TOURNÉE : coach de tournée",
+    "emoji": "🎤",
+    "seo": {
+      "title": "BOOST TOURNÉE : coach sportif de tournée pour artistes",
+      "description": "Un coach sportif dédié pendant votre tournée : échauffement avant chaque show, récupération, séances à l'hôtel. Paris, France, étranger. Bilan 30 min offert."
+    },
+    "hero": {
+      "eyebrow": "BOOST PRIVÉ · Coach de tournée",
+      "h1": "Coach sportif de tournée pour les artistes : prêt pour chaque show.",
+      "lead": "",
+      "points": []
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce que BOOST TOURNÉE ?",
+        "r": "Le programme de GA Coachs qui met un coach sportif diplômé au service d'un artiste pendant sa tournée : échauffement avant chaque show, retour au calme, séances à l'hôtel ou en loge, récupération et suivi de la fatigue, sur toutes les dates ou sur les dates clés. C'est ce qu'on appelle un coach de tournée."
+      },
+      {
+        "q": "Pour quels artistes et quelles équipes ?",
+        "r": "Chanteurs, rappeurs, humoristes, musiciens, danseurs, comédiens, DJ et artistes de festival : tous ceux pour qui la scène est un effort physique. Le coach peut aussi préparer et échauffer toute l'équipe artistique, avec un échauffement collectif avant le show."
+      },
+      {
+        "q": "Quelles formules proposez-vous ?",
+        "r": "TOURNÉE COMPLÈTE pour être suivi sur toutes les dates, DATES CLÉS pour les dates les plus importantes (dont vos dates à Paris), SAISON FESTIVALS pour une série de festivals, et À DISTANCE pour un suivi entre les dates. La préparation avant le départ se fait avec BOOST SCÈNE."
+      },
+      {
+        "q": "Quelle différence entre BOOST TOURNÉE, BOOST SCÈNE et BOOST PRIVÉ ?",
+        "r": "BOOST SCÈNE vous prépare avant le départ. BOOST TOURNÉE vous accompagne pendant la tournée. BOOST PRIVÉ est un coaching privé à l'année pour les personnalités. Les trois peuvent s'enchaîner avec le même coach."
+      },
+      {
+        "q": "Qu'est-ce que le Bilan avant tournée ?",
+        "r": "Un échange de 30 minutes, offert et sans engagement, en visio ou par téléphone, avec Garry Babaud, Coach en chef de GA Coachs. On fait le point sur votre show, vos dates et votre forme, puis on vous propose la formule adaptée."
+      },
+      {
+        "q": "Comment se passe un jour de show avec le coach ?",
+        "r": "Un réveil musculaire le matin, adapté à votre énergie et à la date de la veille, une séance courte si la journée le permet, un échauffement complet en loge avant le show, puis un retour au calme après pour mieux récupérer et mieux dormir."
+      },
+      {
+        "q": "En quoi consiste l'échauffement avant un show ?",
+        "r": "Un échauffement complet, en loge : articulations, cardio progressif, activation musculaire, respiration et concentration. Il est adapté à votre show : appuis et sauts pour un set très physique, ancrage et respiration pour un seul en scène."
+      },
+      {
+        "q": "Le coach peut-il partir sur toute la tournée ?",
+        "r": "Oui, sur toutes les dates ou sur une partie seulement : le démarrage, les dates les plus chargées ou une série de festivals. Un suivi à distance est aussi possible entre les dates."
+      },
+      {
+        "q": "Où intervenez-vous ?",
+        "r": "À Paris, partout en France et à l'étranger. Basés à Orléans, à environ une heure de Paris en train, nous rejoignons facilement vos dates parisiennes et vos grandes salles. Les déplacements et l'hébergement du coach sont pris en compte dans le devis."
+      },
+      {
+        "q": "Combien de temps avant la tournée faut-il commencer ?",
+        "r": "Le plus tôt possible, avec BOOST SCÈNE, notre programme de préparation avant le départ. Sa durée dépend de votre niveau, de votre show et de la date de la première, et se fixe lors du Bilan avant tournée."
+      },
+      {
+        "q": "Ma tournée reste-t-elle confidentielle ?",
+        "r": "Oui. Un engagement de confidentialité écrit est signé avant la première séance. Aucune photo, aucune vidéo, aucune publication, et votre nom n'apparaît jamais dans nos références sans votre accord écrit. Le planning et les reports peuvent passer par votre tour manager, votre management ou votre assistant."
+      },
+      {
+        "q": "Le coach remplace-t-il un kiné, un médecin ou un coach vocal ?",
+        "r": "Non. Le coach s'occupe de la préparation physique, de l'échauffement et de la récupération. Il ne pose aucun diagnostic et travaille en complément de vos professionnels de santé et de votre coach vocal, si vous en avez un."
+      },
+      {
+        "q": "Que se passe-t-il après la tournée ?",
+        "r": "Le coach vous laisse un programme de récupération puis d'entretien, pour repartir en forme sur le projet suivant. Vous pouvez aussi continuer à l'année avec BOOST PRIVÉ."
+      },
+      {
+        "q": "Do you work with international artists?",
+        "r": "Yes. We can support international artists playing in Paris or touring France: pre-show warm-up, recovery sessions at the hotel and remote follow-up. You can write to us in English."
+      },
+      {
+        "q": "Comment le tarif est-il fixé ?",
+        "r": "Sur devis, selon le format choisi, le nombre de dates, la durée de la préparation, les déplacements et l'hébergement du coach."
+      }
+    ],
+    "article": null,
+    "boost": "prive"
+  },
+  {
+    "slug": "coach-sportif-hotel",
+    "cle": "hotel",
+    "nom": "Hôtels",
+    "emoji": "🏨",
+    "seo": {
+      "title": "BOOST TOURISME : coach sportif pour hôtel à Orléans",
+      "description": "Un coach sportif diplômé pour vos clients : séances privées en chambre, en salle ou dehors, réveil musculaire, séminaires. Un service premium, sans recrutement."
+    },
+    "hero": {
+      "eyebrow": "Services sur mesure · Hôtels",
+      "h1": "Un coach sportif pour les clients de votre hôtel.",
+      "lead": "Proposez à vos clients des séances encadrées par un coach diplômé : en chambre, dans votre salle de fitness ou en extérieur. Un service en plus, sans recrutement à gérer.",
+      "points": [
+        "Un service premium pour vos clients",
+        "Séances privées ou collectives",
+        "Aucun recrutement à gérer"
+      ]
+    },
+    "pourquoi": {
+      "titre": "Pourquoi proposer un coach à vos clients.",
+      "items": [
+        {
+          "titre": "Un séjour qui se distingue",
+          "texte": "Un coach à disposition, c'est un service que vos clients retiennent et qu'ils peuvent citer dans leurs avis."
+        },
+        {
+          "titre": "Votre salle de fitness mieux utilisée",
+          "texte": "Avec un coach sur des créneaux fixes, votre espace de fitness devient un vrai service, pas seulement une ligne dans la description de l'hôtel."
+        },
+        {
+          "titre": "Un atout pour vos séminaires",
+          "texte": "Réveil musculaire, pause active entre deux sessions : de quoi enrichir vos offres pour les groupes d'affaires."
+        }
+      ]
+    },
+    "formats": {
+      "titre": "Les formats possibles.",
+      "items": [
+        {
+          "emoji": "🛎️",
+          "titre": "Séances privées à la demande",
+          "texte": "Votre réception propose la séance, le coach intervient en chambre, en salle ou dehors."
+        },
+        {
+          "emoji": "⏰",
+          "titre": "Créneaux collectifs réguliers",
+          "texte": "Par exemple un réveil musculaire chaque matin ou plusieurs fois par semaine."
+        },
+        {
+          "emoji": "💼",
+          "titre": "Animation de séminaire",
+          "texte": "Pauses actives, séance d'ouverture, challenge sportif pour vos groupes."
+        },
+        {
+          "emoji": "🧘",
+          "titre": "Séjour bien-être",
+          "texte": "Un programme de plusieurs séances sur la durée du séjour, à intégrer à vos forfaits."
+        }
+      ]
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce que l'offre coach sportif pour hôtel ?",
+        "r": "Un service clé en main de GA Coachs, dans la gamme BOOST TOURISME : un coach sportif diplômé intervient auprès des clients de votre hôtel, en séance privée ou en créneau collectif, sans que vous ayez à recruter ni à gérer un salarié."
+      },
+      {
+        "q": "Qui réserve et qui paie les séances ?",
+        "r": "Deux fonctionnements sont possibles : l'hôtel achète des créneaux et les propose à ses clients, ou le client réserve directement. Nous choisissons ensemble le plus simple pour votre réception."
+      },
+      {
+        "q": "Faut-il une salle de fitness ?",
+        "r": "Non. Le coach peut intervenir en chambre, dans une salle de réunion ou en extérieur avec du petit matériel."
+      },
+      {
+        "q": "Les coachs sont-ils diplômés et assurés ?",
+        "r": "Oui. Les coachs du réseau sont diplômés et couverts par une assurance responsabilité civile professionnelle."
+      },
+      {
+        "q": "En combien de temps le service peut-il démarrer ?",
+        "r": "Après un premier échange et une visite de votre établissement, les premières séances peuvent démarrer selon la disponibilité des coachs."
+      },
+      {
+        "q": "Quel intérêt pour notre hôtel ?",
+        "r": "Un service en plus à mettre en avant auprès de vos clients, une salle de fitness enfin utilisée et une vraie différence pour la clientèle d'affaires comme pour les séjours bien-être."
+      },
+      {
+        "q": "Quels types de séances proposez-vous ?",
+        "r": "Séances privées à la demande, réveil musculaire, circuit training, mobilité et étirements, marche active ou course en extérieur, et animations pour vos séminaires."
+      },
+      {
+        "q": "Pouvez-vous animer nos séminaires ?",
+        "r": "Oui : séance d'ouverture, pauses actives entre deux réunions, challenge sportif par équipes. Le format se cale sur le programme de votre groupe."
+      },
+      {
+        "q": "Le coach peut-il conseiller notre équipe ?",
+        "r": "Oui. Il peut aider votre équipe à présenter la salle de fitness, à orienter les clients et à proposer des routines simples en libre accès."
+      },
+      {
+        "q": "À quelle fréquence le coach intervient-il ?",
+        "r": "Comme vous le souhaitez : à la demande de vos clients, sur des créneaux fixes chaque semaine ou pour des temps forts de l'année."
+      },
+      {
+        "q": "Où intervenez-vous ?",
+        "r": "À Orléans, dans sa métropole et dans le Loiret en priorité, et plus largement en Centre-Val de Loire selon la disponibilité des coachs. Pour un autre territoire, écrivez-nous."
+      },
+      {
+        "q": "Comment le tarif est-il fixé ?",
+        "r": "Sur devis, selon le format, la durée, la fréquence, le nombre de participants et le lieu. Un devis clair vous est remis après un premier échange, sans engagement."
+      }
+    ],
+    "article": "coach-sportif-hotel-comment-proposer-le-service",
+    "signature": {
+      "nom": "SÉJOUR ACTIF",
+      "emoji": "🏨",
+      "duree": "12 semaines ou 1 an",
+      "accroche": "Un service sport clé en main pour vos clients, sans recrutement à gérer.",
+      "contenu": [
+        "Un réveil musculaire collectif, à jours fixes, annoncé à la réception",
+        "Des séances privées à la demande, en chambre, en salle ou dehors",
+        "Un support à poser en chambre (QR code) pour réserver une séance",
+        "Une offre séminaire : séance d'ouverture et pauses actives",
+        "Un point chaque trimestre sur la participation"
+      ],
+      "obtenu": [
+        "Un service que vos clients retiennent",
+        "Votre espace fitness enfin utilisé"
+      ],
+      "formules": [
+        {
+          "duree": "12 semaines",
+          "texte": "Une saison test : réveil musculaire à jours fixes, séances privées à la demande et point de participation à la fin.",
+          "label": "Pour tester"
+        },
+        {
+          "duree": "1 an",
+          "texte": "Le service sport de l'hôtel toute l'année : planning adapté aux saisons, offres séminaire, point chaque trimestre.",
+          "label": "Notre spécialité"
+        }
+      ]
+    },
+    "constat": {
+      "titre": "Ce que beaucoup d'hôtels constatent.",
+      "items": [
+        {
+          "emoji": "🏋️",
+          "titre": "Une salle de fitness peu utilisée",
+          "texte": "Elle figure dans la description de l'hôtel, mais peu de clients s'en servent vraiment."
+        },
+        {
+          "emoji": "⭐",
+          "titre": "Des clients qui comparent tout",
+          "texte": "Sur les plateformes de réservation, ce sont les services en plus qui font la différence et les bons avis."
+        },
+        {
+          "emoji": "💼",
+          "titre": "Des séminaires qui se ressemblent",
+          "texte": "Les groupes d'affaires cherchent des lieux qui proposent plus qu'une salle de réunion et un buffet."
+        }
+      ]
+    },
+    "avantApres": {
+      "titre": "Ce qui change avec un coach GA.",
+      "lignes": [
+        [
+          "Une salle de fitness vide",
+          "Un réveil musculaire à jours fixes, annoncé à la réception"
+        ],
+        [
+          "Un service sport inexistant",
+          "Des séances privées réservables depuis la chambre"
+        ],
+        [
+          "Des séminaires classiques",
+          "Pauses actives et séances d'ouverture pour vos groupes"
+        ],
+        [
+          "Un recrutement à gérer",
+          "Un coach diplômé du réseau, sans embauche"
+        ]
+      ]
+    },
+    "boost": "tourisme"
+  },
+  {
+    "slug": "coach-sportif-camping",
+    "cle": "camping",
+    "nom": "Campings",
+    "emoji": "⛺",
+    "seo": {
+      "title": "Coach sportif en camping : animations sportives encadrées",
+      "description": "Réveil musculaire, circuit training, séances parents-enfants : un coach sportif diplômé anime des créneaux réguliers dans votre camping pendant la saison."
+    },
+    "hero": {
+      "eyebrow": "Services sur mesure · Campings",
+      "h1": "Des animations sportives encadrées pour votre camping.",
+      "lead": "Réveil musculaire, circuit training, séances en famille, plein air : un coach diplômé anime des créneaux réguliers pendant votre saison, pour tous les âges et tous les niveaux.",
+      "points": [
+        "Pour toute la famille",
+        "Créneaux réguliers sur la saison",
+        "En plein air, sans matériel lourd"
+      ]
+    },
+    "pourquoi": {
+      "titre": "Pourquoi faire appel à un coach.",
+      "items": [
+        {
+          "titre": "Un programme d'animations plus riche",
+          "texte": "Des rendez-vous sportifs réguliers que vos vacanciers attendent et qui rythment la semaine."
+        },
+        {
+          "titre": "Un encadrement par un diplômé",
+          "texte": "Le coach adapte chaque séance à l'âge et au niveau des participants, pour que tout le monde y trouve sa place en sécurité."
+        },
+        {
+          "titre": "Des vacanciers qui reviennent",
+          "texte": "Une animation de qualité fait partie des souvenirs de séjour, et des raisons de revenir l'année suivante."
+        }
+      ]
+    },
+    "formats": {
+      "titre": "Les formats possibles.",
+      "items": [
+        {
+          "emoji": "🌅",
+          "titre": "Réveil musculaire",
+          "texte": "Une séance douce le matin, ouverte à tous, pour bien démarrer la journée."
+        },
+        {
+          "emoji": "🔥",
+          "titre": "Circuit training",
+          "texte": "Une séance plus dynamique pour les ados et les adultes qui veulent se dépenser."
+        },
+        {
+          "emoji": "👨‍👩‍👧",
+          "titre": "Parents-enfants",
+          "texte": "Des jeux et exercices à faire ensemble, adaptés aux plus jeunes."
+        },
+        {
+          "emoji": "☀️",
+          "titre": "Renfort haute saison",
+          "texte": "Des créneaux supplémentaires sur les semaines les plus chargées."
+        }
+      ]
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce que l'offre coach sportif pour camping ?",
+        "r": "Une offre de la gamme BOOST TOURISME : un coach sportif diplômé du réseau GA Coachs anime des séances sportives pour vos vacanciers, sur des créneaux réguliers pendant la saison."
+      },
+      {
+        "q": "Sur quelle période intervenez-vous ?",
+        "r": "Sur toute la saison ou uniquement en haute saison, selon vos besoins et votre programme d'animations."
+      },
+      {
+        "q": "De quel espace avez-vous besoin ?",
+        "r": "Un espace plat, idéalement ombragé, suffit : pelouse, terrain, abord de piscine. Le coach apporte le petit matériel."
+      },
+      {
+        "q": "Et s'il pleut ?",
+        "r": "La séance se fait dans une salle couverte si vous en avez une. Sinon, elle est reportée selon ce que nous avons convenu ensemble."
+      },
+      {
+        "q": "Le coach remplace-t-il notre équipe d'animation ?",
+        "r": "Non. Il la complète avec des séances sportives encadrées par un diplômé."
+      },
+      {
+        "q": "Quel intérêt pour notre camping ?",
+        "r": "Un programme d'animations plus riche, des vacanciers qui bougent en famille et un rendez-vous qui rythme la semaine, encadré par un professionnel diplômé."
+      },
+      {
+        "q": "Les séances conviennent-elles aux enfants ?",
+        "r": "Oui. Le coach propose des séances parents-enfants avec des jeux et des exercices adaptés aux plus jeunes, ainsi que des séances pour les ados et les adultes."
+      },
+      {
+        "q": "Faut-il que les vacanciers s'inscrivent ?",
+        "r": "C'est vous qui choisissez : séances en accès libre au point de rendez-vous, ou inscription à l'accueil pour limiter le nombre de participants."
+      },
+      {
+        "q": "Quel matériel faut-il prévoir ?",
+        "r": "Aucun matériel lourd. Le coach apporte le petit matériel nécessaire ; les participants viennent en tenue de sport, avec de l'eau."
+      },
+      {
+        "q": "Pouvez-vous intervenir uniquement en haute saison ?",
+        "r": "Oui. Le coach peut renforcer votre équipe d'animation sur juillet et août seulement, ou sur toute votre saison d'ouverture."
+      },
+      {
+        "q": "Aurons-nous toujours le même coach ?",
+        "r": "Pour des interventions régulières, oui : un coach attitré connaît votre lieu, votre public et vos contraintes. Un autre coach du réseau peut le remplacer en cas d'absence, avec les mêmes consignes."
+      },
+      {
+        "q": "Comment le tarif est-il fixé ?",
+        "r": "Sur devis, selon le format, la durée, la fréquence, le nombre de participants et le lieu. Un devis clair vous est remis après un premier échange, sans engagement."
+      }
+    ],
+    "article": "animations-sportives-camping-idees-de-seances",
+    "signature": {
+      "nom": "SAISON ACTIVE",
+      "emoji": "⛺",
+      "duree": "12 semaines ou 1 an",
+      "accroche": "Un programme d'animations sportives prêt à afficher pour tout l'été.",
+      "contenu": [
+        "Un planning hebdomadaire type : réveil musculaire, circuit training, séances parents-enfants",
+        "Un grand défi en fin de semaine pour réunir les vacanciers",
+        "Des séances adaptées à tous les âges, encadrées par un diplômé",
+        "Un repli prévu en cas de pluie",
+        "Un bilan de saison avec la participation par créneau"
+      ],
+      "obtenu": [
+        "Un programme d'animations plus riche, sans charge pour votre équipe",
+        "Des rendez-vous que les vacanciers attendent et dont ils se souviennent"
+      ],
+      "formules": [
+        {
+          "duree": "12 semaines",
+          "texte": "Toute la saison d'été couverte : planning hebdomadaire, grand défi chaque fin de semaine, bilan de saison.",
+          "label": "Pour tester"
+        },
+        {
+          "duree": "1 an",
+          "texte": "Un partenariat à l'année : la saison d'été, les ailes de saison et des temps forts pour vos clients fidèles, préparés à l'avance.",
+          "label": "Notre spécialité"
+        }
+      ]
+    },
+    "constat": {
+      "titre": "La haute saison, vous la connaissez.",
+      "items": [
+        {
+          "emoji": "🎪",
+          "titre": "Un programme d'animations à remplir",
+          "texte": "Chaque semaine, il faut des rendez-vous variés pour toutes les familles et tous les âges."
+        },
+        {
+          "emoji": "🧑‍🤝‍🧑",
+          "titre": "Une équipe d'animation à flux tendu",
+          "texte": "Vos animateurs font beaucoup ; le sport encadré demande des compétences et un diplôme spécifiques."
+        },
+        {
+          "emoji": "🔁",
+          "titre": "Des vacanciers à faire revenir",
+          "texte": "Ce dont on se souvient d'un séjour, ce sont les moments partagés. Ce sont eux qui donnent envie de revenir."
+        }
+      ]
+    },
+    "avantApres": {
+      "titre": "Ce qui change avec un coach GA.",
+      "lignes": [
+        [
+          "Des animations sportives improvisées",
+          "Un planning de séances prêt à afficher pour la semaine"
+        ],
+        [
+          "Le sport repose sur vos animateurs",
+          "Un coach diplômé qui encadre en toute sécurité"
+        ],
+        [
+          "Les mêmes activités chaque jour",
+          "Réveil musculaire, circuit, parents-enfants et grand défi"
+        ],
+        [
+          "Aucun retour sur ce qui plaît",
+          "Un bilan de saison avec la participation par créneau"
+        ]
+      ]
+    },
+    "boost": "tourisme"
+  },
+  {
+    "slug": "coach-sportif-collectivites-administrations",
+    "cle": "collectivite",
+    "nom": "Mairies, administrations et organismes publics",
+    "emoji": "🏛️",
+    "seo": {
+      "title": "Coach sportif pour mairies, collectivités et administrations",
+      "description": "Pauses actives pour vos agents, prévention, séances pour vos habitants : un coach sportif diplômé intervient pour les mairies et organismes publics du Loiret."
+    },
+    "hero": {
+      "eyebrow": "Services sur mesure · Organismes publics",
+      "h1": "Du sport encadré pour vos agents et vos habitants.",
+      "lead": "Mairies, préfectures, URSSAF, CAF, intercommunalités : un coach diplômé intervient auprès de vos agents ou de vos publics, avec un devis détaillé utilisable dans votre procédure d'achat.",
+      "points": [
+        "Pour vos agents ou vos habitants",
+        "Un devis détaillé pour votre procédure d'achat",
+        "Des actions ponctuelles ou régulières"
+      ]
+    },
+    "pourquoi": {
+      "titre": "Ce qu'un coach apporte à votre structure.",
+      "items": [
+        {
+          "titre": "Des agents qui bougent plus",
+          "texte": "Sédentarité, travail sur écran, postures : des séances courtes et régulières, sur le lieu de travail, pour vos équipes."
+        },
+        {
+          "titre": "Des actions pour vos habitants",
+          "texte": "Séances pour les seniors, journées sport santé, actions de quartier : un coach anime vos projets auprès du public."
+        },
+        {
+          "titre": "Un cadre clair",
+          "texte": "Un interlocuteur unique, un devis détaillé et un bilan de chaque action pour vos rapports."
+        }
+      ]
+    },
+    "formats": {
+      "titre": "Les formats possibles.",
+      "items": [
+        {
+          "emoji": "⏱️",
+          "titre": "Pauses actives",
+          "texte": "15 à 30 minutes sur site, en tenue de travail, pour vos agents."
+        },
+        {
+          "emoji": "🪑",
+          "titre": "Ateliers de prévention",
+          "texte": "Postures, mal de dos, gestes du quotidien au bureau."
+        },
+        {
+          "emoji": "👵",
+          "titre": "Séances pour vos publics",
+          "texte": "Seniors, habitants d'un quartier, publics accompagnés par vos services."
+        },
+        {
+          "emoji": "🎉",
+          "titre": "Événements",
+          "texte": "Journée sport santé, challenge entre services, semaine de la qualité de vie au travail."
+        }
+      ]
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce que l'offre pour les collectivités et administrations ?",
+        "r": "Une offre de GA Coachs pour les mairies, intercommunalités, préfectures, URSSAF, CAF et autres organismes publics : un coach sportif diplômé intervient auprès de vos agents ou de vos publics, ponctuellement ou toute l'année."
+      },
+      {
+        "q": "Pouvez-vous fournir un devis pour notre procédure d'achat ?",
+        "r": "Oui. Nous fournissons un devis détaillé (contenu, nombre de séances, prix unitaire) que vous intégrez à votre procédure. Les modalités dépendent de vos règles internes."
+      },
+      {
+        "q": "Où se déroulent les séances ?",
+        "r": "Dans vos locaux, une salle de réunion, un gymnase municipal ou en extérieur. Aucun équipement particulier n'est nécessaire."
+      },
+      {
+        "q": "Les agents doivent-ils se changer ?",
+        "r": "Pas pour une pause active : les exercices se font en tenue de travail. Pour une séance plus longue, une tenue souple est conseillée."
+      },
+      {
+        "q": "Sur quel territoire intervenez-vous ?",
+        "r": "À Orléans, dans sa métropole et dans le Loiret, selon la disponibilité des coachs."
+      },
+      {
+        "q": "Pour vos agents : que proposez-vous ?",
+        "r": "Des pauses actives en tenue de travail, des ateliers de prévention (sédentarité, postures, mal de dos) et des challenges collectifs pour renforcer la cohésion des équipes."
+      },
+      {
+        "q": "Pour vos habitants : que proposez-vous ?",
+        "r": "Des séances de sport santé pour les seniors, les habitants d'un quartier, les publics accompagnés par vos services ou les associations, ainsi que des animations lors de vos événements."
+      },
+      {
+        "q": "Pouvez-vous animer une journée sport santé ou un événement municipal ?",
+        "r": "Oui : Semaine européenne du sport, journée sport santé, forum des associations, fête de quartier. Le coach anime des séances ouvertes à tous les niveaux."
+      },
+      {
+        "q": "Les séances conviennent-elles aux personnes peu sportives ?",
+        "r": "Oui. Chaque exercice est proposé à plusieurs niveaux. Le coach ne pose aucun diagnostic et oriente vers un professionnel de santé si besoin."
+      },
+      {
+        "q": "Le coach peut-il intervenir dans la communication de la ville ?",
+        "r": "Oui, avec BOOST COMMUNICATION : vidéos pour vos réseaux sociaux, programmes d'exercices pour vos supports, coach visage d'une campagne de santé publique."
+      },
+      {
+        "q": "Qui sont les coachs qui interviennent ?",
+        "r": "Des coachs sportifs diplômés du réseau GA Coachs, titulaires d'une carte professionnelle et assurés en responsabilité civile professionnelle. Ils exercent au quotidien autour d'Orléans, notamment en salle Basic-Fit, et sont reconnaissables à leur polo bleu GA."
+      },
+      {
+        "q": "Comment démarrer ?",
+        "r": "Remplissez le formulaire de contact. Nous vous rappelons pour un échange sur votre besoin, puis vous recevez une proposition et un devis. Les premières interventions démarrent selon la disponibilité des coachs."
+      }
+    ],
+    "article": "activite-physique-agents-collectivite",
+    "signature": {
+      "nom": "AGENTS EN FORME",
+      "emoji": "🏛️",
+      "duree": "12 semaines ou 1 an",
+      "accroche": "Un cycle complet pour faire bouger vos agents, du lancement au bilan.",
+      "contenu": [
+        "Une réunion de lancement avec les services",
+        "2 pauses actives par semaine, sur site et en tenue de travail",
+        "1 atelier postures par mois",
+        "Un challenge entre services pour clôturer le cycle",
+        "Un bilan écrit avec la participation, utile pour vos rapports"
+      ],
+      "obtenu": [
+        "Une action de qualité de vie au travail visible et mesurée",
+        "Un devis détaillé, intégrable à votre procédure d'achat"
+      ],
+      "formules": [
+        {
+          "duree": "12 semaines",
+          "texte": "Un cycle complet : lancement, 2 pauses actives par semaine, 1 atelier postures par mois, challenge final et bilan écrit.",
+          "label": "Pour tester"
+        },
+        {
+          "duree": "1 an",
+          "texte": "Une politique durable : 4 cycles de 12 semaines, un thème par trimestre, un bilan annuel pour vos rapports.",
+          "label": "Notre spécialité"
+        }
+      ]
+    },
+    "constat": {
+      "titre": "Dans les services publics aussi, on bouge trop peu.",
+      "items": [
+        {
+          "emoji": "🖥️",
+          "titre": "Des journées entières devant un écran",
+          "texte": "Travail de bureau, accueil du public, réunions : la sédentarité pèse sur le dos et sur l'énergie de vos agents."
+        },
+        {
+          "emoji": "📋",
+          "titre": "Une démarche de qualité de vie au travail à faire vivre",
+          "texte": "Les intentions sont là ; il manque souvent des actions concrètes, régulières et faciles à organiser."
+        },
+        {
+          "emoji": "🧾",
+          "titre": "Des règles d'achat à respecter",
+          "texte": "Toute prestation doit entrer dans votre procédure, avec un devis clair et un interlocuteur identifié."
+        }
+      ]
+    },
+    "avantApres": {
+      "titre": "Ce qui change avec un coach GA.",
+      "lignes": [
+        [
+          "Des actions ponctuelles et vite oubliées",
+          "Un cycle complet, du lancement au bilan"
+        ],
+        [
+          "Des agents qui n'osent pas participer",
+          "Des pauses actives en tenue de travail, accessibles à tous"
+        ],
+        [
+          "Peu d'éléments pour vos rapports",
+          "Un bilan écrit avec la participation"
+        ],
+        [
+          "Un prestataire difficile à cadrer",
+          "Un devis détaillé, intégrable à votre procédure d'achat"
+        ]
+      ]
+    },
+    "boost": "entreprise"
+  },
+  {
+    "slug": "coach-sportif-maison-de-sante",
+    "cle": "maison-sante",
+    "nom": "Maisons et pôles de santé",
+    "emoji": "🩺",
+    "seo": {
+      "title": "BOOST SANTÉ : coach sportif pour maison de santé",
+      "description": "Ateliers collectifs, reprise progressive, prévention : un coach sportif diplômé intervient aux côtés de votre maison de santé, en complément de vos praticiens."
+    },
+    "hero": {
+      "eyebrow": "Services sur mesure · Maisons de santé",
+      "h1": "Un coach sportif diplômé aux côtés de votre maison de santé.",
+      "lead": "Ateliers collectifs, relais d'activité physique pour les patients que vous orientez, actions de prévention : un coach du réseau intervient en complément de votre équipe, jamais à sa place.",
+      "points": [
+        "En lien avec vos praticiens",
+        "Ateliers collectifs et reprises progressives",
+        "Avec l'accord du patient"
+      ]
+    },
+    "pourquoi": {
+      "titre": "Ce qu'un coach apporte à votre structure.",
+      "items": [
+        {
+          "titre": "Un relais après la consultation",
+          "texte": "Conseiller de bouger, c'est une chose. Avoir quelqu'un pour accompagner la reprise, semaine après semaine, en est une autre."
+        },
+        {
+          "titre": "Des ateliers dans vos locaux",
+          "texte": "Des séances collectives de prévention et de remise en mouvement, au plus près de vos patients."
+        },
+        {
+          "titre": "Un retour simple au praticien",
+          "texte": "Avec l'accord du patient, le coach vous fait un retour sur la participation et l'évolution."
+        }
+      ]
+    },
+    "formats": {
+      "titre": "Les formats possibles.",
+      "items": [
+        {
+          "emoji": "👥",
+          "titre": "Ateliers collectifs",
+          "texte": "Des séances régulières pour de petits groupes, dans vos locaux ou à proximité."
+        },
+        {
+          "emoji": "📈",
+          "titre": "Reprise progressive",
+          "texte": "Un programme sur plusieurs semaines pour les patients qui reprennent une activité."
+        },
+        {
+          "emoji": "📣",
+          "titre": "Prévention",
+          "texte": "Ateliers thématiques et journées de sensibilisation auprès du public."
+        },
+        {
+          "emoji": "🩺",
+          "titre": "Pour votre équipe",
+          "texte": "Des séances pour les soignants et le personnel de la structure."
+        }
+      ]
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce que l'offre coach sportif pour maison de santé ?",
+        "r": "Une offre de la gamme BOOST SANTÉ : un coach sportif diplômé du réseau GA Coachs devient le relais d'activité physique de votre maison ou pôle de santé, en complément de vos praticiens."
+      },
+      {
+        "q": "Le coach remplace-t-il un kinésithérapeute ou un enseignant en APA ?",
+        "r": "Non. Il intervient en complément, dans le cadre défini avec vous. Il ne pose aucun diagnostic et ne prescrit aucun traitement."
+      },
+      {
+        "q": "Comment un patient est-il orienté vers le coach ?",
+        "r": "Le praticien conseille, puis le patient nous contacte lui-même, ou nous transmettons ses coordonnées avec son accord."
+      },
+      {
+        "q": "Les ateliers peuvent-ils avoir lieu dans nos locaux ?",
+        "r": "Oui, si vous disposez d'une salle adaptée. Sinon, nous cherchons ensemble un lieu à proximité."
+      },
+      {
+        "q": "Les coachs sont-ils diplômés ?",
+        "r": "Oui. Tous les coachs du réseau sont diplômés et assurés en responsabilité civile professionnelle."
+      },
+      {
+        "q": "Quel intérêt pour nos patients ?",
+        "r": "Un relais concret pour passer du conseil à la pratique : des séances encadrées, progressives et régulières, avec un professionnel du mouvement près de chez eux."
+      },
+      {
+        "q": "Quels patients peuvent être concernés ?",
+        "r": "Les patients que vos praticiens jugent aptes à reprendre une activité physique encadrée : reprise après une période d'inactivité, objectif Perte de Poids, remise en forme, prévention."
+      },
+      {
+        "q": "Le coach communique-t-il avec nos praticiens ?",
+        "r": "Oui, si le patient est d'accord : le coach peut faire un point sur la régularité et les progrès. Il ne reçoit que les informations utiles à l'encadrement des séances."
+      },
+      {
+        "q": "Pouvez-vous animer des actions de prévention ?",
+        "r": "Oui : ateliers thématiques, journées de sensibilisation, interventions auprès de vos patients ou du public de votre territoire."
+      },
+      {
+        "q": "Le coach peut-il intervenir pour notre équipe ?",
+        "r": "Oui. Des séances ou des pauses actives peuvent être proposées à vos professionnels de santé et à votre équipe d'accueil."
+      },
+      {
+        "q": "Où intervenez-vous ?",
+        "r": "À Orléans, dans sa métropole et dans le Loiret en priorité, et plus largement en Centre-Val de Loire selon la disponibilité des coachs. Pour un autre territoire, écrivez-nous."
+      },
+      {
+        "q": "Comment le tarif est-il fixé ?",
+        "r": "Sur devis, selon le format, la durée, la fréquence, le nombre de participants et le lieu. Un devis clair vous est remis après un premier échange, sans engagement."
+      }
+    ],
+    "article": "maison-de-sante-travailler-avec-un-coach-sportif",
+    "signature": {
+      "nom": "RELAIS SANTÉ 12",
+      "emoji": "🩺",
+      "duree": "12 semaines ou 1 an",
+      "accroche": "Un cycle d'ateliers pour accompagner la reprise d'activité des patients que vous orientez.",
+      "contenu": [
+        "Un entretien d'accueil pour chaque participant, sans diagnostic",
+        "1 atelier collectif par semaine en petit groupe",
+        "Des exercices simples à refaire à la maison",
+        "Des tests de forme simples au début et à la fin du cycle",
+        "Avec l'accord du patient, un retour écrit au praticien"
+      ],
+      "obtenu": [
+        "Un relais concret entre la consultation et la reprise",
+        "Une action de prévention portée par votre structure"
+      ],
+      "formules": [
+        {
+          "duree": "12 semaines",
+          "texte": "Un cycle d'ateliers pour un groupe de patients : tests de forme au début et à la fin, retour au praticien avec accord.",
+          "label": "Pour tester"
+        },
+        {
+          "duree": "1 an",
+          "texte": "Un relais permanent : nouveaux groupes chaque trimestre, actions de prévention auprès du public, bilan annuel.",
+          "label": "Notre spécialité"
+        }
+      ]
+    },
+    "constat": {
+      "titre": "Le constat de nombreux praticiens.",
+      "items": [
+        {
+          "emoji": "💬",
+          "titre": "Un conseil qui reste un conseil",
+          "texte": "« Il faut bouger » : les patients l'entendent, mais sans accompagnement, peu passent à l'action."
+        },
+        {
+          "emoji": "⏱️",
+          "titre": "Pas le temps de suivre la reprise",
+          "texte": "Une consultation ne permet pas d'encadrer des séances d'activité physique semaine après semaine."
+        },
+        {
+          "emoji": "🔗",
+          "titre": "Peu de relais fiables autour de vous",
+          "texte": "Orienter un patient vers quelqu'un de confiance, diplômé et qui vous fait un retour, n'est pas toujours simple."
+        }
+      ]
+    },
+    "avantApres": {
+      "titre": "Ce qui change avec un coach GA.",
+      "lignes": [
+        [
+          "Le patient repart avec un conseil",
+          "Le patient rejoint un atelier encadré chaque semaine"
+        ],
+        [
+          "Aucune nouvelle après la consultation",
+          "Un retour écrit au praticien, avec l'accord du patient"
+        ],
+        [
+          "Des actions de prévention ponctuelles",
+          "Un cycle d'ateliers régulier dans vos locaux"
+        ],
+        [
+          "Chercher un intervenant à chaque fois",
+          "Un coach diplômé du réseau, toujours le même"
+        ]
+      ]
+    },
+    "boost": "sante"
+  },
+  {
+    "slug": "coach-sportif-clinique",
+    "cle": "clinique",
+    "nom": "Cliniques",
+    "emoji": "🏥",
+    "seo": {
+      "title": "Coach sportif en clinique : remise en mouvement",
+      "description": "Remise en mouvement des patients, relais après la sortie, bien-être des équipes : un coach sportif diplômé intervient avec votre équipe soignante."
+    },
+    "hero": {
+      "eyebrow": "Services sur mesure · Cliniques",
+      "h1": "Des séances de remise en mouvement pour vos patients.",
+      "lead": "Remise en mouvement, reprise d'activité après une hospitalisation, bien-être des équipes : un coach diplômé intervient dans votre clinique, avec l'accord et selon les consignes de l'équipe soignante.",
+      "points": [
+        "Avec l'accord de l'équipe soignante",
+        "Pour les patients et les équipes",
+        "Adapté à votre organisation"
+      ]
+    },
+    "pourquoi": {
+      "titre": "Ce qu'un coach apporte à votre clinique.",
+      "items": [
+        {
+          "titre": "Encourager la remise en mouvement",
+          "texte": "Des séances encadrées, adaptées aux consignes de l'équipe soignante, pour aider les patients à rester actifs."
+        },
+        {
+          "titre": "Préparer le retour à domicile",
+          "texte": "Le patient peut, s'il le souhaite, poursuivre avec un coach du réseau près de chez lui après sa sortie."
+        },
+        {
+          "titre": "Prendre soin de vos équipes",
+          "texte": "Des ateliers courts pour le personnel : postures, gestes, récupération."
+        }
+      ]
+    },
+    "formats": {
+      "titre": "Les formats possibles.",
+      "items": [
+        {
+          "emoji": "🚶",
+          "titre": "Remise en mouvement",
+          "texte": "Des séances collectives douces, sur indication de l'équipe soignante."
+        },
+        {
+          "emoji": "🏡",
+          "titre": "Relais après la sortie",
+          "texte": "Un coach du réseau prend le relais en ville, avec l'accord du patient."
+        },
+        {
+          "emoji": "🕐",
+          "titre": "Ambulatoire et hôpital de jour",
+          "texte": "Des créneaux calés sur votre organisation et vos temps de prise en charge."
+        },
+        {
+          "emoji": "💙",
+          "titre": "Bien-être des équipes",
+          "texte": "Pauses actives et ateliers pour le personnel soignant et administratif."
+        }
+      ]
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce que l'offre coach sportif pour clinique ?",
+        "r": "Une offre de la gamme BOOST SANTÉ : un coach sportif diplômé du réseau GA Coachs anime des séances de remise en mouvement pour vos patients et des séances bien-être pour vos équipes, selon les consignes de l'équipe soignante."
+      },
+      {
+        "q": "Qui décide qu'un patient peut participer ?",
+        "r": "L'équipe soignante, toujours. Le coach n'intervient qu'auprès des patients qu'elle autorise et selon ses consignes."
+      },
+      {
+        "q": "Le coach a-t-il accès au dossier médical ?",
+        "r": "Non. Il reçoit seulement les consignes utiles transmises par l'équipe soignante."
+      },
+      {
+        "q": "Que se passe-t-il après la sortie du patient ?",
+        "r": "S'il le souhaite, le patient peut poursuivre avec un coach du réseau près de chez lui. Rien n'est automatique."
+      },
+      {
+        "q": "Les coachs sont-ils diplômés et assurés ?",
+        "r": "Oui. Tous les coachs du réseau sont diplômés et assurés en responsabilité civile professionnelle."
+      },
+      {
+        "q": "Quel intérêt pour la clinique ?",
+        "r": "Des patients qui bougent davantage pendant et après leur séjour, un relais d'activité physique après la sortie et une attention concrète portée au bien-être de vos équipes."
+      },
+      {
+        "q": "Le coach remplace-t-il un kinésithérapeute ou un enseignant en APA ?",
+        "r": "Non. Il intervient en complément, sur indication de l'équipe soignante. Il ne pose aucun diagnostic et ne prescrit aucun traitement."
+      },
+      {
+        "q": "Quels types de séances proposez-vous ?",
+        "r": "Des séances collectives douces de remise en mouvement, des créneaux calés sur l'ambulatoire et l'hôpital de jour, et des séances bien-être pour le personnel."
+      },
+      {
+        "q": "Pouvez-vous proposer des séances à vos soignants ?",
+        "r": "Oui : pauses actives, renforcement du dos, étirements, séances avant ou après la prise de poste, selon vos plannings."
+      },
+      {
+        "q": "Où intervenez-vous ?",
+        "r": "À Orléans, dans sa métropole et dans le Loiret en priorité, et plus largement en Centre-Val de Loire selon la disponibilité des coachs. Pour un autre territoire, écrivez-nous."
+      },
+      {
+        "q": "Comment le tarif est-il fixé ?",
+        "r": "Sur devis, selon le format, la durée, la fréquence, le nombre de participants et le lieu. Un devis clair vous est remis après un premier échange, sans engagement."
+      },
+      {
+        "q": "Comment démarrer ?",
+        "r": "Remplissez le formulaire de contact. Nous vous rappelons pour un échange sur votre besoin, puis vous recevez une proposition et un devis. Les premières interventions démarrent selon la disponibilité des coachs."
+      }
+    ],
+    "article": "clinique-remise-en-mouvement-role-du-coach",
+    "signature": {
+      "nom": "REMISE EN MOUVEMENT",
+      "emoji": "🏥",
+      "duree": "12 semaines ou 1 an",
+      "accroche": "Des séances encadrées pour vos patients et un relais après la sortie.",
+      "contenu": [
+        "Des séances collectives douces, sur indication et selon les consignes de l'équipe soignante",
+        "Des créneaux calés sur l'ambulatoire et l'hôpital de jour",
+        "Un relais vers un coach du réseau près de chez le patient, s'il le souhaite",
+        "1 atelier par mois pour le personnel : postures, récupération",
+        "Un point trimestriel avec le cadre de santé"
+      ],
+      "obtenu": [
+        "Des patients qui restent actifs pendant et après leur séjour",
+        "Une attention concrète portée à vos équipes"
+      ],
+      "formules": [
+        {
+          "duree": "12 semaines",
+          "texte": "Un pilote dans un service : séances selon les consignes de l'équipe soignante, relais après la sortie, point final avec le cadre de santé.",
+          "label": "Pour tester"
+        },
+        {
+          "duree": "1 an",
+          "texte": "Un partenariat annuel : séances chaque semaine, ateliers mensuels pour le personnel, point chaque trimestre.",
+          "label": "Notre spécialité"
+        }
+      ]
+    },
+    "constat": {
+      "titre": "Pendant et après le séjour, le mouvement compte.",
+      "items": [
+        {
+          "emoji": "🛏️",
+          "titre": "Des patients qui bougent peu",
+          "texte": "Pendant une hospitalisation, les journées sont longues et souvent immobiles."
+        },
+        {
+          "emoji": "🏡",
+          "titre": "Un retour à domicile sans relais",
+          "texte": "Après la sortie, beaucoup de patients ne savent pas comment reprendre une activité en sécurité."
+        },
+        {
+          "emoji": "🩺",
+          "titre": "Des équipes soignantes sous tension",
+          "texte": "Vos équipes n'ont pas le temps d'animer des séances régulières, et leur propre dos en souffre."
+        }
+      ]
+    },
+    "avantApres": {
+      "titre": "Ce qui change avec un coach GA.",
+      "lignes": [
+        [
+          "Peu d'activité pendant le séjour",
+          "Des séances encadrées, selon les consignes de l'équipe soignante"
+        ],
+        [
+          "La sortie, et plus rien",
+          "Un relais possible vers un coach du réseau près de chez le patient"
+        ],
+        [
+          "Des soignants épuisés",
+          "Des ateliers pour le personnel chaque mois"
+        ],
+        [
+          "Une organisation de plus à gérer",
+          "Un interlocuteur unique, en lien avec le cadre de santé"
+        ]
+      ]
+    },
+    "boost": "sante"
+  },
+  {
+    "slug": "coach-sportif-evenement-bar",
+    "cle": "bar",
+    "nom": "Bars",
+    "emoji": "🍻",
+    "seo": {
+      "title": "BOOST EVENT : coach sportif pour événement dans votre bar",
+      "description": "Run club, défi sportif avant l'afterwork, soirée match : un coach sportif diplômé anime un rendez-vous qui remplit votre bar à Orléans et dans le Loiret."
+    },
+    "hero": {
+      "eyebrow": "Services sur mesure · Bars",
+      "h1": "Un événement sportif qui remplit votre bar en semaine.",
+      "lead": "Run club au départ de votre bar, défi sportif avant l'afterwork, soirée à thème : un coach diplômé anime, vos clients transpirent, puis restent pour la suite chez vous.",
+      "points": [
+        "Un rendez-vous fixe qui fait venir du monde",
+        "Un coach diplômé aux commandes",
+        "Ponctuel ou chaque semaine"
+      ]
+    },
+    "pourquoi": {
+      "titre": "Pourquoi organiser un événement sportif dans votre bar.",
+      "items": [
+        {
+          "titre": "Des soirées calmes qui se remplissent",
+          "texte": "Un run club ou un défi en début de soirée crée un rendez-vous sur les créneaux où votre bar tourne au ralenti."
+        },
+        {
+          "titre": "Une communauté qui revient",
+          "texte": "Les participants reviennent chaque semaine, avec leurs amis, et votre bar devient leur point de ralliement."
+        },
+        {
+          "titre": "De quoi animer vos réseaux",
+          "texte": "Photos du groupe, défis, classements : du contenu authentique à partager chaque semaine."
+        }
+      ]
+    },
+    "formats": {
+      "titre": "Les formats possibles.",
+      "items": [
+        {
+          "emoji": "🏃",
+          "titre": "Run club",
+          "texte": "Un parcours de course au départ du bar, plusieurs allures, retour pour l'afterwork."
+        },
+        {
+          "emoji": "🔥",
+          "titre": "Défi avant l'afterwork",
+          "texte": "Un défi sportif ludique par équipes, avant de passer au comptoir."
+        },
+        {
+          "emoji": "📺",
+          "titre": "Soirée match",
+          "texte": "Une séance courte avant la diffusion d'un grand match ou d'une course."
+        },
+        {
+          "emoji": "🎟️",
+          "titre": "Événement privé",
+          "texte": "Pour un groupe, une entreprise ou une association qui réserve chez vous."
+        }
+      ]
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce que l'offre événement sportif pour bar ?",
+        "r": "Une offre de la gamme BOOST EVENT : un coach sportif diplômé du réseau GA Coachs anime une activité sportive au départ de votre bar, puis vos clients restent pour l'afterwork chez vous."
+      },
+      {
+        "q": "De quel espace avez-vous besoin ?",
+        "r": "Pour un run club, aucun : le départ se fait devant le bar. Pour un défi, une terrasse ou un espace proche suffisent."
+      },
+      {
+        "q": "Et l'alcool ?",
+        "r": "La séance a toujours lieu avant : le coach n'encadre pas de participants qui ont bu. L'afterwork vient ensuite, chez vous."
+      },
+      {
+        "q": "Combien de participants ?",
+        "r": "Cela dépend du format et de l'espace. Nous fixons ensemble un nombre adapté pour que chacun soit bien encadré."
+      },
+      {
+        "q": "Comment le tarif est-il fixé ?",
+        "r": "Sur devis, selon le format, la durée et la fréquence des événements."
+      },
+      {
+        "q": "Quel intérêt pour notre bar ?",
+        "r": "Un rendez-vous régulier qui fait venir du monde sur des soirées plus calmes, une nouvelle clientèle sportive et une communauté qui revient chaque semaine."
+      },
+      {
+        "q": "Qu'est-ce qu'un run club ?",
+        "r": "Un groupe qui court ensemble à heure fixe. Le coach prévoit un parcours au départ de votre bar, avec plusieurs allures pour que débutants et habitués courent ensemble."
+      },
+      {
+        "q": "Faut-il être sportif pour participer ?",
+        "r": "Non. Le coach adapte l'allure et les exercices au niveau de chacun. L'objectif est de passer un bon moment ensemble."
+      },
+      {
+        "q": "Qui s'occupe de la communication ?",
+        "r": "Vous annoncez l'événement à vos clients et sur vos réseaux ; le coach peut aussi le relayer. Nous préparons ensemble un message simple."
+      },
+      {
+        "q": "Peut-on organiser un événement privé ?",
+        "r": "Oui : anniversaire, afterwork d'entreprise, EVJF ou EVG. L'activité sportive se fait avant, puis la soirée continue chez vous."
+      },
+      {
+        "q": "Où intervenez-vous ?",
+        "r": "À Orléans, dans sa métropole et dans le Loiret en priorité, et plus largement en Centre-Val de Loire selon la disponibilité des coachs. Pour un autre territoire, écrivez-nous."
+      },
+      {
+        "q": "Qui sont les coachs qui interviennent ?",
+        "r": "Des coachs sportifs diplômés du réseau GA Coachs, titulaires d'une carte professionnelle et assurés en responsabilité civile professionnelle. Ils exercent au quotidien autour d'Orléans, notamment en salle Basic-Fit, et sont reconnaissables à leur polo bleu GA."
+      }
+    ],
+    "article": "evenement-sportif-bar-restaurant-idees",
+    "signature": {
+      "nom": "RUN & AFTERWORK",
+      "emoji": "🍻",
+      "duree": "12 semaines ou 1 an",
+      "accroche": "Un run club qui part de votre bar et y revient, chaque semaine.",
+      "contenu": [
+        "Un run club hebdomadaire au départ de votre bar, plusieurs allures",
+        "Un défi par équipes une fois par mois",
+        "Des parcours adaptés à tous les niveaux",
+        "Des visuels prêts à publier sur vos réseaux",
+        "Le coach anime, vous accueillez"
+      ],
+      "obtenu": [
+        "Une soirée de semaine qui se remplit",
+        "Une communauté qui revient chez vous"
+      ],
+      "formules": [
+        {
+          "duree": "12 semaines",
+          "label": "Pour tester",
+          "texte": "Le lancement du run club : un rendez-vous chaque semaine pour installer l'habitude."
+        },
+        {
+          "duree": "1 an",
+          "label": "Notre spécialité",
+          "texte": "Une communauté installée : run club toute l'année, défis et soirées à thème à chaque saison."
+        }
+      ]
+    },
+    "constat": {
+      "titre": "Remplir les soirées de semaine, c'est le défi.",
+      "items": [
+        {
+          "emoji": "📉",
+          "titre": "Des soirées creuses",
+          "texte": "Le lundi, le mardi, certains débuts de soirée : le bar reste à moitié vide."
+        },
+        {
+          "emoji": "📣",
+          "titre": "Une communication qui s'essouffle",
+          "texte": "Trouver de quoi publier chaque semaine sur vos réseaux, c'est un vrai travail."
+        },
+        {
+          "emoji": "🤝",
+          "titre": "Des clients de passage",
+          "texte": "Ils viennent une fois, puis vont ailleurs. Une vraie communauté se construit dans le temps."
+        }
+      ]
+    },
+    "avantApres": {
+      "titre": "Ce qui change avec un coach GA.",
+      "lignes": [
+        [
+          "Une soirée calme chaque semaine",
+          "Un run club qui part et revient chez vous"
+        ],
+        [
+          "Rien de nouveau à publier",
+          "Des défis et des photos de groupe chaque semaine"
+        ],
+        [
+          "Des clients de passage",
+          "Une communauté qui fait de votre bar son QG"
+        ],
+        [
+          "Organiser un événement soi-même",
+          "Le coach anime, vous accueillez"
+        ]
+      ]
+    },
+    "boost": "event"
+  },
+  {
+    "slug": "coach-sportif-evenement-restaurant",
+    "cle": "restaurant",
+    "nom": "Restaurants",
+    "emoji": "🍽️",
+    "seo": {
+      "title": "Coach sportif pour événement dans votre restaurant",
+      "description": "Séance sportive suivie d'un brunch, déjeuner actif, événement privé : un coach sportif diplômé anime un rendez-vous qui attire de nouveaux clients chez vous."
+    },
+    "hero": {
+      "eyebrow": "Services sur mesure · Restaurants",
+      "h1": "Une séance de sport, puis on passe à table chez vous.",
+      "lead": "Séance en plein air suivie d'un brunch, déjeuner d'équipe actif, événement privé : un coach diplômé anime l'activité, vous servez le repas. Un rendez-vous qui fait découvrir votre cuisine à de nouveaux clients.",
+      "points": [
+        "Une formule sport et repas clé en main",
+        "Un coach diplômé aux commandes",
+        "Le week-end ou en semaine"
+      ]
+    },
+    "pourquoi": {
+      "titre": "Pourquoi associer votre restaurant à un rendez-vous sportif.",
+      "items": [
+        {
+          "titre": "Des services remplis à l'avance",
+          "texte": "Une séance suivie d'un brunch, c'est un groupe qui réserve, sur un créneau parfois calme."
+        },
+        {
+          "titre": "Une image qui vous ressemble",
+          "texte": "Cuisine maison, produits frais, bien-être : le sport prolonge naturellement votre carte."
+        },
+        {
+          "titre": "Une offre pour les groupes",
+          "texte": "Entreprises, associations, groupes d'amis : une formule activité plus repas, prête à vendre."
+        }
+      ]
+    },
+    "formats": {
+      "titre": "Les formats possibles.",
+      "items": [
+        {
+          "emoji": "🥐",
+          "titre": "Séance et brunch",
+          "texte": "Une séance en plein air le dimanche matin, puis le brunch chez vous."
+        },
+        {
+          "emoji": "🥗",
+          "titre": "Déjeuner actif",
+          "texte": "Une séance courte le midi pour une entreprise voisine, puis un déjeuner léger."
+        },
+        {
+          "emoji": "🎉",
+          "titre": "Événement privé",
+          "texte": "Anniversaire, séminaire, EVJF : l'activité sportive avant le repas."
+        },
+        {
+          "emoji": "🍳",
+          "titre": "Rendez-vous mensuel",
+          "texte": "Un brunch sportif chaque mois, à annoncer à l'avance à vos clients."
+        }
+      ]
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce que l'offre événement sportif pour restaurant ?",
+        "r": "Une offre de la gamme BOOST EVENT : un coach sportif diplômé du réseau GA Coachs anime une séance avant le repas, puis vos invités passent à table chez vous."
+      },
+      {
+        "q": "Où se déroule la séance ?",
+        "r": "Dans un parc ou un espace proche de votre restaurant, ou sur votre terrasse si elle s'y prête."
+      },
+      {
+        "q": "Qui gère les réservations ?",
+        "r": "Vous gardez la main sur les réservations et le repas. Le coach s'occupe uniquement de l'activité sportive."
+      },
+      {
+        "q": "Faut-il adapter la carte ?",
+        "r": "Ce n'est pas obligatoire. Beaucoup de restaurants proposent simplement une formule brunch ou déjeuner pour le groupe."
+      },
+      {
+        "q": "Comment le tarif est-il fixé ?",
+        "r": "Sur devis, selon le format, la durée et la fréquence des rendez-vous."
+      },
+      {
+        "q": "Quel intérêt pour notre restaurant ?",
+        "r": "Un événement original qui fait découvrir votre cuisine à de nouveaux clients, remplit un créneau plus calme et donne envie de revenir."
+      },
+      {
+        "q": "Quels formats proposez-vous ?",
+        "r": "Séance et brunch le week-end, déjeuner actif pour une entreprise voisine, événement privé avant un repas de groupe, ou rendez-vous sportif chaque mois."
+      },
+      {
+        "q": "Faut-il être sportif pour participer ?",
+        "r": "Non. La séance est accessible à tous les niveaux. Le coach propose plusieurs versions de chaque exercice."
+      },
+      {
+        "q": "Combien de participants ?",
+        "r": "Cela dépend de l'espace et de votre capacité d'accueil. Nous fixons ensemble un nombre adapté pour que chacun soit bien encadré."
+      },
+      {
+        "q": "Qui s'occupe de la communication ?",
+        "r": "Vous annoncez le rendez-vous à vos clients et sur vos réseaux ; le coach peut le relayer. Nous préparons ensemble un message simple."
+      },
+      {
+        "q": "Où intervenez-vous ?",
+        "r": "À Orléans, dans sa métropole et dans le Loiret en priorité, et plus largement en Centre-Val de Loire selon la disponibilité des coachs. Pour un autre territoire, écrivez-nous."
+      },
+      {
+        "q": "Qui sont les coachs qui interviennent ?",
+        "r": "Des coachs sportifs diplômés du réseau GA Coachs, titulaires d'une carte professionnelle et assurés en responsabilité civile professionnelle. Ils exercent au quotidien autour d'Orléans, notamment en salle Basic-Fit, et sont reconnaissables à leur polo bleu GA."
+      }
+    ],
+    "article": "evenement-sportif-bar-restaurant-idees",
+    "signature": {
+      "nom": "RUN & BRUNCH",
+      "emoji": "🍽️",
+      "duree": "12 semaines ou 1 an",
+      "accroche": "Une séance de sport, puis le brunch chez vous, chaque mois.",
+      "contenu": [
+        "Une séance en plein air près de votre restaurant, tous niveaux",
+        "Un brunch ou un déjeuner servi par vous juste après",
+        "Une formule groupe pour les entreprises et les associations",
+        "Des visuels prêts à publier sur vos réseaux",
+        "Le coach anime, vous servez"
+      ],
+      "obtenu": [
+        "De nouveaux clients qui découvrent votre cuisine",
+        "Des services remplis à l'avance"
+      ],
+      "formules": [
+        {
+          "duree": "12 semaines",
+          "label": "Pour tester",
+          "texte": "Trois brunchs sportifs, un par mois, pour tester la formule auprès de vos clients."
+        },
+        {
+          "duree": "1 an",
+          "label": "Notre spécialité",
+          "texte": "Un rendez-vous mensuel toute l'année, avec des éditions spéciales à chaque saison."
+        }
+      ]
+    },
+    "constat": {
+      "titre": "Faire venir de nouveaux clients, c'est le défi.",
+      "items": [
+        {
+          "emoji": "🪑",
+          "titre": "Des services en demi-teinte",
+          "texte": "Certains midis ou certains week-ends, des tables restent vides."
+        },
+        {
+          "emoji": "🔎",
+          "titre": "Se démarquer des autres",
+          "texte": "Beaucoup de restaurants se ressemblent ; il faut une raison de choisir le vôtre."
+        },
+        {
+          "emoji": "👥",
+          "titre": "Des groupes difficiles à attirer",
+          "texte": "Entreprises et groupes cherchent une formule complète, pas seulement un repas."
+        }
+      ]
+    },
+    "avantApres": {
+      "titre": "Ce qui change avec un coach GA.",
+      "lignes": [
+        [
+          "Des tables vides certains jours",
+          "Un groupe qui réserve pour le brunch sportif"
+        ],
+        [
+          "Un restaurant parmi d'autres",
+          "Un rendez-vous original dont on parle"
+        ],
+        [
+          "Une offre groupe limitée au repas",
+          "Une formule activité plus repas, clé en main"
+        ],
+        [
+          "Organiser l'activité soi-même",
+          "Le coach anime, vous servez"
+        ]
+      ]
+    },
+    "boost": "event"
+  },
+  {
+    "slug": "atelier-gestes-et-postures",
+    "cle": "gestes-postures",
+    "nom": "Gestes et postures",
+    "emoji": "🦺",
+    "seo": {
+      "title": "Atelier gestes et postures avec un coach sportif",
+      "description": "Ateliers gestes et postures animés par un coach sportif diplômé : port de charges, travail sur écran, échauffement de prise de poste. Orléans et Loiret."
+    },
+    "hero": {
+      "eyebrow": "Services sur mesure · Gestes et postures",
+      "h1": "Des ateliers gestes et postures, concrets et adaptés aux postes de travail.",
+      "lead": "Port de charges, travail sur écran, gestes répétés : un coach diplômé anime des ateliers pratiques sur votre site, au plus près des situations réelles de vos équipes.",
+      "points": [
+        "Sur site, au plus près des postes",
+        "Pratique, pas seulement théorique",
+        "Pour tous les métiers"
+      ]
+    },
+    "pourquoi": {
+      "titre": "Ce qu'un atelier apporte à vos équipes.",
+      "items": [
+        {
+          "titre": "Des gestes plus sûrs",
+          "texte": "Lever, porter, pousser, se pencher : les bons réflexes s'apprennent en pratiquant."
+        },
+        {
+          "titre": "Moins de tensions",
+          "texte": "Quelques exercices simples à refaire au poste pour soulager le dos, la nuque et les épaules."
+        },
+        {
+          "titre": "Une démarche de prévention visible",
+          "texte": "Une action concrète pour la santé de vos salariés, qui s'inscrit dans votre démarche de prévention."
+        }
+      ]
+    },
+    "formats": {
+      "titre": "Les formats possibles.",
+      "items": [
+        {
+          "emoji": "🧑‍🏫",
+          "titre": "Atelier collectif",
+          "texte": "Une à deux heures en petit groupe, théorie courte et beaucoup de pratique."
+        },
+        {
+          "emoji": "🏭",
+          "titre": "Au poste de travail",
+          "texte": "Le coach observe les gestes réels et propose des ajustements sur place."
+        },
+        {
+          "emoji": "🌅",
+          "titre": "Échauffement de prise de poste",
+          "texte": "Quelques minutes avant de commencer, pour préparer le corps à l'effort."
+        },
+        {
+          "emoji": "🔁",
+          "titre": "Suivi régulier",
+          "texte": "Des rappels et séances courtes sur plusieurs semaines pour ancrer les habitudes."
+        }
+      ]
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce qu'un atelier gestes et postures ?",
+        "r": "Un atelier pratique où un coach sportif diplômé apprend à vos équipes à bouger, porter et s'installer de façon plus sûre à leur poste de travail, avec peu de théorie et beaucoup de pratique."
+      },
+      {
+        "q": "Est-ce une formation PRAP certifiée ?",
+        "r": "Non. Nos ateliers sont des actions pratiques de prévention animées par un coach sportif diplômé. Ils ne remplacent pas une formation certifiée si votre obligation réglementaire l'exige."
+      },
+      {
+        "q": "Quels métiers sont concernés ?",
+        "r": "Tous : bureaux, commerce, logistique, artisanat, services, établissements de santé. Le contenu s'adapte à vos postes."
+      },
+      {
+        "q": "Où se déroule l'atelier ?",
+        "r": "Sur votre site, dans une salle de réunion ou directement dans les espaces de travail."
+      },
+      {
+        "q": "Combien de participants par atelier ?",
+        "r": "En petit groupe, pour que chacun puisse pratiquer. Le nombre se fixe ensemble selon vos locaux."
+      },
+      {
+        "q": "Quel intérêt pour notre entreprise ?",
+        "r": "Des équipes qui connaissent les bons gestes, moins de tensions au dos et aux épaules, et une action de prévention concrète à intégrer à votre démarche QVCT."
+      },
+      {
+        "q": "Combien de temps dure un atelier ?",
+        "r": "En général une à deux heures en petit groupe. Un échauffement de prise de poste ne dure que quelques minutes et peut se faire chaque jour."
+      },
+      {
+        "q": "Le coach peut-il observer les postes de travail ?",
+        "r": "Oui. Il observe les gestes réels sur place et propose des ajustements simples, adaptés à chaque poste."
+      },
+      {
+        "q": "Faut-il une tenue de sport ?",
+        "r": "Non. Les ateliers se font en tenue de travail, pour reproduire les gestes du quotidien."
+      },
+      {
+        "q": "Pouvez-vous assurer un suivi dans le temps ?",
+        "r": "Oui : des rappels réguliers, des échauffements de prise de poste animés par vos équipes et un point avec le coach à intervalles réguliers."
+      },
+      {
+        "q": "Où intervenez-vous ?",
+        "r": "À Orléans, dans sa métropole et dans le Loiret en priorité, et plus largement en Centre-Val de Loire selon la disponibilité des coachs. Pour un autre territoire, écrivez-nous."
+      },
+      {
+        "q": "Comment le tarif est-il fixé ?",
+        "r": "Sur devis, selon le format, la durée, la fréquence, le nombre de participants et le lieu. Un devis clair vous est remis après un premier échange, sans engagement."
+      }
+    ],
+    "article": "atelier-gestes-et-postures-comment-ca-se-passe",
+    "signature": {
+      "nom": "POSTES EN FORME",
+      "emoji": "🦺",
+      "duree": "12 semaines ou 1 an",
+      "accroche": "Un parcours pratique pour adopter de meilleurs gestes au poste de travail.",
+      "contenu": [
+        "Une visite des postes pour repérer les gestes à risque",
+        "Un atelier pratique de 2 heures par groupe",
+        "Une routine d'échauffement de prise de poste de 10 minutes",
+        "2 rappels sur le terrain, à 1 mois et à 3 mois",
+        "Un compte rendu écrit des actions menées"
+      ],
+      "obtenu": [
+        "Des réflexes de prévention ancrés dans le quotidien",
+        "Une action concrète à présenter dans votre démarche de prévention"
+      ],
+      "formules": [
+        {
+          "duree": "12 semaines",
+          "texte": "Un parcours complet : visite des postes, ateliers pratiques, routine de prise de poste, rappels à 1 et 3 mois.",
+          "label": "Pour tester"
+        },
+        {
+          "duree": "1 an",
+          "texte": "Une prévention suivie : les nouveaux salariés formés au fil de l'eau, un rappel chaque trimestre, un compte rendu annuel.",
+          "label": "Notre spécialité"
+        }
+      ]
+    },
+    "constat": {
+      "titre": "Les gestes du quotidien finissent par peser.",
+      "items": [
+        {
+          "emoji": "📦",
+          "titre": "Des charges portées chaque jour",
+          "texte": "Lever, porter, pousser : des gestes répétés qui fatiguent le dos et les épaules."
+        },
+        {
+          "emoji": "🖥️",
+          "titre": "Des heures assis devant un écran",
+          "texte": "Nuque raide, dos voûté, fatigue en fin de journée : le bureau aussi a ses douleurs."
+        },
+        {
+          "emoji": "📄",
+          "titre": "Une prévention qui reste sur le papier",
+          "texte": "Les consignes existent, mais elles sont rarement pratiquées sur les postes réels."
+        }
+      ]
+    },
+    "avantApres": {
+      "titre": "Ce qui change avec un coach GA.",
+      "lignes": [
+        [
+          "Une formation théorique vite oubliée",
+          "Des ateliers pratiques sur les postes réels"
+        ],
+        [
+          "Chacun ses habitudes",
+          "Une routine commune de prise de poste"
+        ],
+        [
+          "Une action faite une fois",
+          "Des rappels sur le terrain à 1 et 3 mois"
+        ],
+        [
+          "Peu de traces de la démarche",
+          "Un compte rendu écrit des actions menées"
+        ]
+      ]
+    },
+    "boost": "entreprise"
+  },
+  {
+    "slug": "evjf-evg-activite-sportive",
+    "cle": "evjf-evg",
+    "nom": "EVJF et EVG",
+    "emoji": "🎉",
+    "seo": {
+      "title": "EVJF ou EVG sportif avec un coach sportif à Orléans",
+      "description": "Bootcamp, défis par équipes, mini course façon Hyrox : un coach sportif diplômé anime l'activité sportive de votre EVJF ou EVG à Orléans et dans le Loiret."
+    },
+    "hero": {
+      "eyebrow": "Services sur mesure · EVJF et EVG",
+      "h1": "Un EVJF ou un EVG sportif, encadré par un coach.",
+      "lead": "Bootcamp en plein air, défis par équipes, mini course façon Hyrox : un coach diplômé anime une activité sportive qui fait rire, transpirer et laisse de beaux souvenirs.",
+      "points": [
+        "Tous niveaux, tous âges",
+        "Défis par équipes et fous rires",
+        "En plein air ou en salle"
+      ]
+    },
+    "pourquoi": {
+      "titre": "Pourquoi choisir une activité sportive.",
+      "items": [
+        {
+          "titre": "Un moment qui rassemble",
+          "texte": "Des défis par équipes qui mélangent les groupes d'amis et créent des souvenirs communs."
+        },
+        {
+          "titre": "Tout le monde participe",
+          "texte": "Le coach adapte chaque défi pour que tous les niveaux puissent jouer, sans mettre personne en difficulté."
+        },
+        {
+          "titre": "Clé en main",
+          "texte": "Vous choisissez le format, le coach prépare le déroulé, le matériel et anime du début à la fin."
+        }
+      ]
+    },
+    "formats": {
+      "titre": "Les formats possibles.",
+      "items": [
+        {
+          "emoji": "🌳",
+          "titre": "Bootcamp en plein air",
+          "texte": "Une séance ludique et collective dans un parc ou au bord de la Loire."
+        },
+        {
+          "emoji": "🏆",
+          "titre": "Défis par équipes",
+          "texte": "Relais, épreuves chronométrées et classement final, avec une épreuve spéciale pour la future mariée ou le futur marié."
+        },
+        {
+          "emoji": "🏋️",
+          "titre": "Mini course façon Hyrox",
+          "texte": "Course et ateliers enchaînés, en version adaptée au groupe."
+        },
+        {
+          "emoji": "💍",
+          "titre": "Préparation avant le mariage",
+          "texte": "Quelques séances en amont pour le couple ou la personne fêtée."
+        }
+      ]
+    },
+    "faq": [
+      {
+        "q": "Qu'est-ce qu'un EVJF ou un EVG sportif ?",
+        "r": "Un enterrement de vie de jeune fille ou de garçon avec une activité sportive animée par un coach diplômé : bootcamp, défis par équipes ou mini course, pour rire et se dépasser ensemble."
+      },
+      {
+        "q": "Combien de participants ?",
+        "r": "Le format s'adapte aux petits comme aux grands groupes. Indiquez le nombre de participants dans votre demande."
+      },
+      {
+        "q": "Et si certains ne sont pas sportifs ?",
+        "r": "Aucun problème : le coach propose plusieurs niveaux pour chaque défi. L'objectif est de s'amuser ensemble."
+      },
+      {
+        "q": "Peut-on venir déguisés ?",
+        "r": "Oui, tant que la tenue permet de bouger en sécurité. Le coach vous conseille au moment de préparer l'activité."
+      },
+      {
+        "q": "Combien de temps dure l'activité ?",
+        "r": "En général une à deux heures. Nous l'adaptons à votre programme de la journée."
+      },
+      {
+        "q": "Quelles activités proposez-vous ?",
+        "r": "Bootcamp en plein air, défis par équipes avec classement final, mini course façon Hyrox, et une épreuve spéciale pour la future mariée ou le futur marié."
+      },
+      {
+        "q": "Où se déroule l'activité ?",
+        "r": "En plein air, dans un parc ou au bord de la Loire, ou en salle selon la météo et vos préférences. Nous choisissons le lieu ensemble."
+      },
+      {
+        "q": "Peut-on enchaîner avec un repas ou un bar ?",
+        "r": "Oui. L'activité se cale sur votre programme ; elle se fait toujours avant de boire de l'alcool."
+      },
+      {
+        "q": "Que faut-il prévoir ?",
+        "r": "Une tenue de sport, des baskets et de l'eau. Le coach apporte le matériel des défis."
+      },
+      {
+        "q": "Combien de temps à l'avance réserver ?",
+        "r": "Le plus tôt possible, surtout pour un samedi au printemps ou en été. Indiquez la date et le nombre de participants dans votre demande."
+      },
+      {
+        "q": "Où intervenez-vous ?",
+        "r": "À Orléans, dans sa métropole et dans le Loiret en priorité, et plus largement en Centre-Val de Loire selon la disponibilité des coachs. Pour un autre territoire, écrivez-nous."
+      },
+      {
+        "q": "Comment le tarif est-il fixé ?",
+        "r": "Sur devis, selon le format, la durée, la fréquence, le nombre de participants et le lieu. Un devis clair vous est remis après un premier échange, sans engagement."
+      }
+    ],
+    "article": "evjf-evg-sportif-idees-d-activites",
+    "signature": {
+      "nom": "LE GRAND DÉFI",
+      "emoji": "🎉",
+      "duree": "12 semaines ou 1 an",
+      "accroche": "Une préparation physique avant le grand jour, et une activité pleine de rires pour l'EVJF ou l'EVG.",
+      "contenu": [
+        "Des séances pour la personne fêtée, à son rythme, jusqu'au mariage",
+        "Le Grand Défi le jour de l'EVJF ou de l'EVG : 5 défis par équipes, tous niveaux",
+        "Une épreuve spéciale pour la future mariée ou le futur marié",
+        "Un podium et une petite récompense",
+        "Le matériel fourni par le coach"
+      ],
+      "obtenu": [
+        "Un souvenir commun qui rassemble les deux groupes d'amis",
+        "Zéro organisation de votre côté"
+      ],
+      "formules": [
+        {
+          "duree": "12 semaines",
+          "texte": "La préparation de la personne fêtée avant le grand jour, avec le Grand Défi pour l'EVJF ou l'EVG.",
+          "label": "Pour tester"
+        },
+        {
+          "duree": "1 an",
+          "texte": "La préparation jusqu'au mariage, le Grand Défi, puis un suivi pour garder la forme après la fête.",
+          "label": "Notre spécialité"
+        }
+      ]
+    },
+    "constat": {
+      "titre": "Organiser un EVJF ou un EVG, c'est tout un défi.",
+      "items": [
+        {
+          "emoji": "🧩",
+          "titre": "Des invités qui ne se connaissent pas",
+          "texte": "Amis d'enfance, collègues, famille : il faut une activité qui mélange tout le monde dès le début."
+        },
+        {
+          "emoji": "⚖️",
+          "titre": "Des niveaux très différents",
+          "texte": "Certains sont sportifs, d'autres pas du tout. Personne ne doit se sentir mis de côté."
+        },
+        {
+          "emoji": "📅",
+          "titre": "Beaucoup de choses à organiser",
+          "texte": "Lieu, matériel, déroulé : l'organisateur a déjà assez à faire."
+        }
+      ]
+    },
+    "avantApres": {
+      "titre": "Ce qui change avec un coach GA.",
+      "lignes": [
+        [
+          "Une activité classique vite oubliée",
+          "Des défis par équipes dont tout le monde se souvient"
+        ],
+        [
+          "Les moins sportifs restent à l'écart",
+          "Chaque défi a plusieurs niveaux"
+        ],
+        [
+          "Tout organiser soi-même",
+          "Un déroulé et un matériel prêts, animés par le coach"
+        ],
+        [
+          "La forme oubliée avant le grand jour",
+          "Une préparation physique de la personne fêtée"
+        ]
+      ]
+    },
+    "boost": "event"
+  }
+]

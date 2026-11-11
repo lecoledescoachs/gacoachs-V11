@@ -1,0 +1,423 @@
+---
+import BoostPCQ from '../../components/BoostPCQ.astro';
+// BOOST COMMUNICATION : un vrai coach sportif pour les campagnes sport-santé (programmes européens et nationaux,
+// institutions, collectivités, fédérations, mutuelles, marques). Cas réel : Fabien, programme européen de sport-santé.
+// Les vidéos du cas se renseignent dans src/data/boost-communication.json (champ videos : [{ "url": "...", "titre": "..." }]).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import Configurateur from '../../components/proto/Configurateur.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+import { coachesReseau } from '../../data/coaches.js';
+import bc from '../../data/boost-communication.json';
+import articles from '../../data/articles.json';
+import marchesMk from '../../data/boost-marches.json';
+import '../../styles/marches.css';
+
+const path = '/coach-sportif-campagne-sport-sante/';
+const cas: any = (bc as any).cas;
+const coachCas: any = (coachesReseau as any[]).find((c) => c.slug === cas.coach);
+// drapeaux en SVG (les émojis drapeaux ne s'affichent pas sous Windows)
+const DRAPEAUX: Record<string, string> = {
+  fr: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg>',
+  es: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#AA151B"/><rect y="0.5" width="3" height="1" fill="#F1BF00"/></svg>',
+  pl: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="1" fill="#fff"/><rect y="1" width="3" height="1" fill="#DC143C"/><rect width="3" height="2" fill="none" stroke="#ccc" stroke-width="0.04"/></svg>',
+  it: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#009246"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#CE2B37"/></svg>',
+  de: '<svg viewBox="0 0 5 3" aria-hidden="true"><rect width="5" height="1" fill="#000"/><rect y="1" width="5" height="1" fill="#DD0000"/><rect y="2" width="5" height="1" fill="#FFCE00"/></svg>',
+  pt: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1.2" height="2" fill="#006600"/><rect x="1.2" width="1.8" height="2" fill="#FF0000"/></svg>',
+};
+const fmt = (n: number) => Number(n).toLocaleString('fr-FR');
+const totalVues = Number(cas.vuesTotal) || 0;
+const medias = (coachesReseau as any[]).filter((c) => Array.isArray(c.medias) && c.medias.length);
+// tous les coachs du réseau sont éligibles à BOOST COMMUNICATION (contrairement aux conférences, réservées aux niveaux 4 et 5)
+const tous = (coachesReseau as any[]).filter((c) => c.photo);
+const guides = (articles as any[]).filter((a) => a.ctaHref === path);
+const offres = [
+  { i: '📱', t: 'Vidéos UGC prêtes à publier', d: 'Tournées par le coach lui-même, au téléphone, comme un vrai créateur : accroche dans les 3 premières secondes, gestes justes, conseils exacts. Pour tous vos réseaux : TikTok, Instagram, YouTube, Twitch, Facebook, LinkedIn ou Snapchat.' },
+  { i: '🎯', t: 'Le visage de votre marque', d: 'Un coach diplômé devient la figure de proue de votre entreprise ou de votre campagne : il incarne votre message dans la durée, sur vos réseaux, vos vidéos, vos affiches et vos événements.' },
+  { i: '▶️', t: 'Invité de vos vidéos YouTube et lives Twitch', d: 'Défi, concept, interview, podcast vidéo, émission, série ou live Twitch : un coach du réseau GA devient l\'invité de vos vidéos et de vos streams, en direct ou en différé. Il apporte son expertise sport, musculation, nutrition et santé, et un vrai savoir-faire face caméra.' },
+  { i: '📋', t: 'Des programmes d\'exercices clés en main', d: 'Des routines courtes adaptées à votre public (salariés, seniors, jeunes, patients), prêtes pour vos affiches, livrets, applis et vidéos.' },
+  { i: '✅', t: 'La validation technique de vos contenus', d: 'Vous avez déjà vos vidéos ou vos visuels ? Le coach vérifie chaque geste, chaque consigne et chaque intensité avant diffusion.' },
+  { i: '🎤', t: 'Des événements et des lives', d: 'Lancement de campagne, Semaine européenne du sport, journée sport-santé, live Instagram, TikTok ou Twitch : le coach anime et fait bouger le public.' },
+  { i: '🎓', t: 'La formation de vos équipes', d: 'Vos chargés de communication et vos animateurs apprennent à parler d\'activité physique avec les bons mots, les bons repères et sans erreur.' },
+];
+const themes = ['Sport', 'Musculation', 'Remise en forme', 'Perte de poids', 'Nutrition', 'Sport-santé', 'Bien-être', 'Prévention'];
+const reseaux = ['TikTok', 'Instagram', 'YouTube', 'Twitch', 'Facebook', 'LinkedIn', 'Snapchat'];
+const livrables = ['Formats pour tous les réseaux : vertical 9:16, carré, horizontal', 'Accroche pensée pour les 3 premières secondes', 'Sous-titres prêts à publier', 'Versions par pays et par langue si besoin', 'Script et gestes validés par un coach diplômé', 'Droits d\'utilisation clairs : durée, canaux, publicité payante'];
+const pourQui = ['Marques de sport, de santé et de bien-être', 'Agences de communication et agences UGC', 'Programmes européens (Erasmus+ Sport, Semaine européenne du sport)', 'Ministères et agences nationales', 'Agences régionales de santé', 'Mairies, communes, départements et régions', 'Fédérations et clubs sportifs', 'Mutuelles et assureurs', 'Associations et fondations'];
+const etapes = [
+  { t: 'Votre brief', d: 'Votre public, votre message, vos canaux, votre calendrier. Un échange de 30 minutes suffit pour cadrer.' },
+  { t: 'Notre proposition', d: 'Le coach adapté à votre public, les formats, les idées de séquences et un devis clair.' },
+  { t: 'Le tournage', d: 'Le coach tourne avec vos équipes ou les nôtres. Chaque geste est validé avant d\'être filmé.' },
+  { t: 'La diffusion', d: 'Des déclinaisons pour chaque réseau, et la possibilité d\'animer un événement ou des lives pour prolonger la campagne.' },
+];
+const pourquoi = [
+  { t: 'Trop abstraits', d: '« Bougez plus », « 30 minutes par jour » : tout le monde l\'a entendu, très peu savent quoi faire concrètement. Sans démonstration, le message ne se transforme pas en action.' },
+  { t: 'Pas assez crédibles', d: 'Un figurant ou un influenceur sans formation peut porter un message, mais le public sent vite la différence avec quelqu\'un dont c\'est le métier.' },
+  { t: 'Parfois risqués', d: 'Une vidéo est faite pour être refaite. Un mauvais geste, une intensité trop forte, et ce sont des milliers de personnes qui reproduisent l\'erreur, seules, chez elles.' },
+];
+const faq = [
+  { q: 'Qu\'est-ce que BOOST COMMUNICATION ?', r: 'BOOST COMMUNICATION est l\'offre de GA Coachs qui met de vrais coachs sportifs diplômés au service de votre communication : vidéos UGC pour tous les réseaux sociaux, coach visage de marque, programmes d\'exercices, validation des contenus, événements et formation. Sur tous les sujets sport, musculation, nutrition, santé et bien-être. Pour les marques, les agences de communication, les institutions, les mairies et les programmes de sport-santé, en France et en Europe.' },
+  { q: 'Un coach peut-il devenir le visage de notre marque ?', r: 'Oui. De plus en plus d\'entreprises misent sur une personne incarnée plutôt que sur un logo. Un coach du réseau GA peut devenir la figure de proue de votre marque : il apparaît dans vos vidéos, sur vos réseaux et lors de vos événements, sur la durée que vous choisissez, avec une image crédible et professionnelle.' },
+  { q: 'Un coach peut-il être invité dans nos vidéos YouTube ou nos lives Twitch ?', r: 'Oui. Un coach du réseau GA peut être l\'invité de vos vidéos concept YouTube ou de vos lives Twitch : défi sportif en direct, séance avec le chat, test d\'un entraînement, interview, podcast vidéo, émission ou série récurrente. Il intervient comme expert sport, musculation, nutrition et santé, avec des conseils justes et une vraie aisance à l\'image.' },
+  { q: 'Sur quels réseaux sociaux et quels sujets ?', r: 'Sur tous les réseaux : TikTok, Instagram, YouTube, Twitch, Facebook, LinkedIn ou Snapchat. Et sur tout ce qui touche au sport, à la musculation, à la remise en forme, à la perte de poids, à la nutrition, à la santé et au bien-être, pas seulement le sport-santé.' },
+  { q: 'Qu\'est-ce qu\'un coach sportif UGC ?', r: 'Un coach sportif diplômé qui crée lui-même des vidéos au format des réseaux sociaux (UGC, user generated content) pour une marque ou une campagne : le ton naturel d\'un créateur de contenu, avec la justesse technique d\'un professionnel.' },
+  { q: 'Quelle différence entre UGC et influence ?', r: 'L\'influence s\'appuie sur l\'audience du créateur, qui publie sur son propre compte. L\'UGC produit des vidéos que vous publiez sur vos comptes ou utilisez en publicité. Avec BOOST COMMUNICATION, vous recevez les vidéos et leurs droits d\'utilisation.' },
+  { q: 'Pourquoi un coach diplômé plutôt qu\'un influenceur fitness ?', r: 'Pour la justesse des gestes et la crédibilité. En sport-santé, une vidéo est refaite par le public : un coach diplômé garantit des exercices sûrs et adaptés à votre cible.' },
+  { q: 'Avez-vous déjà travaillé sur un programme européen ?', r: 'Oui. Fabien, coach du réseau GA, a été sollicité pour Good Moves, un programme européen de sport-santé : des vidéos TikTok au format UGC, déclinées en France, en Espagne et en Pologne, qui totalisent 704 397 vues.' },
+  { q: 'Quels coachs peuvent créer nos contenus ?', r: 'Tous les coachs du réseau GA sont éligibles. Nous choisissons avec vous le coach le plus adapté à votre public, votre message et votre région.' },
+  { q: 'Peut-on utiliser les vidéos en publicité payante ?', r: 'Oui, si c\'est prévu dans le devis. La durée, les canaux et l\'usage publicitaire des vidéos sont définis avant le tournage.' },
+  { q: 'Pouvez-vous tourner avec notre agence ?', r: 'Oui. Le coach s\'intègre à votre production : il apporte l\'expertise et la présence à l\'image, votre agence garde la main sur la réalisation.' },
+  { q: 'Dans quelles langues et quels pays ?', r: 'Nos coachs tournent en français, avec sous-titres ou déclinaisons par pays selon le projet, comme pour Good Moves en France, en Espagne et en Pologne. Ils se déplacent en France et en Europe.' },
+  { q: 'Combien de vidéos pouvons-nous commander ?', r: 'De une vidéo test à une série complète pour toute une campagne. Nous définissons ensemble le nombre de vidéos, les formats et les déclinaisons selon vos objectifs et vos réseaux.' },
+  { q: 'Quels sont les délais ?', r: 'Ils dépendent du nombre de vidéos et des validations de votre côté. Après le brief, nous vous proposons un calendrier précis : écriture, tournage, montage, livraison.' },
+  { q: 'Qui écrit les scripts ?', r: 'Le coach vous propose les idées et les scripts à partir de votre brief, puis vous les validez. Si votre agence a déjà écrit les scripts, le coach les vérifie et les adapte pour que chaque geste et chaque conseil soient justes.' },
+  { q: 'Le coach peut-il travailler en exclusivité pour notre marque ?', r: 'Oui, c\'est possible. L\'exclusivité (secteur, durée, réseaux) se discute au moment du devis, surtout quand le coach devient le visage de votre marque.' },
+  { q: 'Combien coûte une vidéo UGC avec un coach ?', r: 'Sur devis, selon le nombre de vidéos, les jours de tournage, les déclinaisons, la durée d\'utilisation des images et l\'exclusivité demandée. Un premier échange de 30 minutes permet de chiffrer précisément.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'BOOST COMMUNICATION : coach sportif UGC et visage de marque', alternateName: ['Coach sportif UGC', 'Coach sportif ambassadeur de marque', 'Vidéos UGC sport, nutrition et santé'], description: 'De vrais coachs sportifs diplômés créent des vidéos UGC pour tous les réseaux sociaux et deviennent le visage de marques, campagnes et institutions, sur le sport, la musculation, la nutrition, la santé et le bien-être.', url: 'https://gacoachs.fr' + path, serviceType: 'Création de contenus UGC, coach ambassadeur et expertise sport, nutrition et santé pour la communication', audience: { '@type': 'Audience', audienceType: 'Marques, agences de communication, mairies, programmes européens et nationaux, institutions, collectivités, fédérations, mutuelles' }, hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Offres BOOST COMMUNICATION', itemListElement: offres.map((o) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: o.t, description: o.d } })) }, provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr', founder: { '@type': 'Person', name: 'Garry Babaud', jobTitle: 'Coach en chef', url: 'https://garrybabaud.com/' } }, areaServed: ['France', 'Europe'] },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' }, { '@type': 'ListItem', position: 2, name: 'Médias', item: 'https://gacoachs.fr/medias/' }, { '@type': 'ListItem', position: 3, name: 'BOOST COMMUNICATION', item: 'https://gacoachs.fr' + path }] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout title="BOOST COMMUNICATION : coach sportif UGC et visage de marque" description="Vidéos UGC pour tous vos réseaux et un vrai coach comme visage de votre marque : sport, musculation, nutrition, santé. 704 397 vues avec Good Moves." path={path} jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')} stickyCtaHref="#cf-communication" stickyCtaLabel="Préparer mon brief">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Médias', href: '/medias/' }, { label: 'BOOST COMMUNICATION', href: path }]} />
+      <span class="eyebrow eyebrow-dark">BOOST COMMUNICATION</span>
+      <h1>Un vrai coach sportif pour vos contenus et <span class="hl-text">le visage de votre marque</span>.</h1>
+      <p class="phero-lead">Vidéos UGC pour tous vos réseaux sociaux, coach ambassadeur ou figure de proue de votre entreprise, campagnes de sport-santé : BOOST COMMUNICATION met des coachs sportifs diplômés au service de votre communication. Sport, musculation, nutrition, santé, bien-être : l'authenticité d'un créateur de contenu, la justesse d'un professionnel.</p>
+      <p class="bc-for">Pour les agences de communication, les marques, les mairies, les institutions et les programmes européens.</p>
+      <ul class="bc-proof"><li><b>{fmt(totalVues)}</b><span>vues sur TikTok avec Good Moves</span></li><li><b>3 pays</b><span>France, Espagne, Pologne</span></li><li><b>{tous.length} coachs</b><span>diplômés, tous éligibles</span></li><li><b>TV et radio</b><span>France 3, Réunion La 1ère, RCF Loiret</span></li></ul>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#contact">Recevoir une proposition</a>
+        <a class="btn btn-glass" href="#cas">Voir le cas Good Moves</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec bc-bref-sec">
+    <div class="inner">
+      <div class="bc-bref">
+        <p class="bc-bref-k">En bref</p>
+        <ul>
+          <li><b>Quoi :</b> des vidéos UGC pour tous les réseaux sociaux, un coach invité de vos vidéos YouTube et lives Twitch, ou le visage de votre marque.</li>
+          <li><b>Sur quoi :</b> sport, musculation, remise en forme, perte de poids, nutrition, santé, bien-être.</li>
+          <li><b>Pour qui :</b> agences de communication, marques, mairies, institutions, collectivités, fédérations, mutuelles, programmes européens.</li>
+          <li><b>La preuve :</b> Good Moves, programme européen de sport-santé, {fmt(totalVues)} vues sur TikTok dans 3 pays.</li>
+          <li><b>Comment :</b> un brief de 30 minutes, une proposition, le tournage, des vidéos prêtes à publier.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="cas">
+    <div class="inner bc-cas">
+      {coachCas?.photo && <img src={coachCas.photo} alt={`${coachCas.prenom} ${coachCas.nom}, coach sportif du réseau GA`} width="220" height="220" loading="lazy" />}
+      <div>
+        <span class="eyebrow">La preuve · Cas réel</span>
+        <h2 class="h2">{cas.titre}.</h2>
+        <p class="bc-lead">{cas.texte}</p>
+        {totalVues > 0 && <p class="bc-total"><b>{fmt(totalVues)}</b> vues au total sur TikTok, dans {cas.videos.length} pays.</p>}
+        {cas.videos && cas.videos.length > 0 && (
+          <ul class="bc-vids">
+            {cas.videos.map((v: any) => (
+              <li class="bc-v" data-id={v.id || ''}>
+                <div class="bc-frame">
+                  {v.image ? <img src={v.image} alt={`${v.langue} : aperçu de la vidéo TikTok`} width="270" height="480" loading="lazy" /> : <span class="bc-poster" aria-hidden="true"><span class="bc-big-flag" set:html={DRAPEAUX[v.pays] || ''} /><span class="bc-tt">TikTok</span></span>}
+                  {v.id
+                    ? <button type="button" class="bc-lire" aria-label={`Lire la ${v.langue.toLowerCase()} de la vidéo`}><span aria-hidden="true">▶</span></button>
+                    : <a class="bc-lire" href={v.url} target="_blank" rel="noopener" aria-label={`Voir la ${v.langue.toLowerCase()} sur TikTok`}><span aria-hidden="true">▶</span></a>}
+                </div>
+                <a class="bc-vinfo" href={v.url} target="_blank" rel="noopener">
+                  <span class="bc-flag" set:html={DRAPEAUX[v.pays] || ''} />
+                  <span class="bc-vt"><b>{v.langue}</b><small>Voir sur TikTok</small></span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+        
+        <a class="btn-sm" href={`/coachs/${cas.coach}/`}>Voir le profil de {coachCas?.prenom || 'notre coach'}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec band" id="ugc">
+    <div class="inner bc-ugc">
+      <div>
+        <span class="eyebrow">UGC sport, nutrition et santé</span>
+        <h2 class="h2">L'UGC, mais par quelqu'un dont c'est le métier.</h2>
+        <p class="bc-lead">L'UGC, pour « user generated content », ce sont des vidéos tournées par une personne réelle, au téléphone, dans son quotidien, plutôt qu'une publicité léchée. C'est le format qui fonctionne sur tous les réseaux sociaux (TikTok, Instagram, YouTube, Twitch, Facebook, LinkedIn ou Snapchat), parce qu'il ressemble à ce que le public regarde déjà.</p>
+        <p class="bc-lead">Avec un coach du réseau GA, vous avez l'authenticité de l'UGC et la justesse d'un professionnel : chaque geste est sûr, chaque conseil est exact.</p>
+      </div>
+      <ul class="bc-ugc-l">
+        <li><b>Tous nos coachs éligibles</b><span>Chaque coach du réseau GA peut créer vos contenus, au plus près de votre public.</span></li>
+        <li><b>Tourné par le coach</b><span>Au téléphone, en salle, en extérieur ou chez lui, comme un vrai créateur.</span></li>
+        <li><b>Prêt à publier</b><span>Format vertical, accroche dans les premières secondes, sous-titres possibles.</span></li>
+        <li><b>Décliné par pays</b><span>Plusieurs langues, comme pour Good Moves, le programme européen sur lequel Fabien a été sollicité.</span></li>
+        <li><b>Des droits clairs</b><span>Durée et canaux d'utilisation définis dans le devis.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec bc-vis-sec">
+    <div class="inner bc-vis">
+      <div>
+        <span class="eyebrow">Coach ambassadeur</span>
+        <h2 class="h2">Un coach comme figure de proue de votre entreprise.</h2>
+        <p class="bc-lead">De plus en plus de marques choisissent d'avancer avec un visage plutôt qu'avec un logo : une personne que le public reconnaît, écoute et suit. Dans le sport, la santé et la nutrition, ce visage a d'autant plus de poids qu'il est crédible.</p>
+        <p class="bc-lead">Un coach du réseau GA peut devenir l'avatar de votre marque, de votre application, de votre mutuelle ou de votre ville : présent dans vos vidéos, sur vos réseaux et à vos événements, sur la durée que vous choisissez. Il peut aussi être l'invité ponctuel ou récurrent de vos vidéos concept YouTube et de vos lives Twitch.</p>
+      </div>
+      <div class="bc-themes">
+        <p class="bc-themes-k">Tous les sujets qui touchent au corps et à la santé</p>
+        <ul>{themes.map((t) => <li>{t}</li>)}</ul>
+        <p class="bc-themes-k">Sur tous vos réseaux</p>
+        <ul>{reseaux.map((t) => <li>{t}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Le problème</span>
+      <h2 class="h2">Pourquoi tant de contenus sport-santé ne font bouger personne.</h2>
+      <div class="bc-grid">{pourquoi.map((p) => <div class="tile bc-t"><h3>{p.t}</h3><p>{p.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Les chiffres</span>
+      <h2 class="h2">Le message passe mal. Les chiffres le prouvent.</h2>
+      <p class="bc-lead">Tout le monde a entendu « bougez plus ». Très peu savent quoi faire, ni comment. C'est exactement là qu'un vrai coach, à l'image, fait la différence.</p>
+      <ul class="bc-stats"><li><b>31 %</b><span>des adultes dans le monde ne bougent pas assez, soit environ 1,8 milliard de personnes, 5 points de plus qu'en 2010. <a class="bc-src" href="https://www.who.int/fr/news-room/fact-sheets/detail/physical-activity" target="_blank" rel="noopener">Source : OMS, 2024</a></span></li><li><b>80 %</b><span>des 11-17 ans dans le monde sont insuffisamment actifs. <a class="bc-src" href="https://www.who.int/fr/news-room/fact-sheets/detail/physical-activity" target="_blank" rel="noopener">Source : OMS, 2024</a></span></li><li><b>45 %</b><span>des Européens ne font jamais d'exercice ni de sport. <a class="bc-src" href="https://malta.representation.ec.europa.eu/news/new-eurobarometer-sport-and-physical-activity-shows-49-europeans-exercise-2022-09-19_sk" target="_blank" rel="noopener">Source : Eurobaromètre sport et activité physique, 2022</a></span></li><li><b>95 %</b><span>des adultes en France sont exposés à un risque pour leur santé par manque d'activité ou excès de temps assis. <a class="bc-src" href="https://www.anses.fr/fr/content/manque-dactivite-physique-et-exces-de-sedentarite-une-priorite-de-sante-publique" target="_blank" rel="noopener">Source : ANSES, 2022</a></span></li><li><b>22 %</b><span>seulement des adultes en France connaissent la recommandation d'activité physique complète, intensité comprise. <a class="bc-src" href="https://www.santepubliquefrance.fr/nutrition-et-activite-physique/article/connaissance-des-recommandations-sur-lactivite-physique-et-la-sedentarite-comportements-et" target="_blank" rel="noopener">Source : Santé publique France</a></span></li><li><b>1/4</b><span>des jeunes adultes s'informent sur la santé via les réseaux sociaux : l'OMS s'est associée à TikTok en 2024 pour y diffuser des contenus fiables. <a class="bc-src" href="https://www.who.int/news/item/26-09-2024-who-and-tiktok-to-collaborate-on-more-science-based-information-on-health-and-well-being" target="_blank" rel="noopener">Source : OMS, 2024</a></span></li></ul>
+    </div>
+  </section>
+
+  <section class="sec" id="offres">
+    <div class="inner">
+      <span class="eyebrow">Ce que nous proposons</span>
+      <h2 class="h2">Sept façons de faire bouger votre public, par de vrais coachs.</h2>
+      <div class="bc-grid">{offres.map((o) => <div class="tile bc-t"><span class="bc-i" aria-hidden="true">{o.i}</span><h3>{o.t}</h3><p>{o.d}</p></div>)}</div>
+      <div class="bc-livr"><p class="bc-livr-k">Ce que vous recevez</p><ul>{livrables.map((l) => <li>{l}</li>)}</ul></div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Pour qui</span>
+      <h2 class="h2">Pour tous ceux qui veulent faire bouger les gens, en ligne et sur le terrain.</h2>
+      <ul class="bc-chips">{pourQui.map((p) => <li>{p}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Comment ça se passe</span>
+      <h2 class="h2">De votre brief à la diffusion, en quatre étapes.</h2>
+      <ol class="bc-steps">{etapes.map((e, i) => <li class="tile"><span class="bc-n">{i + 1}</span><h3>{e.t}</h3><p>{e.d}</p></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="sec band" id="coachs">
+    <div class="inner">
+      <span class="eyebrow">Nos coachs</span>
+      <h2 class="h2">Tous les coachs du réseau GA sont éligibles.</h2>
+      <p class="bc-lead">Chaque coach du réseau GA peut créer vos contenus UGC et porter votre campagne : diplômé, titulaire de sa carte professionnelle, et coach sur le terrain toute l'année. Nous choisissons avec vous celui qui correspond à votre public, votre message et votre région.</p>
+      <ul class="bc-team">
+        {tous.map((c) => (
+          <li><a href={`/coachs/${c.slug}/`}>
+            <img src={c.photo} alt="" width="120" height="120" loading="lazy" />
+            <b>{c.prenom}</b>
+            <small>{(c.tags || []).slice(0, 2).join(' · ')}</small>
+          </a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+
+  <section class="sec" id="marches">
+    <div class="inner">
+      <span class="eyebrow">Où nos coachs peuvent intervenir</span>
+      <h2 class="h2">Podcasts, lives, médias, salons : un coach invité partout où l'on parle sport et santé.</h2>
+      <p class="mk-lead">Chaque marché a sa page dédiée : formats, déroulé, questions fréquentes.</p>
+      <ul class="mk-cards">
+        {marchesMk.map((x) => <li><a href={`/coach-sportif-invite/${x.slug}/`}><span class="mk-e" aria-hidden="true">{x.emoji}</span><b>{x.nom}</b><span>{x.bref.quoi.charAt(0).toUpperCase() + x.bref.quoi.slice(1)}.</span><em>Découvrir</em></a></li>)}
+      </ul>
+      <div class="mk-cta"><a class="btn btn-out" href="/coach-sportif-invite/">Voir tous les marchés</a></div>
+    </div>
+  </section>
+
+  <Configurateur cle="communication" />
+
+  <section class="sec" id="contact">
+    <div class="inner bc-two">
+      <div>
+        <span class="eyebrow">Votre campagne</span>
+        <h2 class="h2">Parlons de votre projet.</h2>
+        <p>Organisme, public visé, formats, calendrier : nous revenons vers vous sous 48 h ouvrées avec une proposition et le coach adapté. Vos informations servent uniquement à répondre à votre demande (<a href="/confidentialite/">confidentialité</a>).</p>
+        <p class="bc-note">Journaliste ou marque pour une interview ? Voir notre <a href="/medias/">espace médias</a>.</p>
+      </div>
+      <form class="bc-form" name="communication" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-boost/" aria-label="Parler de votre projet de communication">
+        <input type="hidden" name="form-name" value="communication" />
+        <input type="hidden" name="marche" value="boost-communication" />
+        <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+        <label>Organisme, agence ou marque<input name="structure" required autocomplete="organization" /></label>
+        <label>Vous êtes
+          <select name="type_org" required><option value="">Choisir</option><option>Programme européen</option><option>Ministère ou agence nationale</option><option>Agence régionale de santé</option><option>Collectivité</option><option>Fédération ou club</option><option>Mutuelle ou assureur</option><option>Marque</option><option>Agence de communication</option><option>Association ou fondation</option><option>Autre</option></select>
+        </label>
+        <label>Prénom et nom<input name="nom" required autocomplete="name" /></label>
+        <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Téléphone <small>(facultatif)</small><input type="tel" name="telephone" autocomplete="tel" /></label>
+        <label>Ce dont vous avez besoin
+          <select name="besoin" required><option value="">Choisir</option>{offres.map((o) => <option value={o.t}>{o.t}</option>)}<option value="Plusieurs formats">Plusieurs formats</option></select>
+        </label>
+        <label>Public visé <small>(facultatif)</small><input name="public" placeholder="Ex. : salariés, seniors, jeunes, patients" /></label>
+        <label>Calendrier <small>(facultatif)</small><input name="echeance" placeholder="Ex. : tournage en mars, diffusion en mai" /></label>
+        <label>Votre projet <small>(facultatif)</small><textarea name="message" rows="4"></textarea></label>
+        <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+      </form>
+    </div>
+  </section>
+
+  {guides.length > 0 && (
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Nos guides</span>
+      <h2 class="h2">Les programmes sport-santé, expliqués.</h2>
+      <ul class="bc-guides">{guides.map((a) => <li><a href={`/blog/${a.slug}/`}>{a.titre}</a></li>)}</ul>
+    </div>
+  </section>
+  )}
+
+  <BoostPCQ id="communication" />
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Vos questions.</h2>
+      <div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title="BOOST COMMUNICATION : un vrai coach sportif pour vos contenus et votre marque" label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>
+
+<script>
+  // Le lecteur TikTok ne se charge qu'au clic (pas de cookies TikTok avant)
+  document.querySelectorAll<HTMLElement>('.bc-v[data-id]').forEach((li) => {
+    const id = li.dataset.id; const bt = li.querySelector('button.bc-lire');
+    if (!id || !bt) return;
+    bt.addEventListener('click', () => {
+      const f = li.querySelector('.bc-frame'); if (!f) return;
+      f.innerHTML = `<iframe src="https://www.tiktok.com/player/v1/${id}?autoplay=1&music_info=0&description=0" title="Vidéo TikTok" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>`;
+    });
+  });
+</script>
+
+<style>
+  .bc-cas { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+  .bc-cas img { width: 100%; height: auto; border-radius: 24px; display: block; }
+  .bc-lead { font-size: 18px; line-height: 1.6; color: #0B1E3D; max-width: 62ch; }
+  .bc-vids { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 8px; }
+  .bc-vids { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; max-width: 720px; }
+  .bc-v { display: grid; gap: 8px; min-width: 0; }
+  .bc-frame { position: relative; aspect-ratio: 9 / 16; border-radius: 18px; overflow: hidden; background: #0B1E3D; }
+  .bc-frame img, .bc-frame :global(iframe) { width: 100%; height: 100%; object-fit: cover; border: 0; display: block; }
+  .bc-poster { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 10px; background: radial-gradient(circle at 50% 30%, #1D5BD8, #0B1E3D 70%); }
+  .bc-big-flag { width: 72px; height: 48px; border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 2px rgba(255,255,255,.35); }
+  .bc-big-flag :global(svg) { width: 100%; height: 100%; display: block; }
+  .bc-tt { color: #fff; font-weight: 700; letter-spacing: .04em; }
+  .bc-lire { position: absolute; inset: auto 50% 14px auto; transform: translateX(50%); width: 54px; height: 54px; border-radius: 50%; border: 0; display: grid; place-items: center; background: rgba(255,255,255,.95); color: #0B1E3D; font-size: 20px; cursor: pointer; text-decoration: none; box-shadow: 0 10px 24px -8px rgba(0,0,0,.6); }
+  .bc-lire:focus-visible { outline: 3px solid #2F8BFF; outline-offset: 3px; }
+  .bc-vinfo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #0B1E3D; }
+  .bc-flag { flex: 0 0 30px; width: 30px; height: 20px; border-radius: 3px; overflow: hidden; box-shadow: 0 0 0 1px #DCE6FB; }
+  .bc-flag :global(svg) { width: 100%; height: 100%; display: block; }
+  .bc-vt { display: grid; min-width: 0; }
+  .bc-vt b { font-size: 14px; }
+  .bc-vt small { color: #3E4A66; font-size: 12.5px; }
+  .bc-total { margin: 4px 0 14px; color: #0B1E3D; }
+  .bc-total b { font-family: var(--display); font-size: 22px; color: #1D5BD8; }
+  @media (max-width: 600px) { .bc-vids { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } .bc-vt b { font-size: 12px; } .bc-vt small { font-size: 11px; } .bc-lire { width: 40px; height: 40px; font-size: 15px; bottom: 10px; } .bc-big-flag { width: 48px; height: 32px; } }
+  .bc-play { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #2F8BFF; font-size: 12px; }
+  .bc-ugc { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px 40px; align-items: start; }
+  .bc-ugc-l { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .bc-ugc-l li { background: #fff; border: 1px solid #DCE6FB; border-radius: 16px; padding: 14px 16px; display: grid; gap: 4px; }
+  .bc-ugc-l b { color: #0B1E3D; }
+  .bc-ugc-l span { color: #2A3756; font-size: 15px; line-height: 1.5; }
+  @media (max-width: 900px) { .bc-ugc { grid-template-columns: minmax(0, 1fr); } }
+  .bc-proof { list-style: none; padding: 0; margin: 20px 0 6px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; max-width: 900px; }
+  .bc-proof li { background: rgba(255,255,255,.07); border: 1px solid rgba(124,196,255,.28); border-radius: 16px; padding: 12px 14px; display: grid; gap: 2px; }
+  .bc-proof b { font-family: var(--display); font-size: 22px; color: #fff; line-height: 1.15; }
+  .bc-proof span { color: #BFE2FF; font-size: 13px; line-height: 1.35; }
+  .bc-bref-sec { padding-top: 28px; padding-bottom: 8px; }
+  .bc-bref { border-left: 4px solid #1D5BD8; background: #fff; border-radius: 0 18px 18px 0; padding: 18px 22px; box-shadow: 0 12px 30px -24px rgba(11,30,61,.5); }
+  .bc-bref-k { margin: 0 0 8px; font-weight: 700; text-transform: none; letter-spacing: .02em; font-size: 12px; color: #1D5BD8; }
+  .bc-bref ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #0B1E3D; line-height: 1.5; }
+  .bc-livr { margin-top: 22px; background: #0B1E3D; color: #fff; border-radius: 22px; padding: 22px 24px; }
+  .bc-livr-k { margin: 0 0 10px; font-family: var(--display); font-size: 20px; }
+  .bc-livr ul { margin: 0; padding-left: 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 28px; color: #DCE7FF; line-height: 1.45; }
+  @media (max-width: 900px) { .bc-proof { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bc-livr ul { grid-template-columns: minmax(0, 1fr); } }
+  .bc-for { color: #BFE2FF; font-weight: 700; margin: 10px 0 0; max-width: 760px; }
+  .bc-vis { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+  .bc-themes { background: #fff; border-radius: 22px; padding: 22px; box-shadow: 0 16px 40px -30px rgba(11,30,61,.55); }
+  .bc-themes-k { margin: 0 0 10px; font-weight: 700; color: #0B1E3D; }
+  .bc-themes ul { list-style: none; padding: 0; margin: 0 0 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .bc-themes ul:last-child { margin-bottom: 0; }
+  .bc-themes li { background: #EAF2FF; color: #123A8C; border-radius: 999px; padding: 6px 12px; font-size: 14px; font-weight: 700; }
+  @media (max-width: 900px) { .bc-vis { grid-template-columns: minmax(0, 1fr); gap: 18px; } }
+  @media (min-width: 901px) { .bc-grid > :last-child:nth-child(3n+1) { grid-column: 1 / -1; } }
+  .bc-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .bc-t h3 { margin: 6px 0 8px; }
+  .bc-t p { margin: 0; line-height: 1.55; color: #2A3756; }
+  .bc-i { font-size: 30px; }
+  .bc-chips { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .bc-chips li { background: #fff; border: 1px solid #DCE6FB; color: #0B1E3D; border-radius: 999px; padding: 8px 14px; font-weight: 600; font-size: 14px; }
+  .bc-steps { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 16px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .bc-steps h3 { margin: 8px 0 6px; }
+  .bc-steps p { margin: 0; color: #2A3756; line-height: 1.55; }
+  .bc-n { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #1D5BD8; color: #fff; font-weight: 700; }
+  .bc-team { list-style: none; padding: 0; margin: 22px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
+  .bc-team a { display: grid; justify-items: center; gap: 6px; text-align: center; padding: 14px 10px; background: #fff; border: 1px solid #DCE6FB; border-radius: 18px; text-decoration: none; color: #0B1E3D; height: 100%; }
+  .bc-team a:hover { border-color: #1D5BD8; }
+  .bc-team img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; }
+  .bc-team b { font-size: 16px; }
+  .bc-team small { color: #3E4A66; font-size: 12.5px; line-height: 1.35; }
+  .bc-team em { font-style: normal; font-weight: 700; color: #1F55C9; font-size: 12.5px; line-height: 1.35; }
+  @media (max-width: 600px) { .bc-team { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } }
+  .bc-medias { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+  .bc-m { display: flex; gap: 14px; align-items: center; background: #fff; border: 1px solid #DCE6FB; border-radius: 18px; padding: 16px; min-width: 0; text-decoration: none; color: #0B1E3D; }
+  .bc-m img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: 0 0 64px; }
+  .bc-m b { display: block; }
+  .bc-m small { display: block; color: #3E4A66; }
+  .bc-m em { display: block; font-style: normal; font-weight: 700; color: #1F55C9; margin-top: 4px; }
+  .bc-two { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .bc-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; } }
+  .bc-note { color: #2A3756; font-weight: 600; }
+  .bc-form { display: grid; gap: 12px; background: #fff; border: 1px solid #DCE6FB; border-radius: 20px; padding: 22px; min-width: 0; }
+  .bc-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; color: #0B1E3D; min-width: 0; }
+  .bc-form input, .bc-form select, .bc-form textarea { width: 100%; box-sizing: border-box; min-height: 46px; padding: 10px 12px; border: 1px solid #B8C6E3; border-radius: 12px; font: inherit; font-size: 16px; background: #fff; }
+  .bc-guides { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; }
+  .bc-guides a { display: block; padding: 12px 14px; border: 1px solid #DCE6FB; border-radius: 14px; background: #fff; color: #0B1E3D; font-weight: 600; line-height: 1.35; text-decoration: none; }
+  .bc-stats { list-style: none; padding: 0; margin: 22px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .bc-stats li { background: #fff; border: 2px solid #DCE6FB; border-radius: 20px; padding: 20px; display: grid; gap: 8px; align-content: start; }
+  .bc-stats b { font-family: var(--display); font-size: 38px; line-height: 1; color: #1D5BD8; }
+  .bc-stats span { color: #0B1E3D; line-height: 1.45; font-size: 15px; }
+  .bc-src { display: block; margin-top: 6px; font-size: 12px; color: #3E4A66; text-decoration: underline; }
+  @media (max-width: 900px) {
+    .bc-grid, .bc-steps, .bc-stats { grid-template-columns: minmax(0, 1fr); }
+    .bc-cas { grid-template-columns: minmax(0, 1fr); }
+    .bc-cas img { max-width: 180px; }
+    .bc-guides, .bc-medias { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 767px) {
+    .bc-stats li { grid-template-columns: 104px minmax(0, 1fr); align-items: start; padding: 16px; }
+    .bc-stats b { font-size: 28px; }
+  }
+</style>

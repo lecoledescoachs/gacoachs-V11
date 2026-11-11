@@ -1,0 +1,88 @@
+---
+// Parcours de réservation en 3 clics : 1 salle, 2 coach, 3 bilan santé avec ce coach.
+// Données réelles uniquement (salles.json, coachs). Fonctionne sans JavaScript (liens vers les salles).
+import salles from '../data/salles.json';
+import coaches from '../data/coaches.js';
+interface Props { id?: string }
+const { id = 'reserver' } = Astro.props;
+const fmt = (n: number) => n.toFixed(1).replace('.', ',');
+const parSalle = salles.map((s: any) => ({
+  slug: s.slug, nom: s.nom, ville: s.ville,
+  coachs: coaches.filter((c: any) => c.salleSlug === s.slug).map((c: any) => ({ slug: c.slug, nom: `${c.prenom} ${c.nom}`, photo: c.photo, note: c.avisGoogle?.note, n: c.avisGoogle?.nombreAvis, g: c.avisGoogle?.url })),
+})).filter((s: any) => s.coachs.length);
+---
+<section class="sec r3" id={id} aria-labelledby="r3-t" data-r3>
+  <div class="inner">
+    <span class="eyebrow">⚡ Réserver en 3 clics</span>
+    <h2 class="h2" id="r3-t">Ton bilan santé, en 3 clics.</h2>
+    <ol class="r3-steps" aria-label="Étapes">
+      <li class="on" data-s="1"><b>1</b> Ta salle</li>
+      <li data-s="2"><b>2</b> Ton coach</li>
+      <li data-s="3"><b>3</b> Ton bilan</li>
+    </ol>
+
+    <div class="r3-p" data-p="1">
+      <ul class="r3-list">
+        {parSalle.map((s: any) => (
+          <li><button type="button" class="r3-b" data-salle={s.slug}>
+            <span class="r3-e" aria-hidden="true">📍</span><span><b>{s.nom}</b><small>{s.coachs.length} coach{s.coachs.length > 1 ? 's' : ''}</small></span>
+          </button></li>
+        ))}
+      </ul>
+    </div>
+
+    {parSalle.map((s: any) => (
+      <div class="r3-p" data-p="2" data-for={s.slug} hidden>
+        <button type="button" class="r3-back" data-back="1">← Changer de salle</button>
+        <p class="r3-sub">Coachs à <b>{s.nom}</b></p>
+        <ul class="r3-list">
+          {s.coachs.map((c: any) => (
+            <li class="r3-coach">
+              <a class="r3-b" href={`/score-sante/?coach=${c.slug}`}>
+                <img src={c.photo} alt="" width="56" height="56" loading="lazy" decoding="async" />
+                <span><b>{c.nom}</b><small>Réserver mon bilan avec lui →</small></span>
+              </a>
+              {c.note && c.g && <a class="r3-g" href={c.g} target="_blank" rel="noopener noreferrer">⭐ {fmt(c.note)} · {c.n} avis<span class="sr"> de {c.nom}, nouvel onglet</span></a>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+    <p class="r3-note">Le bilan santé dure environ une heure, dans ta salle Basic-Fit. Tu peux aussi <a href="/score-sante/">faire d'abord le Score Santé (2 minutes)</a>.</p>
+  </div>
+</section>
+
+<style is:global>
+.r3-steps{list-style:none;display:flex;gap:8px;margin:14px 0 18px;padding:0}
+.r3-steps li{flex:1;text-align:center;font-size:.9rem;font-weight:700;color:#5A6785;background:#fff;border:2px solid #E1E8FA;border-radius:12px;padding:8px 4px}
+.r3-steps li b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#E6EEFE;color:#1F55C9;margin-right:4px}
+.r3-steps li.on{border-color:#2F6FED;color:#13203B}.r3-steps li.on b{background:#2F6FED;color:#fff}
+.r3-list{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.r3-b{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;text-align:left;background:#fff;border:2px solid #C3D3F6;border-bottom-width:5px;border-radius:16px;padding:10px 14px;font:inherit;color:#13203B;text-decoration:none;cursor:pointer}
+.r3-b:hover{border-color:#2F6FED}
+.r3-b small{display:block;color:#4A5672;font-size:.85rem}
+.r3-e{font-size:1.6rem}
+.r3-b img{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:top;background:#E6EEFE;flex:none}
+.r3-coach{display:flex;flex-direction:column;gap:6px}
+.r3-g{display:inline-flex;align-items:center;min-height:44px;padding:0 6px;color:#5A6785;font-size:.88rem;text-decoration:underline;text-underline-offset:3px}
+.r3-back{min-height:44px;background:none;border:0;color:#1F55C9;font:inherit;font-weight:700;cursor:pointer;padding:0 4px}
+.r3-sub{margin:4px 0 12px;color:#13203B}
+.r3-note{margin-top:16px;font-size:.9rem;color:#4A5672}
+.r3-note a{color:#1F55C9;font-weight:700}
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-r3]').forEach((root) => {
+    const steps = root.querySelectorAll<HTMLElement>('.r3-steps li');
+    const show = (n: string, salle?: string) => {
+      root.querySelectorAll<HTMLElement>('.r3-p').forEach((p) => { p.hidden = !(p.dataset.p === n && (n === '1' || p.dataset.for === salle)); });
+      steps.forEach((li) => li.classList.toggle('on', li.dataset.s === n));
+    };
+    root.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      const b = t.closest<HTMLElement>('[data-salle]');
+      if (b) { show('2', b.dataset.salle); (root.querySelector(`[data-for="${b.dataset.salle}"] a`) as HTMLElement | null)?.focus(); }
+      if (t.closest('[data-back]')) { show('1'); (root.querySelector('[data-salle]') as HTMLElement | null)?.focus(); }
+    });
+  });
+</script>

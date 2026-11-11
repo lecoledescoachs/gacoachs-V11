@@ -1,0 +1,10 @@
+// Thèmes du blog et icônes, comme dans le prototype validé
+export const BLOG_CATS: [string, string][] = [['coaching-sportif', 'Coaching sportif'], ['mal-de-dos', 'Mal de dos'], ['sport-sante', 'Sport Santé'], ['preparation-physique', 'Préparation physique'], ['preparation-concours', 'Préparation concours'], ['entreprises', 'Entreprises'], ['structures-evenements', 'Structures et événements'], ['artistes-scene', 'Artistes et scène'], ['personnalites', 'Personnalités'], ['communication-sport-sante', 'Communication sport-santé'], ['courses-evenements', 'Courses et échauffements']];
+export const BLOG_LABEL: Record<string, string> = Object.fromEntries(BLOG_CATS);
+export const EX_IC: Record<string, string> = { 'coaching-sportif': 'dumbbell', 'preparation-physique': 'trophy', 'preparation-concours': 'medal', 'sport-sante': 'heart', 'mal-de-dos': 'spine', 'artistes-scene': 'bolt', personnalites: 'medal', 'communication-sport-sante': 'target', 'courses-evenements': 'trophy' };
+export const arCat = (a: any) => (a.expertisesLiees || [])[0] || 'coaching-sportif';
+// thème « Artistes et scène » (BOOST SCÈNE et TOURNÉE) et « Personnalités » (BOOST PRIVÉ), d'après la page vers laquelle renvoie l'article
+const themeOffre = (a: any) => /echauffement-course/.test(a.ctaHref || '') ? ['courses-evenements'] : /campagne-sport-sante/.test(a.ctaHref || '') ? ['communication-sport-sante'] : /preparation-scene|tournee-artistes/.test(a.ctaHref || '') ? ['artistes-scene'] : /coach-sportif-vip/.test(a.ctaHref || '') ? ['personnalites'] : [];
+export const arCats = (a: any) => { const t = themeOffre(a); return (a.expertisesLiees || []).concat(t.length ? t : /ehpad|associations-de-musculation|services-sur-mesure|professionnels-de-sante/.test(a.ctaHref || '') ? ['structures-evenements'] : []); };
+const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+export const frDate = (d: string) => { const p = String(d).split('-'); return p.length === 3 ? `${+p[2] === 1 ? '1er' : +p[2]} ${MOIS[+p[1] - 1]} ${p[0]}` : d; };

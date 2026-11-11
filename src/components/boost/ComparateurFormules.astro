@@ -1,0 +1,120 @@
+---
+interface Offre {
+  nom: string;
+  frequence: string;
+  duree: string;
+  prix: string;
+  badge?: string;
+  highlight?: boolean;
+  premium?: boolean;
+}
+interface Props {
+  offres: Offre[];
+}
+const { offres } = Astro.props;
+
+const lignes = [
+  { label: 'Durée', key: 'duree' },
+  { label: 'Fréquence', key: 'frequence' },
+];
+const regularite: Record<string, string> = {
+  'BOOST ESSENTIEL': '●',
+  'BOOST PERFORMANCE': '●●●',
+  'BOOST 5/7': '●●●●●',
+};
+const programmeVarie: Record<string, string> = {
+  'BOOST ESSENTIEL': 'Oui',
+  'BOOST PERFORMANCE': 'Oui',
+  'BOOST 5/7': 'Oui + programmation quotidienne',
+};
+---
+<div class="comparateur-formules">
+  <div class="comparateur-formules__grid">
+    <div class="comparateur-formules__col comparateur-formules__col--label">
+      <div class="comparateur-formules__cell comparateur-formules__cell--head">&nbsp;</div>
+      <div class="comparateur-formules__cell">Durée</div>
+      <div class="comparateur-formules__cell">Fréquence</div>
+      <div class="comparateur-formules__cell">Régularité</div>
+      <div class="comparateur-formules__cell">Programme varié</div>
+      <div class="comparateur-formules__cell">Coach GA</div>
+      <div class="comparateur-formules__cell">Sur site</div>
+      <div class="comparateur-formules__cell">Accessible débutants</div>
+      <div class="comparateur-formules__cell comparateur-formules__cell--prix">Tarif</div>
+    </div>
+    {offres.map((o) => (
+      <div class={`comparateur-formules__col ${o.highlight || o.premium ? 'comparateur-formules__col--highlight' : ''}`}>
+        <div class="comparateur-formules__cell comparateur-formules__cell--head">
+          {o.badge && <span class="tag comparateur-formules__badge">{o.badge}</span>}
+          <span class="comparateur-formules__nom">{o.nom}</span>
+        </div>
+        <div class="comparateur-formules__cell">{o.duree}</div>
+        <div class="comparateur-formules__cell">{o.frequence}</div>
+        <div class="comparateur-formules__cell">{regularite[o.nom]}</div>
+        <div class="comparateur-formules__cell">{programmeVarie[o.nom]}</div>
+        <div class="comparateur-formules__cell">Oui</div>
+        <div class="comparateur-formules__cell">Oui</div>
+        <div class="comparateur-formules__cell">Oui</div>
+        <div class="comparateur-formules__cell comparateur-formules__cell--prix">{o.prix}</div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .comparateur-formules { width: 100%; }
+  .comparateur-formules__grid {
+    display: grid;
+    grid-template-columns: 52px repeat(3, 1fr);
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .comparateur-formules__col { display: flex; flex-direction: column; border-left: 1px solid var(--line); min-width: 0; }
+  .comparateur-formules__col--label { border-left: none; background: var(--ice); }
+  .comparateur-formules__col--highlight { background: var(--ice); }
+  .comparateur-formules__cell {
+    padding: 6px 4px;
+    font-size: 9.5px;
+    line-height: 1.25;
+    color: var(--text-muted);
+    border-top: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    min-height: 34px;
+    word-break: break-word;
+  }
+  .comparateur-formules__col--label .comparateur-formules__cell { color: var(--navy); font-weight: 600; font-size: 9px; }
+  .comparateur-formules__cell--head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    border-top: none;
+    min-height: 54px;
+    justify-content: center;
+    padding: 8px 4px;
+  }
+  .comparateur-formules__nom { font-family: var(--font-display); font-weight: 700; color: var(--navy); font-size: 9.5px; line-height: 1.15; }
+  .comparateur-formules__badge { font-size: 7px; padding: 2px 5px; white-space: nowrap; }
+  .comparateur-formules__cell--prix { font-family: var(--font-display); font-weight: 700; color: var(--navy); font-size: 10.5px; }
+
+  @media (min-width: 480px) {
+    .comparateur-formules__grid { grid-template-columns: 90px repeat(3, 1fr); }
+    .comparateur-formules__cell { padding: 10px 8px; font-size: 12px; min-height: 40px; }
+    .comparateur-formules__col--label .comparateur-formules__cell { font-size: 12px; }
+    .comparateur-formules__cell--head { min-height: 60px; padding: 10px 8px; gap: 5px; }
+    .comparateur-formules__nom { font-size: 12.5px; }
+    .comparateur-formules__badge { font-size: 9px; padding: 3px 7px; }
+    .comparateur-formules__cell--prix { font-size: 13.5px; }
+  }
+
+  @media (min-width: 700px) {
+    .comparateur-formules__grid { grid-template-columns: 120px repeat(3, 1fr); }
+    .comparateur-formules__cell { padding: 12px 14px; font-size: 13px; min-height: 44px; }
+    .comparateur-formules__col--label .comparateur-formules__cell { font-size: 13px; }
+    .comparateur-formules__cell--head { min-height: 64px; padding: 12px 14px; gap: 6px; }
+    .comparateur-formules__nom { font-size: 14px; }
+    .comparateur-formules__badge { font-size: 10px; padding: 3px 8px; }
+    .comparateur-formules__cell--prix { font-size: 15px; }
+  }
+</style>

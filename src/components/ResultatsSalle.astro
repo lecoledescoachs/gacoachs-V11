@@ -1,0 +1,163 @@
+---
+// Tableau de résultats affiché en salle à Basic-Fit Olivet (photo fournie par GA Coachs).
+// Seuls les prénoms et chiffres lisibles sur le tableau sont repris, sans rien inventer.
+interface Props { titre?: string; compact?: boolean }
+const { titre = 'Une vie qui change, ce n’est pas seulement du poids perdu.', compact = false } = Astro.props;
+type R = { p: string; kg: number; mois: number; note?: string; kgTxt?: string; photo?: string };
+// Photo optionnelle : déposer le fichier dans public/images/preuves/clients/<prenom-en-minuscules-sans-accents>.webp (carré, 200 px) avec l'accord écrit de la personne.
+const slugP = (n: string) => n.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+const photos = import.meta.glob('/public/images/preuves/clients/*.webp', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+const photoDe = (n: string) => (photos[`/public/images/preuves/clients/${slugP(n)}.webp`] ? `/images/preuves/clients/${slugP(n)}.webp` : '');
+const data: R[] = [
+  { p: 'Catherine', kg: -50, mois: 19 },
+  { p: 'Laëtitia', kg: -44.9, mois: 15, kgTxt: '−44,9' },
+  { p: 'Iben', kg: -32, mois: 5 },
+  { p: 'Lilou', kg: -26, mois: 8, note: 'Passé sous les 100 kg' },
+  { p: 'JP', kg: -25, mois: 12 },
+  { p: 'Maxime', kg: -23, mois: 18 },
+  { p: 'Nicolas', kg: -22, mois: 12, note: 'Passé sous les 100 kg' },
+  { p: 'Céline', kg: -20, mois: 6 },
+  { p: 'Johanna', kg: -18, mois: 17 },
+  { p: 'Sébastien', kg: -16, mois: 8 },
+  { p: 'Antoine', kg: -15, mois: 6 },
+  { p: 'Ronan', kg: -15, mois: 15 },
+  { p: 'Guillermine', kg: -15, mois: 6 },
+  { p: 'Sandra', kg: -14, mois: 4 },
+  { p: 'Natacha', kg: -13, mois: 4, note: '−7 cm de tour de taille' },
+  { p: 'Sylvain', kg: -13, mois: 3, note: 'Passé sous les 100 kg' },
+  { p: 'Jean-Marc', kg: -12, mois: 3 },
+  { p: 'Jérémy', kg: -10, mois: 3 },
+  { p: 'Marie', kg: -10, mois: 5 },
+  { p: 'Yann', kg: -8, mois: 4 },
+  { p: 'Jean-Luc', kg: -8.3, mois: 2, kgTxt: '−8,3' },
+  { p: 'Jonathan', kg: -7.5, mois: 7, kgTxt: '−7,5' },
+  { p: 'Mayana', kg: -6, mois: 1 },
+  { p: 'El Fayalh', kg: -3, mois: 1, note: 'Passé sous les 100 kg' },
+  { p: 'Yves', kg: 10, mois: 12, note: 'Prise de masse' },
+];
+const txt = (r: R) => r.kgTxt ?? (r.kg > 0 ? `+${r.kg}` : `−${Math.abs(r.kg)}`);
+const pct = (r: R) => Math.max(8, Math.min(100, Math.round((Math.abs(r.kg) / 50) * 100)));
+const perdus = Math.round(data.filter((r) => r.kg < 0).reduce((a, r) => a + Math.abs(r.kg), 0));
+const nbPerdus = data.filter((r) => r.kg < 0).length;
+const plus = [
+  { e: '⚡', t: 'L’énergie', d: 'Monter les escaliers sans s’arrêter, finir la journée avec de la force.' },
+  { e: '😄', t: 'La confiance', d: 'Se regarder autrement, oser se montrer, reprendre goût aux projets.' },
+  { e: '❤️', t: 'La santé', d: 'Un corps qui se renforce, des habitudes qui durent, un objectif défini avec ton Bilan Santé.' },
+  { e: '🤝', t: 'Le collectif', d: 'Un coach qui te connaît par ton prénom et une salle où l’on se félicite.' },
+];
+const pts = data.filter((r) => r.kg < 0);
+const X = (m: number) => 36 + (m / 20) * 340;
+const Y = (k: number) => 190 - (Math.abs(k) / 50) * 170;
+const NB = compact ? 6 : 9;
+const premiers = data.slice(0, NB);
+const suite = data.slice(NB);
+---
+<section class="sec rsl" id="resultats-olivet" aria-labelledby="rsl-t">
+  <div class="inner">
+    <div class="rsl-head" data-a="up">
+      <span class="eyebrow">🏆 Le Wall of Fame de la salle</span>
+      <h2 class="h2" id="rsl-t">{titre}</h2>
+      <p class="rsl-big"><b data-a="pop"><span data-count="686">686</span></b> personnes ont été accompagnées ici.</p>
+      <p class="rsl-sub">À Basic-Fit Olivet, nos coachs notent à la main, sur un tableau, les victoires de leurs clients. C’est ici qu’on célèbre la progression et qu’on montre le travail accompli. Prénoms et chiffres sont ceux du tableau.</p>
+    </div>
+
+    <figure class="rsl-photo" data-a="zoom">
+      <img src="/images/preuves/tableau-resultats-olivet.webp" width="1400" height="1050" loading="lazy" decoding="async" alt="Tableau blanc affiché à Basic-Fit Olivet : 686 personnes ont été accompagnées ici, avec la liste des prénoms, des kilos perdus et de la durée." />
+      <figcaption>Le tableau affiché à Basic-Fit Olivet.</figcaption>
+    </figure>
+
+    <p class="rsl-tot" data-a="up"><b>{perdus} kg</b> perdus au total par les {nbPerdus} personnes dont le résultat est affiché au tableau.</p>
+
+    <div class="rsl-plus" data-a="up">
+      <h3 class="rsl-h3">Derrière chaque chiffre, bien plus que des kilos 💛</h3>
+      <ul class="rsl-pl">
+        {plus.map((x) => (<li><span class="rsl-e" aria-hidden="true">{x.e}</span><b>{x.t}</b><span>{x.d}</span></li>))}
+      </ul>
+    </div>
+
+    <figure class="rsl-fig" data-a="up">
+      <figcaption><b>Chaque point est une personne</b> : kilos perdus selon la durée de l'accompagnement.</figcaption>
+      <svg viewBox="0 0 400 230" role="img" aria-labelledby="rsl-svg-t rsl-svg-d" class="rsl-svg">
+        <title id="rsl-svg-t">Kilos perdus selon la durée</title>
+        <desc id="rsl-svg-d">{`Nuage de points : ${pts.length} personnes du tableau, de ${Math.min(...pts.map((r) => r.mois))} à ${Math.max(...pts.map((r) => r.mois))} mois d'accompagnement, de ${Math.min(...pts.map((r) => Math.abs(r.kg)))} à ${Math.max(...pts.map((r) => Math.abs(r.kg)))} kilos perdus.`}</desc>
+        {[0, 10, 20, 30, 40, 50].map((k) => (<g><line x1="36" x2="376" y1={Y(k)} y2={Y(k)} stroke="#E1E8FA" /><text x="30" y={Y(k) + 4} text-anchor="end" font-size="11" fill="#4A5672">{k}</text></g>))}
+        {[0, 5, 10, 15, 20].map((m) => (<text x={X(m)} y="208" text-anchor="middle" font-size="11" fill="#4A5672">{m}</text>))}
+        <text x="206" y="226" text-anchor="middle" font-size="11" fill="#4A5672">mois d'accompagnement</text>
+        <text x="4" y="12" font-size="11" fill="#4A5672">kg perdus</text>
+        {pts.map((r) => (<circle cx={X(r.mois)} cy={Y(r.kg)} r="6" fill="#2F6FED" fill-opacity=".75" stroke="#fff" stroke-width="1.5"><title>{`${r.p} : ${txt(r)} kg en ${r.mois} mois`}</title></circle>))}
+      </svg>
+    </figure>
+
+    <ul class="rsl-grid" data-a="deal">
+      {premiers.map((r) => (
+        <li class="rsl-c" style={`--w:${pct(r)}%`}>
+          <span class="rsl-id">{photoDe(r.p) ? <img class="rsl-ph" src={photoDe(r.p)} alt={`Photo de ${r.p}`} width="44" height="44" loading="lazy" decoding="async" /> : <span class="rsl-ph rsl-ini" aria-hidden="true">{r.p[0]}</span>}<b class="rsl-p">{r.p}</b></span>
+          <span class={`rsl-kg${r.kg > 0 ? ' up' : ''}`}>{txt(r)} kg</span>
+          <span class="rsl-m">en {r.mois} mois</span>
+          <span class="rsl-bar" aria-hidden="true"><i></i></span>
+          {r.note && <em class="rsl-n">{r.note}</em>}
+        </li>
+      ))}
+    </ul>
+    <details class="rsl-more">
+      <summary>Voir les {suite.length} autres résultats</summary>
+      <ul class="rsl-grid">
+        {suite.map((r) => (
+          <li class="rsl-c" style={`--w:${pct(r)}%`}>
+            <span class="rsl-id">{photoDe(r.p) ? <img class="rsl-ph" src={photoDe(r.p)} alt={`Photo de ${r.p}`} width="44" height="44" loading="lazy" decoding="async" /> : <span class="rsl-ph rsl-ini" aria-hidden="true">{r.p[0]}</span>}<b class="rsl-p">{r.p}</b></span>
+            <span class={`rsl-kg${r.kg > 0 ? ' up' : ''}`}>{txt(r)} kg</span>
+            <span class="rsl-m">en {r.mois} mois</span>
+            <span class="rsl-bar" aria-hidden="true"><i></i></span>
+            {r.note && <em class="rsl-n">{r.note}</em>}
+          </li>
+        ))}
+      </ul>
+    </details>
+
+    <p class="rsl-legal">Résultats individuels, propres à chaque personne, sans garantie pour toi. Chacun part d'une situation différente : le Bilan Santé sert justement à définir ton objectif réaliste.</p>
+    <div class="rsl-cta"><a class="btn btn-primary" href="/salles/basic-fit-olivet/">Voir la salle d'Olivet</a> <a class="btn-out" href="/trouver-un-coach/">Trouver mon coach</a></div>
+  </div>
+</section>
+
+<style is:global>
+.rsl-head{max-width:720px}
+.rsl-big{font-size:1.25rem;margin:10px 0 4px;color:#13203B}
+.rsl-big b{font-family:var(--display,inherit);font-size:clamp(2.6rem,9vw,4.2rem);line-height:1;color:#1F55C9;margin-right:6px;display:inline-block}
+.rsl-sub{color:#5A6785;margin:0 0 20px;max-width:60ch}
+.rsl-photo{margin:0 0 22px;border:2px solid #C3D3F6;border-bottom-width:5px;border-radius:18px;overflow:hidden;background:#fff}
+.rsl-photo img{display:block;width:100%;height:auto}
+.rsl-photo figcaption{padding:8px 14px;font-size:.85rem;color:#5A6785}
+.rsl-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.rsl-more .rsl-grid{margin-top:12px}
+.rsl-c{background:#fff;border:2px solid #C3D3F6;border-bottom-width:5px;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.rsl-id{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.rsl-ph{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #C3D3F6;border-bottom-width:4px;flex:none;background:#E6EEFE}
+.rsl-ini{display:grid;place-items:center;font-weight: 700;color:#1F55C9;font-size:1.1rem}
+.rsl-p{font-size:1.05rem;color:#13203B;min-width:0;overflow-wrap:anywhere}
+.rsl-kg{font-size:1.5rem;font-weight: 700;color:#1F55C9;line-height:1.1}
+.rsl-kg.up{color:#13203B}
+.rsl-m{font-size:.85rem;color:#5A6785}
+.rsl-bar{display:block;height:6px;border-radius:6px;background:#E1E8FA;margin-top:8px;overflow:hidden}
+.rsl-bar i{display:block;height:100%;width:var(--w);background:#2F6FED;border-radius:6px}
+.rsl-n{font-style:normal;font-size:.78rem;font-weight:700;color:#1F55C9;background:#E6EEFE;border-radius:999px;padding:2px 9px;margin-top:8px;align-self:flex-start}
+.rsl-fig{margin:0 0 22px;background:#fff;border:2px solid #C3D3F6;border-bottom-width:5px;border-radius:18px;padding:14px}
+.rsl-fig figcaption{font-size:.92rem;color:#13203B;margin-bottom:8px}
+.rsl-svg{display:block;width:100%;height:auto}
+.rsl-tot{margin:0 0 18px;font-size:1.05rem;color:#13203B}
+.rsl-tot b{color:#1F55C9;font-size:1.3rem}
+.rsl-plus{background:#FFF7E0;border:2px solid #F6D98A;border-bottom-width:5px;border-radius:18px;padding:16px;margin:0 0 22px}
+.rsl-h3{margin:0 0 12px;font-size:1.15rem;color:#13203B}
+.rsl-pl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.rsl-pl li{background:#fff;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:4px;color:#13203B}
+.rsl-pl li span:last-child{font-size:.92rem;color:#4A5672}
+.rsl-e{font-size:1.6rem;line-height:1}
+.rsl-more{margin-top:12px}
+.rsl-more summary{cursor:pointer;display:inline-block;font-weight: 700;color:#1F55C9;border:2px solid #C3D3F6;border-bottom-width:4px;border-radius:12px;padding:10px 16px;background:#fff;min-height:44px}
+.rsl-legal{font-size:.85rem;color:#5A6785;margin:18px 0 14px;max-width:70ch}
+.rsl-cta{display:flex;gap:10px;flex-wrap:wrap}
+@media (prefers-reduced-motion:no-preference){
+  .rsl-bar i{transform-origin:left;animation:rslbar 1.1s var(--ease,ease) both;animation-timeline:view();animation-range:entry 0% cover 40%}
+  @keyframes rslbar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+}
+@media (max-width:760px){.rsl-grid{grid-template-columns:repeat(2,1fr);gap:10px}.rsl-kg{font-size:1.3rem}.rsl-photo{border-radius:14px}}
+</style>

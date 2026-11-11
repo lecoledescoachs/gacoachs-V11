@@ -1,0 +1,59 @@
+---
+---
+<script define:vars={{ page: 'boost_view' }}>
+  window.gtag = window.gtag || function () {
+    (window.dataLayer = window.dataLayer || []).push(arguments);
+  };
+  gtag('event', page);
+
+  // Scroll depth
+  const thresholds = [25, 50, 75, 90];
+  const fired = new Set();
+  function onScroll() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (docHeight <= 0) return;
+    const pct = Math.round((scrollTop / docHeight) * 100);
+    thresholds.forEach((t) => {
+      if (pct >= t && !fired.has(t)) {
+        fired.add(t);
+        gtag('event', `boost_scroll_${t}`);
+      }
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Clics CTA data-track-click
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-track-click]');
+    if (el) gtag('event', el.getAttribute('data-track-click'));
+  });
+
+  // Vue de la section pricing
+  const pricingEl = document.getElementById('boost-pricing');
+  if (pricingEl && 'IntersectionObserver' in window) {
+    const pricingObs = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          gtag('event', 'boost_pricing_view');
+          pricingObs.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    pricingObs.observe(pricingEl);
+  }
+
+  // Vue de la section BOOST 5/7
+  const boost57El = document.getElementById('boost-5-7');
+  if (boost57El && 'IntersectionObserver' in window) {
+    const boost57Obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          gtag('event', 'boost_5_7_view');
+          boost57Obs.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    boost57Obs.observe(boost57El);
+  }
+</script>

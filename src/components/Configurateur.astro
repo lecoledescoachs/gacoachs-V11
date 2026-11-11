@@ -1,0 +1,136 @@
+---
+---
+<div class="configurateur">
+  <div class="configurateur__form">
+    <label>
+      Nombre de salariés
+      <select id="conf-salaries">
+        <option value="petit">Moins de 20</option>
+        <option value="moyen">20 à 100</option>
+        <option value="grand">Plus de 100</option>
+      </select>
+    </label>
+    <label>
+      Type d'entreprise
+      <select id="conf-type">
+        <option value="bureau">Bureaux</option>
+        <option value="terrain">Métiers physiques / terrain</option>
+        <option value="mixte">Mixte</option>
+      </select>
+    </label>
+    <label>
+      Objectif principal
+      <select id="conf-objectif">
+        <option value="mouvement">Remettre les équipes en mouvement</option>
+        <option value="cohesion">Renforcer la cohésion</option>
+        <option value="prevention">Prévenir les douleurs / TMS</option>
+        <option value="evenement">Marquer un temps fort</option>
+      </select>
+    </label>
+    <label>
+      Fréquence souhaitée
+      <select id="conf-frequence">
+        <option value="ponctuel">Ponctuelle</option>
+        <option value="mensuel">Mensuelle</option>
+        <option value="hebdo">Hebdomadaire</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="configurateur__result" id="conf-result">
+    <span class="eyebrow">Programme recommandé</span>
+    <h3 id="conf-programme">GA Marche Club</h3>
+    <p id="conf-description">Le format le plus simple pour démarrer, sans matériel et accessible à tous.</p>
+    <a href="/contact/" class="btn btn--primary">Créer mon programme entreprise</a>
+  </div>
+</div>
+
+<style>
+  .configurateur {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .configurateur__form {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 24px;
+  }
+  .configurateur__form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .configurateur__form select {
+    min-height: 48px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    padding: 0 14px;
+    font-size: 15px;
+    background: var(--white);
+  }
+  .configurateur__result {
+    background: var(--navy);
+    color: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+  .configurateur__result .eyebrow { color: var(--sky); }
+  .configurateur__result h3 { color: var(--white); margin-top: 8px; font-size: 22px; }
+  .configurateur__result p { color: rgba(255,255,255,0.72); margin-top: 10px; margin-bottom: 20px; }
+
+  @media (min-width: 900px) {
+    .configurateur { flex-direction: row; align-items: stretch; }
+    .configurateur__form { flex: 1; grid-template-columns: repeat(2, 1fr); }
+    .configurateur__result { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  }
+</style>
+
+<script>
+  const salaries = document.getElementById('conf-salaries') as HTMLSelectElement;
+  const type = document.getElementById('conf-type') as HTMLSelectElement;
+  const objectif = document.getElementById('conf-objectif') as HTMLSelectElement;
+  const frequence = document.getElementById('conf-frequence') as HTMLSelectElement;
+  const programmeEl = document.getElementById('conf-programme') as HTMLElement;
+  const descriptionEl = document.getElementById('conf-description') as HTMLElement;
+
+  function recommend() {
+    const o = objectif.value;
+    const t = type.value;
+    const f = frequence.value;
+
+    let programme = 'GA Marche Club';
+    let description = "Le format le plus simple pour démarrer, sans matériel et accessible à tous.";
+
+    if (o === 'prevention' && t === 'terrain') {
+      programme = 'Réveil musculaire';
+      description = '10 minutes avant la prise de poste pour mobiliser, échauffer et prévenir les douleurs liées au métier.';
+    } else if (o === 'prevention') {
+      programme = 'GA Dos Entreprise';
+      description = 'Un programme régulier centré sur la mobilité et le renforcement progressif, sans promesse de guérison.';
+    } else if (o === 'cohesion') {
+      programme = 'Team Building Sportif';
+      description = 'Une expérience collective : défis équipes, bootcamp ou olympiades selon tes envies.';
+    } else if (o === 'evenement') {
+      programme = 'Journée Santé & Sport';
+      description = 'Un temps fort sur une journée : ateliers, sport, nutrition et challenges.';
+    } else if (o === 'mouvement' && f === 'hebdo') {
+      programme = 'Coaching sportif hebdomadaire';
+      description = 'Des séances régulières de 30, 45 ou 60 minutes pour installer une vraie dynamique.';
+    } else if (o === 'mouvement' && t === 'bureau') {
+      programme = 'Pause Active';
+      description = 'Remplacer 15 minutes de sédentarité par 15 minutes de mouvement, directement au bureau.';
+    }
+
+    programmeEl.textContent = programme;
+    descriptionEl.textContent = description;
+  }
+
+  [salaries, type, objectif, frequence].forEach((el) => el?.addEventListener('change', recommend));
+</script>

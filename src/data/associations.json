@@ -1,0 +1,471 @@
+{
+  "slug": "associations-de-musculation",
+  "path": "/associations-de-musculation/",
+  "seo": {
+    "title": "BOOST ASSO : coach sportif pour association de musculation",
+    "description": "GA Coachs intervient dans les associations de musculation d'Orléans et du Loiret : accueil des adhérents, programmes, prévention des blessures."
+  },
+  "hero": {
+    "eyebrow": "Associations de musculation · Pour les bureaux",
+    "h1": "Un coach diplômé dans votre association de musculation, sans l'embaucher.",
+    "lead": "Accueil des nouveaux, programmes personnalisés, créneaux encadrés, prévention des blessures : un coach du réseau GA intervient dans votre association de musculation, sur vos créneaux. Vos bénévoles respirent, vos adhérents progressent et restent.",
+    "points": [
+      "Des coachs diplômés, directement dans votre salle",
+      "Accueil des débutants et programmes personnalisés",
+      "Un rythme calé sur vos créneaux et vos bénévoles"
+    ]
+  },
+  "definition": {
+    "titre": "Pourquoi un coach dans une association de musculation ?",
+    "texte": [
+      "Dans beaucoup d'associations de musculation, l'encadrement repose sur des bénévoles passionnés, qui donnent beaucoup de leur temps. Mais entre l'accueil des nouveaux inscrits, les questions sur les programmes et la vigilance sur la technique, il est difficile d'être partout à la fois.",
+      "Un coach diplômé vient compléter ce travail, sans le remplacer : il accueille les débutants, corrige les mouvements, construit des programmes et aide vos adhérents à s'entraîner longtemps sans se blesser. Vous gardez l'esprit associatif, vos membres gagnent un vrai repère."
+    ]
+  },
+  "experience": {
+    "titre": "Nous connaissons la vie associative de l'intérieur",
+    "texte": "Garry Babaud, fondateur de GA Coachs, a été adhérent 3 ans de l'association Saran Musculation et 4 ans de l'association de musculation d'Olivet. Il sait ce qu'une salle associative apporte à ses adhérents, et ce dont elle a besoin pour bien les accueillir : c'est dans cet esprit que nos coachs interviennent chez vous."
+  },
+  "services": [
+    {
+      "titre": "Accueil des nouveaux adhérents",
+      "texte": "Une prise en main pour chaque nouvel inscrit : découverte des machines, des bons gestes et des règles de sécurité de la salle."
+    },
+    {
+      "titre": "Un programme personnalisé pour chaque adhérent",
+      "texte": "Chaque adhérent remplit un questionnaire en ligne et reçoit un programme généré à partir de ses réponses, sans limite d'adhérents. Pendant les créneaux encadrés, le coach montre les mouvements et ajuste les charges."
+    },
+    {
+      "titre": "Créneaux encadrés",
+      "texte": "Un coach présent sur des créneaux fixes pour corriger les mouvements, répondre aux questions et motiver la salle."
+    },
+    {
+      "titre": "Séances collectives",
+      "texte": "Circuit training, renforcement, mobilité : des séances en petit groupe qui font vivre l'association."
+    },
+    {
+      "titre": "Prévention des blessures",
+      "texte": "Échauffement, technique, charges progressives : les bases pour progresser durablement en limitant le risque de blessure."
+    },
+    {
+      "titre": "Appui à vos bénévoles",
+      "texte": "Des temps d'échange avec vos encadrants bénévoles pour partager les bons réflexes et harmoniser les conseils donnés aux adhérents."
+    }
+  ],
+  "benefices": {
+    "adherents": [
+      "Des conseils fiables, donnés par un coach diplômé",
+      "Un programme adapté à leur niveau et à leur objectif",
+      "Une technique travaillée pour limiter les risques de blessure",
+      "Une salle plus conviviale et plus motivante"
+    ],
+    "association": [
+      "Un service en plus pour attirer et fidéliser vos adhérents",
+      "Un appui concret pour vos encadrants bénévoles",
+      "Un encadrement sérieux, rassurant pour vos membres et votre bureau",
+      "Une organisation souple, calée sur vos créneaux"
+    ]
+  },
+  "etapes": [
+    {
+      "titre": "Un échange avec le bureau",
+      "texte": "Nous faisons le point sur votre association : nombre d'adhérents, profils, créneaux, encadrement actuel et attentes."
+    },
+    {
+      "titre": "Une visite de votre salle",
+      "texte": "Nous découvrons vos locaux, votre matériel et l'organisation des créneaux pour proposer un format réaliste."
+    },
+    {
+      "titre": "Une proposition sur mesure",
+      "texte": "Nous vous proposons des créneaux, des formats d'intervention et un devis clair, sans engagement."
+    },
+    {
+      "titre": "Des interventions régulières",
+      "texte": "Un coach du réseau intervient dans votre salle, et nous faisons le point avec le bureau à intervalles réguliers."
+    }
+  ],
+  "zone": {
+    "titre": "Où intervenons-nous ?",
+    "texte": "Voici les communes de la région Centre-Val de Loire où nous avons repéré une association de musculation, d'haltérophilie, de force athlétique ou de culturisme, d'après les annuaires publics d'associations. La vôtre n'y figure pas ? Écrivez-nous : nous intervenons dans toute la région, selon la disponibilité de nos coachs.",
+    "departements": [
+      {
+        "nom": "Loiret",
+        "code": "45",
+        "villes": [
+          "Orléans",
+          "Olivet",
+          "Saran",
+          "Amilly",
+          "Ardon",
+          "Fleury-les-Aubrais",
+          "Lorcy",
+          "Montargis"
+        ]
+      },
+      {
+        "nom": "Cher",
+        "code": "18",
+        "villes": [
+          "Bourges",
+          "La Guerche-sur-l'Aubois",
+          "Saint-Amand-Montrond",
+          "Santranges"
+        ]
+      },
+      {
+        "nom": "Eure-et-Loir",
+        "code": "28",
+        "villes": [
+          "Chartres"
+        ]
+      },
+      {
+        "nom": "Indre",
+        "code": "36",
+        "villes": [
+          "Chabris"
+        ]
+      },
+      {
+        "nom": "Indre-et-Loire",
+        "code": "37",
+        "villes": [
+          "Amboise",
+          "Auzouer-en-Touraine",
+          "Tours",
+          "Vernou-sur-Brenne"
+        ]
+      },
+      {
+        "nom": "Loir-et-Cher",
+        "code": "41",
+        "villes": [
+          "Blois",
+          "Romorantin-Lanthenay",
+          "Saint-Aignan",
+          "Saint-Viâtre",
+          "Vendôme"
+        ]
+      }
+    ]
+  },
+  "faq": [
+    {
+      "q": "Pourquoi faire intervenir un coach dans une association de musculation ?",
+      "r": "Un coach diplômé apporte un repère technique à vos adhérents : accueil des débutants, programmes adaptés, correction des mouvements et prévention des blessures. Il complète le travail de vos bénévoles et renforce la qualité de l'encadrement."
+    },
+    {
+      "q": "Connaissez-vous le fonctionnement d'une association de musculation ?",
+      "r": "Oui. Garry Babaud, fondateur de GA Coachs, a été adhérent 3 ans de l'association Saran Musculation et 4 ans de l'association de musculation d'Olivet. Nos interventions respectent l'esprit associatif : elles complètent le travail de vos bénévoles, sur vos créneaux."
+    },
+    {
+      "q": "Le coach remplace-t-il nos encadrants bénévoles ?",
+      "r": "Non. Il intervient en complément, sur les créneaux où vos adhérents en ont le plus besoin, et peut échanger avec vos bénévoles pour harmoniser les conseils. L'esprit associatif reste le vôtre."
+    },
+    {
+      "q": "Quels formats d'intervention proposez-vous ?",
+      "r": "Accueil des nouveaux adhérents, créneaux encadrés, programmes personnalisés, séances collectives et temps d'échange avec vos bénévoles. Le format se construit avec le bureau selon vos besoins et vos créneaux."
+    },
+    {
+      "q": "Faut-il du matériel particulier ?",
+      "r": "Non. Le coach s'adapte au matériel et à l'espace de votre salle. La visite de départ permet justement de proposer des séances réalistes dans vos locaux."
+    },
+    {
+      "q": "Comment financer l'intervention d'un coach ?",
+      "r": "Selon les associations : budget de fonctionnement, participation intégrée à la cotisation, ou créneaux proposés en option aux adhérents. Certaines collectivités soutiennent aussi les projets sportifs associatifs : renseignez-vous auprès de votre mairie ou de votre département."
+    },
+    {
+      "q": "Combien coûte une intervention ?",
+      "r": "Nos formules démarrent à 260 € par mois (ASSO ESSENTIEL) et 490 € par mois (ASSO SAISON). Le devis final dépend de la salle, des créneaux et du déplacement, et vous est remis après un premier échange."
+    },
+    {
+      "q": "Dans quelle zone intervenez-vous ?",
+      "r": "À Orléans et dans sa métropole (Olivet, Saran, Fleury-les-Aubrais, Saint-Jean-de-Braye, Saint-Jean-le-Blanc, Ingré...) et dans toute la région Centre-Val de Loire, selon la disponibilité de nos coachs."
+    },
+    {
+      "q": "Comment fonctionnent les programmes personnalisés ?",
+      "r": "Chaque adhérent remplit un questionnaire en ligne et reçoit un programme généré à partir de ses réponses, sans limite d'adhérents. Pendant les créneaux encadrés, le coach montre les mouvements et ajuste les charges."
+    },
+    {
+      "q": "Comment se passe l'accueil des nouveaux adhérents ?",
+      "r": "Chaque nouvel inscrit est pris en main : découverte des machines, des bons gestes et des règles de sécurité de la salle. C'est souvent ce qui fait qu'un débutant revient la semaine suivante."
+    },
+    {
+      "q": "Comment démarrer avec GA Coachs ?",
+      "r": "Un échange avec le bureau, une visite de votre salle, puis une proposition sur mesure (créneaux, formats, devis), sans engagement. Les interventions démarrent ensuite sur vos créneaux."
+    },
+    {
+      "q": "Pouvez-vous organiser des séances collectives ?",
+      "r": "Oui : circuit training, renforcement et autres séances collectives peuvent compléter les créneaux encadrés, selon l'espace et le matériel de votre salle."
+    }
+  ],
+  "quiz": {
+    "eyebrow": "Quiz · 1 minute",
+    "titre": "Quel accompagnement pour votre association ?",
+    "intro": "Quatre questions, un profil sur mesure. À la fin, nous préparons votre proposition.",
+    "cles": {
+      "profil": "priorite",
+      "format": "encadrement",
+      "rythme": "rythme"
+    },
+    "questions": [
+      {
+        "id": "adherents",
+        "q": "Combien d'adhérents compte votre association ?",
+        "options": [
+          {
+            "v": "moins-50",
+            "l": "Moins de 50",
+            "d": "Une petite salle conviviale"
+          },
+          {
+            "v": "50-150",
+            "l": "De 50 à 150",
+            "d": "Une salle qui tourne bien"
+          },
+          {
+            "v": "150-300",
+            "l": "De 150 à 300",
+            "d": "Des créneaux très fréquentés"
+          },
+          {
+            "v": "plus-300",
+            "l": "Plus de 300",
+            "d": "Une grande association"
+          }
+        ]
+      },
+      {
+        "id": "encadrement",
+        "q": "Qui encadre la salle aujourd'hui ?",
+        "options": [
+          {
+            "v": "benevoles",
+            "l": "Des bénévoles",
+            "d": "Une équipe engagée, souvent débordée"
+          },
+          {
+            "v": "mixte",
+            "l": "Bénévoles et salarié",
+            "d": "Un encadrement partagé"
+          },
+          {
+            "v": "personne",
+            "l": "Personne de façon régulière",
+            "d": "Les adhérents s'entraînent seuls"
+          },
+          {
+            "v": "deja",
+            "l": "Un encadrement en place",
+            "d": "Envie de le compléter"
+          }
+        ]
+      },
+      {
+        "id": "priorite",
+        "q": "Votre priorité numéro 1 ?",
+        "options": [
+          {
+            "v": "accueil",
+            "l": "Bien accueillir les débutants",
+            "d": "Les bons gestes dès le départ"
+          },
+          {
+            "v": "programmes",
+            "l": "Un programme pour chacun",
+            "d": "Faire progresser tous les adhérents"
+          },
+          {
+            "v": "prevention",
+            "l": "Prévenir les blessures",
+            "d": "Technique et sécurité"
+          },
+          {
+            "v": "animation",
+            "l": "Animer la salle",
+            "d": "Des séances collectives"
+          }
+        ]
+      },
+      {
+        "id": "rythme",
+        "q": "Quel rythme imaginez-vous ?",
+        "options": [
+          {
+            "v": "1",
+            "l": "Un créneau par semaine",
+            "d": "Simple à installer"
+          },
+          {
+            "v": "plusieurs",
+            "l": "Plusieurs créneaux",
+            "d": "Pour toucher plus d'adhérents"
+          },
+          {
+            "v": "ponctuel",
+            "l": "Des interventions ponctuelles",
+            "d": "Rentrée, journées d'accueil..."
+          }
+        ]
+      }
+    ],
+    "profils": {
+      "accueil": {
+        "nom": "Le programme Bienvenue",
+        "texte": "Chaque nouvel adhérent repart avec les bons gestes, un programme de départ et l'envie de revenir."
+      },
+      "programmes": {
+        "nom": "Le programme Sur mesure",
+        "texte": "Des programmes personnalisés et suivis, pour que chaque adhérent progresse à son rythme."
+      },
+      "prevention": {
+        "nom": "Le programme Bonne technique",
+        "texte": "Échauffement, technique et charges progressives : la sécurité au cœur de chaque créneau."
+      },
+      "animation": {
+        "nom": "Le programme Salle vivante",
+        "texte": "Des séances collectives qui animent la salle et renforcent la vie de l'association."
+      }
+    },
+    "formats": {
+      "benevoles": "Un coach en appui de vos bénévoles, avec des temps d'échange pour harmoniser les conseils.",
+      "mixte": "Un coach qui complète votre équipe sur les créneaux les plus fréquentés.",
+      "personne": "Un coach présent sur des créneaux fixes, pour donner un vrai repère à vos adhérents.",
+      "deja": "Des interventions ciblées qui complètent l'encadrement déjà en place."
+    },
+    "rythmes": {
+      "1": "Un créneau hebdomadaire, facile à installer dans votre planning.",
+      "plusieurs": "Plusieurs créneaux par semaine, pour toucher le plus d'adhérents possible.",
+      "ponctuel": "Des interventions ponctuelles, par exemple à la rentrée ou lors de journées d'accueil."
+    },
+    "bilan": "Un premier échange et une visite de votre salle, sans engagement.",
+    "formTitre": "Recevez votre proposition.",
+    "formTexte": "Dites-nous où vous envoyer votre programme. Nous revenons vers vous sous 48 h ouvrées.",
+    "structure": "Association"
+  },
+  "contact": {
+    "delai": "Réponse sous 48 h ouvrées."
+  },
+  "offres": {
+    "eyebrow": "Nos formules",
+    "titre": "Choisissez l'accompagnement adapté à votre association.",
+    "intro": "Trois formats, de l'accueil de chaque adhérent à l'encadrement toute la saison, sans avoir à salarier un coach.",
+    "formules": [
+      {
+        "nom": "ASSO ESSENTIEL",
+        "badge": "Offre de bienvenue",
+        "desc": "Pour que chaque adhérent démarre avec un programme à son nom",
+        "prix": 260,
+        "cta": "Choisir Essentiel",
+        "points": [
+          "Un questionnaire en ligne pour chaque adhérent : objectif, niveau, contraintes",
+          "Un programme personnalisé généré à partir de ses réponses, sans limite d'adhérents",
+          "2 créneaux de 2 h par mois : le coach suit les adhérents en salle et montre les mouvements",
+          "Accueil des nouveaux adhérents : machines, bons gestes, sécurité",
+          "Un échange avec le bureau chaque trimestre"
+        ]
+      },
+      {
+        "nom": "ASSO SAISON",
+        "badge": "Recommandée",
+        "reco": true,
+        "desc": "Pour offrir à vos adhérents un vrai encadrement toute la saison",
+        "prix": 490,
+        "cta": "Choisir Saison",
+        "points": [
+          "Tout l'Essentiel : questionnaire et programme personnalisé pour chaque adhérent",
+          "1 créneau encadré de 2 h par semaine, avec démonstration des mouvements",
+          "Mise à jour des programmes au fil de la saison",
+          "1 séance collective par mois : circuit, renforcement, mobilité",
+          "Un point mensuel avec le bureau"
+        ]
+      },
+      {
+        "nom": "ASSO CLUB COMPLET",
+        "desc": "Pour les associations qui veulent structurer toute leur salle",
+        "devis": true,
+        "cta": "Construire mon offre",
+        "points": [
+          "Tout l'Essentiel et le Saison",
+          "2 créneaux par semaine ou plus, même au-delà de 500 adhérents",
+          "Temps de formation et d'échange avec vos bénévoles encadrants",
+          "Journées découverte et événements pour vos adhérents",
+          "Préparation d'adhérents à une compétition ou une démonstration",
+          "Un coach référent attitré"
+        ]
+      }
+    ],
+    "note": "Tarifs de référence en euros, par mois (TVA non applicable). Le devis final dépend notamment de la salle, des créneaux, du déplacement et du nombre d'adhérents concernés."
+  },
+  "simulateur": {
+    "eyebrow": "Simulateur",
+    "titre": "Combien cela représente-t-il par adhérent ?",
+    "intro": "Trois curseurs pour voir si l'encadrement d'un coach tient dans le budget de l'association, et ce que cela change sur la cotisation.",
+    "tarifs": {
+      "creneau": 100,
+      "forfait": 60,
+      "semaines": 4
+    },
+    "note": "Estimation indicative basée sur nos tarifs de référence : créneau encadré de 2 h et forfait mensuel des programmes personnalisés, quel que soit le nombre d'adhérents. Ce n'est pas un devis."
+  },
+  "bienvenue": {
+    "eyebrow": "Offre de bienvenue",
+    "titre": "Chaque adhérent démarre avec un programme à son nom.",
+    "etapes": [
+      {
+        "titre": "Il remplit un questionnaire",
+        "texte": "Objectif, niveau, matériel, zones sensibles : cinq questions, deux minutes, depuis son téléphone."
+      },
+      {
+        "titre": "Il reçoit son programme",
+        "texte": "Un programme personnalisé, construit à partir de ses réponses et personnalisé par intelligence artificielle, qu'il peut imprimer ou garder sur son téléphone. Sans limite d'adhérents."
+      },
+      {
+        "titre": "Le coach le suit en salle",
+        "texte": "Pendant les créneaux, le coach suit les adhérents, montre les mouvements et ajuste les charges avec eux."
+      }
+    ],
+    "cta": "Essayer le questionnaire (2 min)"
+  },
+  "constat": {
+    "titre": "Ce que vivent la plupart des bureaux d'association.",
+    "items": [
+      {
+        "emoji": "🙋",
+        "titre": "Des débutants livrés à eux-mêmes",
+        "texte": "Un nouvel adhérent arrive, ne sait pas par où commencer, et finit par ne plus venir au bout de quelques semaines."
+      },
+      {
+        "emoji": "🏋️",
+        "titre": "Des mouvements à risque",
+        "texte": "Sans personne pour corriger les postures, les blessures arrivent, et avec elles les questions de responsabilité."
+      },
+      {
+        "emoji": "😮‍💨",
+        "titre": "Des bénévoles épuisés",
+        "texte": "Toujours les mêmes pour accueillir, conseiller et ouvrir la salle. Leur énergie n'est pas illimitée."
+      }
+    ]
+  },
+  "avantApres": {
+    "titre": "Ce qui change avec un coach GA.",
+    "lignes": [
+      [
+        "Les nouveaux se débrouillent seuls",
+        "Chaque adhérent démarre avec un programme à son nom"
+      ],
+      [
+        "Personne pour corriger les mouvements",
+        "Un diplômé en salle qui montre et corrige"
+      ],
+      [
+        "Tout repose sur quelques bénévoles",
+        "Un coach qui les épaule, sans les remplacer"
+      ],
+      [
+        "Un salarié coûterait trop cher",
+        "Un tarif mensuel clair, sans embauche ni charges"
+      ]
+    ]
+  }
+}

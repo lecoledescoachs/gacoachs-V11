@@ -1,0 +1,307 @@
+---
+import AvisGraph from '../AvisGraph.astro';
+import BleuGA from './BleuGA.astro';
+import HomeBoost from './HomeBoost.astro';
+import CoachBanner from './CoachBanner.astro';
+import Activites from './Activites.astro';
+import BilanExplique from './BilanExplique.astro';
+import CarteBilanAccueil from './CarteBilanAccueil.astro';
+import CoachingChange from './CoachingChange.astro';
+import FranceStats from './FranceStats.astro';
+import ResultatsSalle from '../ResultatsSalle.astro';
+import Reserver3Clics from '../Reserver3Clics.astro';
+// Contenu de l'accueil, repris à l'identique du prototype (artefact) validé par Garry
+---
+<svg class="sprite" width="0" height="0" style="position: absolute; overflow: hidden;" aria-hidden="true" focusable="false">
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M9 21v-4h6v4M8.5 7h1M14.5 7h1M8.5 11h1M14.5 11h1"></path></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"></path><path d="M17 5h3v1.5A3.5 3.5 0 0 1 16.5 10M7 5H4v1.5A3.5 3.5 0 0 0 7.5 10"></path></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22c4 0 7-2.9 7-6.9 0-3.1-2-5.6-4-7.6-.5 2-1.6 3.2-3 3.5.4-3.2-.8-6-3.5-8-.3 3.8-3.5 6-3.5 10.1C5 19.1 8 22 12 22z"></path></symbol>
+    <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="M6.5 6.5v11M3.5 9v6M17.5 6.5v11M20.5 9v6M6.5 12h11"></path></symbol>
+    <symbol id="i-battery" viewBox="0 0 24 24"><rect x="2" y="7" width="17" height="10" rx="2.5"></rect><path d="M22 11v2M6 10.5v3M9.5 10.5v3M13 10.5v3"></path></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20.5c-4 0-7-3-7-7 0-6 5-9.5 16-10.5-1 11-4.6 17.5-9 17.5z"></path><path d="M4 21c3-4.5 6.5-7.5 11-9.5"></path></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1.2"></circle></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.5l2 5.5 5.5 2-5.5 2-2 5.5-2-5.5-5.5-2 5.5-2z"></path></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"></path></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"></path></symbol>
+    <symbol id="i-spine" viewBox="0 0 24 24"><path d="M12 2.5v19"></path><path d="M8.5 5.5h7M7.5 9.5h9M8 13.5h8M9 17.5h6"></path></symbol>
+    <symbol id="i-medal" viewBox="0 0 24 24"><circle cx="12" cy="15" r="6"></circle><path d="M8.5 10.2 6 2.5h4l2 5 2-5h4l-2.5 7.7"></path><path d="M10.6 14 12 13v4.5"></path></symbol>
+    <symbol id="i-watch" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="8"></circle><path d="M12 9.5v4l2.5 2.5M9.5 2.5h5M12 2.5v3"></path></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"></path><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M17.8 14.2c2.2.8 3.7 3.2 3.7 6.3"></path></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21.5s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"></path><circle cx="12" cy="9.5" r="2.5"></circle></symbol>
+    <symbol id="i-badge" viewBox="0 0 24 24"><path d="M12 2.5l2.3 1.9 3-.3.8 2.9 2.6 1.5-1.1 2.8 1.1 2.8-2.6 1.5-.8 2.9-3-.3L12 21.5l-2.3-1.9-3 .3-.8-2.9-2.6-1.5 1.1-2.8-1.1-2.8 2.6-1.5.8-2.9 3 .3z"></path><path d="M8.8 12l2.2 2.2 4.3-4.4"></path></symbol>
+    <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="6.5" r="4"></circle><path d="M4 22c0-5 3.6-9 8-9s8 4 8 9z"></path></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"></path></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.5 1.2 6.4L12 17.3l-5.7 3.1 1.2-6.4-4.7-4.5 6.4-.8z"></path></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="M3.5 7.5 12 13l8.5-5.5"></path></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 3.5h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.6 6.6l1.4-2.3 4.5 1.8V19a2 2 0 0 1-2 2A17 17 0 0 1 3 5.5a2 2 0 0 1 2-2z"></path></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"></path></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.5"></circle><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="18.5" r="2.5"></circle><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"></path></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21.5h4M12 2.5a6.5 6.5 0 0 0-3.8 11.8c.5.4.8 1 .8 1.7v.5h6V16c0-.7.3-1.3.8-1.7A6.5 6.5 0 0 0 12 2.5z"></path></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20.5 20.5l-4.5-4.5"></path></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.3-4.6L4 8.5M4 4v4.5h4.5M4 13a8 8 0 0 0 14.3 4.6l1.7-2.1M20 20v-4.5h-4.5"></path></symbol>
+  </svg>
+
+    <!-- Bandeau : BOOST ENTREPRISE, visible dès l'arrivée -->
+    <a class="ribbon" href="/score-sante/">
+      <span class="ribbon-txt"><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-bolt"></use></svg><span><b>Ton bilan santé avec un coach</b><span class="rb-long"> Une heure près de chez toi, pour faire le point et bien démarrer.</span></span></span>
+      <span class="ribbon-cta">Réserver mon bilan <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></span>
+    </a>
+
+    <!-- Haut de page : textes, puis la main de cartes distribuée -->
+    <section class="hero hero-clair" id="hero" data-hero="">
+      <div class="lightning-bg" aria-hidden="true"></div>
+      <h1 data-a="words"><span class="w"><span style="--i: 0;">Trouve</span></span> <span class="w"><span style="--i: 1;">ton</span></span> <span class="w"><span style="--i: 2;">coach</span></span> <span class="w"><span style="--i: 3;">sportif</span></span> <span class="w"><span style="--i: 4;">à</span></span> <span class="w"><span style="--i: 5;">Orléans.</span></span></h1>
+      <p class="lead" data-a="up">7 coachs sportifs diplômés dans 5 salles Basic-Fit autour d'Orléans. Chacun coache dans sa salle : trouve celui qui colle à ton objectif, près de chez toi.</p>
+      <div class="ctas" data-a="up">
+        <a class="btn btn-primary" href="/trouver-un-coach/">Trouver mon coach</a>
+        <a class="btn btn-ghost" href="/salles/">Voir les salles</a>
+      </div>
+      <p class="hero-score" data-a="up">🎯 Pas sûr de ton objectif ? <a href="/score-sante/">Fais ton Score Santé en 2 minutes</a> ou <a href="#reserver">réserve ton bilan en 3 clics</a>.</p>
+      <ul class="facts" data-a="up">
+        <li>7 coachs du réseau</li>
+        <li>5 salles partenaires</li>
+        <li>63 villes couvertes</li>
+        <li>196 avis Google</li>
+      </ul>
+      <div class="fan-wrap" id="fanWrap" style="--fan-s: 1.000;"><div class="fan" id="fan"><a class="card" href="/coachs/garry-babaud/" aria-label="Garry Olivet : voir le profil de Garry Babaud, Basic-Fit Olivet"><div class="card-lift"><div class="card-flip"><div class="card-face"><img src="/images/coachs/garry-babaud.webp" alt="" width="156" height="208"><div class="card-name">Garry</div><div class="card-salle">📍 Olivet</div></div><div class="card-back"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></div></a><a class="card" href="/coachs/yanis-trepy-lujien/" aria-label="Yanis Saran : voir le profil de Yanis Trépy-Lujien, Basic-Fit Saran"><div class="card-lift"><div class="card-flip"><div class="card-face"><img src="/images/coachs/yanis-trepy-lujien.webp" alt="" width="156" height="208"><div class="card-name">Yanis</div><div class="card-salle">📍 Saran</div></div><div class="card-back"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></div></a><a class="card" href="/coachs/nathan-sapin/" aria-label="Nathan Olivet : voir le profil de Nathan Sapin, Basic-Fit Olivet"><div class="card-lift"><div class="card-flip"><div class="card-face"><img src="/images/coachs/nathan-sapin.webp" alt="" width="156" height="208"><div class="card-name">Nathan</div><div class="card-salle">📍 Olivet</div></div><div class="card-back"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></div></a><a class="card" href="/coachs/thomas-das-neves/" aria-label="Thomas Fleury-les-Aubrais : voir le profil de Thomas Das Neves, Basic-Fit Fleury-les-Aubrais"><div class="card-lift"><div class="card-flip"><div class="card-face"><img src="/images/coachs/thomas-das-neves.webp" alt="" width="156" height="208"><div class="card-name">Thomas</div><div class="card-salle">📍 Fleury-les-Aubrais</div></div><div class="card-back"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></div></a><a class="card" href="/coachs/fabien-rakotoarimanana/" aria-label="Fabien Orléans Sud : voir le profil de Fabien Rakotoarimanana, Basic-Fit Orléans Sud"><div class="card-lift"><div class="card-flip"><div class="card-face"><img src="/images/coachs/fabien-rakotoarimanana.webp" alt="" width="156" height="208"><div class="card-name">Fabien</div><div class="card-salle">📍 Orléans Sud</div></div><div class="card-back"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></div></a><a class="card" href="/coachs/brice-chopin/" aria-label="Brice Olivet : voir le profil de Brice Chopin, Basic-Fit Olivet"><div class="card-lift"><div class="card-flip"><div class="card-face"><img src="/images/coachs/brice-chopin.webp" alt="" width="156" height="208"><div class="card-name">Brice</div><div class="card-salle">📍 Olivet</div></div><div class="card-back"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></div></a><a class="card" href="/coachs/alexis-fernandez/" aria-label="Alexis Orléans Libération : voir le profil de Alexis Fernandez, Basic-Fit Orléans Libération"><div class="card-lift"><div class="card-flip"><div class="card-face"><img src="/images/coachs/alexis-fernandez.webp" alt="" width="156" height="208"><div class="card-name">Alexis</div><div class="card-salle">📍 Orléans Libération</div></div><div class="card-back"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></div></a></div></div>
+      <div class="shuffle-row" data-a="up">
+        <button type="button" class="btn-shuffle" id="shuffle">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F6FED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"></path><path d="M4 20L21 3"></path><path d="M21 16v5h-5"></path><path d="M15 15l6 6"></path><path d="M4 4l5 5"></path></svg>
+          Mélanger les cartes
+        </button>
+      </div>
+      <p class="doors-k" data-a="up">Tu viens pour…</p>
+      <div class="doors" data-a="up">
+        <a class="door" href="#quiz">
+          <span class="door-ic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-user"></use></svg></span>
+          <span class="door-t"><b>Toi</b><small>Trouve le coach qui correspond à ton objectif</small></span>
+          <span class="door-go"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></span>
+        </a>
+        <a class="door is-hot" href="/entreprises/">
+          <span class="door-ic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-building"></use></svg></span>
+          <span class="door-t"><b>Ton entreprise <span class="door-tag">Nouveau</span></b><small>BOOST ENTREPRISE™ · BOOST 30 offert</small></span>
+          <span class="door-go"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></span>
+        </a>
+        <a class="door" href="/preparation-physique/clubs/">
+          <span class="door-ic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-trophy"></use></svg></span>
+          <span class="door-t"><b>Ton club sportif</b><small>BOOST CLUB · diagnostic offert</small></span>
+          <span class="door-go"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></span>
+        </a>
+      </div>
+    </section>
+    <section class="partners" data-group="" aria-label="Nos partenaires">
+      <p class="partners-k">Nos partenaires</p>
+      <div class="marquee" id="marquee">
+        <div class="logos">
+          <img style="padding: 15.1px 37.4px;" data-a="pop" src="/images/logos/trim/basic-fit.webp" data-key="L_BASICFIT" alt="Basic-Fit" width="68" height="68">
+          <img style="padding: 15.0px 37.8px;" data-a="pop" src="/images/logos/trim/ecole-des-coachs.webp" data-key="L_ECOLE" alt="L'École des Coachs" width="66" height="68">
+          <img style="padding: 29.9px 20.8px;" data-a="pop" src="/images/logos/trim/coach-obesite.webp" alt="Coach Obésité" width="224" height="68">
+          <img style="padding: 27.3px 25.4px;" data-a="pop" src="/images/logos/trim/orus.webp" alt="Orus" width="171" height="68">
+          <img style="padding: 15.0px 37.8px;" data-a="pop" src="/images/logos/trim/indy.webp" alt="Indy" width="66" height="68">
+          <img style="padding: 27.1px 25.9px;" data-a="pop" src="/images/logos/trim/boost-entreprise.webp" alt="BOOST Entreprise" width="167" height="68">
+          <img style="padding: 15.2px 37.3px;" data-a="pop" src="/images/logos/trim/marche-et-mieux.webp" alt="Marche &amp; Mieux" width="68" height="68">
+          <img style="padding: 15.0px 42.0px;" data-a="pop" src="/images/logos/trim/sport-sante-france.webp" data-key="L_SSF" alt="Sport Santé France" width="52" height="68">
+          <img style="padding: 26.6px 26.5px;" data-a="pop" src="/images/logos/trim/tournee-des-coachs.webp" data-key="L_TOURNEE" alt="La Tournée des Coachs" width="160" height="68">
+        </div>
+      <div class="logos" aria-hidden="true">
+          <img style="padding: 15.1px 37.4px;" src="/images/logos/trim/basic-fit.webp" data-key="L_BASICFIT" alt="" width="68" height="68">
+          <img style="padding: 15.0px 37.8px;" src="/images/logos/trim/ecole-des-coachs.webp" data-key="L_ECOLE" alt="" width="66" height="68">
+          <img style="padding: 29.9px 20.8px;" src="/images/logos/trim/coach-obesite.webp" alt="" width="224" height="68">
+          <img style="padding: 27.3px 25.4px;" src="/images/logos/trim/orus.webp" alt="" width="171" height="68">
+          <img style="padding: 15.0px 37.8px;" src="/images/logos/trim/indy.webp" alt="" width="66" height="68">
+          <img style="padding: 27.1px 25.9px;" src="/images/logos/trim/boost-entreprise.webp" alt="" width="167" height="68">
+          <img style="padding: 15.2px 37.3px;" src="/images/logos/trim/marche-et-mieux.webp" alt="" width="68" height="68">
+          <img style="padding: 15.0px 42.0px;" src="/images/logos/trim/sport-sante-france.webp" data-key="L_SSF" alt="" width="52" height="68">
+          <img style="padding: 26.6px 26.5px;" src="/images/logos/trim/tournee-des-coachs.webp" data-key="L_TOURNEE" alt="" width="160" height="68">
+        </div></div>
+    </section>
+    <section class="sec">
+      <div class="inner">
+        <span class="eyebrow" data-a="pop">Comment ça marche</span>
+        <h2 class="h2" data-a="words"><span class="w"><span style="--i: 0;">Trouve</span></span> <span class="w"><span style="--i: 1;">ton</span></span> <span class="w"><span style="--i: 2;">coach</span></span> <span class="w"><span style="--i: 3;">en</span></span> <span class="w"><span style="--i: 4;">trois</span></span> <span class="w"><span style="--i: 5;">étapes.</span></span></h2>
+        <div class="grid g3">
+          <a class="tile step" href="/salles/" data-a="up"><span class="step-n" data-a="ring" data-plus="180">01</span><h3>Ma salle</h3><p>Choisis ta salle Basic-Fit pour voir les coachs disponibles sur place.</p></a>
+          <a class="tile step" href="#expertises" data-a="up"><span class="step-n" data-a="ring" data-plus="180">02</span><h3>Mon objectif</h3><p>Perte de poids, prise de muscle, remise en forme, préparation concours…</p></a>
+          <a class="tile step" href="/trouver-un-coach/" data-a="up"><span class="step-n" data-a="ring" data-plus="180">03</span><h3>Mon coach</h3><p>Découvre le profil du coach qui te correspond et réserve ton bilan santé avec lui.</p></a>
+        </div>
+        <div class="tile quiz" id="quiz" data-a="up">
+          <div class="qz-top">
+            <span class="eyebrow">Test gratuit · ton coach idéal</span>
+            <span class="qz-prog"><span class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span></span><span class="qz-k" id="qzK">Étape 1 sur 3</span></span>
+          </div>
+          <div class="qz-step in-back" data-step="1">
+            <h3 tabindex="-1">Quelle salle te conviendrait le mieux ?</h3>
+            <div class="chips">
+              <button type="button" class="chip" aria-pressed="false" data-v="" data-a="pop" data-plus="260">Peu importe, montre-moi tout</button>
+              <button type="button" class="chip" aria-pressed="false" data-v="Basic-Fit Olivet" data-a="pop" data-plus="330">Basic-Fit Olivet</button>
+              <button type="button" class="chip" aria-pressed="false" data-v="Basic-Fit Orléans Sud" data-a="pop" data-plus="400">Basic-Fit Orléans Sud</button>
+              <button type="button" class="chip" aria-pressed="false" data-v="Basic-Fit Orléans Libération" data-a="pop" data-plus="470">Basic-Fit Orléans Libération</button>
+              <button type="button" class="chip" aria-pressed="false" data-v="Basic-Fit Saran" data-a="pop" data-plus="540">Basic-Fit Saran</button>
+              <button type="button" class="chip" aria-pressed="false" data-v="Basic-Fit Fleury-les-Aubrais" data-a="pop" data-plus="610">Basic-Fit Fleury-les-Aubrais</button>
+            </div>
+          </div>
+          <div class="qz-step" data-step="2" hidden="">
+            <h3 tabindex="-1">Quel est ton objectif principal ?</h3>
+            <div class="qz-goals" id="qzGoals"><button type="button" class="goal" aria-pressed="false" data-v="poids" style="--i:0"><span class="goal-ic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-flame"></use></svg></span><span>Perdre du poids</span></button><button type="button" class="goal" aria-pressed="false" data-v="muscle" style="--i:1"><span class="goal-ic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-dumbbell"></use></svg></span><span>Prendre du muscle</span></button><button type="button" class="goal" aria-pressed="false" data-v="forme" style="--i:2"><span class="goal-ic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-battery"></use></svg></span><span>Me remettre en forme</span></button><button type="button" class="goal" aria-pressed="false" data-v="zen" style="--i:3"><span class="goal-ic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-leaf"></use></svg></span><span>Bien-être et moins de stress</span></button><button type="button" class="goal" aria-pressed="false" data-v="mesure" style="--i:4"><span class="goal-ic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-target"></use></svg></span><span>Un suivi 100&nbsp;% sur mesure</span></button><button type="button" class="goal" aria-pressed="false" data-v="tout" style="--i:5"><span class="goal-ic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-spark"></use></svg></span><span>Je ne sais pas encore</span></button></div>
+            <button type="button" class="qz-link" data-back=""><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-back"></use></svg>Retour</button>
+          </div>
+          <div class="qz-step" data-step="3" hidden="" aria-live="polite">
+            <h3 tabindex="-1" id="qzTitle">Voici ton coach recommandé</h3>
+            <p class="qz-note" id="qzNote" hidden=""></p>
+            <div class="qz-res" id="qzRes"></div>
+            <div id="qzLead"></div>
+            <button type="button" class="qz-link" data-restart=""><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-refresh"></use></svg>Refaire le test</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="coachs">
+      <div class="inner">
+        <div class="sec-head">
+          <div>
+            <span class="eyebrow" data-a="pop">L'équipe</span>
+            <h2 class="h2" data-a="words"><span class="w"><span style="--i: 0;">Nos</span></span> <span class="w"><span style="--i: 1;">coachs.</span></span></h2>
+          </div>
+          <a class="btn-sm" href="/trouver-un-coach/" data-a="right">Tous les coachs</a>
+        </div>
+        <div class="grid g4 cgrid" id="coachGrid"><a class="cg" href="/coachs/garry-babaud/" data-a="flip"><div class="cg-inner"><div class="cg-front"><div class="cg-photo"><img src="/images/coachs/garry-babaud.webp" alt="Garry Babaud, coach sportif GA Coachs" width="312" height="416"><span class="cg-note">★ 5.0</span></div><div class="cg-name">Garry Babaud</div><div class="cg-salle">Basic-Fit Olivet</div><div class="tags"><span>Perte de Poids</span><span>Sport-Santé</span><span>Accompagnement Bienveillant</span></div><div class="cg-more">Voir le profil →</div></div><div class="cg-back" aria-hidden="true"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></a><a class="cg" href="/coachs/nathan-sapin/" data-a="flip"><div class="cg-inner"><div class="cg-front"><div class="cg-photo"><img src="/images/coachs/nathan-sapin.webp" alt="Nathan Sapin, coach sportif GA Coachs" width="312" height="416"><span class="cg-note">★ 5.0</span></div><div class="cg-name">Nathan Sapin</div><div class="cg-salle">Basic-Fit Olivet</div><div class="tags"><span>Reprise Sportive</span><span>Renforcement Musculaire</span><span>Coaching Flexible</span></div><div class="cg-more">Voir le profil →</div></div><div class="cg-back" aria-hidden="true"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></a><a class="cg" href="/coachs/thomas-das-neves/" data-a="flip"><div class="cg-inner"><div class="cg-front"><div class="cg-photo"><img src="/images/coachs/thomas-das-neves.webp" alt="Thomas Das Neves, coach sportif GA Coachs" width="312" height="416"><span class="cg-note">★ 5.0</span></div><div class="cg-name">Thomas Das Neves</div><div class="cg-salle">Basic-Fit Fleury-les-Aubrais</div><div class="tags"><span>Suivi Personnalisé</span><span>Objectifs Sur Mesure</span><span>Renforcement Musculaire</span></div><div class="cg-more">Voir le profil →</div></div><div class="cg-back" aria-hidden="true"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></a><a class="cg" href="/coachs/fabien-rakotoarimanana/" data-a="flip"><div class="cg-inner"><div class="cg-front"><div class="cg-photo"><img src="/images/coachs/fabien-rakotoarimanana.webp" alt="Fabien Rakotoarimanana, coach sportif GA Coachs" width="312" height="416"><span class="cg-note">★ 5.0</span></div><div class="cg-name">Fabien Rakotoarimanana</div><div class="cg-salle">Basic-Fit Orléans Sud</div><div class="tags"><span>Transformation Physique</span><span>Musculation Ciblée</span><span>Stratégie Personnalisée</span></div><div class="cg-more">Voir le profil →</div></div><div class="cg-back" aria-hidden="true"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></a><a class="cg" href="/coachs/yanis-trepy-lujien/" data-a="flip"><div class="cg-inner"><div class="cg-front"><div class="cg-photo"><img src="/images/coachs/yanis-trepy-lujien.webp" alt="Yanis Trépy-Lujien, coach sportif GA Coachs" width="312" height="416"><span class="cg-note">★ 5.0</span></div><div class="cg-name">Yanis Trépy-Lujien</div><div class="cg-salle">Basic-Fit Saran</div><div class="tags"><span>Spécial Débutants</span><span>Sport Plaisir</span><span>Perte de Poids en Douceur</span></div><div class="cg-more">Voir le profil →</div></div><div class="cg-back" aria-hidden="true"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></a><a class="cg" href="/coachs/brice-chopin/" data-a="flip"><div class="cg-inner"><div class="cg-front"><div class="cg-photo"><img src="/images/coachs/brice-chopin.webp" alt="Brice Chopin, coach sportif GA Coachs" width="312" height="416"><span class="cg-note">★ 4.9</span></div><div class="cg-name">Brice Chopin</div><div class="cg-salle">Basic-Fit Olivet</div><div class="tags"><span>Perte de gras</span><span>Remise en Forme</span><span>Sculpter &amp; Tonifier</span></div><div class="cg-more">Voir le profil →</div></div><div class="cg-back" aria-hidden="true"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></a><a class="cg" href="/coachs/alexis-fernandez/" data-a="flip"><div class="cg-inner"><div class="cg-front"><div class="cg-photo"><img src="/images/coachs/alexis-fernandez.webp" alt="Alexis Fernandez, coach sportif GA Coachs" width="312" height="416"></div><div class="cg-name">Alexis Fernandez</div><div class="cg-salle">Basic-Fit Orléans Libération</div><div class="tags"><span>Gestion du Stress</span><span>Bien-être au Quotidien</span><span>Perte de Poids</span></div><div class="cg-more">Voir le profil →</div></div><div class="cg-back" aria-hidden="true"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></a><a class="cg cg-join" href="/rejoindre/" data-a="flip"><div class="cg-inner"><div class="cg-front"><img class="cg-join-logo" src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"><div class="cg-name">Ta carte ici ?</div><p>Tu es coach sportif ? Rejoins le réseau GA Coachs.</p><div class="cg-more">Rejoindre GA Coachs →</div></div><div class="cg-back" aria-hidden="true"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237"></div></div></a></div>
+      </div>
+    </section>
+    <section class="sec band" id="salles">
+      <div class="inner">
+        <div class="sec-head">
+          <div>
+            <span class="eyebrow" data-a="pop">Le réseau</span>
+            <h2 class="h2" data-a="words"><span class="w"><span style="--i: 0;">Nos</span></span> <span class="w"><span style="--i: 1;">salles</span></span> <span class="w"><span style="--i: 2;">partenaires.</span></span></h2>
+          </div>
+          <a class="btn-sm" href="/salles/" data-a="right">Toutes les salles</a>
+        </div>
+        <div class="grid g3" id="sallesGrid"><div class="tile salle" data-a="deal"><div class="salle-city">Olivet</div><h3>Basic-Fit Olivet</h3><p>3 coachs du réseau présents dans cette salle.</p><div class="salle-row"><a class="btn-sm" href="/salles/basic-fit-olivet/">Voir les coachs</a><div class="avatars" aria-hidden="true"><img src="/images/coachs/nathan-sapin.webp" alt="" width="36" height="36" data-a="pop" data-plus="480"><img src="/images/coachs/garry-babaud.webp" alt="" width="36" height="36" data-a="pop" data-plus="570"><img src="/images/coachs/brice-chopin.webp" alt="" width="36" height="36" data-a="pop" data-plus="660"></div></div></div><div class="tile salle" data-a="deal"><div class="salle-city">Orléans</div><h3>Basic-Fit Orléans Sud</h3><p>1 coach du réseau présent dans cette salle.</p><div class="salle-row"><a class="btn-sm" href="/salles/basic-fit-orleans-sud/">Voir les coachs</a><div class="avatars" aria-hidden="true"><img src="/images/coachs/fabien-rakotoarimanana.webp" alt="" width="36" height="36" data-a="pop" data-plus="480"></div></div></div><div class="tile salle" data-a="deal"><div class="salle-city">Orléans</div><h3>Basic-Fit Orléans Libération</h3><p>1 coach du réseau présent dans cette salle.</p><div class="salle-row"><a class="btn-sm" href="/salles/basic-fit-orleans-liberation/">Voir les coachs</a><div class="avatars" aria-hidden="true"><img src="/images/coachs/alexis-fernandez.webp" alt="" width="36" height="36" data-a="pop" data-plus="480"></div></div></div><div class="tile salle" data-a="deal"><div class="salle-city">Saran</div><h3>Basic-Fit Saran</h3><p>1 coach du réseau présent dans cette salle.</p><div class="salle-row"><a class="btn-sm" href="/salles/basic-fit-saran/">Voir les coachs</a><div class="avatars" aria-hidden="true"><img src="/images/coachs/yanis-trepy-lujien.webp" alt="" width="36" height="36" data-a="pop" data-plus="480"></div></div></div><div class="tile salle" data-a="deal"><div class="salle-city">Fleury-les-Aubrais</div><h3>Basic-Fit Fleury-les-Aubrais</h3><p>1 coach du réseau présent dans cette salle.</p><div class="salle-row"><a class="btn-sm" href="/salles/basic-fit-fleury-les-aubrais/">Voir les coachs</a><div class="avatars" aria-hidden="true"><img src="/images/coachs/thomas-das-neves.webp" alt="" width="36" height="36" data-a="pop" data-plus="480"></div></div></div></div>
+      </div>
+    </section>
+    <CarteBilanAccueil />
+    <section class="sec avis" id="temoignages">
+      <div class="inner">
+        <div class="avis-grid">
+          <div class="avis-score" data-a="left">
+            <span class="eyebrow">Ils nous font confiance</span>
+            <div class="avis-big"><b id="avisAvg">4,99</b><span>/5</span></div>
+            <div class="avis-stars" aria-hidden="true"><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-star"></use></svg><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-star"></use></svg><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-star"></use></svg><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-star"></use></svg><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-star"></use></svg></div>
+            <p><b id="avisTot">196</b> avis Google sur les coachs du réseau GA.</p>
+          </div>
+          <div>
+            <h2 class="h2" data-a="words"><span class="w"><span style="--i: 0;">Témoignages.</span></span></h2>
+            <AvisGraph />
+            <div class="avis-list" id="avisList" data-a="up" style="margin-top: 20px;"><a class="av" href="https://www.google.com/maps/search/?api=1&amp;query=Nathan%20Sapin%20coach%20sportif%20Orl%C3%A9ans" target="_blank" rel="noopener noreferrer"><img src="/images/coachs/nathan-sapin.webp" alt="" width="48" height="48"><span class="av-t"><b>Nathan Sapin</b><span><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-star"></use></svg>5,0 · 51 avis</span></span><span class="av-go" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></span><span class="sr">Voir les avis Google de Nathan Sapin</span></a><a class="av" href="https://www.google.com/maps/search/?api=1&amp;query=Coach%20Fab%20Leo%20Vigor%20coach%20sportif%20Orl%C3%A9ans" target="_blank" rel="noopener noreferrer"><img src="/images/coachs/fabien-rakotoarimanana.webp" alt="" width="48" height="48"><span class="av-t"><b>Fabien Rakotoarimanana</b><span><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-star"></use></svg>5,0 · 32 avis</span></span><span class="av-go" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></span><span class="sr">Voir les avis Google de Fabien Rakotoarimanana</span></a><a class="av" href="https://www.google.com/maps/search/?api=1&amp;query=Garry%20Babaud%20coach%20sportif%20Orl%C3%A9ans" target="_blank" rel="noopener noreferrer"><img src="/images/coachs/garry-babaud.webp" alt="" width="48" height="48"><span class="av-t"><b>Garry Babaud</b><span><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-star"></use></svg>5,0 · 30 avis</span></span><span class="av-go" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></span><span class="sr">Voir les avis Google de Garry Babaud</span></a><a class="av" href="https://www.google.com/maps/search/?api=1&amp;query=Thomas%20Das%20Neves%20coach%20sportif%20Orl%C3%A9ans" target="_blank" rel="noopener noreferrer"><img src="/images/coachs/thomas-das-neves.webp" alt="" width="48" height="48"><span class="av-t"><b>Thomas Das Neves</b><span><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-star"></use></svg>5,0 · 30 avis</span></span><span class="av-go" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></span><span class="sr">Voir les avis Google de Thomas Das Neves</span></a><a class="av" href="https://www.google.com/maps/search/?api=1&amp;query=Yanis%20Trepy%20coach%20sportif%20Saran" target="_blank" rel="noopener noreferrer"><img src="/images/coachs/yanis-trepy-lujien.webp" alt="" width="48" height="48"><span class="av-t"><b>Yanis Trépy-Lujien</b><span><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-star"></use></svg>5,0 · 27 avis</span></span><span class="av-go" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></span><span class="sr">Voir les avis Google de Yanis Trépy-Lujien</span></a><a class="av" href="https://www.google.com/maps/search/?api=1&amp;query=Brice%20Chopin%20coach%20sportif%20Orl%C3%A9ans" target="_blank" rel="noopener noreferrer"><img src="/images/coachs/brice-chopin.webp" alt="" width="48" height="48"><span class="av-t"><b>Brice Chopin</b><span><svg class="ic fill" aria-hidden="true" focusable="false"><use href="#i-star"></use></svg>4,9 · 26 avis</span></span><span class="av-go" aria-hidden="true"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow"></use></svg></span><span class="sr">Voir les avis Google de Brice Chopin</span></a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <Reserver3Clics />
+    <ResultatsSalle compact />
+    <section class="sec" id="score">
+      <div class="inner">
+        <div class="score-card">
+          <div class="score-txt" data-a="left">
+            <span class="eyebrow">🎯 Outil gratuit · 2 minutes</span>
+            <h2 class="h2">Pas encore prêt à réserver ? Fais d'abord ton Score Santé.</h2>
+            <p>10 questions rapides pour connaître ton Score Santé sur 100 et ton âge métabolique estimé. Un point de départ simple, sans engagement, pour voir où tu en es aujourd'hui.</p>
+            <div class="sc-q1">
+              <span class="sc-q1-k">Étape 1 / 10 · réponds ici pour commencer</span>
+              <p class="sc-q1-q">🏃 Combien de fois par semaine pratiques-tu une activité physique ?</p>
+              <div class="sc-q1-opts" id="scQ1"><button type="button" data-p="0">Jamais ou presque</button><button type="button" data-p="2">1 fois par semaine</button><button type="button" data-p="5">2 à 3 fois par semaine</button><button type="button" data-p="10">4 fois par semaine ou plus</button></div>
+            </div>
+            <a class="btn btn-primary" href="/score-sante/">Faire mon Score Santé</a>
+          </div>
+          <div class="gauge-col">
+          <div class="gauge" data-a="gauge" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="14"></circle>
+              <circle class="gauge-arc" cx="100" cy="100" r="80" fill="none" stroke="#7CC4FF" stroke-width="14" stroke-linecap="round" stroke-dasharray="502.4"></circle>
+            </svg>
+            <span class="gauge-n"><span data-count="78" data-plus="250">78</span><small>/100</small></span>
+          </div>
+          <span class="gauge-lv">🔥 Niveau 3 · Sur la bonne voie</span><span class="gauge-ex">Exemple de résultat</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <BilanExplique band />
+    <section class="sec" id="expertises">
+      <div class="inner">
+        <span class="eyebrow" data-a="pop">Nos domaines</span>
+        <h2 class="h2" data-a="words"><span class="w"><span style="--i: 0;">Nos</span></span> <span class="w"><span style="--i: 1;">expertises.</span></span></h2>
+        <div class="grid g3">
+          <a class="tile" href="/coaching-sportif/" data-a="up"><span class="tic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-dumbbell"></use></svg></span><h3>Coaching sportif</h3><p>Le cœur de l'activité GA Coachs : un accompagnement personnalisé pour perdre du poids, prendre du muscle, se remettre en forme ou reprendre le sport, avec un vrai suivi dans la durée, pas un programme générique.</p><span class="more">En savoir plus →</span></a>
+          <a class="tile" href="/preparation-physique/" data-a="up"><span class="tile-badge">BOOST CLUB</span><span class="tic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-watch"></use></svg></span><h3>Préparation physique</h3><p>Une préparation physique structurée pour sportifs, jeunes, parents, clubs et équipes.</p><span class="more">En savoir plus →</span></a>
+          <a class="tile" href="/preparation-concours/" data-a="up"><span class="tic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-medal"></use></svg></span><h3>Préparation concours</h3><p>Une préparation physique ciblée pour les concours avec tests physiques : CQP IF, BPJEPS, Police, Gendarmerie, Armée, Pompiers.</p><span class="more">En savoir plus →</span></a>
+          <a class="tile" href="/sport-sante/" data-a="up"><span class="tic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-heart"></use></svg></span><h3>Sport Santé</h3><p>Un accompagnement pour reprendre une activité physique en douceur, sortir de la sédentarité, prévenir les maladies liées à l'inactivité et améliorer durablement ta condition physique.</p><span class="more">En savoir plus →</span></a>
+          <a class="tile" href="/mal-de-dos/" data-a="up"><span class="tic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-spine"></use></svg></span><h3>Mal de dos</h3><p>Un accompagnement centré sur la mobilité, le renforcement progressif du dos et le retour au mouvement, construit avec toi, à ton rythme. Il ne remplace pas un avis médical.</p><span class="more">En savoir plus →</span></a>
+          <a class="tile" href="/entreprises/" data-a="up"><span class="tile-badge">BOOST ENTREPRISE™</span><span class="tic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-building"></use></svg></span><h3>Entreprises</h3><p>Du sport en entreprise pensé pour la QVCT, la prévention des TMS et le team building : nous faisons bouger vos équipes sans compliquer votre organisation.</p><span class="more">En savoir plus →</span></a>
+        </div>
+      </div>
+    </section>
+    <BleuGA />
+    <FranceStats />
+    <section class="sec why">
+      <div class="inner">
+        <span class="eyebrow" data-a="pop">Pourquoi GA Coachs · depuis 2018</span>
+        <h2 class="h2" data-a="words"><span class="w"><span style="--i: 0;">Un</span></span> <span class="w"><span style="--i: 1;">réseau</span></span> <span class="w"><span style="--i: 2;">structuré,</span></span> <span class="w"><span style="--i: 3;">pas</span></span> <span class="w"><span style="--i: 4;">un</span></span> <span class="w"><span style="--i: 5;">coach</span></span> <span class="w"><span style="--i: 6;">isolé.</span></span></h2>
+        <div class="grid g4">
+          <div class="tile" data-a="zoom"><span class="tic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-users"></use></svg></span><h3>Réseau de spécialistes</h3><p>Chaque coach a ses domaines d'expertise pour répondre précisément à ton besoin.</p></div>
+          <div class="tile" data-a="zoom"><span class="tic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-target"></use></svg></span><h3>Accompagnement personnalisé</h3><p>Un suivi adapté à ton objectif, ton rythme et ton niveau.</p></div>
+          <div class="tile" data-a="zoom"><span class="tic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pin"></use></svg></span><h3>Présence terrain</h3><p>Des coachs présents directement dans les salles Basic-Fit du réseau.</p></div>
+          <div class="tile" data-a="zoom"><span class="tic"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-badge"></use></svg></span><h3>Partenaire Basic-Fit depuis 2018</h3><p>Une collaboration officielle et durable avec Basic-Fit.</p></div>
+        </div>
+      <div class="milestones">
+          <div class="ms" data-a="up"><b>2018</b><p>GA Coachs naît d'un partenariat officiel avec Basic-Fit.</p></div>
+          <div class="ms" data-a="up"><b>Aujourd'hui</b><p>7 coachs du réseau, 5 salles partenaires et 63 villes couvertes.</p></div>
+          <div class="ms is-new" data-a="up"><b>Nouveau</b><p>BOOST ENTREPRISE™ pour les entreprises, BOOST CLUB pour les clubs sportifs.</p></div></div><p class="why-more"><a class="btn-sm" href="/a-propos/">Découvrir notre histoire</a></p></div>
+    </section>
+    <HomeBoost />
+    <CoachBanner />
+    <section class="sec band" id="h-faq"><div class="inner"><span class="eyebrow" data-a="pop">Questions fréquentes</span><h2 class="h2" data-a="words">Tout ce que tu veux savoir avant de te lancer.</h2><div class="faq-list" style="margin-top: 24px;"><details class="faq-item" data-a="up"><summary>Faut-il être abonné à Basic-Fit pour avoir un coach GA ?</summary><p>Oui, les coachs du réseau interviennent directement dans les salles Basic-Fit partenaires : il te faut un abonnement ou un pass journée Basic-Fit valide.</p></details><details class="faq-item" data-a="up"><summary>Combien coûte un coach ?</summary><p>Chaque coach du réseau facture lui-même ses séances. Tu connais son tarif avant de t'engager, lors de ton échange avec lui.</p></details><details class="faq-item" data-a="up"><summary>Comment se passe le bilan santé ?</summary><p>Une heure en salle avec un coach : 30 minutes de séance avec analyses cardio, posturale et de tes habitudes de vie, puis 30 minutes pour t'expliquer tes résultats et te proposer un accompagnement. Tu peux commencer par le Score Santé gratuit, qui prend 2 minutes.</p></details><details class="faq-item" data-a="up"><summary>Je n'ai jamais fait de sport, est-ce pour moi ?</summary><p>Oui. Les coachs adaptent chaque séance à ton niveau, tes contraintes et ton rythme. Pas besoin d'être sportif pour commencer.</p></details><details class="faq-item" data-a="up"><summary>Où sont les coachs ?</summary><p>7 coachs interviennent dans 5 salles Basic-Fit autour d'Orléans, et le réseau couvre 63 villes.</p></details></div></div></section>
+    <section class="final">
+      <div class="final-bg" id="finalBg" data-a="charge" aria-hidden="true"></div>
+      <div class="inner">
+        <h2 class="h2" data-a="words"><span class="w"><span style="--i: 0;">Prêt</span></span> <span class="w"><span style="--i: 1;">à</span></span> <span class="w"><span style="--i: 2;">trouver</span></span> <span class="w"><span style="--i: 3;">le</span></span> <span class="w"><span style="--i: 4;">coach</span></span> <span class="w"><span style="--i: 5;">qui</span></span> <span class="w"><span style="--i: 6;">te</span></span> <span class="w"><span style="--i: 7;">correspond&nbsp;?</span></span></h2>
+        <a class="btn-final" href="/trouver-un-coach/" data-a="ring" data-plus="350">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"></path></svg>
+          Trouver mon coach<span class="shine" aria-hidden="true"></span>
+        </a>
+      </div>
+    </section>
+<style is:global>
+  .proto .why .milestones { margin-top: 30px; }
+  .proto .why-more { margin-top: 22px; }
+</style>
+
+<style>
+  .nv { margin: 40px auto 8px; max-width: 1180px; padding: 0 24px; }
+  .nv-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .nv-badge { background: #1D5BD8; color: #fff; font-weight: 700; font-size: 12px; letter-spacing: .02em; text-transform: none; padding: 5px 10px; border-radius: 999px; }
+  .nv h2 { margin: 0; font-family: var(--display); font-size: clamp(22px, 2.6vw, 30px); color: #0B1E3D; }
+  .nv-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .nv-t { display: grid; gap: 6px; align-content: start; padding: 20px; background: #fff; border: 2px solid #DCE6FB; border-radius: 20px; text-decoration: none; color: #0B1E3D; transition: border-color .2s, transform .2s; }
+  .nv-t:hover { border-color: #1D5BD8; transform: translateY(-2px); }
+  .nv-t:focus-visible { outline: 3px solid #2F8BFF; outline-offset: 2px; }
+  .nv-e { font-size: 28px; }
+  .nv-k { font-weight: 700; font-size: 12px; letter-spacing: .02em; text-transform: none; color: #1D5BD8; }
+  .nv-t b { font-family: var(--display); font-size: 19px; line-height: 1.25; }
+  .nv-d { color: #3E4A66; font-size: 14.5px; line-height: 1.5; }
+  .nv-go { margin-top: 4px; font-weight: 700; color: #1D5BD8; font-size: 14px; }
+  .nv-more { margin: 14px 0 0; font-size: 14px; color: #3E4A66; }
+  .nv-more a { color: #1D5BD8; font-weight: 700; }
+  @media (max-width: 980px) { .nv-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 767px) {
+    .nv { padding: 0 16px; margin-top: 28px; }
+    .nv-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    .nv-t { grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; padding: 16px; }
+    .nv-e { grid-row: span 4; font-size: 26px; }
+    .nv-t b { font-size: 17px; }
+  }
+</style>
+

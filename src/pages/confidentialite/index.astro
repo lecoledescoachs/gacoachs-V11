@@ -1,0 +1,178 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LegalProto from '../../components/proto/LegalProto.astro';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+    { '@type': 'ListItem', position: 2, name: 'Confidentialité', item: 'https://gacoachs.fr/confidentialite/' },
+  ],
+};
+---
+<BaseLayout
+  title="Confidentialité · GA Coachs"
+  description="Politique de confidentialité de GA Coachs : données collectées, finalités, durées de conservation, destinataires et exercice de vos droits (RGPD)."
+  path="/confidentialite/"
+  jsonLd={jsonLd}
+>
+
+  <LegalProto titre="Politique de confidentialité" slug="confidentialite">
+      <p class="legal__intro">
+        Dernière mise à jour : 21 octobre 2026. Cette page explique quelles données sont collectées sur gacoachs.fr,
+        pourquoi, combien de temps elles sont conservées, à qui elles sont transmises et comment exercer vos droits.
+      </p>
+
+      <h2>1. Responsable du traitement</h2>
+      <p>
+        Garry Babaud EI, exerçant sous le nom commercial GA Coachs, 11 rue des Hauts Champs, 45380 La Chapelle-Saint-Mesmin
+        (SIRET 832 643 092 00014), est responsable des traitements décrits ci-dessous.
+        Contact pour toute question sur vos données : <a href="mailto:ga.coachs@gmail.com">ga.coachs@gmail.com</a>.
+      </p>
+
+      <h2>2. Les données collectées, pourquoi et sur quelle base</h2>
+
+      <h3>2.1 Demandes de bilan santé et de mise en relation avec un coach</h3>
+      <p>
+        Données : prénom, nom, email, téléphone, salle et coach souhaités, objectif, créneau, message.
+        Finalité : organiser votre bilan santé et vous mettre en relation avec le coach choisi, qui reçoit vos coordonnées
+        pour vous recontacter. Base légale : mesures précontractuelles prises à votre demande.
+      </p>
+
+      <h3>2.2 Demandes des professionnels et des structures</h3>
+      <p>
+        Formulaires BOOST ENTREPRISE™, BOOST CLUB, EHPAD, associations, professionnels de santé, services sur mesure et contact.
+        Données : nom, prénom, fonction, structure, email, téléphone, ville, informations sur votre projet et votre message.
+        Finalité : étudier votre demande, vous adresser une proposition et vous recontacter. Base légale : mesures
+        précontractuelles et intérêt légitime de GA Coachs à répondre aux demandes reçues.
+      </p>
+
+      <h3>2.3 Candidatures des coachs (Rejoindre GA Coachs)</h3>
+      <p>
+        Données : prénom, nom, email, téléphone et informations sur votre parcours. Finalité : étudier votre candidature et
+        vous recontacter. Base légale : mesures précontractuelles.
+      </p>
+
+      <h3>2.4 Score Santé et programme personnalisé</h3>
+      <p>
+        Le Score Santé repose sur vos réponses à 10 questions (activité, énergie, sommeil, douleurs, habitudes) et sur votre âge.
+        Le calcul se fait dans votre navigateur. Si vous demandez à recevoir votre résultat détaillé, votre prénom, votre email,
+        votre téléphone (facultatif) et votre résultat sont transmis à GA Coachs et au coach concerné, pour vous l'envoyer et
+        vous recontacter. Ces réponses peuvent révéler des informations sur votre état de forme et de santé : elles ne sont
+        transmises qu'avec votre accord, que vous donnez en envoyant votre demande, et que vous pouvez retirer à tout moment.
+        Base légale : votre consentement.
+      </p>
+      <p>
+        L'outil « Mon programme » génère un programme d'entraînement à partir de vos réponses (objectif, niveau, jours
+        disponibles, matériel, limites éventuelles). Il ne demande ni nom ni email. Pour personnaliser le texte, ces réponses
+        peuvent être transmises au service d'intelligence artificielle d'Anthropic (États-Unis), qui ne les utilise pas pour
+        entraîner ses modèles. Pour éviter les abus, une empreinte non réversible de votre adresse IP est conservée 24 heures.
+        Base légale : intérêt légitime à fournir l'outil demandé et à en limiter les abus.
+      </p>
+
+      <h3>2.5 Statistiques internes des coachs</h3>
+      <p>
+        Le site compte certains événements (Score Santé réalisé, lien d'un coach ouvert, demande de bilan) pour suivre
+        l'activité de chaque coach du réseau. Ces compteurs ne contiennent ni nom, ni email, ni adresse IP.
+      </p>
+
+      <h3 id="cookies">2.6 Cookies et mesure d'audience</h3>
+      <p>
+        Ce site ne dépose aucun cookie publicitaire et ne revend aucune donnée de navigation.
+      </p>
+      <ul>
+        <li>
+          <strong>Google Analytics 4, avec votre accord uniquement</strong> : mesure de la fréquentation (pages vues, clics,
+          formulaires envoyés) pour améliorer le site. Service fourni par Google Ireland Ltd ; des données peuvent être
+          transférées aux États-Unis dans le cadre du Data Privacy Framework. Cookies _ga et _ga_*, durée maximale 13 mois.
+          Tant que vous n'avez pas accepté, aucun script Google Analytics n'est chargé. Base légale : votre consentement.
+        </li>
+        <li>
+          <strong>Votre choix</strong> est mémorisé dans votre navigateur 13 mois si vous acceptez, 6 mois si vous refusez.
+          Vous pouvez le modifier à tout moment avec le lien « Gérer les cookies », en bas de chaque page.
+        </li>
+        <li>
+          <strong>Espaces réservés</strong> : un cookie strictement nécessaire est déposé uniquement si vous vous connectez à
+          l'espace coach ou à l'administration.
+        </li>
+        <li>
+          <strong>Vidéos YouTube</strong> : intégrées en mode « confidentialité renforcée » (youtube-nocookie.com), sans cookie
+          tant que vous ne lancez pas la lecture.
+        </li>
+        <li>
+          <strong>Cartes</strong> : les fonds de carte OpenStreetMap sont chargés depuis les serveurs d'OpenStreetMap, ce qui leur
+          transmet votre adresse IP, sans cookie. Les polices sont hébergées sur notre propre site.
+        </li>
+        <li>
+          <strong>Préférences d'affichage</strong> : votre navigateur garde en mémoire certaines informations (par exemple, le fait
+          d'avoir déjà vu l'invitation au Score Santé), sans transmission à nos serveurs.
+        </li>
+      </ul>
+
+      <h2>3. Qui reçoit vos données</h2>
+      <ul>
+        <li>GA Coachs et, pour les demandes qui le concernent, le coach du réseau choisi ou désigné pour vous répondre ;</li>
+        <li>Netlify, Inc. (États-Unis) : hébergement du site, réception des formulaires et stockage des données de l'espace coach ;</li>
+        <li>Brevo (Sendinblue SAS, France) : envoi des emails de notification aux coachs et à l'équipe GA Coachs ;</li>
+        <li>Anthropic, PBC (États-Unis) : personnalisation de l'outil « Mon programme », sans donnée d'identification ;</li>
+        <li>Google Ireland Ltd : mesure d'audience, uniquement avec votre accord.</li>
+      </ul>
+      <p>
+        Vos données ne sont jamais vendues ni utilisées à des fins publicitaires par des tiers. Lorsque des données sont
+        transférées hors de l'Union européenne, ces transferts sont encadrés par le Data Privacy Framework ou par les
+        clauses contractuelles types de la Commission européenne.
+      </p>
+
+      <h2>4. Durée de conservation</h2>
+      <ul>
+        <li>Demandes de particuliers et de professionnels sans suite : 3 ans après le dernier contact ;</li>
+        <li>Données des clients professionnels : pendant la relation contractuelle, puis 5 ans ; pièces comptables : 10 ans ;</li>
+        <li>Candidatures de coachs non retenues : 2 ans après le dernier contact ;</li>
+        <li>Résultats du Score Santé transmis : 3 ans après le dernier contact, ou jusqu'au retrait de votre accord ;</li>
+        <li>Empreinte d'adresse IP de l'outil « Mon programme » : 24 heures ;</li>
+        <li>Cookies de mesure d'audience : 13 mois maximum.</li>
+      </ul>
+
+      <h2>5. Vos droits</h2>
+      <p>
+        Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification,
+        d'effacement, de limitation, de portabilité et d'opposition, du droit de retirer votre consentement à tout moment,
+        et du droit de définir des directives sur le sort de vos données après votre décès. Pour les exercer, écrivez à
+        <a href="mailto:ga.coachs@gmail.com">ga.coachs@gmail.com</a> : nous répondons dans un délai d'un mois.
+      </p>
+      <p>
+        Si vous estimez que vos droits ne sont pas respectés, vous pouvez adresser une réclamation à la CNIL
+        (<a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener">cnil.fr/fr/plaintes</a>).
+      </p>
+
+      <h2>6. Mineurs</h2>
+      <p>
+        Les formulaires du site s'adressent aux adultes. Pour un mineur de moins de 15 ans, la demande doit être faite par
+        un parent ou un représentant légal.
+      </p>
+
+      <h2>7. Sécurité</h2>
+      <p>
+        Le site est servi exclusivement en HTTPS. L'accès aux données reçues est limité aux personnes qui en ont besoin
+        pour traiter votre demande, et les espaces réservés sont protégés par identifiant.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Pour toute question relative à cette politique ou à vos données personnelles :
+        <a href="mailto:ga.coachs@gmail.com">ga.coachs@gmail.com</a>.
+      </p>
+  </LegalProto>
+
+</BaseLayout>
+
+<style>
+  .legal { max-width: 68ch; }
+  .legal__intro { margin-top: 16px; color: var(--text-muted); }
+  .legal h2 { margin-top: 32px; font-size: 18px; }
+  .legal h3 { margin-top: 24px; font-size: 15px; }
+  .legal p, .legal ul { margin-top: 12px; color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+  .legal ul { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .legal a { color: var(--blue); text-decoration: underline; }
+</style>

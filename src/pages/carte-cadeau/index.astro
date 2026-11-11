@@ -1,0 +1,196 @@
+---
+// Carte cadeau GA Coachs : montant libre, pour offrir les séances d'un coach sportif diplômé.
+// Pas de paiement en ligne sur le site : la demande part par email, GA Coachs envoie le lien de paiement puis la carte.
+import CarteCadeauCarte from '../../components/CarteCadeauCarte.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+
+const path = '/carte-cadeau/';
+const etapes = [
+  { t: 'Tu choisis le montant', d: 'Le montant que tu veux, 50 €, 100 €, 200 € ou un autre : il n\'y a pas de formule imposée.' },
+  { t: 'Tu remplis la demande', d: 'Ton nom, l\'email où recevoir la carte, le prénom de la personne et un petit mot si tu veux.' },
+  { t: 'Nous t\'envoyons le paiement', d: 'GA Coachs te répond sous 48 h ouvrées avec le lien de paiement ou la facture.' },
+  { t: 'Tu reçois la carte', d: 'Une carte cadeau prête à offrir arrive par email, à la date que tu choisis.' },
+];
+const usages = [
+  { i: '🏋️', t: 'Des séances avec un coach', d: 'Séances individuelles avec un coach sportif diplômé du réseau GA, dans une salle Basic-Fit partenaire.' },
+  { i: '🎯', t: 'Un programme', d: 'Le montant peut servir pour un de nos programmes de coaching, jusqu\'à son montant.' },
+  { i: '🎂', t: 'Pour toutes les occasions', d: 'Anniversaire, Noël, mariage, reprise du sport, remerciement : tu choisis le moment.' },
+  { i: '🤝', t: 'Un cadeau utile', d: 'Un coach qui explique les gestes, ajuste les charges et motive : un cadeau qui sert vraiment.' },
+];
+const faq = [
+  { q: 'Comment fonctionne la carte cadeau GA Coachs ?', r: 'Tu indiques le montant de ton choix et les informations de la personne à gâter. GA Coachs te répond avec le lien de paiement ou la facture, puis t\'envoie la carte cadeau par email, prête à offrir.' },
+  { q: 'Peut-on choisir le montant que l\'on veut ?', r: 'Oui. Le montant est libre. Tu peux partir d\'une suggestion (50 €, 100 €, 200 €) ou saisir n\'importe quelle somme.' },
+  { q: 'À quoi sert la carte cadeau ?', r: 'À payer les séances d\'un coach sportif diplômé du réseau GA Coachs. La personne choisit le coach qu\'elle veut parmi tous les coachs du réseau, puis utilise le montant de la carte pendant sa durée de validité d\'un mois.' },
+  { q: 'Peut-on payer en ligne tout de suite ?', r: 'Pas encore sur le site. Après ta demande, GA Coachs t\'envoie un lien de paiement ou une facture sous 48 h ouvrées, puis la carte une fois le paiement reçu.' },
+  { q: 'Quand la personne reçoit-elle la carte ?', r: 'Tu choisis : la carte t\'est envoyée pour que tu l\'offres toi-même, ou elle est envoyée directement à la personne, à la date que tu indiques.' },
+  { q: 'Peut-on ajouter un message personnel ?', r: 'Oui. Ton petit mot est inscrit sur la carte cadeau.' },
+  { q: 'Quelle est la durée de validité ?', r: 'La carte cadeau est valable 1 mois à compter de son achat, c\'est-à-dire de la réception de ton paiement. La date limite est indiquée sur la carte, et les conditions générales sont disponibles sur la page des CGV.' },
+  { q: 'Où la carte est-elle utilisable ?', r: 'Avec n\'importe quel coach du réseau GA Coachs, dans sa salle Basic-Fit partenaire. La personne trouve son coach sur la page Trouver un coach.' },
+  { q: 'Peut-on offrir une carte cadeau à plusieurs ?', r: 'Oui. Une seule demande suffit : indique le montant total, et précise dans le message que le cadeau vient de plusieurs personnes.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'WebPage', name: 'Carte cadeau coach sportif GA Coachs', description: 'Carte cadeau à montant libre pour offrir les séances d\'un coach sportif diplômé du réseau GA Coachs.', url: 'https://gacoachs.fr/carte-cadeau/', isPartOf: { '@type': 'WebSite', name: 'GA Coachs', url: 'https://gacoachs.fr/' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout title="Carte cadeau coach sportif : offre des séances, montant libre" description="Offre une carte cadeau GA Coachs au montant de ton choix : des séances avec un coach sportif diplômé, pour un anniversaire, Noël ou une reprise du sport." path={path} jsonLd={jsonLd} stickyCtaHref="#demande" stickyCtaLabel="Offrir une carte cadeau">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Carte cadeau', href: path }]} />
+      <span class="eyebrow eyebrow-dark">Carte cadeau</span>
+      <h1>Offre un coach sportif, <span class="hl-text">au montant que tu veux</span>.</h1>
+      <p class="phero-lead">Une carte cadeau GA Coachs pour offrir des séances avec un coach sportif diplômé. Tu choisis la somme, la date et le petit mot. La personne choisit son coach près de chez elle.</p>
+      <ul class="facts-dark"><li>Montant libre</li><li>Un coach diplômé et assuré</li><li>Carte envoyée par email</li></ul>
+      <div class="ctas"><a class="btn btn-primary" href="#demande">Offrir une carte cadeau</a><a class="btn btn-glass" href="#comment">Comment ça marche</a></div>
+    </div>
+  </section>
+
+  <section class="sec ec-bref-sec">
+    <div class="inner">
+      <div class="ec-bref">
+        <p class="ec-bref-k">En bref</p>
+        <ul>
+          <li><b>Quoi :</b> une carte cadeau à montant libre pour payer les séances d'un coach sportif diplômé du réseau GA Coachs.</li>
+          <li><b>Pour qui :</b> toi qui veux offrir, et la personne qui reçoit : débutant, reprise du sport, objectif précis.</li>
+          <li><b>Validité :</b> 1 mois à compter de l'achat, utilisable avec tous les coachs du réseau GA Coachs.</li>
+          <li><b>Comment :</b> tu fais ta demande, GA Coachs t'envoie le paiement sous 48 h ouvrées, puis la carte par email.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="comment">
+    <div class="inner">
+      <span class="eyebrow">Comment ça marche</span>
+      <h2 class="h2">En quatre étapes.</h2>
+      <div class="ec-grid ec-grid4">{etapes.map((e, n) => <div class="tile ec-t"><span class="ec-num" aria-hidden="true">{n + 1}</span><h3>{e.t}</h3><p>{e.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Ce que permet la carte</span>
+      <h2 class="h2">Un cadeau qui sert vraiment.</h2>
+      <div class="ec-grid ec-grid4">{usages.map((u) => <div class="tile ec-t"><span class="ec-i" aria-hidden="true">{u.i}</span><h3>{u.t}</h3><p>{u.d}</p></div>)}</div>
+      <p class="ec-n">La personne choisit son coach sur la page <a href="/trouver-un-coach/">Trouver un coach</a>.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="demande">
+    <div class="inner ec-two">
+      <div>
+        <span class="eyebrow">Ta demande</span>
+        <h2 class="h2">Choisis le montant et dis-nous à qui.</h2>
+        <p>Nous revenons vers toi sous 48 h ouvrées avec le lien de paiement ou la facture. Tes informations servent uniquement à traiter ta demande (<a href="/confidentialite/">confidentialité</a>). Voir aussi les <a href="/cgv/">conditions générales de vente</a>.</p>
+        <CarteCadeauCarte />
+      </div>
+      <form class="ec-form" name="carte-cadeau" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-carte-cadeau/" aria-label="Offrir une carte cadeau">
+        <input type="hidden" name="form-name" value="carte-cadeau" />
+        <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+        <div>
+          <label for="cc-montant">Montant de la carte, en euros<input id="cc-montant" name="montant" type="number" inputmode="decimal" min="1" step="1" required placeholder="Ex. : 100" /></label>
+          <div class="cc-chips" role="group" aria-label="Montants suggérés" data-cc-chips hidden>
+            <button type="button" class="cc-chip" data-v="50" aria-pressed="false">50 €</button>
+            <button type="button" class="cc-chip" data-v="100" aria-pressed="false">100 €</button>
+            <button type="button" class="cc-chip" data-v="200" aria-pressed="false">200 €</button>
+          </div>
+        </div>
+        <label>Ton prénom et ton nom<input name="acheteur" required autocomplete="name" /></label>
+        <label>Ton email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Ton téléphone <small>(facultatif)</small><input type="tel" name="telephone" autocomplete="tel" /></label>
+        <label>Prénom de la personne qui reçoit<input name="beneficiaire" required /></label>
+        <label>Sa ville ou sa salle Basic-Fit <small>(facultatif)</small><input name="ville" /></label>
+        <label>Envoi de la carte
+          <select name="envoi" required><option value="">Choisir</option><option>À moi, par email, pour l'offrir moi-même</option><option>Directement à la personne</option></select>
+        </label>
+        <label>Date d'envoi <small>(facultatif)</small><input name="date_envoi" placeholder="Ex. : 24 décembre" /></label>
+        <label>Ton petit mot <small>(facultatif)</small><textarea name="message" rows="3" maxlength="400"></textarea></label>
+        <label class="ec-chk"><input type="checkbox" name="consentement" required /><span>J'accepte que GA Coachs utilise ces informations pour traiter ma demande de carte cadeau.</span></label>
+        <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Tes questions sur la carte cadeau.</h2>
+      <div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title="Offrir un coach sportif avec la carte cadeau GA Coachs" label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>('[data-cc-chips]');
+  const inp = document.querySelector<HTMLInputElement>('#cc-montant');
+  if (wrap && inp) {
+    wrap.hidden = false;
+    const chips = Array.from(wrap.querySelectorAll<HTMLButtonElement>('.cc-chip'));
+    const maj = () => chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.v === inp.value)));
+    chips.forEach((c) => c.addEventListener('click', () => { inp.value = c.dataset.v || ''; maj(); }));
+    inp.addEventListener('input', maj);
+    const out = document.querySelector<HTMLElement>('[data-cc-amount]');
+    if (out) {
+      const montrer = () => {
+        const v = parseFloat(inp.value.replace(',', '.'));
+        if (!isFinite(v) || v <= 0) { out.textContent = '… €'; out.classList.remove('is-set'); return; }
+        const t = (Math.round(v * 100) / 100).toLocaleString('fr-FR', { minimumFractionDigits: Number.isInteger(Math.round(v * 100) / 100) ? 0 : 2, maximumFractionDigits: 2 }).replace(/\u202f|\u00a0/g, ' ');
+        out.textContent = t + ' €';
+        out.classList.add('is-set');
+        out.style.setProperty('--n', String(t.length));
+      };
+      const pop = () => { out.classList.remove('pop'); void out.offsetWidth; out.classList.add('pop'); };
+      inp.addEventListener('input', pop);
+      chips.forEach((c) => c.addEventListener('click', pop));
+      inp.addEventListener('input', montrer);
+      chips.forEach((c) => c.addEventListener('click', montrer));
+      montrer();
+    }
+  }
+</script>
+
+<style>
+  .ec-bref-sec { padding-top: 28px; padding-bottom: 8px; }
+  .ec-bref { border-left: 4px solid #1D5BD8; background: #fff; border-radius: 0 18px 18px 0; padding: 18px 22px; box-shadow: 0 12px 30px -24px rgba(11,30,61,.5); }
+  .ec-bref-k { margin: 0 0 8px; font-weight: 700; text-transform: none; letter-spacing: .02em; font-size: 12px; color: #1D5BD8; }
+  .ec-bref ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #0B1E3D; line-height: 1.5; }
+  .ec-num { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #1D5BD8; color: #fff; font-weight: 700; }
+  .ec-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ec-t h3 { margin: 6px 0 8px; }
+  .ec-t p { margin: 0; line-height: 1.55; color: #2A3756; }
+  .ec-i { font-size: 30px; }
+  .ec-tl { list-style: none; padding: 0; margin: 22px 0 0; display: grid; border-left: 3px solid #1D5BD8; }
+  .ec-tl li { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 14px; padding: 14px 0 14px 18px; border-bottom: 1px solid #DCE6FB; }
+  .ec-m { font-weight: 700; color: #1D5BD8; }
+  .ec-tl b { color: #0B1E3D; }
+  .ec-tl p { margin: 4px 0 0; color: #2A3756; line-height: 1.5; }
+  .ec-n { color: #2A3756; margin-top: 14px; }
+  .ec-two { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .ec-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; } }
+  .ec-form { display: grid; gap: 12px; background: #fff; border: 1px solid #DCE6FB; border-radius: 20px; padding: 22px; min-width: 0; }
+  .ec-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; color: #0B1E3D; min-width: 0; }
+  .ec-form input, .ec-form select, .ec-form textarea { width: 100%; box-sizing: border-box; min-height: 46px; padding: 10px 12px; border: 1px solid #B8C6E3; border-radius: 12px; font: inherit; font-size: 16px; background: #fff; }
+  .ec-guides { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; }
+  .ec-guides a { display: block; padding: 12px 14px; border: 1px solid #DCE6FB; border-radius: 14px; background: #fff; color: #0B1E3D; font-weight: 600; line-height: 1.35; text-decoration: none; }
+  .ec-grid.ec-grid4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1100px) { .ec-grid.ec-grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px) { .ec-grid, .ec-grid.ec-grid4, .ec-guides { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 767px) { .ec-tl li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+  .cc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .cc-chip { min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1.5px solid #B8C6E3; background: #fff; color: #0B1E3D; font: 700 15px/1.2 inherit; cursor: pointer; }
+  .cc-chip:hover { border-color: #1D5BD8; }
+  .cc-chip:focus-visible { outline: 3px solid #0B1E3D; outline-offset: 2px; }
+  .cc-chip[aria-pressed="true"] { background: #1D5BD8; border-color: #1D5BD8; color: #fff; }
+  .cc-chips[hidden] { display: none; }
+  .ec-chk { display: flex !important; grid-template-columns: none; align-items: flex-start; gap: 10px; font-weight: 500 !important; }
+  .ec-chk input { width: 22px !important; min-height: 22px !important; margin-top: 2px; flex: none; }
+</style>

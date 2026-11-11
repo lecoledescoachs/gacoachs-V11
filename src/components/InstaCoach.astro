@@ -1,0 +1,22 @@
+---
+// Bloc Instagram d'un coach : petit logo 3D, compte et lien. Le nombre d'abonnés n'est volontairement pas affiché.
+const { coach } = Astro.props as { coach: any };
+const r = coach?.reseauSocial;
+const pseudo = r?.url ? (r.url.match(/instagram\.com\/([^/?#]+)/) || [])[1] : '';
+const fmt = (n: number) => Number(n).toLocaleString('fr-FR');
+---
+{r?.url && r.type === 'instagram' && (
+  <a class="ig" href={r.url} target="_blank" rel="noopener noreferrer" aria-label={`Suivre ${coach.prenom} sur Instagram`} data-track-click="instagram_coach">
+    <img src="/images/reseaux/instagram.webp" alt="" width="28" height="28" loading="lazy" />
+    <span>Instagram{pseudo && <span class="ig-p"> · @{pseudo}</span>}</span>
+  </a>
+)}
+
+<style>
+  .ig { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 14px; font-weight: 600; color: #BFE2FF; text-decoration: none; max-width: 100%; }
+  .ig:hover span { text-decoration: underline; text-underline-offset: 3px; }
+  .ig:focus-visible { outline: 3px solid #2F8BFF; outline-offset: 3px; border-radius: 6px; }
+  .ig img { width: 28px; height: 28px; flex: 0 0 28px; }
+  .ig b { color: #fff; }
+  .ig-p { overflow-wrap: anywhere; }
+</style>

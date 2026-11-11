@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+import salles from '../../data/salles.json';
+import data from '../../data/offres-emploi.json';
+
+const CALENDLY = 'https://calendly.com/ga-coachs/candidature-coach-sportif';
+const WHATSAPP = 'https://wa.me/message/3HO7W6SO45UCD1';
+const salleParSlug: any = Object.fromEntries((salles as any[]).map((x) => [x.slug, x]));
+const annonces = (data.offres as any[]).map((o) => o.type === 'salle'
+  ? { href: `/offres-emploi/${o.slug}/`, t: `Coach sportif indépendant H/F : ${salleParSlug[o.salleSlug].nom}`, lieu: salleParSlug[o.salleSlug].adresse.split(',').slice(-1)[0].trim() }
+  : { href: `/offres-emploi/${o.slug}/`, t: `Coach sportif à domicile H/F : ${o.territoire}`, lieu: `${o.territoire} (${o.dep}) et alentours` });
+const jsonLd = [{ '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Offres d\'emploi coach sportif GA Coachs', url: 'https://gacoachs.fr/offres-emploi/', description: 'Les offres de coach sportif indépendant du réseau GA Coachs : salles Basic-Fit autour d\'Orléans et coaching à domicile.' }];
+---
+<BaseLayout title="Offres d'emploi coach sportif à Orléans et dans le Loiret" description="Postule dans l'un de nos clubs partenaires Basic-Fit ou propose du coaching à domicile : toutes les offres de coach sportif indépendant du réseau GA Coachs." path="/offres-emploi/" jsonLd={jsonLd} stickyCtaHref={CALENDLY} stickyCtaLabel="Postuler">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Offres d\'emploi', href: '/offres-emploi/' }]} />
+      <span class="eyebrow eyebrow-dark">Offres d'emploi</span>
+      <h1>Nos offres <span class="hl-text">exclusives</span>.</h1>
+      <p class="phero-lead">Postule dans l'un de nos clubs partenaires pour développer ton activité de coach sportif dans les meilleures conditions.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <ul class="oe-list">{annonces.map((a) => (
+        <li><a href={a.href}>
+          <span class="oe-logo" aria-hidden="true"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="62" height="61" loading="lazy" decoding="async" /></span>
+          <span class="oe-txt">
+            <b>{a.t}</b>
+            <span class="oe-meta"><span>📍 {a.lieu}</span></span>
+          </span>
+          <span class="oe-go" aria-hidden="true">→</span>
+        </a></li>
+      ))}</ul>
+      <p class="oe-n">Il ne s'agit pas d'emplois salariés : tu rejoins un réseau en tant que coach indépendant, avec un contrat d'affiliation. Les conditions sont détaillées sur la page <a href="/rejoindre/">Rejoindre GA Coachs</a>.</p>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner oe-spont">
+      <h3 class="h3">Candidature spontanée</h3>
+      <p>Tu ne trouves pas l'offre qui te correspond ? Écris-nous : nous étudions chaque candidature et nous te répondons rapidement.</p>
+      <div class="ctas"><a class="btn btn-primary" href={CALENDLY} target="_blank" rel="noopener noreferrer">Postuler</a></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner oe-spont">
+      <span class="eyebrow">Le diplôme</span>
+      <h2 class="h2">Construis ton vrai métier.</h2>
+      <p>Pour accéder à ces offres, il faut une carte professionnelle d'éducateur sportif. Le CQP Instructeur Fitness est le diplôme qui l'ouvre, et L'École des Coachs te forme à Orléans et à Olivet.</p>
+      <div class="ctas"><a class="btn btn-primary" href="https://lecoledescoachs.fr/cqp-instructeur-fitness" target="_blank" rel="noopener noreferrer">Voir le CQP IF</a><a class="btn-out" href={WHATSAPP} target="_blank" rel="noopener noreferrer">WhatsApp</a></div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner oe-dir">
+      <img src="/images/fondateur/garry-babaud-carre.webp" alt="Garry Babaud, fondateur de GA Coachs" width="160" height="160" loading="lazy" decoding="async" />
+      <div>
+        <p class="oe-name"><b>Garry Babaud</b><br /><small>Fondateur de GA Coachs</small></p>
+        <p>Tu veux en parler avant de postuler ? Réserve un appel avec moi.</p>
+        <ul class="oe-pts"><li>10 minutes</li><li>7j/7</li><li>Gratuit</li><li>Sans engagement</li></ul>
+        <div class="ctas"><a class="btn btn-primary" href={CALENDLY} target="_blank" rel="noopener noreferrer">Réserver mon appel</a><a class="btn-out" href={WHATSAPP} target="_blank" rel="noopener noreferrer">WhatsApp</a></div>
+      </div>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+<style is:global>
+  .oe-list { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 12px; }
+  .oe-spont .h3, .oe-spont h3 { margin: 0 0 10px; }
+  .oe-spont p { margin: 0 0 16px; }
+  .oe-list a { position: relative; display: grid; grid-template-columns: 84px minmax(0, 1fr); align-items: center; gap: 14px; padding: 16px 52px 16px 18px; border: 2px solid #C3D3F6; border-bottom-width: 5px; border-radius: 16px; background: #fff; color: #0B1E3D; text-decoration: none; }
+  .oe-list a:hover { border-color: #1D5BD8; }
+  .oe-logo { display: grid; place-items: center; width: 84px; height: 84px; border-radius: 16px; background: #EAF1FF; border: 2px solid #C3D3F6; }
+  .oe-logo img { width: 62px; height: auto; display: block; }
+  .oe-txt { display: grid; gap: 8px; min-width: 0; }
+  .oe-list b { font-size: 1.05rem; }
+  .oe-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; color: #2A3756; font-size: 14px; }
+  .oe-go { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-size: 22px; font-weight: 700; color: #1D5BD8; }
+  .oe-n { margin-top: 18px; color: #2A3756; max-width: 70ch; }
+  .oe-spont { max-width: 720px; }
+  .oe-dir { display: grid; gap: 22px; align-items: center; grid-template-columns: 1fr; max-width: 820px; }
+  .oe-dir img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid #C3D3F6; }
+  @media (min-width: 700px) { .oe-dir { grid-template-columns: 160px minmax(0, 1fr); } .oe-dir img { width: 160px; height: 160px; } }
+  .oe-name { margin: 0 0 6px; line-height: 1.3; }
+  .oe-pts { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 12px 0 16px; }
+  .oe-pts li { background: #E6EEFE; color: #1F55C9; font-weight: 700; font-size: 13px; border-radius: 999px; padding: 4px 12px; }
+</style>

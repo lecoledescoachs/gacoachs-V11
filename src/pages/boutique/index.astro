@@ -1,0 +1,285 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProduitVisuel from '../../components/ProduitVisuel.astro';
+import b from '../../data/boutique.json';
+import coaches from '../../data/coaches.js';
+// slug -> [code, prénom] pour reconnaître le lien ou le code d'un coach
+const CODES = Object.fromEntries(coaches.map((c: any) => [c.slug, [c.codeBoutique, c.prenom]]));
+
+const path = '/boutique/';
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: b.seo.title,
+    description: b.seo.description,
+    url: 'https://gacoachs.fr' + path,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: b.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+];
+const tous = b.collections.flatMap((c) => c.produits);
+---
+<BaseLayout title={b.seo.title} description={b.seo.description} path={path} jsonLd={jsonLd} stickyCtaHref="#prevenir" stickyCtaLabel="Être prévenu">
+  <div class="container">
+    <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Boutique', href: path }]} />
+  </div>
+
+  <section class="section">
+    <div class="container bq-hero">
+      <div>
+        <span class="eyebrow">{b.hero.eyebrow}</span>
+        <h1>{b.hero.h1}</h1>
+        <p class="lead">{b.hero.lead}</p>
+        <ul class="points">{b.hero.points.map((p) => <li>{p}</li>)}</ul>
+        <div class="ctas">
+          <a href="#prevenir" class="btn btn--primary">Être prévenu de l'ouverture</a>
+          <a href="#clients" class="btn btn--ghost">Voir la collection</a>
+        </div>
+      </div>
+      <div class="bq-hero__vis">
+        {tous.filter((p: any) => p.fiche && p.images).slice(0, 2).map((p: any) => (
+          <a href={p.fiche} class="bq-hero__ph"><img src={p.images[0].src} alt={p.images[0].alt} width="600" height="600" /></a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {b.collections.map((c, i) => (
+    <section class={i % 2 === 0 ? 'section section--tint' : 'section'} id={c.id}>
+      <div class="container">
+        <span class="eyebrow">{c.eyebrow}</span>
+        <h2>{c.titre}</h2>
+        {c.lead && <p class="lead">{c.lead}</p>}
+        {c.id === 'clients' && <p class="bq-remise" id="bq-reco"><b>{(b as any).parrainage.titre}</b> {(b as any).parrainage.texte}</p>}
+        {(c as any).tenue && <ul class="bq-tenue">{(c as any).tenue.map((t: string[]) => <li><span aria-hidden="true">{t[0]}</span> {t[1]}</li>)}</ul>}
+        {(c as any).tenueConference && (
+          <div class="bq-conf">
+            <p class="bq-conf-t">{(c as any).tenueConference.titre}</p>
+            <p>{(c as any).tenueConference.texte} <a href={(c as any).tenueConference.lien}>Voir les conférences GA</a></p>
+            <ul class="bq-tenue">{(c as any).tenueConference.pieces.map((t: string[]) => <li><span aria-hidden="true">{t[0]}</span> {t[1]}</li>)}</ul>
+          </div>
+        )}
+        <div class="bq-grid">
+          {c.produits.map((p) => (
+            <article class={(p as any).fiche ? 'bq-card bq-card--vedette' : 'bq-card'}>
+              {(p as any).images ? (
+                <button type="button" class="bq-photo" data-galerie={JSON.stringify((p as any).images)} data-nom={p.nom} aria-label={`Voir les photos : ${p.nom}`}>
+                  <img src={(p as any).images[0].src} alt={(p as any).images[0].alt} width="600" height="600" loading="lazy" />
+                </button>
+              ) : <ProduitVisuel type={p.type} teinte={p.teinte} print={p.print} />}
+              <div class="bq-card__body">
+                {(p as any).coach && <span class="bq-badge">Réservé aux coachs</span>}
+                <h3>{(p as any).fiche ? <a href={(p as any).fiche}>{p.nom}</a> : p.nom}</h3>
+                <p>{p.texte}</p>
+                <div class="bq-foot">
+                  {(p as any).prix && <span class="bq-prix">{(p as any).prixBarre && <s>{(p as any).prixBarre} €</s>}{(p as any).prix} €<small>prix indicatif</small></span>}
+                  {(p as any).fiche ? <a class="bq-fiche" href={(p as any).fiche}>Voir la fiche</a> : <span class="bq-soon">Bientôt disponible</span>}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section section--tint" id="prevenir">
+    <div class="container bq-form-wrap">
+      <div>
+        <span class="eyebrow">Ouverture prochaine</span>
+        <h2>Sois le premier à commander.</h2>
+        <p class="lead">Laisse ton email : on te prévient le jour de l'ouverture de la boutique.</p>
+      </div>
+      <form class="bq-form" name="boutique" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-boutique/" aria-label="Être prévenu de l'ouverture de la boutique">
+        <input type="hidden" name="form-name" value="boutique" />
+        <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+        <label>Prénom<input name="prenom" autocomplete="given-name" required /></label>
+        <label>Email<input type="email" name="email" autocomplete="email" required /></label>
+        <label>Tu es
+          <select name="profil">
+            <option value="client">Client ou adhérent</option>
+            <option value="coach">Coach du réseau GA</option>
+            <option value="autre">Autre</option>
+          </select>
+        </label>
+        <label>Code de ton coach <small>(facultatif)</small><input name="coach" id="bq-coach" autocomplete="off" maxlength="40" /></label>
+        <fieldset>
+          <legend>Ce qui t'intéresse</legend>
+          <div class="bq-checks">
+            {tous.map((p) => <label class="bq-check"><input type="checkbox" name="produits" value={p.nom} /> {p.nom}</label>)}
+          </div>
+        </fieldset>
+        <button class="btn btn--primary" type="submit">Me prévenir</button>
+        <p class="bq-rgpd">Ton email sert uniquement à te prévenir de l'ouverture. <a href="/confidentialite/">Confidentialité</a></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container">
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2>Tes questions.</h2>
+      <div class="faq">{b.faq.map((f) => (<div class="faq__item"><h3>{f.q}</h3><p>{f.r}</p></div>))}</div>
+    </div>
+  </section>
+  <dialog class="bq-dlg" id="bq-dlg" aria-label="Photos du produit">
+    <button type="button" class="bq-dlg__close" aria-label="Fermer">×</button>
+    <img class="bq-dlg__img" src="" alt="" width="600" height="600" />
+    <button type="button" class="bq-dlg__nav bq-dlg__prev" aria-label="Photo précédente">‹</button>
+    <button type="button" class="bq-dlg__nav bq-dlg__next" aria-label="Photo suivante">›</button>
+    <div class="bq-dlg__thumbs"></div>
+  </dialog>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title={"La boutique GA Coachs"} label="Partager la boutique" /></div></section>
+</BaseLayout>
+
+<script is:inline id="bq-codes" type="application/json" set:html={JSON.stringify(CODES)}></script>
+<script>
+  // lien partagé par un coach (?coach=slug) : son code est retenu 60 jours et prérempli dans le formulaire
+  (() => {
+    const CLE = 'ga_coach_boutique';
+    let slug = '';
+    try { slug = (new URLSearchParams(location.search).get('coach') || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 40); } catch (e) { /* rien */ }
+    try {
+      if (slug) localStorage.setItem(CLE, JSON.stringify({ s: slug, d: Date.now() }));
+      else { const v = JSON.parse(localStorage.getItem(CLE) || 'null'); if (v && Date.now() - v.d < 60 * 86400000) slug = v.s; }
+    } catch (e) { /* stockage indisponible */ }
+    let codes: Record<string, [string, string]> = {};
+    try { codes = JSON.parse(document.getElementById('bq-codes')?.textContent || '{}'); } catch (e) { /* rien */ }
+    const champ = document.getElementById('bq-coach') as HTMLInputElement | null;
+    // code tapé à la main : on vérifie qu'il correspond bien à un coach du réseau GA
+    if (champ) {
+      const aide = document.createElement('small'); aide.className = 'bq-code-aide'; aide.setAttribute('aria-live', 'polite');
+      champ.insertAdjacentElement('afterend', aide);
+      const verifier = () => {
+        const v = champ.value.trim().toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        champ.value = v;
+        const e = Object.values(codes).find((x) => x[0] === v);
+        aide.textContent = !v ? '' : e ? '✓ Code de ' + e[1] : "Code inconnu : vérifie l'orthographe avec ton coach.";
+        aide.dataset.ok = e ? '1' : '0';
+      };
+      champ.addEventListener('change', verifier);
+      champ.addEventListener('blur', verifier);
+    }
+    if (!slug || !codes[slug]) return;
+    const [code, prenom] = codes[slug];
+    if (champ && !champ.value) { champ.value = code; champ.dispatchEvent(new Event('change')); }
+    const reco = document.getElementById('bq-reco');
+    if (reco) { reco.textContent = ''; const b = document.createElement('b'); b.textContent = 'Conseillé par ton coach ' + prenom + '.'; reco.append(b, ' Son code ' + code + ' sera retenu pour ta commande, sans rien changer à ton prix.'); }
+  })();
+  const dlg = document.getElementById('bq-dlg') as HTMLDialogElement | null;
+  if (dlg) {
+    const big = dlg.querySelector('.bq-dlg__img') as HTMLImageElement;
+    const thumbs = dlg.querySelector('.bq-dlg__thumbs') as HTMLElement;
+    let imgs: { src: string; alt: string }[] = [];
+    let i = 0;
+    const show = (n: number) => {
+      i = (n + imgs.length) % imgs.length;
+      big.src = imgs[i].src; big.alt = imgs[i].alt;
+      thumbs.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-current', String(k === i)));
+    };
+    document.querySelectorAll<HTMLButtonElement>('[data-galerie]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        imgs = JSON.parse(btn.dataset.galerie || '[]');
+        thumbs.innerHTML = '';
+        imgs.forEach((im, k) => {
+          const t = document.createElement('button');
+          t.type = 'button'; t.setAttribute('aria-label', `Photo ${k + 1}`);
+          t.innerHTML = `<img src="${im.src.replace(/\.webp$/, '-mini.webp')}" alt="" width="64" height="64">`;
+          t.addEventListener('click', () => show(k));
+          thumbs.appendChild(t);
+        });
+        show(0); dlg.showModal();
+      });
+    });
+    dlg.querySelector('.bq-dlg__close')?.addEventListener('click', () => dlg.close());
+    dlg.querySelector('.bq-dlg__prev')?.addEventListener('click', () => show(i - 1));
+    dlg.querySelector('.bq-dlg__next')?.addEventListener('click', () => show(i + 1));
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') show(i - 1); if (e.key === 'ArrowRight') show(i + 1); });
+  }
+</script>
+
+<style>
+  .bq-conf { margin: 18px 0 8px; padding: 18px; border-radius: var(--radius-md); background: #0B1E3D; color: #DCE7FF; }
+  .bq-conf-t { margin: 0 0 6px; font-weight: 700; color: #fff; font-size: 18px; }
+  .bq-conf a { color: #9CC8FF; font-weight: 700; }
+  .bq-conf .bq-tenue li { background: rgba(255,255,255,.08); color: #fff; border-color: rgba(255,255,255,.18); }
+  .bq-card h3 a { color: inherit; text-decoration: none; }
+  .bq-card h3 a:hover { color: var(--blue); }
+  .bq-fiche { font-weight: 700; color: #1F55C9; }
+  .bq-code-aide { display: block; margin-top: 4px; font-size: 13px; font-weight: 600; color: #1F55C9; }
+  .bq-code-aide[data-ok="0"] { color: #13284F; }
+  .lead { margin-top: 16px; color: var(--text-muted); max-width: 62ch; }
+  .points { margin-top: 20px; padding-left: 20px; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .bq-hero { display: grid; gap: 32px; align-items: center; }
+  .bq-hero__vis { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .bq-hero__vis > :last-child { margin-top: 40px; }
+  .bq-hero__ph { display: block; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 18px 40px rgba(11,30,61,.18); }
+  .bq-hero__ph img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; display: block; }
+  .bq-grid { display: grid; gap: 18px; margin-top: 28px; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+  .bq-card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); overflow: hidden; }
+  .bq-card :global(.pv) { border-radius: 0; }
+  .bq-card__body { padding: 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .bq-card h3 { font-size: 17px; margin: 0; }
+  .bq-card p { margin: 0; color: var(--text-muted); font-size: 14.5px; flex: 1; }
+  .bq-badge { align-self: flex-start; font-size: 11px; font-weight: 700; text-transform: none; letter-spacing: .02em; color: var(--blue); background: var(--ice); padding: 3px 9px; border-radius: 999px; }
+  .bq-tenue { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .bq-tenue li { padding: 8px 14px; border-radius: 999px; background: var(--white); border: 1px solid var(--line); font-weight: 600; font-size: 14px; }
+  .bq-photo { position: relative; display: block; padding: 0; border: 0; background: none; cursor: zoom-in; aspect-ratio: 1; overflow: hidden; }
+  .bq-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s var(--ease); }
+  .bq-photo:hover img { transform: scale(1.04); }
+  .bq-dlg { width: min(640px, calc(100vw - 24px)); padding: 0; border: 0; border-radius: var(--radius-md); background: var(--navy); color: #fff; overflow: hidden; }
+  .bq-dlg::backdrop { background: rgba(11,30,61,.75); }
+  .bq-dlg__img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+  .bq-dlg__close { position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(11,30,61,.8); color: #fff; font-size: 26px; cursor: pointer; z-index: 2; }
+  .bq-dlg__nav { position: absolute; top: calc(50% - 50px); width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,.9); color: var(--navy); font-size: 28px; line-height: 1; cursor: pointer; }
+  .bq-dlg__prev { left: 10px; } .bq-dlg__next { right: 10px; }
+  .bq-dlg__thumbs { display: flex; gap: 8px; padding: 12px; overflow-x: auto; }
+  .bq-dlg__thumbs button { flex: 0 0 auto; width: 60px; height: 60px; padding: 0; border: 2px solid transparent; border-radius: 8px; background: none; cursor: pointer; overflow: hidden; }
+  .bq-dlg__thumbs button[aria-current="true"] { border-color: var(--sky); }
+  .bq-dlg__thumbs img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+  .bq-soon { font-size: 13px; font-weight: 700; color: var(--blue); }
+  .bq-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+  .bq-prix { display: grid; font-size: 20px; font-weight: 700; color: var(--navy, #0B1E3D); line-height: 1.1; }
+  .bq-prix small { font-size: 11.5px; font-weight: 600; color: #5A6785; }
+  .bq-prix s { font-size: 14px; font-weight: 600; color: #5A6785; margin-right: 6px; }
+  .bq-remise { margin: 14px 0 0; padding: 12px 16px; border-radius: 14px; background: #0B1E3D; color: #D6E4FF; font-size: 14.5px; line-height: 1.5; max-width: 720px; }
+  .bq-remise b { color: #fff; }
+  .bq-form-wrap { display: grid; gap: 28px; }
+  .bq-form { display: grid; gap: 14px; padding: 24px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .bq-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; }
+  .bq-form input:not([type=checkbox]), .bq-form select { min-height: 46px; padding: 0 12px; border: 1px solid var(--line); border-radius: var(--radius-sm); font: inherit; background: #fff; }
+  .bq-form fieldset { border: 0; padding: 0; margin: 0; }
+  .bq-form legend { font-weight: 600; font-size: 14px; margin-bottom: 8px; }
+  .bq-checks { display: grid; gap: 6px; grid-template-columns: 1fr; }
+  .bq-form .bq-check { display: flex; align-items: center; gap: 8px; font-weight: 500; min-height: 32px; }
+  .bq-check input { width: 18px; height: 18px; accent-color: var(--blue); }
+  .bq-rgpd { margin: 0; font-size: 12.5px; color: var(--text-muted); }
+  .bq-rgpd a { text-decoration: underline; }
+  .faq { display: flex; flex-direction: column; gap: 22px; margin-top: 28px; max-width: 80ch; }
+  .faq__item h3 { font-size: 18px; margin: 0 0 8px; }
+  .faq__item p { margin: 0; color: var(--text-muted); }
+  @media (min-width: 600px) { .bq-checks { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) {
+    .bq-hero { grid-template-columns: 1.1fr 1fr; }
+    .bq-form-wrap { grid-template-columns: 1fr 1.2fr; align-items: start; }
+  }
+  @media (max-width: 560px) {
+    .bq-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .bq-card__body { padding: 12px; } .bq-card h3 { font-size: 15px; } .bq-card p { font-size: 13px; }
+    /* le sweat et la gourde : en grand, sur toute la largeur */
+    .bq-card--vedette { grid-column: 1 / -1; }
+    .bq-card--vedette .bq-card__body { padding: 18px; }
+    .bq-card--vedette h3 { font-size: 21px; }
+    .bq-card--vedette p { font-size: 15px; }
+    .bq-card--vedette .bq-prix { font-size: 24px; }
+    .bq-hero__vis > :last-child { margin-top: 24px; }
+  }
+</style>

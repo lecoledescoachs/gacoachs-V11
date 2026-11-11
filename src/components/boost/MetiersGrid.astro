@@ -1,0 +1,32 @@
+---
+interface Metier {
+  nom: string;
+  points: string[];
+}
+interface Props {
+  metiers: Metier[];
+}
+const { metiers } = Astro.props;
+---
+<div class="metiers-grid">
+  {metiers.map((m) => (
+    <div class="metiers-card card">
+      <h3>{m.nom}</h3>
+      <ul>
+        {m.points.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+  ))}
+</div>
+
+<style>
+  .metiers-grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: 28px; }
+  .metiers-card { padding: 22px; }
+  .metiers-card h3 { font-size: 16px; }
+  .metiers-card ul { margin-top: 12px; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+  .metiers-card li { font-size: 13.5px; color: var(--text-muted); }
+
+  @media (min-width: 700px) {
+    .metiers-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

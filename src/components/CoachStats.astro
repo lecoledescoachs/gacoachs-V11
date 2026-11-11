@@ -1,0 +1,98 @@
+---
+interface Stat {
+  value: number;
+  suffix?: string;
+  label: string;
+}
+interface Props {
+  prenom: string;
+  stats?: Stat[];
+  note?: string;
+}
+const { prenom, stats, note } = Astro.props;
+const dePrenom = /^[aeiouàâéèêëîïôöûü]/i.test(prenom) ? `d'${prenom}` : `de ${prenom}`;
+---
+{stats && stats.length > 0 ? (
+  <div class="coach-stats">
+    <div class="coach-stats__grid">
+      {stats.map((s) => (
+        <div class="coach-stats__item">
+          <span class="coach-stats__value" data-count-to={s.value} data-suffix={s.suffix || ''}>{s.value}{s.suffix}</span>
+          <span class="coach-stats__label">{s.label}</span>
+        </div>
+      ))}
+    </div>
+    <p class="coach-stats__disclaimer">
+      {note ?? `Chiffres agrégés sur l'ensemble des clients accompagnés par ${prenom}. Les résultats individuels varient selon les personnes, leurs objectifs et leur engagement : ils ne constituent pas une promesse de résultat.`}
+    </p>
+  </div>
+) : (
+  <p class="coach-stats__empty">Les résultats chiffrés {dePrenom} seront publiés ici dès qu'ils seront consolidés et vérifiables.</p>
+)}
+
+<style>
+  .coach-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+  }
+  .coach-stats__item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 20px;
+    background: var(--ice);
+    border-radius: var(--radius-md);
+    text-align: center;
+  }
+  .coach-stats__value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(26px, 5vw, 34px);
+    color: var(--navy);
+  }
+  .coach-stats__label { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+  .coach-stats__disclaimer {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    max-width: 60ch;
+  }
+  .coach-stats__empty { color: var(--text-muted); font-size: 14px; }
+</style>
+
+<script>
+  function animateCount(el: HTMLElement) {
+    const target = parseInt(el.dataset.countTo || '0', 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1200;
+    const start = performance.now();
+    function tick(now: number) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      el.textContent = `${Math.round(eased * target)}${suffix}`;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  const counters = document.querySelectorAll('.coach-stats__value');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) {
+    counters.forEach((el) => {
+      const e = el as HTMLElement;
+      e.textContent = `${e.dataset.countTo}${e.dataset.suffix || ''}`;
+    });
+  } else if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCount(entry.target as HTMLElement);
+          observer.unobserve(entry.target);
+        }
+      }),
+      { threshold: 0.5 }
+    );
+    counters.forEach((el) => observer.observe(el));
+  }
+</script>

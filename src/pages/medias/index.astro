@@ -1,0 +1,247 @@
+---
+import BoostPCQ from '../../components/BoostPCQ.astro';
+// Espace médias : les coachs GA comme experts pour la presse, la radio, la télé, les magazines, la pub et les marques.
+// Expériences médias réelles tirées du champ « medias » des fiches coachs. Rien d'inventé.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+import { coachesReseau } from '../../data/coaches.js';
+
+const path = '/medias/';
+const medias = (coachesReseau as any[]).filter((c) => Array.isArray(c.medias) && c.medias.length);
+const offres = [
+  { i: '🎙️', t: 'Interview et avis d\'expert', d: 'Presse écrite, web, radio, télévision : un coach diplômé répond à vos questions sur le corps, la santé et l\'entraînement, avec des exemples concrets.' },
+  { i: '📻', t: 'Chronique régulière', d: 'Une rubrique sport et santé dans votre émission, votre magazine ou votre podcast, avec un intervenant fixe.' },
+  { i: '📺', t: 'Plateaux et émissions', d: 'Démonstrations, coaching en direct, défis, séquences pédagogiques : un coach à l\'aise face caméra.' },
+  { i: '📰', t: 'Contenus pour magazines', d: 'Programmes d\'exercices, conseils, relecture technique de vos articles pour que les gestes et les chiffres soient justes.' },
+  { i: '🎬', t: 'Tournages publicitaires', d: 'Des coachs crédibles à l\'image, et un conseil technique pour que chaque geste filmé soit correct et sans danger.' },
+  { i: '⭐', t: 'Égéries et ambassadeurs de marque', d: 'Équipement sportif, textile, nutrition, bien-être, application, mutuelle : un coach de terrain devient le visage de votre marque, avec authenticité et crédibilité.' },
+  { i: '📱', t: 'Vidéos UGC pour vos réseaux', d: 'Des vidéos tournées par un vrai coach pour TikTok, Instagram, YouTube, Twitch, Facebook, LinkedIn ou Snapchat, avec des gestes justes et des conseils exacts.' },
+  { i: '▶️', t: 'Invité de vos vidéos YouTube et lives Twitch', d: 'Défi, concept, interview, podcast vidéo, émission, série ou live Twitch : un coach du réseau GA devient l\'invité de vos vidéos et de vos streams, en direct ou en différé. Il apporte son expertise sport, musculation, nutrition et santé, et un vrai savoir-faire face caméra.' },
+];
+const sujets = ['Musculation', 'Nutrition et alimentation du sportif', 'Remise en forme', 'Perte de poids sans régime', 'Mal de dos et posture', 'Sport-santé et prévention', 'Reprendre le sport', 'Sport après 50 ans', 'Sédentarité et travail de bureau', 'Obésité et accompagnement bienveillant', 'Préparation physique des artistes', 'Coaching des personnalités', 'Le métier de coach sportif', 'Sport, stress et sommeil'];
+const faq = [
+  { q: 'Qu\'est-ce que l\'espace médias de GA Coachs ?', r: 'C\'est le point de contact des journalistes, rédactions, producteurs, agences et marques qui cherchent un coach sportif diplômé pour parler de sport, de musculation, de nutrition, de santé et de bien-être : interview, chronique, plateau TV, magazine, publicité, égérie de marque ou vidéos pour les réseaux sociaux.' },
+  { q: 'Pour quels médias intervenez-vous ?', r: 'Presse écrite et web, radio, télévision, magazines, podcasts, agences de publicité et marques. Décrivez votre projet, nous vous proposons le bon intervenant.' },
+  { q: 'Un coach peut-il être invité dans nos vidéos YouTube ou nos lives Twitch ?', r: 'Oui. Un coach du réseau GA peut être l\'invité de vos vidéos concept YouTube ou de vos lives Twitch : défi sportif en direct, séance avec le chat, test d\'un entraînement, interview, podcast vidéo, émission ou série récurrente. Il intervient comme expert sport, musculation, nutrition et santé, avec des conseils justes et une vraie aisance à l\'image.' },
+  { q: 'Vos coachs ont-ils déjà l\'expérience des médias ?', r: 'Oui. Garry Babaud, Coach en chef de GA Coachs, est intervenu sur RCF Loiret et sur Réunion La 1ère. Des coachs du réseau sont passés à la télévision, sur France 3. Fabien, coach du réseau, a tourné une publicité et a été sollicité pour Good Moves, un programme européen de sport-santé dont les vidéos TikTok totalisent 704 397 vues.' },
+  { q: 'Sur quels sujets pouvez-vous intervenir ?', r: 'Musculation, perte de poids, remise en forme, nutrition du quotidien, mal de dos et posture, sport-santé et prévention, reprise du sport, sport après 50 ans, sédentarité, stress et sommeil, préparation physique des artistes et métier de coach sportif. Nos coachs ne posent pas de diagnostic et renvoient vers les professionnels de santé quand il le faut.' },
+  { q: 'Pouvez-vous répondre vite ?', r: 'Oui. Nous répondons sous 48 h ouvrées au plus tard, et plus vite pour une demande urgente : précisez votre date de bouclage ou de tournage dans le formulaire.' },
+  { q: 'Intervenez-vous à distance ?', r: 'Oui, par téléphone ou en visio pour la radio, la presse et le web. En présentiel en Centre-Val de Loire et à Paris, et ailleurs en France selon le projet.' },
+  { q: 'Un coach peut-il devenir l\'égérie ou le visage de notre marque ?', r: 'Oui. Un coach du réseau GA peut incarner votre marque sur la durée : vidéos, réseaux sociaux, affiches, événements. Pour une campagne complète avec vidéos UGC, voir BOOST COMMUNICATION.' },
+  { q: 'Pouvez-vous relire un article ou un script ?', r: 'Oui. Un coach diplômé vérifie les exercices, les consignes, les intensités et les chiffres de vos articles, scripts ou tournages pour que tout soit juste et sans danger.' },
+  { q: 'Comment se passent les tournages publicitaires ?', r: 'Nous définissons ensemble le rôle du coach (à l\'image, conseil technique ou les deux), la durée, les droits d\'image et l\'exclusivité. Le coach vérifie chaque geste filmé avant et pendant le tournage.' },
+  { q: 'Combien coûte une intervention ?', r: 'Sur devis, selon le format, la durée, le déplacement, les droits d\'image et l\'exclusivité demandée. Une interview ponctuelle pour la presse se cale simplement après un premier échange.' },
+  { q: 'Qui sont vos experts ?', r: 'Des coachs sportifs diplômés du réseau GA Coachs, titulaires de leur carte professionnelle, et en premier lieu Garry Babaud, Coach en chef et fondateur de GA Coachs.' },
+  { q: 'Avez-vous un kit presse ?', r: 'Oui, sur demande : biographie, photos et logos. Indiquez-le dans le formulaire.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' }, { '@type': 'ListItem', position: 2, name: 'Médias', item: 'https://gacoachs.fr' + path }] },
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Coachs sportifs experts pour les médias et les marques', serviceType: 'Expertise sport, musculation, nutrition et santé pour la presse, la radio, la télévision, la publicité et les marques', description: 'Des coachs sportifs diplômés GA Coachs interviennent comme experts pour les médias et les marques : interview, chronique, plateau TV, magazine, tournage publicitaire, égérie de marque et vidéos UGC.', provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr', founder: { '@type': 'Person', name: 'Garry Babaud', jobTitle: 'Coach en chef', url: 'https://garrybabaud.com/' } }, areaServed: { '@type': 'Country', name: 'France' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+import marchesMk from '../../data/boost-marches.json';
+import '../../styles/marches.css';
+---
+<BaseLayout title="Espace médias BOOST : coach sportif expert TV, radio, presse" description="Interview, chronique, plateau TV, magazine, pub, égérie de marque : des coachs sportifs diplômés experts du sport, de la musculation, de la nutrition et de la santé." path={path} jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')} stickyCtaHref="#contact" stickyCtaLabel="Contacter le service médias">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Médias', href: path }]} />
+      <span class="eyebrow eyebrow-dark">Espace médias et marques</span>
+      <h1>Un coach sportif expert <span class="hl-text">pour vos médias et votre marque</span>.</h1>
+      <p class="phero-lead">Journalistes, rédactions, producteurs, agences, marques : GA Coachs met à votre disposition des coachs sportifs diplômés pour parler concrètement de sport, de musculation, de nutrition, de santé et de bien-être. Interview, chronique, plateau TV, magazine, tournage publicitaire, égérie de marque ou vidéos pour vos réseaux : du terrain, des mots simples, des gestes justes.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#contact">Contacter le service médias</a>
+        <a class="btn btn-glass" href="#offres">Ce que nous proposons</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec md-vus-sec">
+    <div class="inner">
+      <p class="md-vus-k">Le réseau GA Coachs est déjà passé sur</p>
+      <ul class="md-vus"><li>France 3</li><li>Réunion La 1ère</li><li>RCF Loiret</li></ul>
+    </div>
+  </section>
+
+  <section class="sec md-bref-sec">
+    <div class="inner">
+      <div class="md-bref">
+        <p class="md-bref-k">En bref</p>
+        <ul>
+          <li><b>Quoi :</b> des coachs sportifs diplômés comme experts pour la télévision, la radio, la presse, les magazines, la publicité et les marques.</li>
+          <li><b>Sur quoi :</b> sport, musculation, perte de poids, nutrition, santé, bien-être, prévention.</li>
+          <li><b>Pour qui :</b> journalistes, rédactions, producteurs, podcasts, agences de communication et marques.</li>
+          <li><b>Délai :</b> réponse sous 48 h ouvrées au plus tard, plus vite en cas d'urgence.</li>
+          <li><b>Comment :</b> vous décrivez votre sujet et votre date, nous vous proposons le bon intervenant.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="offres">
+    <div class="inner">
+      <span class="eyebrow">Ce que nous proposons</span>
+      <h2 class="h2">Huit façons de travailler avec nous.</h2>
+      <div class="md-grid">{offres.map((o) => <div class="tile md-t"><span class="md-i" aria-hidden="true">{o.i}</span><h3>{o.t}</h3><p>{o.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner md-bc">
+      <div><span class="eyebrow">Nouveau · BOOST COMMUNICATION</span><h2 class="h2">Un coach pour vos réseaux ou comme visage de votre marque ?</h2><p>Agences de communication, marques, mairies, institutions, programmes européens : un vrai coach sportif pour vos vidéos UGC sur tous les réseaux sociaux, ou comme figure de proue de votre entreprise, sur le sport, la musculation, la nutrition et la santé. Tous les coachs du réseau sont éligibles, et Fabien a déjà été sollicité pour Good Moves, un programme européen de sport-santé aux 704 397 vues sur TikTok.</p></div>
+      <a class="btn btn-primary" href="/coach-sportif-campagne-sport-sante/">Découvrir BOOST COMMUNICATION</a>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Nos sujets d'expertise</span>
+      <h2 class="h2">Ce dont nous parlons, parce que nous le pratiquons tous les jours.</h2>
+      <ul class="md-chips">{sujets.map((s) => <li>{s}</li>)}</ul>
+    </div>
+  </section>
+
+  {medias.length > 0 && (
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Déjà au micro et face caméra</span>
+      <h2 class="h2">Des coachs qui ont l'habitude des médias.</h2>
+      <p class="md-n">Garry Babaud est intervenu sur RCF Loiret et Réunion La 1ère, et des coachs du réseau GA sont déjà passés à la télévision sur France 3.</p>
+      <div class="md-medias">
+        {medias.map((c) => (
+          <div class="md-m">
+            {c.photo && <img src={c.photo} alt="" width="64" height="64" loading="lazy" />}
+            <span><b>{c.prenom} {c.nom}</b><small>{c.role || 'Coach du réseau GA'}</small><em>{c.medias.join(' · ')}</em></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  )}
+
+  <section class="sec band">
+    <div class="inner md-bio">
+      <img src="/images/coachs/garry-babaud.webp" alt="Garry Babaud, Coach en chef de GA Coachs" width="240" height="240" loading="lazy" />
+      <div>
+        <span class="eyebrow">Notre expert principal</span>
+        <h2 class="h2">Garry Babaud, Coach en chef de GA Coachs.</h2>
+        <ul class="md-list">
+          <li>Fondateur de GA Coachs, réseau de coachs sportifs diplômés partenaire de Basic-Fit à Orléans depuis 2018</li>
+          <li>Fondateur de L'École des Coachs, organisme qui forme des coachs sportifs</li>
+          <li>Fondateur de Coach Obésité, accompagnement des femmes en situation d'obésité</li>
+          <li>Formé en STAPS à l'Université d'Orléans, carte professionnelle et assurance RC Pro</li>
+          <li>Déjà intervenu sur RCF Loiret et Réunion La 1ère</li>
+          <li>Conférencier GA Coachs sur la condition physique et la santé</li>
+        </ul>
+        <p class="md-n">Kit presse sur demande : biographie, photos et logos.</p>
+        <a class="btn-sm" href="/coachs/garry-babaud/">Voir le profil de Garry</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Pourquoi nous</span>
+      <h2 class="h2">Un expert qui facilite votre travail.</h2>
+      <div class="md-grid">
+        <div class="tile md-t"><h3>Diplômés et sur le terrain</h3><p>Des coachs avec carte professionnelle, qui coachent tous les jours : leurs exemples sont réels.</p></div>
+        <div class="tile md-t"><h3>Clairs et rapides</h3><p>Des réponses simples, sans jargon, dans vos délais de bouclage ou de tournage.</p></div>
+        <div class="tile md-t"><h3>Sérieux et prudents</h3><p>Pas de promesse miracle, pas de diagnostic : nos coachs restent dans leur rôle et renvoient vers les professionnels de santé quand il le faut.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec band" id="marches">
+    <div class="inner">
+      <span class="eyebrow">Où nos coachs peuvent intervenir</span>
+      <h2 class="h2">Podcasts, lives, médias, salons : un coach invité partout où l'on parle sport et santé.</h2>
+      <p class="mk-lead">Chaque marché a sa page dédiée : formats, déroulé, questions fréquentes.</p>
+      <ul class="mk-cards">
+        {marchesMk.map((x) => <li><a href={`/coach-sportif-invite/${x.slug}/`}><span class="mk-e" aria-hidden="true">{x.emoji}</span><b>{x.nom}</b><span>{x.bref.quoi.charAt(0).toUpperCase() + x.bref.quoi.slice(1)}.</span><em>Découvrir</em></a></li>)}
+      </ul>
+      <div class="mk-cta"><a class="btn btn-out" href="/coach-sportif-invite/">Voir tous les marchés</a></div>
+    </div>
+  </section>
+
+  <section class="sec band" id="contact">
+    <div class="inner cf-two">
+      <div>
+        <span class="eyebrow">Service médias</span>
+        <h2 class="h2">Parlons de votre sujet.</h2>
+        <p>Média ou marque, sujet, format, date de bouclage ou de tournage : nous vous proposons le bon intervenant. Réponse sous 48 h ouvrées au plus tard, plus vite en cas d'urgence. Vos informations servent uniquement à répondre à votre demande (<a href="/confidentialite/">confidentialité</a>).</p>
+      </div>
+      <form class="cf-form" name="medias" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-boost/" aria-label="Contacter le service médias">
+        <input type="hidden" name="form-name" value="medias" />
+        <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+        <label>Média, agence ou marque<input name="structure" required autocomplete="organization" /></label>
+        <label>Prénom et nom<input name="nom" required autocomplete="name" /></label>
+        <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Téléphone <small>(facultatif)</small><input type="tel" name="telephone" autocomplete="tel" /></label>
+        <label>Type de demande
+          <select name="type" required><option value="">Choisir</option>{offres.map((o) => <option value={o.t}>{o.t}</option>)}<option value="Autre">Autre</option></select>
+        </label>
+        <label>Sujet<input name="sujet" required placeholder="Ex. : reprendre le sport après 50 ans" /></label>
+        <label>Date de bouclage, d'enregistrement ou de tournage <small>(facultatif)</small><input name="echeance" placeholder="Ex. : jeudi 12 h" /></label>
+        <label>Précisions <small>(facultatif)</small><textarea name="message" rows="4"></textarea></label>
+        <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+      </form>
+    </div>
+  </section>
+
+  <BoostPCQ id="medias" />
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Vos questions sur l'espace médias.</h2>
+      <div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+      <p class="md-n" style="margin-top:18px">Vous cherchez un intervenant pour un séminaire ou un salon ? Voir nos <a href="/conferences/">conférences</a>.</p>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title={"Coachs sportifs experts pour les médias et les marques"} label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>
+
+<style>
+  .md-bref-sec { padding-top: 20px; padding-bottom: 8px; }
+  .md-bref { border-left: 4px solid #1D5BD8; background: #fff; border-radius: 0 18px 18px 0; padding: 18px 22px; box-shadow: 0 12px 30px -24px rgba(11,30,61,.5); }
+  .md-bref-k { margin: 0 0 8px; font-weight: 700; text-transform: none; letter-spacing: .02em; font-size: 12px; color: #1D5BD8; }
+  .md-bref ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #0B1E3D; line-height: 1.5; }
+  .md-vus-sec { padding-top: 28px; padding-bottom: 8px; }
+  .md-vus-k { margin: 0 0 10px; font-weight: 700; color: #2A3756; text-align: center; }
+  .md-vus { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px; }
+  .md-vus li { font-family: var(--display); font-size: 24px; font-weight: 700; color: #13284F; }
+  .md-bc { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px 32px; align-items: center; background: #0B1E3D; color: #fff; border-radius: 24px; padding: 28px; }
+  .md-bc .h2 { color: #fff; }
+  .md-bc p { color: #DCE7FF; margin: 0; max-width: 62ch; }
+  .md-bc .eyebrow { background: rgba(124,196,255,.14); color: #BFE2FF; }
+  @media (max-width: 900px) { .md-bc { grid-template-columns: minmax(0, 1fr); } }
+  .md-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .md-t h3 { margin: 6px 0 8px; }
+  .md-t p { margin: 0; line-height: 1.55; color: #2A3756; }
+  .md-i { font-size: 30px; }
+  .md-chips { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .md-chips li { background: #fff; border: 1px solid #DCE6FB; color: #0B1E3D; border-radius: 999px; padding: 8px 14px; font-weight: 600; font-size: 14px; }
+  .md-medias { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+  .md-m { display: flex; gap: 14px; align-items: center; background: #fff; border: 1px solid #DCE6FB; border-radius: 18px; padding: 16px; min-width: 0; }
+  .md-m img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: 0 0 64px; }
+  .md-m b { display: block; color: #0B1E3D; }
+  .md-m small { display: block; color: #3E4A66; }
+  .md-m em { display: block; font-style: normal; font-weight: 700; color: #1F55C9; margin-top: 4px; }
+  .md-bio { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 32px; align-items: start; }
+  .md-bio img { width: 100%; height: auto; border-radius: 24px; display: block; }
+  .md-list { margin: 14px 0; padding-left: 18px; display: grid; gap: 6px; line-height: 1.5; color: #0B1E3D; }
+  .md-n { color: #2A3756; font-weight: 600; }
+  .cf-two { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .cf-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; } }
+  .cf-form { display: grid; gap: 12px; background: #fff; border: 1px solid #DCE6FB; border-radius: 20px; padding: 22px; min-width: 0; }
+  .cf-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; color: #0B1E3D; min-width: 0; }
+  .cf-form input, .cf-form select, .cf-form textarea { width: 100%; box-sizing: border-box; min-height: 46px; padding: 10px 12px; border: 1px solid #B8C6E3; border-radius: 12px; font: inherit; font-size: 16px; background: #fff; }
+  @media (max-width: 900px) { .md-grid { grid-template-columns: minmax(0, 1fr); } .md-bio { grid-template-columns: minmax(0, 1fr); } .md-bio img { max-width: 200px; } }
+  @media (max-width: 767px) { .md-medias { grid-template-columns: minmax(0, 1fr); } }
+</style>

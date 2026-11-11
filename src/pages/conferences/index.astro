@@ -1,0 +1,202 @@
+---
+import BoostPCQ from '../../components/BoostPCQ.astro';
+// Conférences et interventions des coachs GA. Seuls les coachs de niveau 4 ou 5 (champ conferencier ou niveau >= 4
+// dans leur fiche) interviennent en conférence : pour l'instant, Garry Babaud.
+// Thèmes tirés des spécialités réelles des coachs (fiches coachs), rien d'inventé.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+import { coachesReseau } from '../../data/coaches.js';
+import salles from '../../data/salles.json';
+
+const path = '/conferences/';
+const salleNom = (c: any) => (salles as any[]).find((s) => s.slug === c.salleSlug)?.nom || '';
+// coachs déjà passés dans les médias (champ « medias » de la fiche coach)
+const medias = (coachesReseau as any[]).filter((c) => Array.isArray(c.medias) && c.medias.length);
+const intervenants = (coachesReseau as any[]).filter((c) => c.conferencier === true || Number(c.niveau) >= 4).map((c) => ({ ...c, salle: salleNom(c), themes: (c.tags || []).slice(0, 3) }));
+const themes = [
+  { i: '🏢', t: 'Bouger au travail', d: 'Sédentarité, troubles musculosquelettiques, gestes et postures : ce qu\'un salarié peut changer dès demain, à son poste.' },
+  { i: '🔁', t: 'Reprendre le sport et tenir dans la durée', d: 'Pourquoi on abandonne au bout de quelques semaines, et comment construire une habitude qui dure.' },
+  { i: '⚖️', t: 'Perte de poids sans régime', d: 'Ce qui marche vraiment sur la durée : mouvement, régularité, accompagnement.' },
+  { i: '💪', t: 'Sport-santé et prévention', d: 'L\'activité physique comme levier de santé, à tout âge et quel que soit le niveau de départ.' },
+  { i: '🧠', t: 'Stress et bien-être au quotidien', d: 'Le sport comme outil pour mieux gérer la pression, le sommeil et l\'énergie.' },
+  { i: '🤝', t: 'Obésité : accompagner sans juger', d: 'Bouger quand on est en situation d\'obésité, sans culpabilité ni promesse miracle : une approche bienveillante et progressive.' },
+  { i: '🚀', t: 'Le métier de coach et l\'entrepreneuriat', d: 'Devenir coach, se lancer, construire une clientèle : un retour d\'expérience de terrain.' },
+];
+const formats = [
+  { t: 'Conférence', d: 'Une intervention de 30 minutes à 1 heure devant vos équipes ou votre public, avec un temps de questions.' },
+  { t: 'Conférence + atelier', d: 'Une partie parole, une partie pratique : les participants repartent avec des gestes concrets.' },
+  { t: 'Atelier pratique seul', d: 'Une séance courte et accessible à tous, en tenue de ville : étirements, mobilité, gestes et postures.' },
+  { t: 'Table ronde ou salon', d: 'Un coach GA intervient aux côtés d\'autres experts, sur un salon, un forum ou un événement.' },
+];
+const faq = [
+  { q: 'Que propose GA Coachs en conférence ?', r: 'Des conférences, ateliers et tables rondes animés par un coach sportif expérimenté du réseau GA, sur le sport au travail, la reprise du sport, la perte de poids, le sport-santé, le stress, l\'obésité ou le métier de coach. Du concret, des exemples réels et des conseils applicables dès le lendemain.' },
+  { q: 'Qui sont les intervenants ?', r: 'Les coachs les plus expérimentés du réseau GA Coachs : chaque coach est évalué de 1 à 5, et seuls les coachs de niveau 4 et 5 interviennent en conférence. Aujourd\'hui, c\'est Garry Babaud, Coach en chef et fondateur de GA Coachs, formé en STAPS à l\'Université d\'Orléans.' },
+  { q: 'Pour quels événements ?', r: 'Séminaires et conférences en entreprise, semaines de la qualité de vie au travail, salons, forums, écoles, associations et collectivités. Décrivez votre événement, nous vous proposons le bon intervenant et le bon format.' },
+  { q: 'Quelle est la durée d\'une conférence ?', r: 'De 30 minutes à 1 heure, avec un temps de questions. Le format conférence + atelier dure un peu plus, selon le nombre de participants et le lieu.' },
+  { q: 'Faut-il une tenue de sport pour l\'atelier ?', r: 'Non. Les ateliers sont pensés pour être faits en tenue de ville, debout ou assis, sans matériel particulier.' },
+  { q: 'Pouvez-vous adapter le thème à notre public ?', r: 'Oui. Chaque intervention est préparée selon votre public (salariés, dirigeants, seniors, étudiants, grand public) et l\'objectif de votre événement.' },
+  { q: 'Où intervenez-vous ?', r: 'En présentiel en Centre-Val de Loire aujourd\'hui. Pour un événement ailleurs en France, écrivez-nous : nous étudions chaque demande.' },
+  { q: 'Le conférencier est-il à l\'aise à l\'oral ?', r: 'Oui. Garry Babaud est intervenu sur RCF Loiret et sur Réunion La 1ère, et des coachs du réseau GA sont passés à la télévision, sur France 3.' },
+  { q: 'Combien de temps à l\'avance faut-il réserver ?', r: 'Le plus tôt possible, idéalement plusieurs semaines avant votre événement. Pour une date proche, écrivez-nous quand même : nous répondons sous 48 h ouvrées.' },
+  { q: 'Combien coûte une conférence ?', r: 'Sur devis, selon le format, la durée, le nombre de participants et le déplacement. Un premier échange permet de vous faire une proposition précise.' },
+  { q: 'Comment réserver un intervenant ?', r: 'Remplissez le formulaire de cette page avec la date, le lieu, le public et le thème souhaité. Nous revenons vers vous avec un intervenant, un format et un devis.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' }, { '@type': 'ListItem', position: 2, name: 'Conférences', item: 'https://gacoachs.fr' + path }] },
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Conférences et interventions de coachs sportifs', serviceType: 'Conférence sport-santé, bien-être et activité physique', description: 'Conférences, ateliers et tables rondes animés par un coach sportif expérimenté du réseau GA Coachs, pour les entreprises, salons, écoles et collectivités.', provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr', founder: { '@type': 'Person', name: 'Garry Babaud', jobTitle: 'Coach en chef', url: 'https://garrybabaud.com/' } }, areaServed: { '@type': 'Country', name: 'France' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout title="Conférences BOOST : coach sportif, sport-santé en entreprise" description="Un coach sportif expérimenté en conférence, atelier ou table ronde : sport au travail, reprise du sport, perte de poids, sport-santé, stress. Entreprises, salons, écoles." path={path} jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')} stickyCtaHref="#contact" stickyCtaLabel="Demander un intervenant">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Conférences', href: path }]} />
+      <span class="eyebrow eyebrow-dark">Conférences et événements</span>
+      <h1>Un coach sportif <span class="hl-text">en conférence</span>, pour faire bouger votre public.</h1>
+      <p class="phero-lead">Séminaire, conférence en entreprise, salon, école : un coach sportif expérimenté du réseau GA vient partager ce qu'il vit tous les jours avec ses clients. Du concret, des exemples réels, et des conseils que votre public peut appliquer dès le lendemain.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#contact">Demander un intervenant</a>
+        <a class="btn btn-glass" href="#themes">Voir les thèmes</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec cf-bref-sec">
+    <div class="inner">
+      <div class="cf-bref">
+        <p class="cf-bref-k">En bref</p>
+        <ul>
+          <li><b>Quoi :</b> conférences, ateliers et tables rondes animés par un coach sportif expérimenté.</li>
+          <li><b>Sur quoi :</b> sport au travail, reprise du sport, perte de poids, sport-santé, stress, obésité, métier de coach.</li>
+          <li><b>Pour qui :</b> entreprises, salons, forums, écoles, associations et collectivités.</li>
+          <li><b>Qui intervient :</b> uniquement les coachs de niveau 4 et 5 sur 5 du réseau GA.</li>
+          <li><b>Comment :</b> vous décrivez votre événement, nous proposons un intervenant, un format et un devis.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="themes">
+    <div class="inner">
+      <span class="eyebrow">Les thèmes</span>
+      <h2 class="h2">Sept thèmes concrets, adaptés à votre public.</h2>
+      <div class="grid g3">{themes.map((t) => <div class="tile"><span class="tic" aria-hidden="true">{t.i}</span><h3>{t.t}</h3><p>{t.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Les intervenants</span>
+      <h2 class="h2">{intervenants.length > 1 ? 'Nos conférenciers.' : 'Notre conférencier.'}</h2>
+      <p class="cf-note">Les conférences sont réservées aux coachs les plus expérimentés du réseau, de niveau 4 et 5 sur 5. Chacun parle de son expertise et de son expérience de terrain.</p>
+      <div class="cf-list">
+        {intervenants.map((c) => (
+          <a class="cf-c" href={`/coachs/${c.slug}/`}>
+            {c.photo && <img src={c.photo} alt={`${c.prenom} ${c.nom}, coach sportif GA`} width="120" height="160" loading="lazy" />}
+            <span><b>{c.prenom} {c.nom}</b><small>{c.salle}</small><em>{c.themes.join(' · ')}</em>{c.medias && c.medias.length > 0 && <i class="cf-med">🎙️ {c.medias.join(' · ')}</i>}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {medias.length > 0 && (
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">À l'aise au micro et face caméra</span>
+      <h2 class="h2">Des coachs qui ont déjà l'habitude des médias.</h2>
+      <p class="cf-note">Une conférence, une table ronde ou une intervention filmée demandent d'être à l'aise à l'oral et à l'image. Garry Babaud en a l'expérience, sur RCF Loiret et Réunion La 1ère, comme des coachs du réseau GA passés sur France 3. Journalistes, producteurs et marques : voir notre <a href="/medias/">espace médias</a>.</p>
+      <div class="cf-medias">
+        {medias.map((c) => (
+          <div class="cf-m">
+            {c.photo && <img src={c.photo} alt="" width="64" height="64" loading="lazy" />}
+            <span><b>{c.prenom} {c.nom}</b><small>{c.role || 'Coach du réseau GA'}</small><em>{c.medias.join(' · ')}</em></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  )}
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Les formats</span>
+      <h2 class="h2">S'adapter à votre événement.</h2>
+      <div class="grid g3">{formats.map((f, i) => <div class="tile step"><span class="step-n">{i + 1}</span><h3>{f.t}</h3><p>{f.d}</p></div>)}</div>
+      <div class="cf-tenue">
+        <p class="cf-tenue-k">La tenue conférencier GA</p>
+        <p>Sur scène, nos conférenciers portent la tenue conférencier du réseau : chemise bleu ciel à manches longues avec le logo GA brodé côté cœur, costume bleu marine et chaussures blanches montantes. Une image soignée, reconnaissable, fidèle au bleu GA.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec band" id="contact">
+    <div class="inner cf-two">
+      <div>
+        <span class="eyebrow">Contact</span>
+        <h2 class="h2">Parlons de votre événement.</h2>
+        <p>Date, lieu, public, thème souhaité : nous vous proposons un intervenant et un format. Réponse sous 48 h ouvrées. Vos informations servent uniquement à répondre à votre demande (<a href="/confidentialite/">confidentialité</a>).</p>
+      </div>
+      <form class="cf-form" name="conference" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-boost/" aria-label="Demander un intervenant pour une conférence">
+        <input type="hidden" name="form-name" value="conference" />
+        <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+        <label>Structure ou événement<input name="structure" required autocomplete="organization" /></label>
+        <label>Prénom et nom<input name="nom" required autocomplete="name" /></label>
+        <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Téléphone <small>(facultatif)</small><input type="tel" name="telephone" autocomplete="tel" /></label>
+        <label>Thème souhaité
+          <select name="theme">{themes.map((t) => <option value={t.t}>{t.t}</option>)}<option value="autre">Autre thème</option></select>
+        </label>
+        <label>Date, lieu, nombre de participants <small>(facultatif)</small><textarea name="message" rows="4"></textarea></label>
+        <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+      </form>
+    </div>
+  </section>
+
+  <BoostPCQ id="conferences" />
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Vos questions sur nos conférences.</h2>
+      <div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title={"Faire intervenir un coach sportif GA en conférence"} label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>
+
+<style>
+  .cf-note { color: #2A3756; }
+  .cf-bref-sec { padding-top: 28px; padding-bottom: 8px; }
+  .cf-bref { border-left: 4px solid #1D5BD8; background: #fff; border-radius: 0 18px 18px 0; padding: 18px 22px; box-shadow: 0 12px 30px -24px rgba(11,30,61,.5); }
+  .cf-bref-k { margin: 0 0 8px; font-weight: 700; text-transform: none; letter-spacing: .02em; font-size: 12px; color: #1D5BD8; }
+  .cf-bref ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #0B1E3D; line-height: 1.5; }
+  .cf-list { display: grid; gap: 12px; margin-top: 18px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+  .cf-c { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; align-items: center; padding: 12px; background: #fff; border: 1px solid #DCE6FB; border-radius: 16px; color: #0B1E3D; text-decoration: none; }
+  .cf-c img { width: 72px; height: 96px; object-fit: cover; border-radius: 12px; background: #0B1E3D; }
+  .cf-c span { display: grid; gap: 2px; min-width: 0; }
+  .cf-c small { color: #3E4A66; }
+  .cf-c em { font-style: normal; font-size: 13px; color: #1F55C9; font-weight: 700; }
+  .cf-tenue { margin-top: 24px; padding: 20px; border-radius: 18px; background: #0B1E3D; color: #DCE7FF; }
+  .cf-tenue-k { margin: 0 0 6px; font-weight: 700; color: #fff; }
+  .cf-tenue p:last-child { margin: 0; line-height: 1.6; }
+  .cf-two { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .cf-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; } }
+  .cf-form { display: grid; gap: 12px; background: #fff; border: 1px solid #DCE6FB; border-radius: 20px; padding: 22px; min-width: 0; }
+  .cf-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; color: #0B1E3D; }
+  .cf-form input, .cf-form select, .cf-form textarea { width: 100%; box-sizing: border-box; min-height: 46px; padding: 10px 12px; border: 1px solid #B8C6E3; border-radius: 12px; font: inherit; background: #fff; }
+  .cf-med { display: block; margin-top: 6px; font-style: normal; font-weight: 700; color: #1D5BD8; font-size: 13px; }
+  .cf-medias { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+  .cf-m { display: flex; gap: 14px; align-items: center; background: #fff; border: 2px solid var(--line); border-radius: 18px; padding: 16px; min-width: 0; }
+  .cf-m img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: 0 0 64px; }
+  .cf-m b { display: block; color: #13284F; }
+  .cf-m small { display: block; color: #4A5878; }
+  .cf-m em { display: block; font-style: normal; font-weight: 700; color: #1D5BD8; margin-top: 4px; }
+  @media (max-width: 767px) { .cf-medias { grid-template-columns: minmax(0, 1fr); } }
+</style>

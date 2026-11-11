@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import course from '../../data/course.json';
+import segs from '../../data/sur-mesure-segments.json';
+import formats from '../../data/entreprises-formats.json';
+import objectifs from '../../data/objectifs.json';
+import '../../styles/proto-pages.css';
+import coaches from '../../data/coaches.js';
+import salles from '../../data/salles.json';
+import villes from '../../data/villes.json';
+import articles from '../../data/articles.json';
+import expertises from '../../data/expertises.json';
+import marches from '../../data/boost-marches.json';
+
+const sortedArticles = [...articles].sort((a, b) => a.titre.localeCompare(b.titre));
+const sortedVilles = [...villes].sort((a, b) => a.nom.localeCompare(b.nom));
+
+const reseau = (coaches as any[]).filter((c) => c.reseauOfficiel !== false);
+const sallesR = (salles as any[]).filter((s) => s.reseauOfficiel !== false);
+const ciblees = ['coaching-sportif', 'marche-club', 'team-building', 'mal-de-dos', 'reveil-musculaire', 'pause-active'];
+const blocs: { t: string; l: [string, string][]; cls?: string }[] = [
+  { t: 'Pages principales', l: [['Accueil', '/'], ['À propos', '/a-propos/'], ['Bilan santé', '/bilan/'], ['Score Santé', '/score-sante/'], ['Trouver un coach', '/trouver-un-coach/'], ['Contact', '/contact/'], ['Rejoindre GA Coachs', '/rejoindre/'], ['Espace coach', '/espace-coach/'], ['Mon programme', '/mon-programme/'], ['Blog', '/blog/'], ['Boutique', '/boutique/'], ['Carte cadeau', '/carte-cadeau/']] },
+  { t: 'Expertises', l: [...expertises.map((e) => [e.nom, `/${e.slug}/`] as [string, string]), ['Clubs sportifs · BOOST CLUB', '/preparation-physique/clubs/'], ...objectifs.map((o) => [`${o.nom} (objectif)`, `/objectifs/${o.slug}/`] as [string, string])] },
+  { t: 'Préparation course', l: [['Toute la préparation course', '/preparation-course/'], ...course.epreuves.map((e) => [e.nom, `/preparation-course/${e.slug}/`] as [string, string])] },
+  { t: 'Entreprises', l: [['BOOST ENTREPRISE™', '/entreprises/'], ['QVCT et bien-être au travail', '/entreprises/qvct/'], ...formats.filter((f) => ciblees.includes(f.slug)).map((f) => [f.nom, `/entreprises/${f.slug}/`] as [string, string])] },
+  { t: 'Structures et établissements', l: [['EHPAD et maisons de retraite', '/sport-sante/ehpad-maisons-de-retraite/'], ['Associations de musculation', '/associations-de-musculation/'], ['Professionnels de santé', '/professionnels-de-sante/'], ['Services sur mesure', '/services-sur-mesure/'], ...segs.map((x: any) => [x.nom, `/services-sur-mesure/${x.slug}/`] as [string, string])] },
+  { t: 'Coach sportif invité', l: [['Tous les marchés', '/coach-sportif-invite/'], ...(marches as any[]).map((x) => [x.nom, `/coach-sportif-invite/${x.slug}/`] as [string, string])] },
+  { t: 'Nos coachs', l: reseau.map((c) => [`${c.prenom} ${c.nom}`, `/coachs/${c.slug}/`] as [string, string]) },
+  { t: 'Nos salles partenaires', l: [['Toutes les salles', '/salles/'], ...sallesR.map((x) => [x.nom, `/salles/${x.slug}/`] as [string, string])] },
+  { t: 'Coach sportif par ville', l: sortedVilles.map((v) => [v.nom, `/coach-sportif-${v.slug}/`] as [string, string]), cls: 'wide pl-v' },
+  { t: 'Articles du blog', l: sortedArticles.map((a) => [a.titre, `/blog/${a.slug}/`] as [string, string]), cls: 'wide pl-a' },
+  { t: 'Informations légales', l: [['Mentions légales', '/mentions-legales/'], ['Conditions générales de vente', '/cgv/'], ["Conditions générales d'utilisation", '/cgu/'], ['Politique de confidentialité', '/confidentialite/']] },
+];
+const total = blocs.reduce((n, b) => n + b.l.length, 0);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Plan du site · GA Coachs',
+  url: 'https://gacoachs.fr/plan-du-site/',
+};
+---
+<BaseLayout
+  title="Plan du site · GA Coachs"
+  description="Toutes les pages du site GA Coachs : coachs, salles partenaires, villes couvertes et articles du blog."
+  path="/plan-du-site/"
+  jsonLd={jsonLd}
+>
+<div class="proto">
+<svg class="sprite" width="0" height="0" style="position: absolute; overflow: hidden;" aria-hidden="true" focusable="false"><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></symbol></svg>
+<section class="phero compact"><div class="lightning-bg" aria-hidden="true"></div><div class="inner"><nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a><span aria-hidden="true">›</span><span>Plan du site</span></nav><div class="phero-solo"><span class="eyebrow eyebrow-dark">Navigation complète</span><h1>Plan du <span class="w hl"><span>site.</span></span></h1><p class="phero-lead">Toutes les pages de GA Coachs, classées par rubrique.</p><label class="tf-search pl-q"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg><span class="sr">Filtrer les pages</span><input type="search" id="plQ" placeholder="Filtrer les pages : une ville, un coach, un article…" autocomplete="off"></label></div></div></section>
+<section class="sec"><div class="inner"><p class="pl-count" id="plCount" aria-live="polite">{total} pages</p><p class="tf-empty" id="plEmpty" hidden>Aucune page ne correspond à ta recherche.</p><div class="pl-grid">
+{blocs.map((b) => <div class={`tile pl-b${b.cls ? ' ' + b.cls : ''}`}><h2>{b.t} <small>{b.l.length}</small></h2><ul>{b.l.map((x) => <li><a href={x[1]}>{x[0]}</a></li>)}</ul></div>)}
+</div></div></section>
+</div>
+</BaseLayout>
+
+<script>
+  const q = document.getElementById('plQ') as HTMLInputElement, items = Array.from(document.querySelectorAll<HTMLLIElement>('.pl-b li')), count = document.getElementById('plCount')!;
+  const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  q.addEventListener('input', () => {
+    const t = norm(q.value.trim()); let n = 0;
+    items.forEach((li) => { const on = !t || norm(li.textContent || '').includes(t); li.hidden = !on; if (on) n++; });
+    document.querySelectorAll<HTMLElement>('.pl-b').forEach((b) => { const k = b.querySelectorAll('li:not([hidden])').length; b.hidden = !k; b.querySelector('small')!.textContent = String(k); });
+    count.textContent = `${n} pages`; document.getElementById('plEmpty')!.hidden = n > 0;
+  });
+</script>

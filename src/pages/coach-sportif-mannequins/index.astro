@@ -1,0 +1,213 @@
+---
+import BoostPCQ from '../../components/BoostPCQ.astro';
+// BOOST MANNEQUIN : un coach sportif pour préparer les mannequins avant un shooting, un défilé ou un gala.
+// Page pour les mannequins, les agences et les organisateurs. Aucun objectif de poids, aucun régime.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import Configurateur from '../../components/proto/Configurateur.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+
+const path = '/coach-sportif-mannequins/';
+const occasions = [
+  { i: '📸', t: 'Shootings photo', d: 'Posture, gainage et présence devant l\'objectif, pour tenir les poses et rester à l\'aise des heures durant.' },
+  { i: '👠', t: 'Défilés', d: 'Endurance, équilibre et port de la tenue : marcher, tourner et enchaîner les passages sans fatigue visible.' },
+  { i: '🥂', t: 'Galas et soirées', d: 'Se tenir droit et à l\'aise longtemps, dans une tenue exigeante, du premier au dernier invité.' },
+  { i: '🎬', t: 'Campagnes et tournages', d: 'Des journées longues, des horaires décalés : de l\'énergie, de la récupération et un corps qui suit.' },
+  { i: '✈️', t: 'Fashion weeks et déplacements', d: 'Séances courtes en chambre ou en salle, mobilité pendant les trajets, repères de récupération.' },
+  { i: '🏷️', t: 'Mannequins débutants', d: 'Un cadre sain pour démarrer : de bonnes bases de posture, de force et d\'endurance, sans pression sur le corps.' },
+];
+const publics = [
+  { t: 'Mannequins et mannequins débutants', d: 'Vous voulez arriver prêt et à l\'aise le jour J, avec un coach qui suit votre planning réel.' },
+  { t: 'Agences de mannequins', d: 'Vous proposez un accompagnement sérieux à vos modèles, avec un interlocuteur unique et un cadre sain.' },
+  { t: 'Organisateurs de défilés et de galas', d: 'Vous voulez des modèles préparés et un coach disponible pour échauffer l\'équipe avant le passage.' },
+  { t: 'Marques, photographes et directeurs artistiques', d: 'Vous préparez un shooting ou une campagne et voulez des modèles en forme sur toute la journée.' },
+];
+const offres = [
+  { k: 'ESSAI', t: 'Essai de 3 mois (12 semaines)', d: 'Un bilan de départ, un programme construit sur votre calendrier (shooting, défilé, gala), des séances régulières et un bilan de fin. Pour tester la méthode avec un objectif précis.' },
+  { k: 'ANNUEL', t: 'Offre annuelle (1 an)', d: 'Un suivi toute l\'année : bilan chaque trimestre, programme ajusté à chaque saison de mode, préparation avant chaque date importante. Pour les mannequins et les agences qui travaillent dans la durée.' },
+];
+const methode = [
+  { m: 'Semaine 1', t: 'Le bilan', d: 'Votre planning, vos dates, votre forme actuelle, vos douleurs éventuelles et ce que vous voulez améliorer. Aucune mesure de poids n\'est demandée.' },
+  { m: 'Semaines 2 à 10', t: 'Le programme', d: 'Posture, gainage, force, mobilité et endurance, en séances à votre rythme, en salle, à domicile ou à distance.' },
+  { m: 'Avant la date', t: 'La préparation du jour J', d: 'Un échauffement et une routine pour tenir la journée : défilé, shooting ou gala.' },
+  { m: 'Après la date', t: 'Le retour au calme', d: 'Récupération, mobilité et repères de sommeil pour enchaîner la date suivante.' },
+];
+const limites = [
+  { t: 'Aucun régime', d: 'Nous ne prescrivons ni régime, ni restriction alimentaire. Pour l\'alimentation, nous orientons vers un diététicien ou un médecin.' },
+  { t: 'Aucun objectif de poids ou de mensurations', d: 'Le travail porte sur la posture, la force, l\'endurance, la mobilité et l\'énergie, jamais sur un chiffre sur la balance.' },
+  { t: 'Une écoute du corps', d: 'En cas de douleur, de fatigue inhabituelle ou de doute, nous adaptons ou arrêtons, et nous vous orientons vers un professionnel de santé.' },
+  { t: 'Un cadre sain', d: 'Un coach diplômé, assuré, qui respecte votre rythme et votre corps.' },
+];
+const faq = [
+  { q: 'Qu\'est-ce que BOOST MANNEQUIN ?', r: 'C\'est l\'offre de GA Coachs qui prépare les mannequins avant un shooting photo, un défilé, un gala ou une campagne : un coach sportif diplômé travaille la posture, la force, l\'endurance, la mobilité et la récupération, sur le calendrier réel du mannequin.' },
+  { q: 'Pour qui est BOOST MANNEQUIN ?', r: 'Pour les mannequins, débutants comme confirmés, les agences, les organisateurs de défilés et de galas, les marques et les photographes qui veulent des modèles préparés et à l\'aise sur toute la journée.' },
+  { q: 'Quelles sont les deux offres ?', r: 'Un Essai de 3 mois (12 semaines), pour préparer une échéance précise, et une Offre annuelle (1 an), pour un suivi continu avec une préparation avant chaque date importante.' },
+  { q: 'Faites-vous perdre du poids ?', r: 'Non. Nous ne fixons aucun objectif de poids ou de mensurations et nous ne prescrivons aucun régime. Le travail porte sur la posture, la force, l\'endurance, la mobilité et l\'énergie.' },
+  { q: 'Que faites-vous pour l\'alimentation ?', r: 'Nous donnons des repères simples sur l\'hydratation et les horaires de repas autour d\'une journée longue, sans régime. Pour un suivi alimentaire, nous orientons vers un diététicien ou un médecin.' },
+  { q: 'Comment préparer un défilé ?', r: 'En travaillant l\'endurance, l\'équilibre, le gainage et la mobilité, et en répétant la démarche et les enchaînements avec la tenue prévue. Le jour J, un échauffement court évite de passer sur le podium à froid.' },
+  { q: 'Comment préparer un shooting photo ?', r: 'En travaillant le gainage, la posture et la mobilité des épaules, des hanches et du dos pour tenir les poses longtemps. Le jour du shooting, un réveil musculaire et des pauses mobilité aident à rester à l\'aise.' },
+  { q: 'Un coach peut-il venir le jour du défilé ou du shooting ?', r: 'Oui, sur demande : échauffement des modèles avant le passage, mobilité entre deux séquences et retour au calme. Les déplacements sont étudiés selon la date et le lieu.' },
+  { q: 'Où se passent les séances ?', r: 'En salle Basic-Fit, à domicile, à l\'hôtel, en loge ou à distance en visio. Basés à Orléans, à environ une heure de Paris, nous intervenons en Centre-Val de Loire et en Île-de-France en priorité.' },
+  { q: 'Les agences peuvent-elles proposer ce suivi à plusieurs modèles ?', r: 'Oui. L\'agence a un seul interlocuteur, le coach est choisi avec elle, et le suivi peut concerner plusieurs modèles, chacun avec son programme.' },
+  { q: 'Et pour un mannequin mineur ?', r: 'Pour un mannequin mineur, l\'accord des parents ou du représentant légal est indispensable, et le programme est adapté à l\'âge, sans aucune pression sur le corps.' },
+  { q: 'Les coachs sont-ils diplômés et assurés ?', r: 'Oui. Les coachs du réseau GA sont diplômés, titulaires de leur carte professionnelle et couverts par une assurance responsabilité civile professionnelle.' },
+  { q: 'Comment est fixé le tarif ?', r: 'Sur devis, selon l\'offre choisie (Essai de 3 mois ou Offre annuelle), le nombre de séances et les déplacements. GA Coachs facture et vous envoie une proposition claire sous 48 h ouvrées.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Coach sportif pour mannequins : shootings, défilés et galas', serviceType: 'Préparation physique des mannequins par un coach sportif diplômé', audience: { '@type': 'Audience', audienceType: 'Mannequins, agences de mannequins, organisateurs de défilés et de galas, marques et photographes' }, provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' }, areaServed: [{ '@type': 'AdministrativeArea', name: 'Centre-Val de Loire' }, { '@type': 'AdministrativeArea', name: 'Île-de-France' }], url: 'https://gacoachs.fr/coach-sportif-mannequins/', offers: offres.map((o) => ({ '@type': 'Offer', name: o.t, description: o.d })) },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' }, { '@type': 'ListItem', position: 2, name: 'BOOST', item: 'https://gacoachs.fr/boost/' }, { '@type': 'ListItem', position: 3, name: 'BOOST MANNEQUIN', item: 'https://gacoachs.fr/coach-sportif-mannequins/' }] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout title="BOOST MANNEQUIN : coach pour shootings, défilés, galas" description="Un coach sportif diplômé prépare les mannequins avant un shooting, un défilé ou un gala : posture, endurance, mobilité. Sans régime. Essai de 3 mois ou offre annuelle." path={path} jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')} stickyCtaHref="#cf-mannequin" stickyCtaLabel="Composer ma préparation">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'BOOST', href: '/boost/' }, { label: 'BOOST MANNEQUIN', href: path }]} />
+      <span class="eyebrow eyebrow-dark">BOOST MANNEQUIN</span>
+      <h1>Un coach sportif pour préparer les <span class="hl-text">mannequins</span> avant le shooting, le défilé ou le gala.</h1>
+      <p class="phero-lead">Posture, gainage, endurance, mobilité, récupération : un coach sportif diplômé du réseau GA prépare les mannequins sur leur calendrier réel. Sans régime, sans objectif de poids. Un Essai de 3 mois ou une Offre annuelle.</p>
+      <ul class="facts-dark"><li>Un coach diplômé et assuré</li><li>Sans régime ni objectif de poids</li><li>Essai de 3 mois ou offre annuelle</li></ul>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#cf-mannequin">Composer ma préparation</a>
+        <a class="btn btn-glass" href="#offres">Les deux offres</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec ec-bref-sec">
+    <div class="inner">
+      <div class="ec-bref">
+        <p class="ec-bref-k">En bref</p>
+        <ul>
+          <li><b>Quoi :</b> un coach sportif diplômé prépare le corps des mannequins : posture, force, endurance, mobilité, récupération.</li>
+          <li><b>Pour qui :</b> mannequins, agences, organisateurs de défilés et de galas, marques et photographes.</li>
+          <li><b>Deux offres :</b> un Essai de 3 mois (12 semaines) ou une Offre annuelle (1 an).</li>
+          <li><b>Cadre :</b> aucun régime, aucun objectif de poids ou de mensurations.</li>
+          <li><b>Comment :</b> vous décrivez votre projet, GA Coachs revient vers vous sous 48 h ouvrées avec une proposition sur devis.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Pour quelles occasions</span>
+      <h2 class="h2">Shootings, défilés, galas : une préparation pour chaque rendez-vous.</h2>
+      <div class="ec-grid">{occasions.map((c) => <div class="tile ec-t"><span class="ec-i" aria-hidden="true">{c.i}</span><h3>{c.t}</h3><p>{c.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Pour qui</span>
+      <h2 class="h2">Mannequins, agences, organisateurs et marques.</h2>
+      <div class="ec-grid ec-grid4">{publics.map((p) => <div class="tile ec-t"><h3>{p.t}</h3><p>{p.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec" id="offres">
+    <div class="inner">
+      <span class="eyebrow">Les deux offres</span>
+      <h2 class="h2">Un Essai de 3 mois ou une Offre annuelle.</h2>
+      <div class="ec-grid ec-grid2">{offres.map((o) => <div class="tile ec-t"><p class="ec-k">{o.k}</p><h3>{o.t}</h3><p>{o.d}</p></div>)}</div>
+      <p class="ec-n">Tarif sur devis. GA Coachs facture et vous envoie une proposition claire sous 48 h ouvrées.</p>
+    </div>
+  </section>
+
+  <section class="sec band" id="methode">
+    <div class="inner">
+      <span class="eyebrow">La méthode</span>
+      <h2 class="h2">Du bilan au jour J.</h2>
+      <ol class="ec-tl">{methode.map((d) => <li><span class="ec-m">{d.m}</span><div><b>{d.t}</b><p>{d.d}</p></div></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Notre cadre</span>
+      <h2 class="h2">Un accompagnement sain, ce que nous ne faisons pas.</h2>
+      <div class="ec-grid ec-grid4">{limites.map((l) => <div class="tile ec-t"><h3>{l.t}</h3><p>{l.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <Configurateur cle="mannequin" />
+
+  <section class="sec" id="contact">
+    <div class="inner ec-two">
+      <div>
+        <span class="eyebrow">Mannequins, agences, organisateurs</span>
+        <h2 class="h2">Parlons de votre projet.</h2>
+        <p>Votre profil, l'occasion, la date, le lieu : nous revenons vers vous sous 48 h ouvrées avec une proposition. Vos informations servent uniquement à répondre à votre demande (<a href="/confidentialite/">confidentialité</a>).</p>
+        <p class="ec-n">Futur marié ou future mariée ? Voir notre <a href="/coach-sportif-invite/mariage-futurs-maries/">programme pour futurs mariés</a>.</p>
+      </div>
+      <form class="ec-form" name="mannequins" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-boost/" aria-label="Parler de votre projet mannequin">
+        <input type="hidden" name="form-name" value="mannequins" />
+        <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+        <label>Vous êtes
+          <select name="profil" required><option value="">Choisir</option><option>Mannequin</option><option>Agence de mannequins</option><option>Organisateur de défilé ou de gala</option><option>Marque, photographe ou directeur artistique</option><option>Autre</option></select>
+        </label>
+        <label>Occasion
+          <select name="occasion" required><option value="">Choisir</option><option>Shooting photo</option><option>Défilé</option><option>Gala ou soirée</option><option>Campagne ou tournage</option><option>Saison complète</option><option>Je ne sais pas encore</option></select>
+        </label>
+        <label>Offre envisagée
+          <select name="offre" required><option value="">Choisir</option><option>Essai de 3 mois (12 semaines)</option><option>Offre annuelle (1 an)</option><option>Je ne sais pas encore</option></select>
+        </label>
+        <label>Date <small>(facultatif)</small><input name="date" placeholder="Ex. : défilé le 12 mars 2027" /></label>
+        <label>Ville<input name="lieu" required placeholder="Ville" /></label>
+        <label>Prénom et nom<input name="nom" required autocomplete="name" /></label>
+        <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Téléphone <small>(facultatif)</small><input type="tel" name="telephone" autocomplete="tel" /></label>
+        <label>Précisions <small>(facultatif)</small><textarea name="message" rows="3"></textarea></label>
+        <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+      </form>
+    </div>
+  </section>
+
+  <BoostPCQ id="mannequin" />
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Vos questions sur BOOST MANNEQUIN.</h2>
+      <div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title="BOOST MANNEQUIN : un coach sportif pour préparer les mannequins" label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>
+
+<style>
+  .ec-bref-sec { padding-top: 28px; padding-bottom: 8px; }
+  .ec-bref { border-left: 4px solid #1D5BD8; background: #fff; border-radius: 0 18px 18px 0; padding: 18px 22px; box-shadow: 0 12px 30px -24px rgba(11,30,61,.5); }
+  .ec-bref-k { margin: 0 0 8px; font-weight: 700; text-transform: none; letter-spacing: .02em; font-size: 12px; color: #1D5BD8; }
+  .ec-bref ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #0B1E3D; line-height: 1.5; }
+  .ec-num { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #1D5BD8; color: #fff; font-weight: 700; }
+  .ec-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ec-t h3 { margin: 6px 0 8px; }
+  .ec-t p { margin: 0; line-height: 1.55; color: #2A3756; }
+  .ec-i { font-size: 30px; }
+  .ec-tl { list-style: none; padding: 0; margin: 22px 0 0; display: grid; border-left: 3px solid #1D5BD8; }
+  .ec-tl li { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 14px; padding: 14px 0 14px 18px; border-bottom: 1px solid #DCE6FB; }
+  .ec-m { font-weight: 700; color: #1D5BD8; }
+  .ec-tl b { color: #0B1E3D; }
+  .ec-tl p { margin: 4px 0 0; color: #2A3756; line-height: 1.5; }
+  .ec-n { color: #2A3756; margin-top: 14px; }
+  .ec-two { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .ec-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; } }
+  .ec-form { display: grid; gap: 12px; background: #fff; border: 1px solid #DCE6FB; border-radius: 20px; padding: 22px; min-width: 0; }
+  .ec-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; color: #0B1E3D; min-width: 0; }
+  .ec-form input, .ec-form select, .ec-form textarea { width: 100%; box-sizing: border-box; min-height: 46px; padding: 10px 12px; border: 1px solid #B8C6E3; border-radius: 12px; font: inherit; font-size: 16px; background: #fff; }
+  .ec-guides { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; }
+  .ec-guides a { display: block; padding: 12px 14px; border: 1px solid #DCE6FB; border-radius: 14px; background: #fff; color: #0B1E3D; font-weight: 600; line-height: 1.35; text-decoration: none; }
+  .ec-grid.ec-grid4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1100px) { .ec-grid.ec-grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px) { .ec-grid, .ec-grid.ec-grid4, .ec-guides { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 767px) { .ec-tl li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+  .ec-grid.ec-grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ec-k { margin: 0; font-weight: 700; font-size: 12px; letter-spacing: .02em; color: #1D5BD8; }
+  @media (max-width: 900px) { .ec-grid.ec-grid2 { grid-template-columns: minmax(0, 1fr); } }
+</style>

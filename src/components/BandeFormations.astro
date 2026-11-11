@@ -1,0 +1,47 @@
+---
+// Bande défilante des logos des formations d'un coach.
+// Déposer les logos du coach dans public/images/formations/<slug-du-coach>/ (webp, png, svg ou jpg).
+// Le logo GA Coachs est affiché pour tous. Le nom du fichier sert de texte alternatif (ex. rehab-u.webp donne « Rehab U »). 
+interface Props { slug: string; prenom: string }
+const { slug, prenom } = Astro.props;
+const all = import.meta.glob('/public/images/formations/*/*.{webp,png,svg,jpg,jpeg}', { eager: true, query: '?url', import: 'default' }) as Record<string, string>;
+const GA = { src: '/images/logos/ga-coachs-logo.webp', nom: 'GA Coachs' };
+const perso = Object.keys(all).filter((p) => p.startsWith(`/public/images/formations/${slug}/`)).sort().map((p) => {
+  const f = p.split('/').pop()!.replace(/\.[a-z]+$/i, '');
+  return { src: p.replace('/public', ''), nom: f.replace(/^\d+[-_]?/, '').replace(/[-_]+/g, ' ').trim() };
+});
+const logos = [GA, ...perso]; // le logo GA Coachs est présent pour tous les coachs
+const defile = logos.length > 5; // jusqu'à 5 logos : rangée fixe, tous entièrement visibles ; au-delà : bande défilante
+const copies = 1;
+const piste = Array.from({ length: copies }, () => logos).flat();
+---
+{logos.length > 0 && (
+  <section class="bf" aria-label={`Formations de ${prenom}`}>
+    <div class="inner">
+      <p class="bf-t">🎓 Formations de {prenom}</p>
+    </div>
+    <div class={defile ? 'bf-vp' : 'bf-vp bf-fixe'}>
+      <ul class="bf-tr">
+        {(defile ? [0, 1] : [0]).map((k) => piste.map((l) => (
+          <li aria-hidden={k === 1 ? 'true' : undefined}><img src={l.src} alt={k === 1 ? '' : l.nom} height="56" loading="lazy" decoding="async" /></li>
+        )))}
+      </ul>
+    </div>
+    <div class="inner"><p class="bf-p">🌱 Nos coachs continuent de se former pour apporter le maximum de valeur à ton accompagnement.</p></div>
+  </section>
+)}
+<style is:global>
+.bf{padding:18px 0;background:#fff;border-block:2px solid #E1E8FA}
+.bf-t{margin:0 0 10px;font-weight:700;color:#13203B}
+.bf-p{margin:10px 0 0;font-size:.92rem;color:#4A5672}
+.bf-vp{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.bf-tr{list-style:none;margin:0;padding:0;display:flex;gap:40px;width:max-content;animation:bfm 30s linear infinite}
+.bf-tr li{flex:none;display:flex;align-items:center}
+.bf-tr img{height:56px;width:auto;max-width:160px;object-fit:contain}
+.bf-vp:hover .bf-tr{animation-play-state:paused}
+@keyframes bfm{to{transform:translateX(calc(-50% - 20px))}}
+@media (prefers-reduced-motion:reduce){.bf-vp{overflow-x:auto;-webkit-mask-image:none;mask-image:none}.bf-tr{animation:none}.bf-tr li[aria-hidden]{display:none}}
+.bf-fixe{overflow:visible;-webkit-mask-image:none;mask-image:none;padding:0 16px}
+.bf-fixe .bf-tr{width:100%;justify-content:center;flex-wrap:wrap;gap:28px 44px;animation:none}
+.bf-fixe .bf-tr img{height:72px;max-width:min(220px,40vw)}
+</style>

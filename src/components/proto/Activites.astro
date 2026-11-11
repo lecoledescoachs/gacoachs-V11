@@ -1,0 +1,63 @@
+---
+// Les activités proposées par le réseau GA Coachs
+import data from '../../data/activites.json';
+const F: Record<string, string> = { force: 'Force', cardio: 'Cardio', bien: 'Bien-être' };
+---
+<section class="sec navy acts" id="activites">
+  <div class="lightning-bg" aria-hidden="true"></div>
+  <div class="inner">
+    <div class="acts-head">
+      <div>
+        <span class="eyebrow">Nos activités</span>
+        <h2 class="h2">{data.length} façons de bouger avec <span class="acts-hl">un coach GA.</span></h2>
+      </div>
+      <div class="acts-f" role="group" aria-label="Filtrer les activités">
+        <button type="button" aria-pressed="true" data-f="">Toutes</button>
+        {Object.entries(F).map(([k, l]) => <button type="button" aria-pressed="false" data-f={k}>{l}</button>)}
+      </div>
+    </div>
+    <div class="acts-grid">
+      {data.map((a) => (
+        <div class="acts-c" data-f={a.f}>
+          <span class="acts-e" aria-hidden="true">{a.e}</span>
+          <span class="acts-tag">{F[a.f]}</span>
+          <b>{a.n}</b>
+          <p>{a.p}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const box = document.querySelector('#activites .acts-f');
+  box?.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button'); if (!b) return;
+    box.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    const f = b.dataset.f;
+    document.querySelectorAll<HTMLElement>('#activites .acts-c').forEach((c) => c.classList.toggle('is-off', !!f && c.dataset.f !== f));
+  });
+</script>
+
+<style is:global>
+  .proto .acts .h2 { max-width: 20ch; }
+  .proto .acts-hl { color: #7CC4FF; }
+  .proto .acts-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; }
+  .proto .acts-f { display: flex; flex-wrap: wrap; gap: 8px; }
+  .proto .acts-f button { min-height: 42px; padding: 9px 18px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.06); color: #fff; font: 800 14px/1 var(--body); cursor: pointer; transition: background .2s ease; }
+  .proto .acts-f button:hover { background: rgba(255,255,255,.14); }
+  .proto .acts-f button[aria-pressed="true"] { background: #fff; color: #0037B6; border-color: #fff; }
+  .proto .acts-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin-top: 34px; }
+  .proto .acts-c { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 6px; min-height: 230px; padding: 22px 20px; border-radius: 24px; background: linear-gradient(160deg, rgba(47,111,237,.32), rgba(11,30,61,.4) 60%); border: 1px solid rgba(124,196,255,.22); transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s ease, box-shadow .3s ease, opacity .3s ease; }
+  .proto .acts-c::after { content: ""; position: absolute; right: -40px; top: -40px; width: 130px; height: 130px; border-radius: 50%; background: radial-gradient(circle, rgba(124,196,255,.35), transparent 70%); opacity: .6; transition: opacity .3s ease; pointer-events: none; }
+  .proto .acts-c:hover { transform: translateY(-6px); border-color: rgba(124,196,255,.7); box-shadow: 0 24px 50px -24px rgba(47,111,237,.9); }
+  .proto .acts-c:hover::after { opacity: 1; }
+  .proto .acts-e { width: 58px; height: 58px; border-radius: 18px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); font-size: 30px; margin-bottom: 10px; }
+  .proto .acts-tag { font-size: 11.5px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: #7CC4FF; }
+  .proto .acts-c b { font-family: var(--display); font-size: 19px; line-height: 1.2; color: #fff; }
+  .proto .acts-c p { margin: 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,.78); }
+  .proto .acts-c.is-off { opacity: .18; transform: scale(.97); }
+  @media (max-width: 1100px) { .proto .acts-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 700px) { .proto .acts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .proto .acts-c { min-height: 0; padding: 18px 16px; } .proto .acts-e { width: 48px; height: 48px; font-size: 25px; } .proto .acts-c b { font-size: 17px; } }
+  @media (prefers-reduced-motion: reduce) { .proto .acts-c { transition: none; } }
+</style>

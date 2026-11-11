@@ -1,0 +1,275 @@
+{
+  "slug": "services-sur-mesure",
+  "path": "/services-sur-mesure/",
+  "seo": {
+    "title": "Coach sportif sur mesure pour hôtels, mairies et cliniques",
+    "description": "Un coach sportif diplômé pour votre lieu, vos équipes ou vos clients : hôtels, campings, mairies, maisons de santé, cliniques, bars, restaurants, EVJF, VIP."
+  },
+  "hero": {
+    "eyebrow": "Services sur mesure",
+    "h1": "Du coaching sportif sur mesure pour votre lieu, vos équipes ou vos clients.",
+    "lead": "Hôtels, campings, bars et restaurants, mairies, administrations, maisons de santé, cliniques, entreprises, EVJF et EVG ou clientèle VIP : nos coachs diplômés construisent avec vous une intervention adaptée, sur place.",
+    "points": [
+      "Des coachs diplômés qui se déplacent",
+      "Un format construit avec vous",
+      "Un devis clair, sans engagement"
+    ]
+  },
+  "segments": {
+    "titre": "Une offre pour chaque lieu et chaque public.",
+    "items": [
+      {
+        "emoji": "👑",
+        "titre": "VIP et personnalités",
+        "points": [
+          "Artistes, sportifs, personnalités publiques",
+          "Engagement de confidentialité écrit",
+          "À domicile, à l'hôtel ou sur un lieu privé"
+        ],
+        "lien": "/services-sur-mesure/coach-sportif-vip/"
+      },
+      {
+        "emoji": "🏨",
+        "titre": "Hôtels",
+        "points": [
+          "Séances privées pour vos clients, en chambre, en salle ou en extérieur",
+          "Animations collectives : réveil musculaire, circuit training, mobilité",
+          "Programmes bien-être pour les séjours et les séminaires",
+          "Conseils à vos équipes pour animer votre salle de fitness"
+        ],
+        "lien": "/services-sur-mesure/coach-sportif-hotel/"
+      },
+      {
+        "emoji": "⛺",
+        "titre": "Campings",
+        "points": [
+          "Animations sportives de la saison : réveil musculaire, circuit training, plein air",
+          "Séances adaptées à toute la famille, enfants et adultes",
+          "Créneaux réguliers sur la haute saison",
+          "Séances parents-enfants"
+        ],
+        "lien": "/services-sur-mesure/coach-sportif-camping/"
+      },
+      {
+        "emoji": "🏛️",
+        "titre": "Mairies, administrations et organismes publics",
+        "points": [
+          "Pauses sportives et séances sur site pour vos agents",
+          "Ateliers de prévention : sédentarité, postures, mal de dos",
+          "Actions de sport santé pour vos publics : seniors, habitants, associations",
+          "Challenges collectifs, journées bien-être, événements"
+        ],
+        "note": "Préfectures, URSSAF, CAF, communes, intercommunalités : un devis détaillé, utilisable dans votre procédure d'achat.",
+        "lien": "/services-sur-mesure/coach-sportif-collectivites-administrations/"
+      },
+      {
+        "emoji": "🩺",
+        "titre": "Maisons et pôles de santé",
+        "points": [
+          "Ateliers collectifs pour vos patients, en lien avec vos praticiens",
+          "Relais d'activité physique pour les patients que vous adressez",
+          "Programmes de reprise progressive",
+          "Prévention auprès du public et de votre équipe"
+        ],
+        "lien": "/services-sur-mesure/coach-sportif-maison-de-sante/"
+      },
+      {
+        "emoji": "🏥",
+        "titre": "Cliniques",
+        "points": [
+          "Séances de remise en mouvement, avec l'accord de l'équipe soignante",
+          "Reprise d'activité après une hospitalisation ou une intervention",
+          "Ateliers bien-être pour vos équipes",
+          "Interventions adaptées à votre organisation (ambulatoire, hôpital de jour)"
+        ],
+        "lien": "/services-sur-mesure/coach-sportif-clinique/"
+      },
+      {
+        "emoji": "🍻",
+        "titre": "Bars",
+        "points": [
+          "Run club au départ de votre bar",
+          "Défi sportif avant l'afterwork",
+          "Soirée match ou événement privé"
+        ],
+        "lien": "/services-sur-mesure/coach-sportif-evenement-bar/"
+      },
+      {
+        "emoji": "🍽️",
+        "titre": "Restaurants",
+        "points": [
+          "Séance de sport suivie d'un brunch",
+          "Déjeuner actif pour les entreprises",
+          "Événement privé avant le repas"
+        ],
+        "lien": "/services-sur-mesure/coach-sportif-evenement-restaurant/"
+      },
+      {
+        "emoji": "🦺",
+        "titre": "Gestes et postures",
+        "points": [
+          "Ateliers pratiques sur votre site",
+          "Port de charges, travail sur écran",
+          "Échauffement de prise de poste"
+        ],
+        "lien": "/services-sur-mesure/atelier-gestes-et-postures/"
+      },
+      {
+        "emoji": "🎉",
+        "titre": "EVJF et EVG",
+        "points": [
+          "Bootcamp et défis par équipes",
+          "Mini course façon Hyrox",
+          "Tous niveaux, fous rires garantis"
+        ],
+        "lien": "/services-sur-mesure/evjf-evg-activite-sportive/"
+      }
+    ]
+  },
+  "limites": {
+    "titre": "Notre rôle",
+    "texte": "Nos coachs ne posent aucun diagnostic, ne prescrivent aucun traitement et ne remplacent ni les soins ni le suivi médical. En établissement de santé, ils interviennent en complément, avec l'accord de l'équipe soignante."
+  },
+  "etapes": [
+    {
+      "titre": "Un échange pour comprendre votre besoin",
+      "texte": "Votre lieu, votre public, les créneaux possibles et vos contraintes d'organisation."
+    },
+    {
+      "titre": "Une proposition sur mesure",
+      "texte": "Un format, un rythme et un devis clair, sans engagement."
+    },
+    {
+      "titre": "Des interventions régulières",
+      "texte": "Un coach du réseau intervient chez vous, et nous faisons le point avec vous à intervalles réguliers."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Que sont les services sur mesure de GA Coachs ?",
+      "r": "Des interventions de coachs sportifs diplômés construites pour un lieu, une structure ou un public précis : hôtels, campings, bars et restaurants, mairies et administrations, maisons de santé, cliniques, entreprises, EVJF et EVG, personnalités. Chaque offre fait partie de la gamme BOOST."
+    },
+    {
+      "q": "Où intervenez-vous ?",
+      "r": "En Centre-Val de Loire, autour d'Orléans en priorité. Pour un autre département ou une demande ponctuelle, écrivez-nous : nous regardons selon la disponibilité des coachs."
+    },
+    {
+      "q": "Pouvez-vous intervenir de façon ponctuelle ?",
+      "r": "Oui : un événement, une journée bien-être, une saison ou une intervention régulière, selon ce que vous cherchez."
+    },
+    {
+      "q": "Comment sont établis les tarifs ?",
+      "r": "Sur devis, selon le format, la durée, le nombre de participants et le lieu. Un devis détaillé vous est remis après un premier échange."
+    },
+    {
+      "q": "Vos coachs sont-ils diplômés et assurés ?",
+      "r": "Oui. Nos coachs sont diplômés, titulaires d'une carte professionnelle et couverts par une assurance de responsabilité civile professionnelle."
+    },
+    {
+      "q": "Quelle offre choisir pour notre structure ?",
+      "r": "Hôtels et campings : BOOST TOURISME. Bars, restaurants, EVJF et EVG : BOOST EVENT. Maisons de santé et cliniques : BOOST SANTÉ. Mairies, administrations et ateliers gestes et postures : nos offres pour les organisations. Personnalités et artistes : BOOST PRIVÉ, SCÈNE et TOURNÉE. En cas de doute, décrivez votre projet dans le formulaire."
+    },
+    {
+      "q": "Qui sont vos coachs ?",
+      "r": "Des coachs sportifs diplômés du réseau GA Coachs, qui exercent au quotidien autour d'Orléans, notamment en salle Basic-Fit. Garry Babaud, Coach en chef, fonde et coordonne le réseau."
+    },
+    {
+      "q": "Faut-il du matériel ou une salle ?",
+      "r": "Non. Le coach apporte le petit matériel. Une salle, une terrasse, une pelouse ou un parc suffisent selon le format."
+    },
+    {
+      "q": "Le coach peut-il intervenir auprès de patients ?",
+      "r": "Oui, en complément des soignants et avec leur accord. Nos coachs ne posent aucun diagnostic et ne prescrivent aucun traitement."
+    },
+    {
+      "q": "Aurons-nous toujours le même coach ?",
+      "r": "Pour des interventions régulières, oui : un coach attitré connaît votre lieu et votre public. Un autre coach du réseau le remplace en cas d'absence."
+    },
+    {
+      "q": "Pouvez-vous fournir un devis pour un organisme public ?",
+      "r": "Oui. Le devis détaille le contenu, le nombre d'interventions et le prix unitaire, pour l'intégrer à votre procédure d'achat."
+    },
+    {
+      "q": "Comment démarrer ?",
+      "r": "Remplissez le formulaire de contact en précisant votre structure. Nous vous rappelons, puis vous recevez une proposition et un devis, sans engagement."
+    }
+  ],
+  "form": {
+    "titre": "Parlons de votre projet",
+    "intro": "Dites-nous en quelques lignes ce que vous imaginez. Nous revenons vers vous pour un premier échange, sans engagement.",
+    "delai": "Nous vous répondons sous 48 h ouvrées.",
+    "organisations": [
+      [
+        "hotel",
+        "Hôtel"
+      ],
+      [
+        "camping",
+        "Camping"
+      ],
+      [
+        "collectivite",
+        "Mairie ou collectivité"
+      ],
+      [
+        "administration",
+        "Préfecture ou administration"
+      ],
+      [
+        "organisme",
+        "Organisme public (URSSAF, CAF…)"
+      ],
+      [
+        "maison-sante",
+        "Maison ou pôle de santé"
+      ],
+      [
+        "clinique",
+        "Clinique"
+      ],
+      [
+        "vip",
+        "Personnalité ou VIP"
+      ],
+      [
+        "bar",
+        "Bar"
+      ],
+      [
+        "restaurant",
+        "Restaurant"
+      ],
+      [
+        "gestes-postures",
+        "Entreprise ou commerce (gestes et postures)"
+      ],
+      [
+        "evjf-evg",
+        "EVJF ou EVG"
+      ],
+      [
+        "autre",
+        "Autre"
+      ]
+    ],
+    "besoins": [
+      [
+        "regulier",
+        "Des séances régulières"
+      ],
+      [
+        "saison",
+        "Une intervention saisonnière"
+      ],
+      [
+        "evenement",
+        "Un événement ou une journée"
+      ],
+      [
+        "a-definir",
+        "Je ne sais pas encore"
+      ]
+    ],
+    "consentement": "J'accepte que GA Coachs utilise ces informations pour me recontacter au sujet de ma demande."
+  }
+}

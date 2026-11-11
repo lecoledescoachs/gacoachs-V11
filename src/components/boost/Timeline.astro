@@ -1,0 +1,39 @@
+---
+interface Step { num: string; titre: string; texte: string; }
+interface Props { steps: Step[]; }
+const { steps } = Astro.props;
+---
+<div class="boost-timeline">
+  {steps.map((s) => (
+    <div class="boost-timeline__step">
+      <span class="boost-timeline__num">{s.num}</span>
+      <h3>{s.titre}</h3>
+      <p>{s.texte}</p>
+    </div>
+  ))}
+</div>
+
+<style>
+  .boost-timeline {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+    margin-top: 32px;
+  }
+  .boost-timeline__step {
+    border-left: 2px solid var(--sky);
+    padding-left: 20px;
+  }
+  .boost-timeline__num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--blue);
+    font-size: 14px;
+  }
+  .boost-timeline__step h3 { margin-top: 6px; font-size: 18px; }
+  .boost-timeline__step p { margin-top: 8px; color: var(--text-muted); font-size: 14px; }
+
+  @media (min-width: 900px) {
+    .boost-timeline { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

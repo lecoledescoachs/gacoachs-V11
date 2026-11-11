@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LegalProto from '../../components/proto/LegalProto.astro';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+    { '@type': 'ListItem', position: 2, name: 'CGV', item: 'https://gacoachs.fr/cgv/' },
+  ],
+};
+---
+<BaseLayout
+  title="Conditions Générales de Vente · GA Coachs"
+  description="Conditions générales de vente du réseau GA Coachs : réservation, paiement, annulation et déroulement des séances avec ton coach sportif."
+  path="/cgv/"
+  jsonLd={jsonLd}
+>
+
+  <LegalProto titre="Conditions Générales de Vente" slug="cgv">
+
+
+      <p class="legal__intro">
+        Dernière mise à jour : 21 octobre 2026. Les présentes conditions
+        générales de vente (CGV) s'appliquent à quatre catégories de services, décrites séparément
+        ci-dessous : (1) la mise en relation avec un coach sportif indépendant du réseau, (2) les prestations
+        BOOST ENTREPRISE™, (3) les prestations BOOST CLUB, et (4) les autres offres de la gamme BOOST et les
+        services sur mesure. Les catégories (2), (3) et (4) sont vendues directement par GA Coachs.
+      </p>
+
+      <h2>1. Identification du vendeur</h2>
+      <p>
+        Garry Babaud EI, entrepreneur individuel exerçant sous le nom commercial GA Coachs.<br />
+        SIRET : 832 643 092 00014<br />
+        Adresse : 11 rue des Hauts Champs, 45380 La Chapelle-Saint-Mesmin<br />
+        Email : <a href="mailto:ga.coachs@gmail.com">ga.coachs@gmail.com</a>
+      </p>
+
+      <h2>2. Deux services distincts, deux logiques contractuelles</h2>
+
+      <h3>2.1 Mise en relation avec un coach sportif indépendant</h3>
+      <p>
+        Pour le coaching sportif individuel présenté sur gacoachs.fr (fiches coachs, page « Trouver un coach »),
+        GA Coachs agit en tant qu'<strong>intermédiaire de mise en relation</strong> entre l'utilisateur et un
+        coach sportif du réseau, professionnel indépendant, disposant de sa propre assurance responsabilité
+        civile professionnelle (RC Pro) et de sa carte professionnelle d'éducateur sportif.
+      </p>
+      <ul>
+        <li>Le contrat de prestation de coaching sportif (séances, tarifs, modalités de paiement, annulation) est conclu directement entre l'utilisateur et le coach choisi, en dehors de gacoachs.fr.</li>
+        <li>GA Coachs ne facture pas les séances de coaching individuel et n'est pas partie au contrat conclu entre le client et le coach.</li>
+        <li>GA Coachs s'engage à présenter des informations exactes et à jour sur les coachs du réseau (spécialités, qualifications, salle d'intervention), sans garantir la disponibilité effective d'un coach à un moment donné.</li>
+        <li>La responsabilité de l'exécution de la prestation de coaching (qualité, sécurité, résultats) incombe au coach, professionnel indépendant, et non à GA Coachs.</li>
+        <li>Un coach rejoignant le réseau GA Coachs s'acquitte de droits d'entrée de 500 € à la signature du contrat de partenariat, puis d'une cotisation mensuelle au réseau progressive : 100 € le premier mois, 200 € le deuxième mois, 400 € le troisième mois, puis 700 € à partir du quatrième mois. Ces montants couvrent l'accès au réseau, à la mise en relation avec les clients et aux salles partenaires. Ils sont précisés dans le contrat individuel signé par chaque coach.</li>
+        <li>Le contrat de partenariat entre un coach et GA Coachs peut être résilié par l'une ou l'autre des parties moyennant un préavis de <strong>six mois</strong>, notifié par écrit.</li>
+        <li>Concernant les prestations BOOST ENTREPRISE™ ou BOOST CLUB réalisées par les coachs du réseau, GA Coachs perçoit une commission dont le taux est fixé dans le contrat individuel signé avec chaque coach partenaire.</li>
+      </ul>
+
+      <h3>2.2 Prestations BOOST ENTREPRISE™</h3>
+      <p>
+        Les prestations BOOST ENTREPRISE™ (coaching sportif en entreprise, bilans individuels, ateliers)
+        présentées sur la page /entreprises/ sont vendues directement par GA Coachs aux entreprises et organismes
+        publics clients. Les présentes CGV s'appliquent pleinement à ces prestations.
+      </p>
+
+      <h3>2.3 Prestations BOOST CLUB</h3>
+      <p>
+        Les prestations BOOST CLUB (préparation physique pour clubs sportifs) présentées sur la page
+        /preparation-physique/clubs/ sont vendues directement par GA Coachs aux clubs et associations sportives
+        clientes. Les présentes CGV, notamment les articles relatifs au prix, au paiement, à la durée, à la
+        résiliation et à la responsabilité, s'appliquent pleinement à ces prestations, sous réserve des
+        spécificités précisées dans le contrat-cadre signé avec chaque club (formule retenue parmi BOOST
+        ESSENTIEL, BOOST PERFORMANCE, BOOST HAUTE PERFORMANCE ou BOOST 360, fréquence, calendrier sportif).
+      </p>
+
+      <h3>2.4 Autres offres BOOST et services sur mesure</h3>
+      <p>
+        Les offres BOOST SENIOR (EHPAD et maisons de retraite), BOOST ASSO (associations de musculation), BOOST SANTÉ
+        (professionnels et structures de santé), BOOST TOURISME (hôtels, campings), BOOST EVENT (événements) et BOOST
+        PRIVÉ, ainsi que les services sur mesure présentés sur la page /services-sur-mesure/, sont vendues directement
+        par GA Coachs. Les présentes CGV s'y appliquent, sous réserve des spécificités précisées dans le devis ou la
+        proposition acceptée par le client. Lorsque le client est un particulier (consommateur), notamment pour BOOST
+        PRIVÉ ou une activité EVJF/EVG, les dispositions protectrices du Code de la consommation s'appliquent, en
+        particulier l'article 9.
+      </p>
+
+      <h2>3. Description des prestations</h2>
+      <p>
+        Les formules BOOST ESSENTIEL, BOOST PERFORMANCE et BOOST 5/7, la séance découverte BOOST 30 (offerte, sans
+        engagement), ainsi que les prestations complémentaires (BOOST BILAN, ateliers, challenges), sont décrites
+        sur la page /entreprises/ du site. Les formules BOOST CLUB (Essentiel,
+        Performance, Haute Performance et BOOST 360, ce dernier étant établi sur devis), ainsi que les prestations
+        complémentaires (tests physiques, stages, préparation estivale, ateliers), sont décrites sur la page
+        /preparation-physique/clubs/. Les autres offres sont décrites sur leurs pages respectives. Les tarifs indiqués sur le site sont donnés à titre indicatif et
+        peuvent évoluer selon la localisation, le nombre de sites ou d'équipes, les horaires et les besoins
+        spécifiques du client. Toute prestation fait l'objet d'un devis ou d'une proposition personnalisée avant
+        engagement contractuel.
+      </p>
+
+      <h2>4. Commande et formation du contrat</h2>
+      <p>
+        Toute prestation BOOST ENTREPRISE™ ou BOOST CLUB est précédée d'un échange (via le formulaire du site, par email ou
+        par téléphone) permettant d'établir une proposition personnalisée. Le contrat est formé par la signature
+        d'un <strong>contrat-cadre</strong> entre GA Coachs et l'entreprise ou le club client, précisant la formule retenue,
+        les tarifs, la durée et les modalités d'exécution. La signature de ce contrat-cadre vaut acceptation des
+        présentes CGV.
+      </p>
+
+      <h2>5. Prix et modalités de paiement</h2>
+      <ul>
+        <li>Les prix sont exprimés en euros. TVA non applicable, article 261-4-4° b du Code général des impôts : le montant indiqué sur le devis ou la facture est le montant total à payer.</li>
+        <li>Les prestations BOOST ENTREPRISE™ et BOOST CLUB sont réglées par <strong>prélèvement mensuel automatique</strong>, sur la base des coordonnées bancaires (SEPA) fournies par le client lors de la signature du contrat-cadre.</li>
+        <li>Conformément à l'article L441-10 du Code de commerce, tout retard de paiement entraîne de plein droit l'application de pénalités calculées sur la base du taux d'intérêt légal en vigueur, majoré, ainsi qu'une indemnité forfaitaire pour frais de recouvrement de 40 € (montant réglementaire, sous réserve d'une indemnisation complémentaire sur justification).</li>
+      </ul>
+
+      <h2>6. Durée, résiliation et annulation</h2>
+      <p>
+        Les formules BOOST ENTREPRISE™ et BOOST CLUB sont souscrites sans engagement de durée minimale et peuvent
+        être résiliées à tout moment par le client, moyennant un <strong>préavis d'un mois</strong>, notifié par
+        écrit (email ou courrier) à GA Coachs.
+      </p>
+      <p>
+        Pour les prestations ponctuelles (ateliers, bilans individuels, tests physiques, stages), toute annulation
+        ou report doit être signalé au moins <strong>48 heures ouvrées</strong> avant la date prévue. En deçà de ce
+        délai, la prestation reste due, sauf accord contraire entre les parties. En cas d'empêchement du côté de
+        GA Coachs (absence du coach, force majeure), la prestation est reportée ou remboursée au choix du client,
+        sans frais.
+      </p>
+
+      <h2>7. Responsabilité</h2>
+      <p>
+        GA Coachs s'engage à exécuter les prestations BOOST ENTREPRISE™ et BOOST CLUB avec diligence et selon les
+        règles de l'art. GA Coachs ne saurait être tenu responsable des dommages résultant d'une utilisation
+        inadaptée du matériel par les participants, d'une contre-indication médicale non signalée par le
+        participant, ou de tout événement de force majeure. Les coachs intervenant sur ces prestations disposent
+        de leur propre assurance responsabilité civile professionnelle.
+      </p>
+
+      <h2>8. Données de santé et bilans individuels</h2>
+      <p>
+        Les bilans individuels (BOOST BILAN) et les tests physiques réalisés dans le cadre de BOOST CLUB ne
+        constituent en aucun cas un diagnostic médical. Les informations échangées restent confidentielles entre
+        le salarié ou le sportif et le coach, et ne sont communiquées à l'employeur, au club ou à l'entraîneur
+        qu'avec l'accord explicite de la personne concernée (ou de son représentant légal si elle est mineure).
+      </p>
+
+      <h2>9. Droit de rétractation</h2>
+      <p>
+        Les prestations conclues avec des professionnels, des associations ou des organismes publics (BOOST
+        ENTREPRISE™, BOOST CLUB, BOOST SENIOR, BOOST ASSO, BOOST SANTÉ, BOOST TOURISME, BOOST EVENT) ne sont pas
+        soumises au droit de rétractation prévu par le Code de la consommation. L'absence d'engagement de durée
+        minimale et la possibilité de résiliation avec un mois de préavis (article 6) offrent au client une
+        souplesse équivalente.
+      </p>
+      <p>
+        Lorsque le client est un consommateur et que le contrat est conclu à distance ou hors établissement, il
+        dispose d'un délai de 14 jours à compter de la conclusion du contrat pour se rétracter, sans avoir à se
+        justifier, en l'écrivant à <a href="mailto:ga.coachs@gmail.com">ga.coachs@gmail.com</a>. S'il demande
+        expressément que la prestation commence avant la fin de ce délai, il reste redevable des prestations déjà
+        fournies jusqu'à sa rétractation. Le droit de rétractation ne peut plus être exercé pour une prestation
+        pleinement exécutée avant la fin du délai, avec son accord préalable exprès et sa renonciation expresse à ce
+        droit (article L221-28 du Code de la consommation).
+      </p>
+
+      <h2>10. Médiation et litiges</h2>
+      <p>
+        En cas de litige, les parties s'efforceront de trouver une solution amiable avant toute action judiciaire.
+        À défaut d'accord amiable, tout litige entre professionnels relève de la compétence des tribunaux du ressort
+        du siège de GA Coachs (La Chapelle-Saint-Mesmin, Loiret). Le client consommateur peut saisir, à son choix,
+        la juridiction du lieu où il demeurait au moment de la conclusion du contrat ou de la survenance du fait
+        dommageable.
+      </p>
+
+      <h2>11. Droit applicable</h2>
+      <p>Les présentes CGV sont soumises au droit français.</p>
+
+      <h2>Carte cadeau</h2>
+      <p>La carte cadeau GA Coachs est valable 1 mois à compter de son achat, c'est-à-dire de la réception du paiement. Elle est utilisable avec tous les coachs du réseau GA Coachs, dans leur salle Basic-Fit de rattachement. Une prolongation de la durée de validité est possible sur demande.</p>
+
+      <h2>Contact</h2>
+      <p>
+        Pour toute question relative aux présentes CGV :
+        <a href="mailto:ga.coachs@gmail.com">ga.coachs@gmail.com</a>.
+      </p>
+    </LegalProto>
+
+</BaseLayout>
+
+<style>
+  .legal { max-width: 72ch; }
+  .legal__warning {
+    margin-top: 20px;
+    padding: 18px 20px;
+    background: var(--ice);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--navy);
+    line-height: 1.6;
+  }
+  .legal__intro { margin-top: 24px; color: var(--text-muted); font-size: 14px; font-style: italic; }
+  .legal h2 { margin-top: 32px; font-size: 18px; }
+  .legal h3 { margin-top: 22px; font-size: 15px; }
+  .legal p, .legal ul { margin-top: 12px; color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+  .legal ul { padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+  .legal a { color: var(--blue); text-decoration: underline; }
+  .legal__placeholder {
+    font-style: italic;
+    font-size: 13px;
+    padding: 12px 16px;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius-sm);
+  }
+</style>

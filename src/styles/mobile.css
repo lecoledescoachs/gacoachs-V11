@@ -1,0 +1,265 @@
+/* =========================================================================
+   Couche mobile first (téléphone, jusqu'à 767 px)
+   Chargée en dernier : elle ne touche jamais l'affichage ordinateur.
+   1. Carrousels uniquement pour les collections (coachs, offres, avis, guides)
+   2. Sections plus compactes
+   3. Textes lisibles et boutons à la bonne taille pour le doigt
+   ========================================================================= */
+@media (max-width: 767px) {
+
+  /* ---------- 1. Carrousels (défilement automatique) : seulement témoignages, avis et guides.
+     Les coachs et les programmes restent visibles en faisant défiler la page. ---------- */
+  .ex-grid,
+  .rj-avs,
+  .guides,
+  .eh-guides,
+  .m-rail {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    grid-template-columns: none !important;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    gap: 12px !important;
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+    padding: 6px 20px 18px !important;
+    scroll-padding-left: 20px;
+    scrollbar-width: none;
+    list-style: none;
+  }
+  .ex-grid::-webkit-scrollbar, .rj-avs::-webkit-scrollbar, .guides::-webkit-scrollbar, .eh-guides::-webkit-scrollbar, .m-rail::-webkit-scrollbar { display: none; }
+  .ex-grid > *, .rj-avs > *, .guides > *, .eh-guides > *, .m-rail > * {
+    flex: 0 0 84% !important; max-width: 84% !important; min-width: 0; margin: 0 !important; scroll-snap-align: start;
+  }
+
+  /* coachs : 2 par ligne, tous visibles en faisant défiler */
+  .cgrid, .sp-coachs, .ob-coachs, .pc-coachs, .vl-coachs {
+    display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 10px !important;
+  }
+
+  /* programmes BOOST : les uns sous les autres, plus compacts */
+  .pros-grid { display: grid !important; grid-template-columns: 1fr !important; gap: 12px !important; }
+  .pros-grid .pros-c { padding-bottom: 14px !important; }
+
+  /* petit indicateur « glisse » sous chaque carrousel */
+  .m-rail-hint {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin: -4px 0 6px; font-size: 13px; font-weight: 600; color: #4A5878;
+  }
+  .m-rail-hint i { width: 6px; height: 6px; border-radius: 50%; background: #C9D8F5; display: inline-block; transition: background .2s, width .2s; }
+  .m-rail-hint i.on { background: #1F55C9; width: 18px; border-radius: 3px; }
+
+  /* ---------- 2. Sections plus compactes ---------- */
+  .rb .sec, .proto .sec { padding-block: 40px !important; }
+  .section { padding: 44px 0 !important; }
+  .rb .sec h2, .proto .sec h2 { margin-bottom: 12px; }
+
+  /* ---------- 3. Lisibilité et cibles tactiles ---------- */
+  body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  .btn, .rb .btn, .proto .btn, button.btn, a.btn { min-height: 48px; }
+  input, select, textarea { font-size: 16px !important; } /* évite le zoom automatique sur iPhone */
+  .ep-bubble { display: none !important; } /* bulle d'exemple : gêne la lecture sur petit écran */
+
+  /* bandeau cookies plus discret */
+  .cookie-banner__inner { padding: 12px 14px !important; gap: 10px !important; }
+  .cookie-banner__text { font-size: 13px !important; line-height: 1.45 !important; }
+  .cookie-banner__btn { min-height: 44px; }
+}
+
+@media (max-width: 767px) {
+  /* listes de villes et de liens repliées (voir rails.js) */
+  .m-cache { display: none !important; }
+  .m-voir-tout {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 12px;
+    padding: 0 18px; border-radius: 999px; border: 1.5px solid #C9D8F5; background: #fff; color: #1F55C9;
+    font: inherit; font-weight: 700; font-size: 15px; cursor: pointer;
+  }
+  .sp-villes { display: flex !important; flex-wrap: wrap !important; gap: 8px !important; }
+  .sp-villes > * { width: auto !important; }
+}
+
+@media (max-width: 767px) {
+  /* ---------- 4. Premier écran : nom, promesse et bouton visibles sans défiler ---------- */
+  /* fiches coachs et coach x ville : photo plus compacte, badges flottants retirés (déjà repris plus bas) */
+  .rb .ch-vis { max-width: 170px !important; }
+  .rb .ch-vis .ch-float { display: none !important; }
+  .rb .ch-grid { gap: 18px !important; }
+  .rb .ch .ch-acc.m-clamp { -webkit-line-clamp: 4; }
+
+  /* ---------- 5. Longs textes : 5 lignes puis « Lire la suite » (voir rails.js) ---------- */
+  .m-clamp { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+  .m-clamp.is-open { display: block; -webkit-line-clamp: unset; overflow: visible; }
+  .m-suite {
+    display: inline-flex; align-items: center; min-height: 40px; margin: 2px 0 10px; padding: 0;
+    border: 0; background: none; color: inherit; font: inherit; font-weight: 700; font-size: 15px;
+    text-decoration: underline; text-underline-offset: 3px; cursor: pointer; opacity: .9;
+  }
+}
+
+@media (max-width: 767px) {
+  /* ---------- 6. Tableaux comparatifs en cartes (voir rails.js) ---------- */
+  .m-cache-tableau { display: none !important; }
+  .m-tcartes { display: grid; gap: 12px; margin: 16px 0; }
+  .m-tcarte { background: #fff; color: #13203B; border: 1px solid #DCE6FB; border-radius: 16px; padding: 16px; }
+  .m-tcarte__t { margin: 0 0 10px; font-weight: 700; font-size: 18px; color: #0B1E3D; }
+  .m-tcarte dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; font-size: 15px; }
+  .m-tcarte dt { color: #3E4A66; }
+  .m-tcarte dd { margin: 0; font-weight: 700; text-align: right; color: #0B1E3D; }
+}
+
+@media (max-width: 767px) {
+  /* ---------- 7. Listes de cartes plus compactes (sans carrousel) ---------- */
+  /* tuiles : icône à gauche, texte à droite, au lieu de grosses cartes empilées */
+  .proto .grid.g3, .proto .grid.g4, .rb .grid.g3, .rb .grid.g4 { gap: 10px !important; }
+  .proto .grid > .tile, .rb .grid > .tile {
+    display: grid !important; grid-template-columns: 44px 1fr; column-gap: 14px; row-gap: 4px;
+    align-items: start; padding: 16px !important;
+  }
+  .proto .grid > .tile > .tic, .proto .grid > .tile > .step-n,
+  .rb .grid > .tile > .tic, .rb .grid > .tile > .step-n { grid-row: 1 / span 3; width: 44px; height: 44px; margin: 0 !important; }
+  .proto .grid > .tile > :not(.tic):not(.step-n), .rb .grid > .tile > :not(.tic):not(.step-n) { grid-column: 2; margin: 0 !important; }
+  .proto .grid > .tile h3, .rb .grid > .tile h3 { font-size: 17px !important; line-height: 1.25; }
+  .proto .grid > .tile p, .rb .grid > .tile p { font-size: 14.5px !important; line-height: 1.5; }
+  .proto .grid > .tile.salle { grid-template-columns: 1fr; }
+  .proto .grid > .tile.salle > * { grid-column: 1 !important; }
+
+  /* chiffres clés : une ligne par chiffre, le chiffre à gauche, l'explication à droite */
+  .fs-grid, .cc-stats, .proto .grid.stats4, .ex-stats {
+    display: grid !important; grid-template-columns: 1fr !important; gap: 10px !important;
+  }
+  .fs-grid > .fs-c, .cc-stats > .cc-st, .proto .grid.stats4 > .tile, .ex-stats > .tile {
+    display: grid !important; grid-template-columns: 104px 1fr !important; column-gap: 14px !important; row-gap: 4px !important;
+    align-items: start; padding: 16px !important; min-height: 0 !important;
+  }
+  .fs-grid > .fs-c > *, .cc-stats > .cc-st > *, .proto .grid.stats4 > .tile > *, .ex-stats > .tile > * { grid-column: 2; margin: 0 !important; }
+  .fs-grid > .fs-c > .fs-v, .cc-stats > .cc-st > b:first-child, .proto .grid.stats4 > .tile > .bigstat, .ex-stats > .tile > b:first-child {
+    grid-column: 1 !important; grid-row: 1 / span 4; font-size: 30px !important; line-height: 1.05 !important; align-self: start;
+  }
+  .proto .grid.stats4 > .tile > .bigstat span { font-size: 30px !important; }
+  .fs-grid .fs-ppl { display: none !important; }
+  .fs-grid .fs-t { font-size: 15px !important; line-height: 1.4; font-weight: 700; }
+  .fs-grid .fs-d { font-size: 14px !important; line-height: 1.45; }
+  .fs-grid .fs-s, .cc-stats .cc-src, .proto .grid.stats4 .src, .ex-stats .src { font-size: 12.5px !important; }
+  .cc-stats > .cc-st > span, .ex-stats > .tile > p, .proto .grid.stats4 .stat-txt { font-size: 15px !important; line-height: 1.45; }
+
+  /* ce que tu repars avec, activités : textes plus courts */
+  .bx-out { gap: 10px !important; }
+  .bx-out > .bx-o { padding: 14px 16px !important; }
+  .acts-grid { gap: 10px !important; }
+}
+
+@media (max-width: 767px) {
+  .m-rail-pause {
+    margin-left: 8px; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #C9D8F5; background: #fff;
+    color: #1F55C9; font-size: 11px; line-height: 1; display: inline-grid; place-items: center; cursor: pointer; padding: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  /* les chiffres gardent tout leur texte (pas de coupure à 3 lignes) */
+  .proto .grid.stats4 > .tile p, .ex-stats > .tile p, .cc-stats > .cc-st span { display: block !important; -webkit-line-clamp: unset !important; overflow: visible !important; }
+}
+
+@media (max-width: 767px) {
+  /* ---------- 8. Rien ne doit dépasser de l'écran ---------- */
+  /* une grille ne s'élargit plus à cause d'un long texte ou d'une liste déroulante */
+  [class*="grid"] > *, [class*="-wrap"] > *, .ctas > *, form > * { min-width: 0; }
+  .sw-form-wrap, .gd-form-wrap { grid-template-columns: minmax(0, 1fr) !important; }
+  select, input, textarea { max-width: 100%; }
+  h1, h2, h3, .btn, button { overflow-wrap: break-word; }
+  .btn { white-space: normal !important; text-align: center; }
+
+  /* rangées de filtres et de vidéos : sur plusieurs lignes au lieu de sortir de l'écran */
+  .tc-chips, .tf-chips { flex-wrap: wrap !important; overflow: visible !important; }
+  .rj-vids { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 10px !important; overflow: visible !important; }
+  .rj-vids > * { width: auto !important; min-width: 0 !important; flex: none !important; }
+
+  /* tuiles à 2 colonnes (ex. métiers) : texte qui revient à la ligne */
+  .proto .grid > .tile h3, .rb .grid > .tile h3 { overflow-wrap: anywhere; hyphens: auto; }
+}
+
+@media (max-width: 767px) {
+  form select, .cmd select { width: 100% !important; }
+  /* grilles de 2 tuiles par ligne : icône au-dessus du texte pour laisser la place au titre */
+  .proto .grid.g4 > .tile:not(.step), .rb .grid.g4 > .tile:not(.step) { grid-template-columns: 1fr !important; }
+  .proto .grid.g4 > .tile:not(.step) > *, .rb .grid.g4 > .tile:not(.step) > * { grid-column: 1 !important; grid-row: auto !important; }
+}
+
+
+/* =========================================================================
+   Audit mobile (nov. 2026) : premier écran dégagé, zones tactiles 44 px, texte plancher 13 px
+   ========================================================================= */
+@media (max-width: 767px) {
+
+  /* 1. Premier écran : un seul appel au bilan (le bouton fixe), le bandeau du haut disparaît */
+  .ribbon { display: none !important; }
+  .cookie-banner { padding: 10px 12px !important; }
+  .cookie-banner__inner { flex-direction: row !important; flex-wrap: wrap; align-items: center !important; gap: 8px 10px !important; }
+  .cookie-banner__text { flex: 1 1 100%; margin: 0; }
+  .cookie-banner__btns { width: 100%; gap: 8px; }
+  .cookie-banner__btn { flex: 1 1 0; padding: 0 12px; }
+
+  /* 2. Zones tactiles : 44 px minimum sans changer l'aspect */
+  .footer__col li a,
+  .footer__legal a,
+  .footer__founder a,
+  .mobile-nav__sub,
+  .nav__mega-all,
+  .crumbs a,
+  nav.crumbs a,
+  .skip-link,
+  .btn-sm,
+  .lnk,
+  .bq-fiche,
+  .rj-stc-btn,
+  .rj-espace,
+  .hb-more a {
+    display: inline-flex; align-items: center; min-height: 44px;
+  }
+  .footer__col ul { gap: 0 !important; }
+  .footer__legal { gap: 0 16px !important; }
+  .zone, a.zone { display: flex; align-items: center; min-height: 44px; }
+  .tf-chips button, .sc-q1-opts button, .sw-seg button, .sw-flip, .m-suite, .m-rail-pause { min-height: 44px; }
+  .bq-check, .bc-line, .bg-chip { min-height: 44px; display: flex; align-items: center; gap: 10px; }
+  input[type="checkbox"], input[type="radio"] { width: 22px; height: 22px; }
+  input[type="range"] { min-height: 44px; }
+  .sw-hot { min-width: 44px; min-height: 44px; }
+  nav.crumbs, .crumbs { row-gap: 0; }
+  .fs-s, .cc-src, a.fs-s, a.cc-src, .lead-magnet-dismiss { min-height: 32px; display: inline-flex; align-items: center; }
+
+  /* 3. Texte : jamais sous 13 px (mentions, étiquettes, badges) */
+  small,
+  .nav__mega-titre, .lead-magnet-trust span, .lead-magnet-reassure, .lead-magnet-badge, .lead-magnet-gauge-number small,
+  .gsh-n, .hb-k, .hb-new, .bh-k, .lv-badge b, .tags span, .ga-cg__tags span, .bamboo__status,
+  .rj-px-v small, .rj-stc-k, .cba-lv li, .cba-fx, .bq-prix small, .lieu small, .tile-badge, .door-tag, .bc-go,
+  .bg-niv, .bg-q small, .bg-vote, .bg-urne-face span, .guide small, .chip-link small, .rj-vid small,
+  .card-salle, .coach-picker__salle, .bx-f, .vz-km, .sc-q1-k, .ec-bref-k, .bsim-scale span,
+  .ar-cat, .ar-time, .eyebrow, .eyebrow span, .wow-sr, .rj-fo-s, .cg-note, .ga-cg__note, .rsl-n, .pcq-k, .bx-badge,
+  .rj-warn, .rj-out span, .bc-s, .bcz-foot span, .doors-k, .qz-k, .ap-tag, .bga-who-k, .sr, .lb-fields label {
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Sections longues repliées (rails.js) */
+  .m-sec-clamp { max-height: 1000px; overflow: hidden; position: relative; -webkit-mask-image: linear-gradient(#000 80%, transparent); mask-image: linear-gradient(#000 80%, transparent); }
+  .m-sec-clamp.is-open { max-height: none; -webkit-mask-image: none; mask-image: none; }
+  .m-sec-btn {
+    display: flex; align-items: center; justify-content: center; min-height: 48px; margin: 8px auto 20px; padding: 0 22px;
+    border-radius: 999px; border: 2px solid #BFD3FB; background: #fff; color: #1F55C9; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer;
+  }
+  .proto .day span, .proto .rj-tw-c figcaption span, .proto .rj-tw-toi > span:not(.rj-tw-plus):not(.sr) { font-size: 13px !important; }
+}
+
+.hero-score{margin:12px auto 0;font-size:.95rem;color:#4A5672;text-align:center;max-width:46ch}
+.hero-score a{color:#1F55C9;font-weight:700;text-decoration:underline;display:inline-block;min-height:44px;line-height:44px}
+
+/* audit responsive : champs et lignes qui dépassaient à 320 px */
+@media (max-width:400px){
+  body .rb .tc-search{flex-wrap:wrap}
+  body .rb .tc-search input{min-width:0;width:100%;flex:1 1 100%}
+  .rsl-id{min-width:0}.rsl-p{min-width:0;overflow-wrap:anywhere}
+}

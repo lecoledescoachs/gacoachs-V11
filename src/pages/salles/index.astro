@@ -1,0 +1,239 @@
+---
+import CoachsParSalle from '../../components/CoachsParSalle.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import Etapes from '../../components/rb/Etapes.astro';
+import ReseauSvg from '../../components/rb/ReseauSvg.astro';
+import villes from '../../data/villes.json';
+import '../../styles/rebrand.css';
+import sallesData from '../../data/salles.json';
+const salles = sallesData.filter((s) => s.reseauOfficiel !== false);
+import { coachesReseau as coaches } from '../../data/coaches.js';
+
+const coachParSlug = Object.fromEntries(coaches.map((c) => [c.slug, c]));
+
+const faqSalles = [
+  { q: 'Faut-il être abonné à Basic-Fit pour avoir un coach GA ?', r: "Oui, les coachs du réseau interviennent directement dans les salles Basic-Fit partenaires : un abonnement à la salle concernée est nécessaire en complément du coaching." },
+  { q: 'Puis-je choisir n\'importe quelle salle même si je n\'habite pas à côté ?', r: "Oui, rien ne t'empêche de choisir la salle qui te convient, même si un autre point du réseau est plus proche géographiquement. Vérifie simplement les horaires d'ouverture qui varient d'une salle à l'autre." },
+  { q: 'Toutes les salles ont-elles les mêmes horaires ?', r: "Non. Certaines salles (Olivet, Saran, Fleury-les-Aubrais) sont ouvertes 24h/24 et 7j/7, d'autres (Orléans Sud, Orléans Libération) ont des horaires plus classiques. Vérifie la fiche de chaque salle pour le détail." },
+  { q: 'Combien de coachs interviennent dans chaque salle ?', r: "Ça varie selon les salles, de 1 à plusieurs coachs. Chaque fiche salle liste les coachs qui y interviennent, avec leurs spécialités respectives." },
+  { q: 'Puis-je changer de salle en cours d\'accompagnement ?', r: "C'est à voir avec ton coach et ton abonnement Basic-Fit. Chaque coach est rattaché à une salle : si tu déménages, on t'oriente vers un coach du réseau dans ta nouvelle salle." },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+      { '@type': 'ListItem', position: 2, name: 'Nos salles', item: 'https://gacoachs.fr/salles/' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: salles.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `https://gacoachs.fr/salles/${s.slug}/`,
+      name: s.nom,
+    })),
+  },
+];
+const bassin = (slug: string) => villes.filter((v) => v.salleSlugs.includes(slug) && v.slug !== 'la-source' && v.slug !== 'saint-marceau');
+const villesListe = villes.filter((v) => v.slug !== 'la-source' && v.slug !== 'saint-marceau').map((v) => ({ slug: v.slug, nom: v.nom }));
+
+---
+<BaseLayout
+  title="Salles Basic-Fit avec coach sportif GA autour d'Orléans"
+  description={`Les ${salles.length} salles Basic-Fit du réseau GA Coachs (Olivet, Orléans, Saran, Fleury-les-Aubrais) : adresses, horaires, coachs sportifs présents et villes desservies.`}
+  path="/salles/"
+  jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')}
+>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Nos salles', href: '/salles/' }]} />
+      <div class="sl-grid">
+        <div>
+          <span class="eyebrow eyebrow-dark">Le réseau</span>
+          <h1>Nos <span class="hl-text">salles</span>.</h1>
+          <p class="phero-lead">Retrouve les salles Basic-Fit où intervient un coach du réseau GA.</p>
+          <ul class="sl-meta">
+            <li><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg>{salles.length} salles partenaires</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg>{coaches.length} coachs du réseau</li>
+            <li><svg class="ic" aria-hidden="true"><use href="#i-target"></use></svg>{villes.length} villes couvertes</li>
+          </ul>
+          <div class="ctas">
+            <a class="btn btn-primary" href="/trouver-un-coach/">Trouver mon coach</a>
+            <a class="btn btn-glass" href="#carte">Trouver ma ville sur la carte</a>
+          </div>
+        </div>
+        <div class="sl-map">
+          <ReseauSvg id="rs-hero" />
+          <p class="sl-map-k"><svg class="ic" aria-hidden="true"><use href="#i-bolt"></use></svg>Le cœur du réseau : {salles.length} salles Basic-Fit autour d'Orléans</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <div class="sl-cards">
+        {salles.map((s) => (
+          <a class="sl-card" href={`/salles/${s.slug}/`} data-up>
+            <div class="sl-top"><span class="sl-v">{s.ville}</span>{/24h/.test(s.horaires || '') && <span class="sl-24">24/7</span>}</div>
+            <h2>{s.nom}</h2>
+            <ul>
+              <li><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg>{s.adresse}</li>
+              {s.horaires && <li><svg class="ic" aria-hidden="true"><use href="#i-clock"></use></svg>{s.horaires}</li>}
+              <li><svg class="ic" aria-hidden="true"><use href="#i-target"></use></svg>Dessert {bassin(s.slug).length} villes autour d'Orléans</li>
+            </ul>
+            <p>{s.coachs.length} coach{s.coachs.length > 1 ? 's' : ''} du réseau présent{s.coachs.length > 1 ? 's' : ''} dans cette salle.</p>
+            <div class="sl-foot">
+              <span class="btn-out">Voir les coachs</span>
+              <span class="sl-av">{(s.coachs || []).map((sl) => coachParSlug[sl]).filter(Boolean).map((c) => <img src={c.photo} alt="" width="34" height="34" loading="lazy" />)}</span>
+            </div>
+          </a>
+        ))}
+        <a class="sl-card sl-help" href="/score-sante/" data-up>
+          <span class="sl-help-ic" aria-hidden="true"><svg class="ic"><use href="#i-spark"></use></svg></span>
+          <h2>Pas sûr de la salle ?</h2>
+          <p>Réserve ton bilan santé : l'équipe t'oriente vers le coach et la salle qui collent le mieux à ton objectif et à tes horaires.</p>
+          <span class="sl-help-go">Réserver mon bilan santé →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec"><div class="inner"><h2 class="h2">Nos coachs, salle par salle.</h2><CoachsParSalle /></div></section>
+  <section class="sec navy" id="carte">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner sl-cv">
+      <div>
+        <span class="eyebrow">D'où viennent nos adhérents</span>
+        <h2 class="h2">Nos clients viennent de...</h2>
+        <p class="lead-p">Chaque salle du réseau GA Coachs dessert un bassin de villes précis. Clique sur un point pour découvrir la salle ou la ville associée.</p>
+        <div class="sl-search">
+          <label class="visually-hidden" for="sl-q">Ta ville</label>
+          <input id="sl-q" type="search" list="sl-villes" placeholder="Ta ville : Olivet, Saran, Chécy…" autocomplete="off" />
+          <datalist id="sl-villes">{villesListe.map((v) => <option value={v.nom} />)}</datalist>
+          <p class="sl-res" id="sl-res" aria-live="polite"></p>
+        </div>
+        <p class="sl-k">Afficher le bassin d'une salle</p>
+        <div class="sl-chips" id="sl-chips">
+          <button type="button" aria-pressed="true" data-s="">Toutes</button>
+          {salles.map((s) => <button type="button" aria-pressed="false" data-s={s.slug}>{s.nom.replace('Basic-Fit ', '')} <small>{bassin(s.slug).length}</small></button>)}
+        </div>
+        <ul class="sl-leg"><li><i class="a"></i>Salle partenaire</li><li><i class="b"></i>Ville desservie</li><li><i class="c"></i>La Loire</li></ul>
+      </div>
+      <div class="sl-big"><ReseauSvg id="rs-big" /></div>
+    </div>
+  </section>
+
+  <Etapes eyebrow="Comment ça marche" titre="Un coach GA, une salle Basic-Fit." lead="Chaque coach du réseau est rattaché à une seule salle et y coache uniquement. Choisis la salle la plus pratique pour toi, puis le coach qui y intervient." items={[
+    { t: 'Choisis ta salle', p: "Les coachs GA interviennent dans 5 salles Basic-Fit autour d'Orléans. Prends celle qui est proche de chez toi ou de ton travail, avec un abonnement Basic-Fit valide." },
+    { t: 'Ton bilan santé avec un coach', p: "Une heure dans sa salle avec un coach GA pour faire le point sur ta forme, ta posture et tes habitudes, et définir ton objectif." },
+    { t: 'Tes séances, toujours au même endroit', p: "Ton coach construit un programme adapté et t'accompagne dans sa salle, sur les créneaux que vous fixez ensemble." },
+  ]} />
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Questions fréquentes.</h2>
+      <div class="faq-list">{faqSalles.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">Prêt à trouver le coach qui te correspond ?</h2>
+      <a class="btn-final" href="/trouver-un-coach/"><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Trouver mon coach<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+</div>
+<script type="application/json" id="sl-data" set:html={JSON.stringify(villesListe)} />
+</BaseLayout>
+
+<style>
+  .sl-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px 56px; align-items: center; }
+  .sl-grid h1 { margin-top: 14px; }
+  .sl-meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0 0 22px; padding: 0; list-style: none; font-size: 14px; font-weight: 700; color: rgba(255,255,255,.8); }
+  .sl-meta li { display: inline-flex; align-items: center; gap: 8px; }
+  .sl-meta .ic { width: 17px; height: 17px; color: #7CC4FF; }
+  .sl-map { padding: 18px; border-radius: 28px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); }
+  .sl-map-k { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 10px 0 0; font-size: 13.5px; font-weight: 700; color: #BFE2FF; }
+  .sl-map-k .ic { width: 16px; height: 16px; }
+  .sl-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .sl-card { display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: 24px; background: #fff; border: 2px solid var(--line); transition: transform .25s ease, border-color .25s ease; color: var(--ink); }
+  .sl-card:hover { transform: translateY(-4px); border-color: #BFD3FB; }
+  .sl-top { display: flex; justify-content: space-between; align-items: center; }
+  .sl-v { font-size: 13px; font-weight: 700; color: var(--blue-deep); }
+  .sl-24 { padding: 3px 9px; border-radius: 999px; background: var(--navy); color: #fff; font-size: 12px; font-weight: 700; }
+  .sl-card h2 { font-family: var(--display); font-size: 22px; line-height: 1.2; margin: 0; }
+  .sl-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .sl-card li { display: flex; gap: 8px; font-size: 14px; line-height: 1.4; color: var(--ink); }
+  .sl-card li .ic { width: 16px; height: 16px; color: var(--blue); flex-shrink: 0; margin-top: 2px; }
+  .sl-card > p { font-size: 14px; color: var(--muted); flex: 1; }
+  .sl-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .sl-av { display: flex; }
+  .sl-av img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; object-position: top; border: 2px solid #fff; margin-left: -8px; }
+  .sl-help { background: linear-gradient(150deg, #2F6FED, #1F55C9); border-color: transparent; color: #fff; }
+  .sl-help h2 { color: #fff; }
+  .sl-help p { color: rgba(255,255,255,.85) !important; }
+  .sl-help-ic { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,.18); }
+  .sl-help-ic .ic { width: 22px; height: 22px; }
+  .sl-help-go { font-weight: 700; }
+  .sl-cv { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 32px 48px; align-items: center; }
+  .sl-search { margin-top: 22px; }
+  .sl-search input { width: 100%; min-height: 50px; padding: 0 18px 0 44px; border-radius: 999px !important; border: 0 !important; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235A6785' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") 16px center / 18px no-repeat; font-size: 15px; }
+  .sl-res { min-height: 22px; margin: 10px 0 0; font-size: 14.5px; color: #BFE2FF; }
+  .sl-res a { color: #fff; font-weight: 700; text-decoration: underline; }
+  .sl-k { margin: 14px 0 10px; font-size: 12.5px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: rgba(255,255,255,.7); }
+  .sl-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .sl-chips button { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.06); color: #fff; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .sl-chips button small { padding: 1px 7px; border-radius: 999px; background: rgba(255,255,255,.15); font-size: 12px; }
+  .sl-chips button[aria-pressed="true"] { background: #fff; color: var(--navy); }
+  .sl-chips button[aria-pressed="true"] small { background: var(--pill); }
+  .sl-leg { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 18px 0 0; padding: 0; list-style: none; font-size: 13px; font-weight: 700; color: rgba(255,255,255,.75); }
+  .sl-leg li { display: inline-flex; align-items: center; gap: 8px; }
+  .sl-leg i { display: inline-block; }
+  .sl-leg .a { width: 14px; height: 14px; border-radius: 50%; background: #2F6FED; border: 2px solid #fff; }
+  .sl-leg .b { width: 9px; height: 9px; border-radius: 50%; background: #fff; }
+  .sl-leg .c { width: 22px; height: 4px; border-radius: 4px; background: #2F6FED; }
+  @media (max-width: 960px) { .sl-grid, .sl-cv { grid-template-columns: 1fr; } .sl-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) { .sl-cards { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  const big = document.getElementById('rs-big');
+  const chips = document.getElementById('sl-chips');
+  const res = document.getElementById('sl-res');
+  const q = document.getElementById('sl-q') as HTMLInputElement | null;
+  const villesL: { slug: string; nom: string }[] = JSON.parse(document.getElementById('sl-data')?.textContent || '[]');
+  const norm = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  function bassin(slug: string) {
+    if (!big) return;
+    big.querySelectorAll<SVGElement>('.rs-l').forEach((l) => { l.classList.toggle('is-dim', !!slug && l.dataset.s !== slug); l.classList.toggle('is-on', !!slug && l.dataset.s === slug); });
+    big.querySelectorAll<SVGElement>('.rs-v').forEach((v) => v.classList.toggle('is-dim', !!slug && !(v.dataset.s || '').split(' ').includes(slug)));
+    big.querySelectorAll<SVGElement>('.rs-s').forEach((s) => { s.classList.toggle('is-dim', !!slug && s.dataset.s !== slug); s.classList.toggle('is-focus', s.dataset.s === slug); });
+  }
+  chips?.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest('button');
+    if (!b) return;
+    chips.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    bassin(b.dataset.s || '');
+  });
+  q?.addEventListener('input', () => {
+    const t = norm(q.value);
+    big?.querySelectorAll('.rs-v').forEach((v) => v.classList.remove('is-hit'));
+    if (t.length < 2) { res!.textContent = ''; return; }
+    const v = villesL.find((x) => norm(x.nom) === t) || villesL.find((x) => norm(x.nom).startsWith(t));
+    if (!v) { res!.textContent = 'Pas encore dans nos villes desservies : contacte-nous, on t\'oriente quand même.'; return; }
+    big?.querySelector(`.rs-v[data-v="${v.slug}"]`)?.classList.add('is-hit');
+    res!.innerHTML = `<a href="/coach-sportif-${v.slug}/">Voir les coachs pour ${v.nom} →</a>`;
+  });
+</script>

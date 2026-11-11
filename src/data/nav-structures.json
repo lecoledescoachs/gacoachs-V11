@@ -1,0 +1,121 @@
+{
+  "tous": {
+    "href": "/boost/",
+    "label": "Toute la gamme BOOST, partout en France"
+  },
+  "groupes": [
+    {
+      "titre": "Entreprises et public",
+      "liens": [
+        {
+          "href": "/entreprises/",
+          "label": "Entreprises"
+        },
+        {
+          "href": "/services-sur-mesure/atelier-gestes-et-postures/",
+          "label": "Gestes et postures"
+        },
+        {
+          "href": "/services-sur-mesure/coach-sportif-collectivites-administrations/",
+          "label": "Mairies et organismes publics"
+        }
+      ]
+    },
+    {
+      "titre": "Santé et seniors",
+      "liens": [
+        {
+          "href": "/sport-sante/ehpad-maisons-de-retraite/",
+          "label": "EHPAD et maisons de retraite"
+        },
+        {
+          "href": "/professionnels-de-sante/",
+          "label": "Professionnels de santé"
+        },
+        {
+          "href": "/services-sur-mesure/coach-sportif-maison-de-sante/",
+          "label": "Maisons de santé"
+        },
+        {
+          "href": "/services-sur-mesure/coach-sportif-clinique/",
+          "label": "Cliniques"
+        }
+      ]
+    },
+    {
+      "titre": "Clubs et associations",
+      "liens": [
+        {
+          "href": "/preparation-physique/clubs/",
+          "label": "Clubs sportifs"
+        },
+        {
+          "href": "/associations-de-musculation/",
+          "label": "Associations de musculation"
+        }
+      ]
+    },
+    {
+      "titre": "Tourisme et événements",
+      "liens": [
+        {
+          "href": "/services-sur-mesure/coach-sportif-hotel/",
+          "label": "Hôtels"
+        },
+        {
+          "href": "/services-sur-mesure/coach-sportif-camping/",
+          "label": "Campings"
+        },
+        {
+          "href": "/services-sur-mesure/coach-sportif-evenement-bar/",
+          "label": "Bars"
+        },
+        {
+          "href": "/services-sur-mesure/coach-sportif-evenement-restaurant/",
+          "label": "Restaurants"
+        },
+        {
+          "href": "/services-sur-mesure/evjf-evg-activite-sportive/",
+          "label": "EVJF et EVG"
+        },
+        {
+          "href": "/coach-sportif-echauffement-course/",
+          "label": "Échauffement de courses et marches"
+        }
+      ]
+    },
+    {
+      "titre": "Personnalités, artistes et médias",
+      "liens": [
+        {
+          "href": "/services-sur-mesure/coach-sportif-vip/",
+          "label": "BOOST PRIVÉ : personnalités et VIP"
+        },
+        {
+          "href": "/services-sur-mesure/coach-sportif-preparation-scene/",
+          "label": "BOOST SCÈNE : préparation scène"
+        },
+        {
+          "href": "/services-sur-mesure/coach-sportif-tournee-artistes/",
+          "label": "BOOST TOURNÉE : coach de tournée"
+        },
+        {
+          "href": "/conferences/",
+          "label": "Conférences et événements"
+        },
+        {
+          "href": "/medias/",
+          "label": "Espace médias et marques"
+        },
+        {
+          "href": "/coach-sportif-campagne-sport-sante/",
+          "label": "BOOST COMMUNICATION : campagnes sport-santé"
+        },
+        {
+          "href": "/coach-sportif-invite/",
+          "label": "Coach sportif invité : podcasts, esport, salons"
+        }
+      ]
+    }
+  ]
+}

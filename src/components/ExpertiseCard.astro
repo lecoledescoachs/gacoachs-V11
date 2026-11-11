@@ -1,0 +1,20 @@
+---
+interface Props {
+  slug: string;
+  nom: string;
+  resume: string;
+}
+const { slug, nom, resume } = Astro.props;
+---
+<a href={`/${slug}/`} class="expertise-card card">
+  <h3>{nom}</h3>
+  <p>{resume}</p>
+  <span class="expertise-card__cta">En savoir plus →</span>
+</a>
+
+<style>
+  .expertise-card { display: block; padding: 24px; }
+  .expertise-card h3 { font-size: 19px; margin-bottom: 10px; }
+  .expertise-card p { color: var(--text-muted); font-size: 14px; }
+  .expertise-card__cta { display: inline-block; margin-top: 14px; font-weight: 600; font-size: 14px; color: var(--blue); }
+</style>

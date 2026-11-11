@@ -1,0 +1,58 @@
+---
+const blocs = [
+  {
+    titre: 'EHPAD, maisons de retraite et hôpitaux',
+    points: ['Séances collectives et individuelles adaptées', "Prévention des chutes et maintien de l'autonomie", 'Programme construit avec votre équipe soignante'],
+    cta: "Découvrir l'offre EHPAD",
+    href: '/sport-sante/ehpad-maisons-de-retraite/',
+  },
+  {
+    titre: 'Associations de musculation',
+    points: ['Créneaux encadrés par un coach diplômé', 'Accueil des nouveaux adhérents et programmes personnalisés', 'Appui à vos bénévoles, prévention des blessures'],
+    cta: "Découvrir l'offre associations",
+    href: '/associations-de-musculation/',
+  },
+  {
+    titre: 'Médecins, kinés, ostéopathes',
+    points: ['Un relais pour vos patients qui reprennent une activité physique', 'Des coachs diplômés, des séances adaptées', 'Un échange simple, avec l\'accord du patient'],
+    cta: 'Collaborer avec nous',
+    href: '/professionnels-de-sante/',
+  },
+];
+---
+<section class="section structures">
+  <div class="container">
+    <span class="eyebrow structures__eyebrow">Pour les établissements, les associations et les professionnels de santé</span>
+    <h2>Nos coachs interviennent aussi chez vous.</h2>
+    <p class="lead">Un coach diplômé du réseau se déplace : auprès des résidents d'EHPAD, de maisons de retraite et des patients d'hôpitaux, ou dans la salle de votre association. Nous cherchons aussi à collaborer avec les professionnels de santé.</p>
+    <div class="structures__grid">
+      {blocs.map((b) => (
+        <div class="structures__card">
+          <h3>{b.titre}</h3>
+          <ul>{b.points.map((p) => <li>{p}</li>)}</ul>
+          <a href={b.href} class="btn btn--primary">{b.cta}</a>
+        </div>
+      ))}
+    </div>
+    <p class="structures__more">Hôtels, campings, mairies, administrations, maisons de santé, cliniques, clientèle VIP : <a href="/services-sur-mesure/">découvrez nos services sur mesure</a>.</p>
+    <p class="structures__note">Interventions selon la disponibilité des coachs et la zone. Elles ne remplacent ni le suivi médical ni les soins prodigués par l'établissement.</p>
+  </div>
+</section>
+
+<style>
+  .structures { background: var(--navy); color: #fff; }
+  .structures h2, .structures h3 { color: #fff; }
+  .structures .lead { color: rgba(255, 255, 255, 0.78); }
+  .structures__more { margin: 26px 0 0; font-size: 17px; font-weight: 600; }
+  .structures__more a { color: var(--sky); text-decoration: underline; }
+  .structures__eyebrow { color: var(--sky); }
+  .structures__grid { margin-top: 30px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+  .structures__card { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 28px 26px; border-radius: var(--radius-lg); background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(124, 196, 255, 0.28); }
+  .structures__card h3 { font-size: 21px; }
+  .structures__card ul { list-style: none; margin: 0 0 8px; padding: 0; display: grid; gap: 12px; }
+  .structures__card li { position: relative; padding-left: 30px; font-size: 16px; line-height: 1.4; font-weight: 600; }
+  .structures__card li::before { content: ''; position: absolute; left: 0; top: 0; width: 22px; height: 22px; border-radius: 50%; background: #2f6fed url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5.5 10.5l3 3 6-6.5' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat; }
+  .structures__card .btn { margin-top: auto; }
+  .structures__note { margin-top: 22px; font-size: 12.5px; color: rgba(255, 255, 255, 0.65); max-width: 70ch; }
+  @media (max-width: 980px) { .structures__grid { grid-template-columns: minmax(0, 1fr); } }
+</style>

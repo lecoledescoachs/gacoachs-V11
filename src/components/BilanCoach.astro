@@ -1,0 +1,76 @@
+---
+interface Props {
+  prenom: string;
+  slug: string;
+  dureeBilan?: string;
+}
+const { prenom, slug, dureeBilan = '1 heure' } = Astro.props;
+
+import { accroches, accrocheDefaut, pointsBilan as points } from '../data/bilan-accroches';
+const contenu = accroches[slug] ?? accrocheDefaut;
+---
+<div class="bilan-coach card">
+  <span class="bilan-coach__badge">Étape 1</span>
+  <h2>{contenu.titre}</h2>
+  <p class="bilan-coach__lead">{contenu.sousTitre}</p>
+
+  <div class="bilan-coach__quoi">
+    <h3>Le Bilan Santé, c'est quoi ?</h3>
+    <ul class="bilan-coach__list">
+      {points.map((p) => (
+        <li>
+          <span class="bilan-coach__icon" aria-hidden="true">{p.icon}</span>
+          <span>
+            <strong>{p.label}</strong>
+            <span class="bilan-coach__detail"> · {p.detail}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <a href={`/score-sante/?coach=${slug}`} class="btn btn--primary">Réserver mon bilan avec {prenom}</a>
+  <p class="bilan-coach__note">Durée : {dureeBilan} · Tarif fixé directement par {prenom}.</p>
+</div>
+
+<style>
+  .bilan-coach {
+    padding: 32px;
+    background: linear-gradient(135deg, var(--ice), var(--white));
+    border: 1px solid var(--line);
+  }
+  .bilan-coach__badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: none;
+    color: var(--white);
+    background: var(--blue);
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+  .bilan-coach h2 { margin-top: 14px; font-size: clamp(20px, 3.2vw, 26px); max-width: 32ch; }
+  .bilan-coach__lead { margin-top: 12px; color: var(--text-muted); max-width: 60ch; font-size: 14.5px; }
+
+  .bilan-coach__quoi { margin-top: 28px; }
+  .bilan-coach__quoi h3 { font-size: 16px; }
+  .bilan-coach__list {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .bilan-coach__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+  }
+  .bilan-coach__icon { flex-shrink: 0; font-size: 13px; margin-top: 2px; }
+  .bilan-coach__list strong { color: var(--navy); }
+  .bilan-coach__detail { color: var(--text-muted); }
+
+  .bilan-coach .btn { margin-top: 24px; }
+  .bilan-coach__note { margin-top: 10px; font-size: 12px; color: var(--text-muted); }
+</style>

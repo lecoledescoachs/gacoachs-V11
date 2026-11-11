@@ -1,0 +1,55 @@
+---
+// Système d'animation au scroll : CSS pour la transition (fiable, ne peut jamais laisser un
+// élément bloqué à mi-animation), JavaScript uniquement pour détecter le passage dans le
+// viewport via IntersectionObserver (natif, déjà éprouvé sur ce site dans StatsCounters.astro).
+// Cible les motifs déjà utilisés partout (cartes, titres de section) : un seul changement ici
+// touche automatiquement les 380+ pages du site, sans classe à ajouter page par page.
+// Le contenu est TOUJOURS visible par défaut (opacité 1 tant que le JS n'a pas confirmé qu'il
+// va gérer l'animation) : aucun risque qu'un visiteur sans JS ou un robot voie du contenu caché.
+---
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    .js-reveal-ready .card:not(.proto .card):not(.rb .card),
+    .js-reveal-ready .coach-card,
+    .js-reveal-ready section > .container > h2:not(.rb h2),
+    .js-reveal-ready .methode-row,
+    .js-reveal-ready .causes-liste li,
+    .js-reveal-ready .consequences-liste li {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.45s ease-out, transform 0.45s ease-out;
+    }
+    .js-reveal-ready .is-revealed {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+  }
+</style>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduceMotion && 'IntersectionObserver' in window && !document.documentElement.classList.contains('anim-on')) {
+    document.documentElement.classList.add('js-reveal-ready');
+
+    const selecteur = '.card, .coach-card, section > .container > h2, .methode-row, .causes-liste li, .consequences-liste li';
+    const items = Array.from(document.querySelectorAll(selecteur)).filter((el) => !el.closest('.proto, .rb'));
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    items.forEach((el, i) => {
+      (el as HTMLElement).style.transitionDelay = `${Math.min((i % 4) * 0.06, 0.18)}s`;
+      observer.observe(el);
+    });
+  }
+</script>

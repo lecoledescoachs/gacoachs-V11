@@ -1,0 +1,127 @@
+---
+import sallesData from '../data/salles.json';
+const salles = sallesData.filter((s) => s.reseauOfficiel !== false);
+
+// Positions par slug (compas), demandées explicitement :
+// Saran au nord, Fleury-les-Aubrais au nord-est, Orléans Libération proche du centre,
+// Orléans Sud au sud, Olivet au sud encore plus loin.
+const positions: Record<string, { x: number; y: number }> = {
+  'basic-fit-saran': { x: 50, y: 10 },
+  'basic-fit-fleury-les-aubrais': { x: 80, y: 26 },
+  'basic-fit-orleans-liberation': { x: 78, y: 58 },
+  'basic-fit-orleans-sud': { x: 40, y: 72 },
+  'basic-fit-olivet': { x: 50, y: 94 },
+};
+const nodes = salles.filter((s) => positions[s.slug]).map((s) => ({ ...s, pos: positions[s.slug] }));
+const hub = { x: 50, y: 50 };
+---
+<div class="reseau" role="group" aria-label={`Carte du réseau GA Coachs reliant ${nodes.length} salles Basic-Fit partenaires`}>
+  <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="reseau__lines" aria-hidden="true">
+    {nodes.map((n) => (
+      <line
+        x1={hub.x} y1={hub.y} x2={n.pos.x} y2={n.pos.y}
+        class="reseau__line"
+      />
+    ))}
+  </svg>
+
+  <div class="reseau__hub" style={`left:${hub.x}%; top:${hub.y}%;`}>
+    <img src="/images/logos/ga-coachs-badge-3d.webp" alt="GA Coachs" class="reseau__hub-logo" width="300" height="300" />
+  </div>
+
+  {nodes.map((n) => (
+    <a href={`/salles/${n.slug}/`} class="reseau__node" style={`left:${n.pos.x}%; top:${n.pos.y}%;`}>
+      <span class="reseau__dot"></span>
+      <span class="reseau__label">{n.nom}</span>
+    </a>
+  ))}
+</div>
+
+<style>
+  .reseau {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3.6;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .reseau__lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .reseau__line {
+    stroke: var(--sky);
+    stroke-width: 0.4;
+    stroke-dasharray: 4 3;
+    opacity: 0.55;
+    stroke-dashoffset: 0;
+  }
+  .reseau.is-visible .reseau__line {
+    animation: dash-flow 6s linear infinite;
+  }
+  @keyframes dash-flow {
+    to { stroke-dashoffset: -140; }
+  }
+
+  .reseau__hub {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 8px rgba(0, 55, 182, 0.12), 0 8px 20px -6px rgba(11, 30, 61, 0.35);
+    z-index: 2;
+  }
+  .reseau__hub-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .reseau__node {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    z-index: 2;
+  }
+  .reseau__dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 3px solid var(--white);
+    box-shadow: 0 4px 12px rgba(0, 55, 182, 0.4);
+    transition: transform .25s var(--ease);
+  }
+  .reseau__node:hover .reseau__dot { transform: scale(1.25); }
+  .reseau__label {
+    font-size: clamp(8.5px, 2.4vw, 12px);
+    font-weight: 600;
+    background: var(--white);
+    border: 1px solid var(--line);
+    padding: 3px 7px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 30vw;
+    line-height: 1.25;
+    color: var(--navy);
+  }
+</style>
+
+<script>
+  const el = document.querySelector('.reseau');
+  if (el && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) el.classList.add('is-visible');
+      });
+    }, { threshold: 0.3 });
+    obs.observe(el);
+  } else {
+    el?.classList.add('is-visible');
+  }
+</script>

@@ -1,0 +1,86 @@
+---
+// Carte coach, nouvelle identité (même dessin que le prototype) : carte blanche arrondie,
+// photo éclairs, note Google, mots-clés en pastilles. À l'apparition, la carte se retourne
+// du logo GA vers le coach (sans JavaScript ou en mouvement réduit, le coach est affiché directement).
+import '@fontsource/baloo-2/latin-700.css';
+interface Props {
+  slug: string;
+  prenom: string;
+  nom: string;
+  salleNom: string;
+  tags: string[];
+  photo: string;
+  href?: string;
+  ctaLabel?: string;
+  avisGoogle?: { note: number; nombreAvis: number; url?: string };
+  role?: string;
+}
+const { slug, prenom, nom, salleNom, tags, photo, href, ctaLabel = 'Voir le profil →', avisGoogle } = Astro.props;
+---
+<div class="ga-cg-w">
+<a href={href ?? `/coachs/${slug}/`} class="ga-cg">
+  <span class="ga-cg__inner">
+    <span class="ga-cg__front">
+      <span class="ga-cg__photo">
+        <img src={photo} alt={`${prenom} ${nom}, coach sportif GA`} loading="lazy" width="312" height="416" />
+        {avisGoogle && <span class="ga-cg__note">★ {avisGoogle.note.toFixed(1).replace('.', ',')}</span>}
+      </span>
+      <span class="ga-cg__name">{prenom} {nom}</span>
+      <span class="ga-cg__salle">{salleNom}</span>
+      <span class="ga-cg__tags">{tags.slice(0, 3).map((t) => <span>{t}</span>)}</span>
+      <span class="ga-cg__more">{ctaLabel}</span>
+    </span>
+    <span class="ga-cg__back" aria-hidden="true"><img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237" loading="lazy" /></span>
+  </span>
+</a>
+{avisGoogle?.url && <a class="ga-cg-g" href={avisGoogle.url} target="_blank" rel="noopener noreferrer">Voir les {avisGoogle.nombreAvis} avis Google<span class="sr-only"> de {prenom} {nom}, nouvel onglet</span></a>}
+</div>
+
+<style>
+  .ga-cg-w { display: flex; flex-direction: column; gap: 0; min-width: 0; height: 100%; }
+  .ga-cg-w > .ga-cg { flex: 1; height: auto; }
+  .ga-cg-g { display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 44px; font-size: 13px; color: #5A6785; text-decoration: underline; text-underline-offset: 3px; }
+  .ga-cg-g:hover { color: #1F55C9; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .ga-cg { display: block; min-width: 0; height: 100%; perspective: 1400px; border-radius: 22px; color: #13203B; text-decoration: none; transition: transform .25s ease; }
+  .ga-cg:hover { transform: translateY(-4px); }
+  .ga-cg__inner { position: relative; display: block; height: 100%; transform-style: preserve-3d; transition: transform .9s cubic-bezier(.2,.8,.2,1); }
+  .ga-cg__front, .ga-cg__back { border-radius: 22px; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .ga-cg__front { display: flex; flex-direction: column; height: 100%; background: #fff; border: 2px solid #E1E8FA; padding: 14px; transition: border-color .25s ease; }
+  .ga-cg:hover .ga-cg__front { border-color: #BFD3FB; }
+  .ga-cg__back { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transform: rotateY(180deg); background: radial-gradient(circle at 50% 45%, #163A8C 0%, #0B1E3D 62%); border: 2px solid #0B1E3D; }
+  .ga-cg__back img { width: 62%; height: auto; filter: drop-shadow(0 0 14px rgba(47,123,255,.7)); }
+  .ga-cg__photo { position: relative; display: block; }
+  .ga-cg__photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; object-position: top center; border-radius: 14px; background: #E6EEFE; }
+  .ga-cg__note { position: absolute; top: 10px; right: 10px; background: #fff; color: #13203B; font-size: 12.5px; line-height: 1.2; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+  .ga-cg__name { display: block; font-family: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif; font-size: 19px; line-height: 1.25; font-weight: 700; margin-top: 12px; overflow-wrap: break-word; }
+  .ga-cg__salle { display: block; font-size: 13px; line-height: 1.4; color: #5A6785; }
+  .ga-cg__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .ga-cg__tags span { background: #E6EEFE; color: #1F55C9; font-size: 11.5px; line-height: 1.2; font-weight: 700; padding: 4px 9px; border-radius: 999px; }
+  .ga-cg__more { display: block; margin-top: auto; padding-top: 12px; font-size: 13.5px; line-height: 1.3; font-weight: 700; color: #1F55C9; }
+  /* retournement à l'apparition */
+  :global(.ga-cg-anim) .ga-cg:not(.is-in) .ga-cg__inner { transform: rotateY(180deg); }
+  @media (max-width: 760px) {
+    .ga-cg__front { padding: 10px; }
+    .ga-cg__name { font-size: 17px; }
+    .ga-cg__tags span:nth-child(n+3) { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .ga-cg__inner { transition: none; } }
+</style>
+
+<script>
+  const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduit && 'IntersectionObserver' in window && !document.documentElement.classList.contains('ga-cg-anim')) {
+    document.documentElement.classList.add('ga-cg-anim');
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      const el = e.target as HTMLElement;
+      const rang = Array.from(el.parentElement?.children || []).indexOf(el);
+      el.style.setProperty('--d', `${Math.max(0, rang) % 4 * 90}ms`);
+      (el.querySelector('.ga-cg__inner') as HTMLElement).style.transitionDelay = `${Math.max(0, rang) % 4 * 90}ms`;
+      el.classList.add('is-in');
+      io.unobserve(el);
+    }), { threshold: 0.2 });
+    document.querySelectorAll('.ga-cg').forEach((el) => io.observe(el));
+  }
+</script>

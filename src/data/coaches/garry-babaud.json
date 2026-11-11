@@ -1,0 +1,64 @@
+{
+  "slug": "garry-babaud",
+  "prenom": "Garry",
+  "codeBoutique": "GARRY",
+  "niveau": 5,
+  "conferencier": true,
+  "nom": "Babaud",
+  "salleSlug": "basic-fit-olivet",
+  "role": "Coach en chef & fondateur de GA Coachs",
+  "tags": [
+    "Perte de Poids",
+    "Sport-Santé",
+    "Accompagnement Bienveillant"
+  ],
+  "photo": "/images/coachs/garry-babaud.webp",
+  "presentation": "Tu as probablement déjà tout essayé. Les régimes qui promettent tout et ne tiennent jamais. Les programmes trop durs pour un corps qu'on n'écoute pas. Le regard des autres, qui pèse parfois plus lourd que les kilos eux-mêmes.\n\nCe n'est pas un manque de volonté. C'est un accompagnement qui n'était pas fait pour toi.",
+  "publicCible": "Femmes en situation d'obésité, à la recherche d'un accompagnement bienveillant, respectueux de leur corps et de leur rythme, sans jugement.",
+  "specialites": [
+    "Sculpter & Tonifier",
+    "Remise en Forme",
+    "Perte de Poids"
+  ],
+  "diplomes": [
+    "DEUG STAPS"
+  ],
+  "formations": [],
+  "methode": "Mon rôle est de construire avec toi un programme réaliste, respectueux de ton corps et de ton rythme, sans jugement et sans injonction. On avance étape par étape, dans le bon ordre, sans jamais te mettre en échec.",
+  "resultats": "Chaque séance te rapproche d'un corps plus léger, plus mobile, et surtout d'une relation apaisée avec toi-même. Ce que je constate chez les clientes qui persévèrent : une transformation qui dure, parce qu'elle a été construite pas à pas.",
+  "stats": [
+    {
+      "value": 63,
+      "suffix": " kg",
+      "label": "perte de poids record pour une cliente accompagnée individuellement"
+    }
+  ],
+  "siteExterne": {
+    "label": "Coach Obésité",
+    "url": "https://coach-obesite.fr"
+  },
+  "temoignages": [],
+  "rcPro": "RCPH278494125",
+  "cartePro": "04518ED0011",
+  "sourceNote": "Spécialités, diplôme, assurance RC Pro et carte professionnelle vérifiés sur la fiche officielle Basic-Fit (basic-fit.com/fr-fr/fitness/personal-trainer/garry-babaud).",
+  "avisGoogle": {
+    "note": 5.0,
+    "nombreAvis": 30,
+    "url": "https://www.google.com/maps/search/?api=1&query=Garry%20Babaud%20coach%20sportif%20Orl%C3%A9ans"
+  },
+  "email": "ga.coachs@gmail.com",
+  "statsNote": "Résultat individuel obtenu par une cliente accompagnée par Garry. Les résultats varient selon les personnes, leurs objectifs et leur engagement : ils ne constituent pas une promesse de résultat.",
+  "guides": [
+    "perte-de-poids-a-orleans-par-ou-commencer",
+    "peur-du-regard-des-autres-en-salle-de-sport",
+    "sport-et-alimentation-faut-il-un-regime"
+  ],
+  "siteWeb": "https://garrybabaud.com/",
+  "medias": [
+    "Déjà intervenu sur RCF Loiret et Réunion La 1ère"
+  ],
+  "reseauSocial": {
+    "type": "instagram",
+    "url": "https://www.instagram.com/garrybabaud/"
+  }
+}

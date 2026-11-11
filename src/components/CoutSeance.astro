@@ -1,0 +1,36 @@
+---
+import offres from '../data/boost-offres.json';
+// Coût par séance selon la formule : plus on vient souvent, moins la séance coûte (prix du site)
+const num = (s: string) => parseInt(String(s).replace(/[^0-9]/g, ''), 10);
+const lignes = offres.map((o: any) => ({ nom: o.nom.replace('BOOST ', ''), freq: o.frequence, seance: num(o.coutSeance), mois: num(o.prix) }));
+const max = Math.max(...lignes.map((l: any) => l.seance));
+---
+<section class="sec cse" aria-labelledby="cse-t">
+  <div class="inner">
+    <h2 class="h2" id="cse-t">Plus la fréquence monte, plus la séance coûte moins.</h2>
+    <figure class="cse-f">
+      <figcaption>Coût d'une séance selon la formule BOOST (30 minutes)</figcaption>
+      <ul>
+        {lignes.map((l: any) => (
+          <li>
+            <span class="cse-n"><b>{l.nom}</b><small>{l.freq} · {l.mois} €/mois</small></span>
+            <span class="cse-b" aria-hidden="true"><i style={`width:${Math.round((l.seance / max) * 100)}%`}></i></span>
+            <span class="cse-v">≈ {l.seance} €</span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  </div>
+</section>
+<style>
+  .cse-f { margin: 14px 0 0; padding: 18px 16px; background: #fff; border: 1px solid #DCE6FB; border-radius: 18px; color: #13203B; }
+  .cse-f figcaption { font-size: 15px; color: #3E4A66; margin-bottom: 12px; }
+  .cse-f ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .cse-f li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 10px; align-items: center; }
+  .cse-n b { display: block; font-size: 15px; color: #0B1E3D; }
+  .cse-n small { font-size: 13px; color: #3E4A66; }
+  .cse-b { grid-column: 1 / -1; grid-row: 2; height: 14px; border-radius: 99px; background: #E8EFFD; overflow: hidden; }
+  .cse-b i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #2F6BF0, #5B9BFF); }
+  .cse-v { font-size: 20px; font-weight: 800; color: #0B1E3D; }
+  @media (min-width: 768px) { .cse-f li { grid-template-columns: 260px minmax(0, 1fr) 90px; } .cse-b { grid-column: auto; grid-row: auto; } }
+</style>

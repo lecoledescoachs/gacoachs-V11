@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LegalProto from '../../components/proto/LegalProto.astro';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+    { '@type': 'ListItem', position: 2, name: 'Mentions légales', item: 'https://gacoachs.fr/mentions-legales/' },
+  ],
+};
+---
+<BaseLayout
+  title="Mentions légales · GA Coachs"
+  description="Mentions légales de gacoachs.fr : éditeur du site GA Coachs, hébergement, propriété intellectuelle et protection de tes données personnelles."
+  path="/mentions-legales/"
+  jsonLd={jsonLd}
+>
+
+  <LegalProto titre="Mentions légales" slug="mentions-legales">
+
+      <h2>Éditeur du site</h2>
+      <p>
+        Le site gacoachs.fr est édité par <strong>Garry Babaud EI</strong>, entrepreneur individuel exerçant
+        sous le nom commercial <strong>GA Coachs</strong>.
+      </p>
+      <ul>
+        <li>Forme juridique : entrepreneur individuel (EI)</li>
+        <li>Nom commercial / marque utilisée : GA Coachs</li>
+        <li>SIRET : 832 643 092 00014</li>
+        <li>Adresse du siège : 11 rue des Hauts Champs, 45380 La Chapelle-Saint-Mesmin</li>
+        <li>Email de contact : <a href="mailto:ga.coachs@gmail.com">ga.coachs@gmail.com</a></li>
+      </ul>
+
+      <h2>Directeur de la publication</h2>
+      <p>Garry Babaud.</p>
+
+      <h2>Hébergement</h2>
+      <p>
+        Le site est hébergé par Netlify, Inc.<br />
+        101 2nd Street, Suite 575, San Francisco, CA 94105, États-Unis.<br />
+        Téléphone : +1 415 691 1573<br />
+        Site web : <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">netlify.com</a>
+      </p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        L'ensemble des contenus présents sur ce site (textes, images, logos, éléments graphiques) est la
+        propriété de GA Coachs, sauf mention contraire, et ne peut être reproduit sans autorisation préalable.
+      </p>
+      <p>
+        Basic-Fit est une marque déposée de son titulaire. GA Coachs est un réseau de coachs sportifs indépendants,
+        partenaire de Basic-Fit à Orléans : la mention de la marque et des salles sert uniquement à indiquer où
+        interviennent les coachs du réseau. Les autres marques et logos cités appartiennent à leurs titulaires respectifs.
+      </p>
+
+      <h2>Données personnelles et cookies</h2>
+      <p>
+        Le traitement de vos données et l'usage des cookies sont décrits dans la
+        <a href="/confidentialite/">politique de confidentialité</a>. Vous pouvez modifier vos choix de cookies à
+        tout moment avec le lien « Gérer les cookies » en bas de chaque page.
+      </p>
+
+      <h2>Contenus santé</h2>
+      <p>
+        Les contenus du site (articles, Score Santé, programmes) sont des informations générales sur l'activité physique.
+        Ils ne constituent pas un avis médical et ne remplacent pas une consultation : en cas de doute sur votre santé,
+        parlez-en à votre médecin avant de reprendre une activité.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Pour toute question relative au site ou à son contenu, vous pouvez nous contacter à l'adresse :
+        <a href="mailto:ga.coachs@gmail.com">ga.coachs@gmail.com</a>.
+      </p>
+    </LegalProto>
+
+</BaseLayout>
+
+<style>
+  .legal { max-width: 68ch; }
+  .legal h2 { margin-top: 32px; font-size: 18px; }
+  .legal p, .legal ul { margin-top: 12px; color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+  .legal ul { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .legal a { color: var(--blue); text-decoration: underline; }
+  .legal__note { margin-top: 36px; font-size: 13px; font-style: italic; padding: 16px 18px; border: 1px dashed var(--line); border-radius: var(--radius-sm); }
+</style>

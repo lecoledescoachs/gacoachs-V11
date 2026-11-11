@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MerciProto from '../../components/proto/MerciProto.astro';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+    { '@type': 'ListItem', position: 2, name: 'Inscription enregistrée', item: 'https://gacoachs.fr/merci-boutique/' },
+  ],
+};
+---
+<BaseLayout
+  noindex={true}
+  title="Inscription enregistrée · GA Coachs"
+  description="Ton inscription à la boutique GA Coachs est bien enregistrée."
+  path="/merci-boutique/"
+  stickyCtaHref={false}
+  jsonLd={jsonLd}
+>
+  <MerciProto v="boutique" />
+</BaseLayout>
+
+
+<script define:vars={{ evenement: 'boutique_inscription' }}>
+  if (window.trackConversion) window.trackConversion(evenement);
+</script>
+
+

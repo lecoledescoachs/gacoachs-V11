@@ -1,0 +1,574 @@
+{
+  "slug": "preparation-course",
+  "path": "/preparation-course/",
+  "seo": {
+    "title": "Préparation course avec un coach sportif à Orléans",
+    "description": "Prépare ton premier 5 km, ton 10 km, ton semi-marathon, ton marathon, un Hyrox, un trail, un Ironman ou un ultra-trail avec un coach sportif diplômé à Orléans et dans le Loiret."
+  },
+  "hero": {
+    "eyebrow": "Préparation course et endurance",
+    "h1": "Prépare ta course avec un coach qui te suit jusqu'à la ligne d'arrivée.",
+    "lead": "Premier 5 km, 10 km, semi-marathon, marathon, Hyrox, trail, Ironman ou ultra-trail : un coach diplômé du réseau GA construit ta préparation, renforce ton corps et ajuste le plan chaque semaine.",
+    "points": [
+      "Un plan construit pour ta course et ton niveau",
+      "Du renforcement pour courir sans te blesser",
+      "Des ajustements chaque semaine"
+    ]
+  },
+  "etapes": [
+    {
+      "titre": "Un bilan de départ",
+      "texte": "Ton niveau actuel, ton historique de blessures, ton temps disponible et ta date de course."
+    },
+    {
+      "titre": "Un plan sur mesure",
+      "texte": "Des séances avec ton coach et des séances en autonomie, organisées semaine par semaine jusqu'au jour J."
+    },
+    {
+      "titre": "Des ajustements réguliers",
+      "texte": "Fatigue, douleur, imprévu : ton coach adapte le plan pour que tu arrives prêt, pas épuisé."
+    }
+  ],
+  "apports": [
+    {
+      "emoji": "💪",
+      "titre": "Le renforcement",
+      "texte": "Gainage, hanches, mollets, pieds : un corps plus solide encaisse mieux les kilomètres."
+    },
+    {
+      "emoji": "📈",
+      "titre": "La progression",
+      "texte": "Augmenter la charge petit à petit, sans brûler les étapes."
+    },
+    {
+      "emoji": "🧠",
+      "titre": "La régularité",
+      "texte": "Un rendez-vous fixe avec ton coach, c'est la meilleure motivation pour ne pas lâcher."
+    },
+    {
+      "emoji": "🎯",
+      "titre": "Le jour J",
+      "texte": "Allure, ravitaillement, gestion de l'effort : tu sais exactement quoi faire le jour de la course."
+    }
+  ],
+  "faq": [
+    {
+      "q": "Faut-il déjà courir pour commencer une préparation ?",
+      "r": "Non. Pour un premier 5 km, tu peux partir de zéro. Pour les distances plus longues, ton coach vérifie d'abord ta base et te propose une étape intermédiaire si besoin."
+    },
+    {
+      "q": "Les séances ont-elles lieu en salle ou dehors ?",
+      "r": "Les deux. Le renforcement se fait souvent en salle, les séances de course en extérieur. Ton coach organise le mélange selon ta course."
+    },
+    {
+      "q": "Combien de séances avec le coach par semaine ?",
+      "r": "En général une séance encadrée par semaine, complétée par des séances en autonomie prévues dans ton plan. Le rythme se fixe avec ton coach."
+    },
+    {
+      "q": "Faut-il un certificat médical ?",
+      "r": "Les conditions d'inscription dépendent de chaque course et de son organisateur. Vérifie-les au moment de t'inscrire, et parle à ton médecin si tu as un doute sur ta santé."
+    },
+    {
+      "q": "Comment commencer une préparation course avec un coach ?",
+      "r": "Fais d'abord ton Score Santé en 2 minutes, puis réserve ton bilan. Ton coach fait le point sur ton niveau, ta date de course et tes disponibilités, puis construit ton plan."
+    },
+    {
+      "q": "Quelle épreuve choisir pour commencer ?",
+      "r": "Si tu débutes, le premier 5 km est l'objectif idéal. Si tu cours déjà 30 minutes, le 10 km est une belle étape. Ton coach t'aide à choisir l'épreuve qui correspond à ton niveau et à ton envie."
+    },
+    {
+      "q": "Préparer une course aide-t-il à perdre du poids ?",
+      "r": "Oui, c'est un objectif très fréquent. La course, le renforcement et des repères simples d'alimentation se complètent. Ton coach t'aide à progresser à ton rythme, sans te blesser."
+    },
+    {
+      "q": "Et si je me blesse pendant la préparation ?",
+      "r": "Préviens ton coach tout de suite. Il adapte le plan, remplace certaines séances et te conseille de consulter un professionnel de santé si la douleur persiste."
+    },
+    {
+      "q": "Quel coach choisir pour ma préparation ?",
+      "r": "Tous les coachs du réseau GA sont diplômés et peuvent t'accompagner. Chaque coach intervient dans sa salle Basic-Fit : choisis celui de la salle qui te convient le mieux."
+    },
+    {
+      "q": "Combien coûte une préparation course ?",
+      "r": "Le tarif dépend de la formule que tu choisis avec ton coach. Fais ton Score Santé, puis réserve ton bilan : ton coach te présente les options adaptées à ta course."
+    }
+  ],
+  "epreuves": [
+    {
+      "slug": "premier-5-km",
+      "nom": "Premier 5 km",
+      "emoji": "🏁",
+      "distance": "5 km",
+      "duree": "6 à 8 semaines en partant de zéro",
+      "seo": {
+        "title": "Courir son premier 5 km avec un coach sportif à Orléans | GA Coachs",
+        "description": "Tu n'as jamais couru ? Un coach diplômé t'accompagne de zéro jusqu'à ton premier 5 km, avec un plan progressif et du renforcement."
+      },
+      "hero": {
+        "h1": "Ton premier 5 km, en partant de zéro.",
+        "lead": "Tu n'as jamais couru, ou plus depuis longtemps ? Ton coach te fait progresser pas à pas, en alternant marche et course, jusqu'à passer la ligne d'arrivée de ton premier 5 km.",
+        "points": [
+          "Aucun niveau requis",
+          "Alternance marche et course au début",
+          "Un objectif concret et motivant"
+        ]
+      },
+      "pourQui": "Pour toi si tu débutes, si tu reprends après une longue pause ou si tu veux un premier objectif sportif simple et motivant.",
+      "phases": [
+        {
+          "titre": "Construire l'habitude",
+          "texte": "Des séances courtes qui alternent marche et course, trois fois par semaine."
+        },
+        {
+          "titre": "Allonger la course",
+          "texte": "Les blocs de course s'allongent, la marche diminue, le renforcement protège tes genoux et tes chevilles."
+        },
+        {
+          "titre": "Courir 5 km",
+          "texte": "Tu cours en continu, tu apprends à gérer ton allure et tu prépares le jour J."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Je n'ai jamais couru, est-ce possible ?",
+          "r": "Oui, c'est justement l'objectif. Le plan commence par de la marche alternée avec de très courtes périodes de course."
+        },
+        {
+          "q": "Faut-il des chaussures spéciales ?",
+          "r": "Une paire de chaussures de running confortable suffit. Ton coach peut te conseiller sur ce qu'il faut regarder."
+        },
+        {
+          "q": "Et si j'ai mal aux genoux ?",
+          "r": "Parles-en à ton coach dès le début. Il adapte la progression, et si la douleur persiste, il te conseille de consulter un professionnel de santé."
+        },
+        {
+          "q": "Combien de temps faut-il pour courir 5 km quand on débute ?",
+          "r": "En partant de zéro, compte en général 6 à 8 semaines avec trois séances courtes par semaine. Ton coach ajuste ce délai selon ta forme de départ."
+        },
+        {
+          "q": "Je suis en surpoids, puis-je préparer un 5 km ?",
+          "r": "Oui. Ton coach démarre avec plus de marche, protège tes articulations avec du renforcement et augmente la course petit à petit. C'est aussi un très bon objectif pour accompagner ta perte de poids."
+        }
+      ],
+      "article": "premier-5-km-programme-pour-debuter-la-course",
+      "articlesLies": []
+    },
+    {
+      "slug": "10-km",
+      "nom": "10 km",
+      "emoji": "🏃",
+      "distance": "10 km",
+      "duree": "8 à 10 semaines si tu cours déjà 30 minutes",
+      "seo": {
+        "title": "Préparer un 10 km avec un coach sportif à Orléans | GA Coachs",
+        "description": "Finir ton premier 10 km ou battre ton record : un coach diplômé construit ta préparation, ton renforcement et ta stratégie de course."
+      },
+      "hero": {
+        "h1": "Finir ton premier 10 km, ou battre ton record.",
+        "lead": "Le 10 km est la distance idéale pour progresser. Ton coach construit un plan qui mélange endurance, fractionné et renforcement, adapté à ton objectif de temps.",
+        "points": [
+          "Premier 10 km ou objectif chrono",
+          "Fractionné et endurance dosés",
+          "Une stratégie d'allure pour le jour J"
+        ]
+      },
+      "pourQui": "Pour toi si tu cours déjà environ 30 minutes sans t'arrêter et que tu veux viser 10 km, ou améliorer ton temps.",
+      "phases": [
+        {
+          "titre": "Poser la base",
+          "texte": "Endurance fondamentale, renforcement, premières séances d'allure."
+        },
+        {
+          "titre": "Développer la vitesse",
+          "texte": "Fractionné court et long pour améliorer ton allure de course."
+        },
+        {
+          "titre": "Affûter",
+          "texte": "Le volume baisse, l'intensité reste, tu arrives frais le jour de la course."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Combien de sorties par semaine ?",
+          "r": "En général trois, dont une avec ton coach. Le plan s'adapte à ton emploi du temps."
+        },
+        {
+          "q": "Peut-on viser un temps précis ?",
+          "r": "Oui. Ton coach part de ton niveau actuel pour fixer un objectif réaliste, puis construit les allures de tes séances autour."
+        },
+        {
+          "q": "Le renforcement est-il vraiment utile ?",
+          "r": "Oui. Un corps plus solide encaisse mieux l'augmentation des kilomètres et limite le risque de blessure."
+        },
+        {
+          "q": "Faut-il déjà courir pour préparer un 10 km ?",
+          "r": "L'idéal est de pouvoir courir 30 minutes sans t'arrêter. Si ce n'est pas encore le cas, ton coach te fait d'abord passer par l'étape du premier 5 km."
+        },
+        {
+          "q": "Comment progresser sur 10 km ?",
+          "r": "En mélangeant des sorties faciles, quelques séances plus rapides et du renforcement. Ton coach dose ces séances pour que tu progresses sans t'épuiser."
+        }
+      ],
+      "article": "preparer-course-a-pied-10km-semi-marathon-avec-coach",
+      "articlesLies": []
+    },
+    {
+      "slug": "semi-marathon",
+      "nom": "Semi-marathon",
+      "emoji": "🥈",
+      "distance": "21,1 km",
+      "duree": "10 à 12 semaines si tu cours déjà 10 km",
+      "seo": {
+        "title": "Préparer un semi-marathon avec un coach sportif à Orléans | GA Coachs",
+        "description": "Un coach diplômé prépare ton semi-marathon : sortie longue, allure spécifique, renforcement et stratégie de course pour les 21,1 km."
+      },
+      "hero": {
+        "h1": "Ton semi-marathon, préparé kilomètre par kilomètre.",
+        "lead": "21,1 km, c'est un vrai cap. Ton coach construit une préparation qui allonge progressivement tes sorties, travaille ton allure et renforce ton corps pour tenir jusqu'au bout.",
+        "points": [
+          "Sortie longue progressive",
+          "Travail à l'allure semi",
+          "Ravitaillement et gestion de l'effort"
+        ]
+      },
+      "pourQui": "Pour toi si tu as déjà couru un 10 km, ou si tu cours régulièrement une heure, et que tu veux passer un cap.",
+      "phases": [
+        {
+          "titre": "Construire l'endurance",
+          "texte": "La sortie longue s'allonge chaque semaine, le renforcement s'installe."
+        },
+        {
+          "titre": "Travailler l'allure",
+          "texte": "Des blocs à l'allure visée pour le semi, pour que ce rythme devienne naturel."
+        },
+        {
+          "titre": "Affûter et répéter",
+          "texte": "Baisse du volume, test du ravitaillement, plan de course précis."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Faut-il avoir couru un 10 km avant ?",
+          "r": "C'est recommandé. Sinon, ton coach peut te proposer un 10 km comme étape intermédiaire."
+        },
+        {
+          "q": "Faut-il s'alimenter pendant la course ?",
+          "r": "Sur un semi, cela dépend de ta durée de course. Ton coach t'aide à tester ce qui te convient à l'entraînement, jamais le jour J."
+        },
+        {
+          "q": "Combien de temps dure la sortie la plus longue ?",
+          "r": "Elle se fixe selon ton niveau et ton objectif. Ton coach la fait progresser petit à petit."
+        },
+        {
+          "q": "Quelle différence entre préparer un 10 km et un semi-marathon ?",
+          "r": "Le semi demande plus d'endurance : la sortie longue prend de l'importance, comme la gestion de l'allure et de l'hydratation. Le renforcement devient encore plus utile pour encaisser la distance."
+        },
+        {
+          "q": "Peut-on viser un chrono sur semi-marathon ?",
+          "r": "Oui. Ton coach part de tes temps actuels pour fixer un objectif réaliste, puis construit les séances qui t'en rapprochent."
+        }
+      ],
+      "article": "preparer-course-a-pied-10km-semi-marathon-avec-coach",
+      "articlesLies": []
+    },
+    {
+      "slug": "marathon",
+      "nom": "Marathon",
+      "emoji": "🏅",
+      "distance": "42,195 km",
+      "duree": "12 à 16 semaines avec une base solide",
+      "seo": {
+        "title": "Préparer un marathon avec un coach sportif à Orléans | GA Coachs",
+        "description": "Un coach diplômé prépare ton marathon : plan sur plusieurs mois, sorties longues, renforcement, nutrition de course et stratégie pour les 42,195 km."
+      },
+      "hero": {
+        "h1": "Ton marathon, préparé avec méthode.",
+        "lead": "42,195 km se préparent sur plusieurs mois. Ton coach construit un plan progressif, surveille ta fatigue et prépare avec toi chaque détail du jour J.",
+        "points": [
+          "Un plan sur plusieurs mois",
+          "Gestion de la fatigue et des blessures",
+          "Stratégie d'allure et de ravitaillement"
+        ]
+      },
+      "pourQui": "Pour toi si tu as déjà couru un semi-marathon et que tu veux franchir la distance mythique, ou améliorer ton temps.",
+      "phases": [
+        {
+          "titre": "Bâtir le volume",
+          "texte": "Augmentation progressive des kilomètres, renforcement régulier."
+        },
+        {
+          "titre": "Spécifique marathon",
+          "texte": "Sorties longues avec des blocs à l'allure marathon, test du ravitaillement."
+        },
+        {
+          "titre": "Affûtage",
+          "texte": "Les dernières semaines, le volume baisse pour arriver frais et prêt."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Peut-on préparer un marathon en partant de zéro ?",
+          "r": "Ce n'est pas conseillé. Ton coach te propose d'abord des étapes intermédiaires, comme un 10 km puis un semi."
+        },
+        {
+          "q": "Faut-il courir 42 km à l'entraînement ?",
+          "r": "Non. La plus longue sortie reste en dessous de la distance de course. Ton coach la fixe selon ton niveau."
+        },
+        {
+          "q": "Et le fameux mur ?",
+          "r": "Une bonne préparation, une allure maîtrisée et un ravitaillement testé à l'entraînement aident à le repousser."
+        },
+        {
+          "q": "Combien de temps faut-il pour préparer un marathon ?",
+          "r": "Compte 12 à 16 semaines de préparation spécifique, avec une base de course déjà solide. Si cette base manque, ton coach te propose d'abord une étape intermédiaire."
+        },
+        {
+          "q": "Le renforcement est-il important pour un marathon ?",
+          "r": "Oui. Hanches, gainage, mollets et pieds encaissent des milliers de foulées. Un corps plus solide t'aide à finir la course dans de bonnes conditions."
+        }
+      ],
+      "article": "preparer-son-premier-marathon-les-etapes",
+      "articlesLies": [
+        "preparer-course-a-pied-10km-semi-marathon-avec-coach"
+      ]
+    },
+    {
+      "slug": "hyrox",
+      "nom": "Hyrox",
+      "emoji": "🏋️",
+      "distance": "8 x 1 km de course et 8 ateliers",
+      "duree": "8 à 12 semaines",
+      "seo": {
+        "title": "Préparation Hyrox avec un coach sportif à Orléans | GA Coachs",
+        "description": "Prépare ta course Hyrox avec un coach diplômé : course, ateliers fonctionnels, enchaînements et stratégie, à Orléans et dans le Loiret."
+      },
+      "hero": {
+        "h1": "Prépare ton Hyrox, course et ateliers.",
+        "lead": "8 fois 1 km de course, chacun suivi d'un atelier : SkiErg, traîneau poussé et tiré, burpees, rameur, portés, fentes, wall balls. Ton coach te prépare à tout enchaîner.",
+        "points": [
+          "Course et force travaillées ensemble",
+          "Technique de chaque atelier",
+          "Stratégie pour gérer l'enchaînement"
+        ]
+      },
+      "pourQui": "Pour toi si tu veux te lancer sur un Hyrox, seul, en duo ou en relais, ou améliorer ton temps sur la prochaine course.",
+      "phases": [
+        {
+          "titre": "Les bases",
+          "texte": "Endurance de course, force et technique de chaque atelier."
+        },
+        {
+          "titre": "Les enchaînements",
+          "texte": "Courir après un atelier, garder une allure sous fatigue."
+        },
+        {
+          "titre": "La simulation",
+          "texte": "Des blocs qui reproduisent la course, puis l'affûtage avant le jour J."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Faut-il être un athlète pour faire un Hyrox ?",
+          "r": "Non. Il existe des catégories pour différents niveaux, ainsi que des formats en duo et en relais."
+        },
+        {
+          "q": "Peut-on s'entraîner en salle Basic-Fit ?",
+          "r": "Oui pour une grande partie : course, rameur, fentes, portés, wall balls. Ton coach adapte les ateliers selon le matériel disponible."
+        },
+        {
+          "q": "Combien de temps faut-il pour se préparer ?",
+          "r": "En général 8 à 12 semaines si tu as déjà une pratique sportive régulière. Ton coach ajuste selon ton point de départ."
+        },
+        {
+          "q": "C'est quoi un Hyrox ?",
+          "r": "Une course fitness qui enchaîne 8 fois 1 km de course et 8 ateliers fonctionnels : SkiErg, poussée et traction de traîneau, burpees, rameur, portés de charges, fentes avec sac lesté et wall balls."
+        },
+        {
+          "q": "Faut-il savoir courir vite pour un Hyrox ?",
+          "r": "Non. Le Hyrox récompense surtout la capacité à enchaîner course et efforts musculaires. Ton coach travaille les deux, et surtout les transitions."
+        }
+      ],
+      "article": "preparer-son-premier-hyrox",
+      "articlesLies": []
+    },
+    {
+      "slug": "trail",
+      "nom": "Trail",
+      "emoji": "⛰️",
+      "distance": "du trail court au trail long",
+      "duree": "8 à 12 semaines selon la distance",
+      "seo": {
+        "title": "Préparer un trail avec un coach sportif à Orléans | GA Coachs",
+        "description": "Montées, descentes, terrain technique : un coach diplômé prépare ton trail avec un plan adapté au dénivelé et du renforcement ciblé."
+      },
+      "hero": {
+        "h1": "Prépare ton trail, même sans montagne à côté.",
+        "lead": "Montées, descentes, terrain technique : le trail demande des jambes solides. Ton coach construit une préparation adaptée au dénivelé de ta course, même depuis Orléans.",
+        "points": [
+          "Renforcement pour les montées et descentes",
+          "Travail du dénivelé, même en ville",
+          "Gestion de l'effort sur terrain varié"
+        ]
+      },
+      "pourQui": "Pour toi si tu cours déjà sur route et que tu veux passer aux chemins, ou si tu prépares un trail plus long ou plus technique.",
+      "phases": [
+        {
+          "titre": "Base et renforcement",
+          "texte": "Endurance, renforcement des cuisses, des mollets et des chevilles."
+        },
+        {
+          "titre": "Spécifique dénivelé",
+          "texte": "Côtes, escaliers, travail excentrique pour encaisser les descentes."
+        },
+        {
+          "titre": "Sorties longues et affûtage",
+          "texte": "Sorties sur terrain varié, test du matériel et du ravitaillement."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Comment préparer le dénivelé quand on vit à Orléans ?",
+          "r": "Côtes, escaliers, tapis incliné et renforcement ciblé permettent de bien se préparer, même sans relief à côté."
+        },
+        {
+          "q": "Faut-il des bâtons ?",
+          "r": "Cela dépend de la course et de ton profil. Ton coach t'aide à décider et à t'entraîner avec si tu les utilises."
+        },
+        {
+          "q": "Peut-on passer directement de la route au trail long ?",
+          "r": "Mieux vaut commencer par un trail court. Ton coach construit la progression."
+        },
+        {
+          "q": "Quelle préparation pour un premier trail ?",
+          "r": "Commence par un trail court. Ton coach ajoute à ta course du travail de montée, de descente et d'appuis, pour que tes chevilles et tes cuisses soient prêtes."
+        },
+        {
+          "q": "Le renforcement change-t-il quelque chose en trail ?",
+          "r": "Oui, beaucoup. Les descentes sollicitent fortement les cuisses et les chevilles. Un renforcement ciblé réduit la fatigue et le risque de blessure."
+        }
+      ],
+      "article": "rando-trail-se-preparer-physiquement-avant-de-partir",
+      "articlesLies": []
+    },
+    {
+      "slug": "ironman",
+      "nom": "Ironman",
+      "emoji": "🏊",
+      "distance": "3,8 km de natation, 180 km de vélo, 42,195 km de course",
+      "duree": "plusieurs mois, souvent 6 mois ou plus",
+      "seo": {
+        "title": "Préparation physique Ironman avec un coach sportif à Orléans | GA Coachs",
+        "description": "Préparer un Ironman : renforcement, course à pied, organisation des trois disciplines et prévention des blessures avec un coach diplômé à Orléans."
+      },
+      "hero": {
+        "h1": "Ton Ironman, avec un corps prêt à encaisser.",
+        "lead": "3,8 km de natation, 180 km de vélo et un marathon. Ton coach prend en charge ta préparation physique, ton renforcement et ta course à pied, et t'aide à organiser les trois disciplines.",
+        "points": [
+          "Renforcement et prévention des blessures",
+          "Course à pied après le vélo",
+          "Organisation des semaines d'entraînement"
+        ]
+      },
+      "pourQui": "Pour toi si tu pratiques déjà le triathlon ou l'endurance et que tu vises la distance Ironman. La technique de natation et de vélo se travaille en complément avec un club ou un spécialiste.",
+      "phases": [
+        {
+          "titre": "Base générale",
+          "texte": "Renforcement, endurance dans les trois disciplines, organisation de la semaine."
+        },
+        {
+          "titre": "Volume et enchaînements",
+          "texte": "Sorties longues, enchaînements vélo puis course, gestion de la fatigue."
+        },
+        {
+          "titre": "Spécifique et affûtage",
+          "texte": "Simulation de course, nutrition testée à l'entraînement, récupération avant le jour J."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Le coach entraîne-t-il aussi la natation et le vélo ?",
+          "r": "Ton coach prend en charge la préparation physique, le renforcement et la course à pied, et t'aide à organiser l'ensemble. Pour la technique de nage et de vélo, un club ou un spécialiste reste conseillé."
+        },
+        {
+          "q": "Peut-on faire un Ironman comme premier triathlon ?",
+          "r": "Ce n'est pas conseillé. Ton coach te proposera plutôt des formats plus courts comme étapes."
+        },
+        {
+          "q": "Combien d'heures d'entraînement par semaine ?",
+          "r": "Cela varie beaucoup selon ton niveau et ton objectif. Ton coach construit un plan compatible avec ta vie personnelle et professionnelle."
+        },
+        {
+          "q": "Que travaille un coach GA dans une préparation Ironman ?",
+          "r": "La préparation physique : renforcement, mobilité, prévention des blessures et gestion de la charge entre les trois sports. Pour la technique de natation ou de vélo, il peut travailler avec un entraîneur spécialisé."
+        },
+        {
+          "q": "Comment éviter les blessures sur une préparation aussi longue ?",
+          "r": "En augmentant la charge petit à petit, en gardant du renforcement toute la saison et en écoutant les signaux de fatigue. Ton coach ajuste le plan dès qu'un signal apparaît."
+        }
+      ],
+      "article": "preparer-un-ironman-le-role-de-la-preparation-physique",
+      "articlesLies": []
+    },
+    {
+      "slug": "ultra-trail",
+      "nom": "Ultra-trail",
+      "emoji": "🌄",
+      "distance": "au-delà du marathon, souvent bien plus",
+      "duree": "plusieurs mois, avec une expérience du trail",
+      "seo": {
+        "title": "Préparer un ultra-trail avec un coach sportif à Orléans | GA Coachs",
+        "description": "Préparer un ultra-trail : volume progressif, renforcement, gestion de la fatigue, du sommeil et du ravitaillement avec un coach diplômé."
+      },
+      "hero": {
+        "h1": "Ton ultra-trail, préparé pour durer.",
+        "lead": "Sur un ultra, tout compte : les jambes, la tête, l'alimentation, le matériel. Ton coach construit une préparation sur plusieurs mois pour que tu arrives au départ solide et serein.",
+        "points": [
+          "Volume construit sur plusieurs mois",
+          "Renforcement pour les longues descentes",
+          "Ravitaillement et matériel testés"
+        ]
+      },
+      "pourQui": "Pour toi si tu as déjà plusieurs trails derrière toi et que tu veux passer à l'ultra.",
+      "phases": [
+        {
+          "titre": "Fondations",
+          "texte": "Volume progressif, renforcement, travail du dénivelé."
+        },
+        {
+          "titre": "Blocs longs",
+          "texte": "Sorties longues ou week-ends chargés, test du matériel et du ravitaillement."
+        },
+        {
+          "titre": "Affûtage",
+          "texte": "Récupération, plan de course par sections, gestion des moments difficiles."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Peut-on faire un ultra comme premier trail ?",
+          "r": "Non, ce n'est pas conseillé. Il faut d'abord de l'expérience sur des trails plus courts."
+        },
+        {
+          "q": "Faut-il s'entraîner la nuit ?",
+          "r": "Si ta course passe la nuit, oui, quelques sorties de nuit permettent de tester ta frontale et tes sensations."
+        },
+        {
+          "q": "Le coach gère-t-il aussi la nutrition ?",
+          "r": "Il t'aide à tester ton ravitaillement à l'entraînement. Pour un suivi nutritionnel complet, un professionnel de la nutrition reste conseillé."
+        },
+        {
+          "q": "Combien de temps faut-il pour préparer un ultra-trail ?",
+          "r": "Plusieurs mois, avec une vraie expérience du trail au départ. Ton coach construit la saison étape par étape, souvent avec des trails plus courts en préparation."
+        },
+        {
+          "q": "Le renforcement est-il utile sur un ultra ?",
+          "r": "Oui. Sur plusieurs heures d'effort, la solidité des cuisses, des chevilles et du tronc fait la différence, surtout en descente et en fin de course."
+        }
+      ],
+      "article": "preparer-son-premier-ultra-trail",
+      "articlesLies": [
+        "rando-trail-se-preparer-physiquement-avant-de-partir"
+      ]
+    }
+  ]
+}

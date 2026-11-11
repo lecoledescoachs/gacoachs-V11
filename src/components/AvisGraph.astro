@@ -1,0 +1,38 @@
+---
+// Avis Google par coach : barres en CSS pur, données réelles des fiches coachs
+const fiches = Object.values(import.meta.glob('../data/coaches/*.json', { eager: true, import: 'default' })) as any[];
+const lignes = fiches
+  .filter((c) => c.avisGoogle?.nombreAvis)
+  .map((c) => ({ nom: `${c.prenom} ${c.nom.charAt(0)}.`, n: c.avisGoogle.nombreAvis as number, note: c.avisGoogle.note as number, url: c.avisGoogle.url as string }))
+  .sort((a, b) => b.n - a.n);
+const total = lignes.reduce((s, l) => s + l.n, 0);
+const max = Math.max(...lignes.map((l) => l.n));
+---
+<figure class="avg" aria-labelledby="avg-t">
+  <figcaption id="avg-t"><b>{total} avis Google</b> répartis entre les coachs du réseau</figcaption>
+  <ul class="avg-list">
+    {lignes.map((l) => (
+      <li>
+        <a href={l.url} target="_blank" rel="noopener noreferrer" aria-label={`${l.nom} : ${l.n} avis Google, note ${l.note.toFixed(1)} sur 5`}>
+          <span class="avg-n">{l.nom}</span>
+          <span class="avg-bar" aria-hidden="true"><i style={`width:${Math.round((l.n / max) * 100)}%`}></i></span>
+          <span class="avg-v"><b>{l.n}</b> <span>★ {l.note.toFixed(1)}</span></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</figure>
+<style>
+  .avg { margin: 18px 0 8px; padding: 18px 16px; background: #fff; border: 1px solid #DCE6FB; border-radius: 18px; color: #13203B; }
+  .avg figcaption { font-size: 15px; margin-bottom: 10px; color: #3E4A66; }
+  .avg figcaption b { color: #0B1E3D; }
+  .avg-list { list-style: none; margin: 0; padding: 0; display: grid; }
+  .avg-list a { display: grid; grid-template-columns: 92px minmax(0, 1fr) 84px; align-items: center; gap: 10px; min-height: 44px; color: inherit; text-decoration: none; }
+  .avg-n { font-weight: 700; font-size: 14px; color: #0B1E3D; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .avg-bar { height: 12px; border-radius: 99px; background: #E8EFFD; overflow: hidden; }
+  .avg-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #2F6BF0, #5B9BFF); }
+  .avg-v { font-size: 14px; text-align: right; white-space: nowrap; }
+  .avg-v b { font-size: 16px; color: #0B1E3D; }
+  .avg-v span { color: #8A4F00; font-weight: 700; font-size: 13px; }
+  @media (min-width: 768px) { .avg { padding: 22px; } .avg-list a { grid-template-columns: 120px minmax(0, 1fr) 100px; } }
+</style>

@@ -1,0 +1,19 @@
+---
+// Fil d'Ariane de la nouvelle identité (sur fond nuit), avec ses données structurées
+interface Props { items: { label: string; href: string }[] }
+const { items } = Astro.props;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, i) => ({ '@type': 'ListItem', position: i + 1, name: item.label, item: new URL(item.href, 'https://gacoachs.fr').toString() })),
+};
+---
+<nav class="crumbs" aria-label="Fil d'Ariane">
+  {items.map((it, i) => (
+    <>
+      {i > 0 && <span aria-hidden="true">›</span>}
+      {i < items.length - 1 ? <a href={it.href}>{it.label}</a> : <span aria-current="page">{it.label}</span>}
+    </>
+  ))}
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

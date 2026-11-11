@@ -1,0 +1,68 @@
+---
+interface TOCItem { href: string; label: string; highlight?: boolean; }
+interface Props {
+  items?: TOCItem[];
+  ariaLabel?: string;
+}
+const {
+  items = [
+    { href: '#boost-30-details', label: 'BOOST 30' },
+    { href: '#formats', label: '30 minutes' },
+    { href: '#boost-5-7', label: 'BOOST 5/7' },
+    { href: '#boost-pricing', label: 'Formules' },
+    { href: '#faq', label: 'FAQ' },
+    { href: '#boost-30', label: 'Réserver', highlight: true },
+  ],
+  ariaLabel = 'Navigation rapide BOOST ENTREPRISE',
+} = Astro.props;
+---
+<nav class="boost-toc" aria-label={ariaLabel}>
+  <div class="boost-toc__track">
+    {items.map((item) => (
+      <a href={item.href} class={`boost-toc__item ${item.highlight ? 'boost-toc__item--highlight' : ''}`}>{item.label}</a>
+    ))}
+  </div>
+</nav>
+
+<style>
+  .boost-toc {
+    position: sticky;
+    top: 72px;
+    z-index: 30;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .boost-toc__track {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 12px 20px;
+    scrollbar-width: none;
+    max-width: var(--container);
+    margin: 0 auto;
+  }
+  .boost-toc__track::-webkit-scrollbar { display: none; }
+  .boost-toc__item {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    white-space: nowrap;
+    transition: border-color .2s var(--ease), color .2s var(--ease), background .2s var(--ease);
+  }
+  .boost-toc__item:hover { border-color: var(--blue); color: var(--blue); }
+  .boost-toc__item--highlight {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+  }
+  .boost-toc__item--highlight:hover { background: var(--blue-dim); color: #fff; }
+
+  @media (min-width: 900px) {
+    .boost-toc__track { padding: 12px 32px; justify-content: center; }
+  }
+</style>

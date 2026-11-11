@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import '../../styles/proto-structures.css';
+const contenus = import.meta.glob('../../components/proto/segments/*.astro', { eager: true }) as Record<string, any>;
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTAFinal from '../../components/CTAFinal.astro';
+import sm from '../../data/sur-mesure.json';
+import segs from '../../data/sur-mesure-segments.json';
+import articles from '../../data/articles.json';
+import CopyBlocs from '../../components/CopyBlocs.astro';
+import BoostPCQ from '../../components/BoostPCQ.astro';
+import Configurateur from '../../components/proto/Configurateur.astro';
+const CONF: Record<string, string> = { hotel: 'tourisme', camping: 'tourisme', bar: 'event', restaurant: 'event', 'evjf-evg': 'event' };
+
+export function getStaticPaths() {
+  return segs.map((s) => ({ params: { segment: s.slug }, props: { seg: s } }));
+}
+const { seg } = Astro.props;
+const OG: Record<string, string> = { tournee: '/images/og-boost-prive.jpg', scene: '/images/og-boost-prive.jpg', entreprise: '/images/og-entreprises.jpg', sante: '/images/og-boost-sante.jpg', tourisme: '/images/og-boost-tourisme.jpg', event: '/images/og-boost-event.jpg', prive: '/images/og-boost-prive.jpg' };
+const Contenu = contenus[`../../components/proto/segments/${seg.slug}.astro`].default;
+const PCQ: Record<string, string> = { 'coach-sportif-vip': 'prive', 'coach-sportif-preparation-scene': 'scene', 'coach-sportif-tournee-artistes': 'tournee' };
+const pcqId = PCQ[seg.slug] ?? (seg as any).boost;
+const siteUrl = 'https://gacoachs.fr';
+const path = `/services-sur-mesure/${seg.slug}/`;
+const contact = `/services-sur-mesure/?pour=${seg.cle}#sm-contact`;
+const guide = articles.find((a) => a.slug === seg.article);
+const autres = segs.filter((s) => s.slug !== seg.slug);
+const sante = ['maison-sante', 'clinique'].includes(seg.cle);
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: seg.seo.title,
+    description: seg.seo.description,
+    url: siteUrl + path,
+    serviceType: 'Coaching sportif',
+    areaServed: seg.cle === 'tournee' || seg.cle === 'scene' ? ['Paris', 'Île-de-France', 'Centre-Val de Loire', 'France'] : seg.cle === 'vip' ? ['France'] : ['Orléans', 'Orléans Métropole', 'Loiret'],
+    provider: { '@type': 'Organization', name: 'GA Coachs', url: siteUrl + '/' },
+  },
+  ...(seg.cle === 'scene' ? [{
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'BOOST SCÈNE : préparation physique pour la scène',
+    description: "Préparation physique des artistes avant une tournée, une grande date, un festival ou un showcase : bilan, analyse du show, cardio et souffle, renforcement, filages physiques et routine d'échauffement.",
+    url: siteUrl + path,
+    serviceType: 'Préparation physique pour artistes',
+    audience: { '@type': 'Audience', audienceType: 'Artistes : chanteurs, rappeurs, humoristes, musiciens, danseurs, DJ' },
+    areaServed: ['Paris', 'Île-de-France', 'France'],
+    availableLanguage: ['fr', 'en'],
+    offers: { '@type': 'Offer', name: 'Bilan offert (30 minutes)', price: '0', priceCurrency: 'EUR', description: 'Échange de 30 minutes offert, sans engagement.' },
+    provider: { '@type': 'Organization', name: 'GA Coachs', url: siteUrl + '/', founder: { '@type': 'Person', name: 'Garry Babaud', jobTitle: 'Coach en chef', url: 'https://garrybabaud.com/' } },
+  }] : []),
+  ...(seg.cle === 'tournee' ? [{
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'BOOST TOURNÉE : coach sportif de tournée pour artistes',
+    description: "Préparation physique avant la tournée, échauffement avant chaque show, retour au calme, séances pendant les déplacements et suivi complet, pour humoristes, chanteurs, rappeurs, musiciens et danseurs.",
+    url: siteUrl + path,
+    serviceType: 'Préparation physique et coaching sportif de tournée',
+    audience: { '@type': 'Audience', audienceType: 'Artistes en tournée : humoristes, chanteurs, rappeurs, musiciens, danseurs' },
+    areaServed: ['Paris', 'Île-de-France', 'France'],
+    availableLanguage: ['fr', 'en'],
+    offers: { '@type': 'Offer', name: 'Bilan avant tournée (30 minutes)', price: '0', priceCurrency: 'EUR', description: 'Échange de 30 minutes offert, sans engagement.' },
+    provider: { '@type': 'Organization', name: 'GA Coachs', url: siteUrl + '/', founder: { '@type': 'Person', name: 'Garry Babaud', jobTitle: 'Coach en chef', url: 'https://garrybabaud.com/' } },
+  }] : []),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Accueil', item: siteUrl + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Services sur mesure', item: siteUrl + '/services-sur-mesure/' },
+      ...(['tournee', 'scene'].includes(seg.cle) ? [{ '@type': 'ListItem', position: 3, name: 'BOOST PRIVÉ', item: siteUrl + '/services-sur-mesure/coach-sportif-vip/' }] : []),
+      { '@type': 'ListItem', position: ['tournee', 'scene'].includes(seg.cle) ? 4 : 3, name: seg.nom, item: siteUrl + path },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: seg.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+];
+// page coach de tournée : un seul Service, le détaillé
+if (['tournee', 'scene'].includes(seg.cle)) jsonLd.shift();
+---
+<BaseLayout image={OG[(seg as any).boost]} title={seg.seo.title} description={seg.seo.description} path={path} jsonLd={jsonLd} stickyCtaHref={['tournee', 'scene', 'vip'].includes(seg.cle) ? '#tr-contact' : CONF[seg.cle] ? `#cf-${CONF[seg.cle]}` : contact} stickyCtaLabel={seg.cle === 'tournee' ? 'Bilan avant tournée offert' : seg.cle === 'scene' ? 'Bilan offert de 30 min' : seg.cle === 'vip' ? 'Échange confidentiel offert' : CONF[seg.cle] ? 'Composer ma demande' : seg.cle === 'maison-sante' || seg.cle === 'clinique' ? 'Parler de votre structure' : 'Nous contacter'}>
+<div class="proto">
+  <Contenu />
+  <BoostPCQ id={pcqId} />
+  {CONF[seg.cle] && <Configurateur cle={CONF[seg.cle]} cible={contact} />}
+  <section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title={seg.seo.title} label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>
+
+<script>
+  import '../../scripts/proto-struct.ts';
+</script>

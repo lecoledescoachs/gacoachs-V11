@@ -1,0 +1,108 @@
+---
+// Le Bilan Santé expliqué : le 1er pas vers ton objectif
+const { cta = true, band = false, id = 'bilan-sante' } = Astro.props;
+const partie1 = [
+  ['🏋️', '30 minutes de coaching', 'Une vraie séance avec ton coach, adaptée à ton niveau.'],
+  ['❤️', 'Analyse cardio-vasculaire', "Où en est ton cœur aujourd'hui, à l'effort et au repos."],
+  ['🧍', 'Analyse posturale', "Les déséquilibres repérés avant qu'ils ne deviennent des douleurs."],
+  ['🌙', 'Analyse de tes habitudes de vie', 'Sommeil, alimentation, activité : ce qui freine, ce qui aide.'],
+];
+const partie2 = [
+  ['💬', '30 minutes de feedback', 'Tes résultats expliqués clairement, sans jargon et sans jugement.'],
+  ['🎯', "Une proposition d'accompagnement", 'Un programme construit pour toi, pour perdre du poids durablement.'],
+];
+const repars = [
+  ['📋', 'Ton état des lieux', 'Cœur, posture, habitudes : tu sais enfin où tu en es.'],
+  ['🔍', 'Ce qui bloque', 'Les vraies raisons pour lesquelles le poids ne part pas.'],
+  ['🗺️', 'Ton plan', 'Les premières étapes concrètes pour perdre du poids.'],
+];
+---
+<section class={`sec bx${band ? ' band' : ''}`} id={id}>
+  <div class="inner">
+    <div class="bx-top">
+      <div>
+        <span class="eyebrow">Le Bilan Santé</span>
+        <h2 class="h2">Le Bilan Santé, <span class="bx-hl">ton 1<sup>er</sup> pas vers ton objectif&nbsp;!</span></h2>
+        <p class="lead-p">Avant de parler programme, on fait le point. Une heure en salle avec un coach GA pour comprendre ton corps, tes habitudes et ce qui t'empêche d'avancer. Tu repars avec une vision claire et un plan qui te ressemble.</p>
+        <ul class="bx-chips">
+          <li>⏱️ 1 heure</li>
+          <li>📍 En salle Basic-Fit</li>
+          <li>👟 Tous niveaux</li>
+          <li>🤝 Sans jugement</li>
+        </ul>
+        {cta && <div class="ctas" style="margin-top: 26px; justify-content: flex-start;"><a class="btn btn-primary" href="/score-sante/">Réserver mon bilan santé</a></div>}
+      </div>
+      <div class="bx-ph">
+        <img src="/images/coachs/garry-babaud.webp" alt="Un coach GA en polo bleu pendant un bilan santé" width="600" height="800" loading="lazy" />
+        <span class="bx-f f1">❤️ Analyse cardio</span>
+        <span class="bx-f f2">🧍 Analyse posturale</span>
+        <span class="bx-f f3">🎯 Ton plan sur mesure</span>
+      </div>
+    </div>
+
+    <div class="bx-hour">
+      <div class="bx-ruler" aria-hidden="true"><span>0 min</span><i></i><span>30 min</span><i></i><span>60 min</span></div>
+      <div class="bx-halves">
+        <div class="bx-half">
+          <span class="bx-badge">1<sup>re</sup> demi-heure</span>
+          <h3>On bouge ensemble</h3>
+          <ul>{partie1.map(([e, t, d]) => <li><span class="bx-e" aria-hidden="true">{e}</span><div><b>{t}</b><span>{d}</span></div></li>)}</ul>
+        </div>
+        <div class="bx-half">
+          <span class="bx-badge">2<sup>e</sup> demi-heure</span>
+          <h3>On fait le point</h3>
+          <ul>{partie2.map(([e, t, d]) => <li><span class="bx-e" aria-hidden="true">{e}</span><div><b>{t}</b><span>{d}</span></div></li>)}</ul>
+          <p class="bx-q">« Le but n'est pas de te juger, c'est de comprendre d'où tu pars pour savoir où on va. »</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="bx-k">Tu repars avec</h3>
+    <div class="bx-out">
+      {repars.map(([e, t, d]) => <div class="bx-o"><span aria-hidden="true">{e}</span><b>{t}</b><p>{d}</p></div>)}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .bx .bx-top { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 32px 64px; align-items: center; }
+  .bx .bx-hl { display: block; color: #0037B6; }
+  .bx .bx-hl sup { font-size: .55em; }
+  .bx .bx-chips { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .bx .bx-chips li { padding: 8px 14px; border-radius: 999px; background: #fff; border: 2px solid var(--line); font-size: 14px; font-weight: 700; color: var(--ink); }
+  .bx .bx-ph { position: relative; justify-self: center; width: min(100%, 340px); }
+  .bx .bx-ph img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; object-position: top; border-radius: 28px; border: 5px solid #fff; box-shadow: 0 40px 70px -36px rgba(0,55,182,.75); transform: rotate(2deg); }
+  .bx .bx-f { position: absolute; padding: 9px 14px; border-radius: 14px; background: #fff; color: var(--ink); font-size: 13.5px; font-weight: 700; white-space: nowrap; box-shadow: 0 16px 34px -18px rgba(11,30,61,.6); animation: none; }
+  .bx .bx-f.f1 { left: -14%; top: 14%; }
+  .bx .bx-f.f2 { right: -12%; top: 46%; animation-delay: -2s; }
+  .bx .bx-f.f3 { left: -8%; bottom: 8%; animation-delay: -4s; background: #0037B6; color: #fff; }
+  @keyframes bx-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .bx .bx-hour { margin-top: 48px; padding: 30px; border-radius: 30px; background: linear-gradient(150deg, #0B1E3D 0%, #0037B6 100%); color: #fff; box-shadow: 0 40px 70px -40px rgba(0,55,182,.85); }
+  .bx .bx-ruler { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; font-size: 13px; font-weight: 700; color: #BFE2FF; }
+  .bx .bx-ruler i { flex: 1; height: 4px; border-radius: 4px; background: linear-gradient(90deg, #7CC4FF, #2F6FED); }
+  .bx .bx-halves { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px; }
+  .bx .bx-half { padding: 24px; border-radius: 22px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); }
+  .bx .bx-badge { display: inline-block; padding: 5px 12px; border-radius: 999px; background: #fff; color: #0037B6; font-size: 12.5px; font-weight: 700; }
+  .bx .bx-half h3 { margin: 12px 0 14px; font-family: var(--display); font-size: 24px; color: #fff; }
+  .bx .bx-half ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .bx .bx-half li { display: flex; gap: 14px; align-items: flex-start; }
+  .bx .bx-e { width: 44px; height: 44px; flex-shrink: 0; border-radius: 14px; display: flex; align-items: center; justify-content: center; background: #fff; font-size: 21px; }
+  .bx .bx-half b { display: block; font-size: 16px; color: #fff; }
+  .bx .bx-half li span:not(.bx-e) { font-size: 14px; line-height: 1.5; color: rgba(255,255,255,.8); }
+  .bx .bx-q { margin: 20px 0 0; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.18); font-family: var(--display); font-size: 17px; line-height: 1.45; color: #BFE2FF; }
+  .bx .bx-k { margin: 40px 0 16px; font-family: var(--display); font-size: 24px; color: var(--ink); }
+  .bx .bx-out { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .bx .bx-o { padding: 22px; border-radius: 22px; background: #fff; border: 2px solid var(--line); }
+  .bx .bx-o span { font-size: 30px; }
+  .bx .bx-o b { display: block; margin-top: 8px; font-family: var(--display); font-size: 19px; color: var(--ink); }
+  .bx .bx-o p { margin: 4px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--muted); }
+  @media (max-width: 960px) {
+    .bx .bx-top, .bx .bx-halves { grid-template-columns: 1fr; }
+    .bx .bx-ph { width: min(78%, 300px); margin-top: 10px; }
+    .bx .bx-hour { padding: 20px 16px; }
+    .bx .bx-half { padding: 18px; }
+    .bx .bx-out { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) { .bx .bx-f { font-size: 12px; padding: 7px 10px; } .bx .bx-f.f1 { left: -6%; } .bx .bx-f.f2 { right: -6%; } .bx .bx-f.f3 { left: -4%; } }
+  @media (prefers-reduced-motion: reduce) { .bx .bx-f { animation: none; } }
+</style>

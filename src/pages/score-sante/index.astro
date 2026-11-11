@@ -1,0 +1,1120 @@
+---
+import SanteChiffres from '../../components/SanteChiffres.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+import Etapes from '../../components/rb/Etapes.astro';
+import coaches from '../../data/coaches.js';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' },
+    { '@type': 'ListItem', position: 2, name: 'Score Santé', item: 'https://gacoachs.fr/score-sante/' },
+  ],
+};
+
+const coachesData = coaches.map((c) => ({ slug: c.slug, prenom: c.prenom, nom: `${c.prenom} ${c.nom}`, photo: c.photo || '' }));
+
+// Les 10 questions du quiz, chacune notée sur 10 points (score final sur 100).
+// Auto-évaluation déclarative : jamais un diagnostic, un point de départ pour la discussion.
+const questions = [
+  {
+    icon: '🏃',
+    categorie: 'Forme physique',
+    q: "Combien de fois par semaine pratiques-tu une activité physique ?",
+    options: [
+      { label: 'Jamais ou presque', points: 0 },
+      { label: '1 fois par semaine', points: 2 },
+      { label: '2 à 3 fois par semaine', points: 5 },
+      { label: '4 fois par semaine ou plus', points: 10 },
+    ],
+  },
+  {
+    icon: '⚡',
+    categorie: 'Récupération',
+    q: "Comment décrirais-tu ton niveau d'énergie au quotidien ?",
+    options: [
+      { label: 'Très bas, je suis souvent épuisé(e)', points: 0 },
+      { label: 'Plutôt bas', points: 2 },
+      { label: 'Correct', points: 5 },
+      { label: 'Élevé, je me sens en forme', points: 10 },
+    ],
+  },
+  {
+    icon: '😴',
+    categorie: 'Récupération',
+    q: 'Combien d\'heures dors-tu en moyenne par nuit ?',
+    options: [
+      { label: 'Moins de 5 heures', points: 0 },
+      { label: '5 à 6 heures', points: 3 },
+      { label: '7 à 8 heures', points: 10 },
+      { label: 'Plus de 9 heures', points: 5 },
+    ],
+  },
+  {
+    icon: '🦴',
+    categorie: 'Confort corporel',
+    q: 'À quelle fréquence ressens-tu des douleurs (dos, articulations) ?',
+    options: [
+      { label: 'Quotidiennement', points: 0 },
+      { label: 'Souvent', points: 2 },
+      { label: 'Occasionnellement', points: 5 },
+      { label: 'Jamais ou presque', points: 10 },
+    ],
+  },
+  {
+    icon: '🥗',
+    categorie: 'Hygiène de vie',
+    q: 'Comment décrirais-tu ton alimentation au quotidien ?',
+    options: [
+      { label: 'Très déséquilibrée', points: 0 },
+      { label: 'Plutôt déséquilibrée', points: 2 },
+      { label: 'Plutôt équilibrée', points: 5 },
+      { label: 'Équilibrée et régulière', points: 10 },
+    ],
+  },
+  {
+    icon: '🪑',
+    categorie: 'Hygiène de vie',
+    q: 'Combien de temps passes-tu assis par jour (travail, trajets, écrans) ?',
+    options: [
+      { label: 'Plus de 8 heures', points: 0 },
+      { label: '6 à 8 heures', points: 2 },
+      { label: '3 à 6 heures', points: 5 },
+      { label: 'Moins de 3 heures', points: 10 },
+    ],
+  },
+  {
+    icon: '🧠',
+    categorie: 'Hygiène de vie',
+    q: 'Comment qualifierais-tu ton niveau de stress ?',
+    options: [
+      { label: 'Très élevé', points: 0 },
+      { label: 'Élevé', points: 2 },
+      { label: 'Modéré', points: 5 },
+      { label: 'Faible', points: 10 },
+    ],
+  },
+  {
+    icon: '🫁',
+    categorie: 'Forme physique',
+    q: 'Es-tu essoufflé(e) en montant 2-3 étages ?',
+    options: [
+      { label: 'Beaucoup', points: 0 },
+      { label: 'Un peu', points: 4 },
+      { label: 'Pas du tout', points: 10 },
+    ],
+  },
+  {
+    icon: '📅',
+    categorie: 'Forme physique',
+    q: 'Depuis combien de temps pratiques-tu une activité sportive régulière ?',
+    options: [
+      { label: 'Je n\'en pratique pas, ou plus depuis longtemps', points: 0 },
+      { label: 'Entre 6 mois et 2 ans', points: 2 },
+      { label: 'Moins de 6 mois', points: 5 },
+      { label: 'C\'est déjà bien installé chez moi', points: 10 },
+    ],
+  },
+  {
+    icon: '🎯',
+    categorie: 'Confort corporel',
+    q: 'Globalement, es-tu satisfait(e) de ta condition physique actuelle ?',
+    options: [
+      { label: 'Pas du tout', points: 0 },
+      { label: 'Peu satisfait(e)', points: 2 },
+      { label: 'Plutôt satisfait(e)', points: 5 },
+      { label: 'Très satisfait(e)', points: 10 },
+    ],
+  },
+];
+
+// Un conseil ciblé selon la catégorie la plus faible du répondant, en complément du score global.
+const conseilsParCategorie: Record<string, string> = {
+  'Forme physique': "Ta forme physique générale (activité, souffle, régularité) semble être le point sur lequel il y a le plus de marge. Un accompagnement progressif, sans te brusquer, peut faire une vraie différence rapidement.",
+  'Récupération': "Ton énergie et ton sommeil ressortent comme les points à travailler en priorité. Une meilleure récupération change souvent plus de choses qu'on ne le pense sur la motivation à bouger.",
+  'Hygiène de vie': "Alimentation, sédentarité, stress : ce sont des habitudes du quotidien qui pèsent lourd sur ton score. De petits ajustements réguliers valent souvent mieux qu'un grand changement brutal.",
+  'Confort corporel': "Douleurs et satisfaction générale ressortent comme les points sensibles. Un accompagnement adapté peut t'aider à reprendre confiance dans ton corps, en douceur.",
+};
+---
+<BaseLayout
+  title="Score Santé gratuit : le test du coach sportif GA"
+  description="Calcule ton Score Santé sur 100 et ton âge métabolique en 2 minutes. Un point de départ gratuit, pas un diagnostic, pour faire le point avec un coach GA."
+  path="/score-sante/"
+  jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')}
+>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero sc-hero2">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Score Santé', href: '/score-sante/' }]} />
+      <div class="sc-grid">
+        <div>
+          <div class="score-coach-banner" id="score-coach-banner" hidden>
+            <img id="score-coach-photo" alt="" class="score-coach-banner__photo" />
+            <p class="score-coach-banner__text" id="score-coach-text">
+              Avec <strong id="score-coach-name"></strong>, coach GA 👋
+            </p>
+          </div>
+          <span class="eyebrow eyebrow-dark">🎯 Outil gratuit · 2 minutes</span>
+          <h1 id="score-title">Quel est ton <span class="hl-text">Score Santé</span> ?</h1>
+          <p class="phero-lead">10 questions rapides pour obtenir ton Score Santé sur 100 et une estimation de ton âge métabolique. Ce n'est pas un diagnostic médical : c'est un point de départ pour voir où tu en es, et pour en discuter avec un coach si tu le souhaites.</p>
+          <div class="ctas"><a class="btn btn-primary" href="#sc-start">Commencer mon Score Santé</a></div>
+        </div>
+        <div class="sc-demo" aria-hidden="true">
+          <div class="sc-demo-g">
+            <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" class="tr" /><circle cx="100" cy="100" r="80" class="fl" /></svg>
+            <span>72<small>/100</small></span>
+          </div>
+          <div class="sc-bars">
+            <div><b>Forme physique</b><i style="--w: 70%"></i></div>
+            <div><b>Récupération</b><i style="--w: 86%"></i></div>
+            <div><b>Confort corporel</b><i style="--w: 74%"></i></div>
+            <div><b>Hygiène de vie</b><i style="--w: 62%"></i></div>
+          </div>
+          <p class="sc-demo-k">Exemple de résultat</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sc-quiz" id="sc-start">
+    <div class="inner sc-cols">
+      <div class="score-quiz-wrap">
+
+        <!-- Étape 1 : le quiz -->
+        <div id="quiz-step-questions">
+          <div class="score-progress">
+            <div class="score-progress__bar"><div class="score-progress__fill" id="quiz-progress-fill"></div></div>
+            <span id="quiz-progress-label">Étape 1 / 10 · 0 pts</span>
+          </div>
+          <div id="quiz-question-container"></div>
+        </div>
+
+        <!-- Étape 2 : demande de l'âge -->
+        <div id="quiz-step-age" hidden>
+          <h2>Encore une info pour finir</h2>
+          <p class="lead">Ton âge, pour estimer ton âge métabolique en complément de ton score.</p>
+          <input type="number" id="quiz-age-input" min="14" max="100" placeholder="Ton âge" class="score-input" />
+          <button type="button" id="quiz-age-submit" class="btn btn--primary" style="margin-top:16px;">Voir mon résultat</button>
+        </div>
+
+        <!-- Étape 3 : résultat, affiché immédiatement, sans rien demander -->
+        <div id="quiz-step-result" hidden>
+          <div class="score-result">
+            <div class="score-gauge-wrap">
+              <svg viewBox="0 0 200 200" class="score-gauge">
+                <defs>
+                  <linearGradient id="score-gauge-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#2F6FED" />
+                    <stop offset="100%" stop-color="#1EA1FF" />
+                  </linearGradient>
+                </defs>
+                <circle cx="100" cy="100" r="86" class="score-gauge__track" />
+                <circle cx="100" cy="100" r="86" class="score-gauge__fill" id="gauge-fill-circle" />
+              </svg>
+              <div class="score-gauge__center">
+                <span class="score-result__number" id="result-score">0</span>
+                <span class="score-result__sur100">/ 100</span>
+              </div>
+            </div>
+            <span class="score-result__badge" id="result-badge"></span>
+            <p class="score-result__label" id="result-label"></p>
+          </div>
+          <div class="score-result__age">
+            <span class="score-result__age-value" id="result-age">-</span>
+            <span class="score-result__age-label">C'est ton âge métabolique estimé</span>
+          </div>
+          <p class="score-result__age-cmp" id="result-age-cmp"></p>
+          <p class="score-result__disclaimer">
+            Ce score et cette estimation d'âge métabolique reposent uniquement sur tes réponses déclaratives :
+            ce n'est ni un diagnostic médical, ni une mesure clinique. C'est un point de départ pour discuter
+            de ta situation avec un professionnel.
+          </p>
+
+          <div class="score-categories" id="score-categories"></div>
+          <p class="score-tip" id="score-tip"></p>
+
+          <p class="score-result__message" id="result-message"></p>
+          <div class="score-result__actions" id="result-actions">
+            <a href="/bilan/" id="result-cta" class="btn btn--primary score-result__cta">Réserver mon bilan santé</a>
+            <button type="button" id="btn-share-result" class="score-share-btn">📤 Partager mon score</button>
+          </div>
+          <!-- Mode présentiel : le coach enchaîne les tests sur son téléphone ou sa tablette -->
+          <div class="score-result__actions" id="presentiel-actions" hidden>
+            <a href="/score-sante/" id="presentiel-again" class="btn btn--primary score-result__cta">🔄 Nouveau Score Santé</a>
+            <a href="/espace-coach/" class="score-share-btn">Retour à mon espace coach</a>
+          </div>
+
+          <!-- Opt-in facultatif : le score est déjà visible, on propose juste un bonus -->
+          <div class="score-optin" id="score-optin">
+            <p class="score-optin__title" id="score-optin-title">📩 Reçois ton résultat détaillé par email</p>
+            <p class="score-optin__text" id="score-optin-text">Le détail de tes points forts, et l'avis d'un coach sur ce qui ferait le plus de différence pour toi.</p>
+            <form id="quiz-optin-form" class="score-capture-form">
+              <label>
+                Prénom
+                <input type="text" id="capture-prenom" required autocomplete="given-name" />
+              </label>
+              <label>
+                Email
+                <input type="email" id="capture-email" required autocomplete="email" />
+              </label>
+              <label>
+                Téléphone (facultatif)
+                <input type="tel" id="capture-telephone" autocomplete="tel" />
+              </label>
+              <label class="score-consent" id="capture-consent-wrap" hidden>
+                <input type="checkbox" id="capture-consent" />
+                <span>Le client accepte d'être recontacté par son coach GA au sujet de son résultat.</span>
+              </label>
+              <button type="submit" class="btn btn--secondary" id="capture-submit">Recevoir mon bilan détaillé</button>
+              <p class="score-capture-note" id="capture-note">Sans spam. Juste ton résultat, et un vrai coach si tu le souhaites.</p>
+            </form>
+            <p class="score-optin__sent" id="score-optin-sent" hidden>✓ Merci ! On revient vers toi rapidement.</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="sc-side">
+        <div class="tile sc-ex"><span class="sc-ic"><svg class="ic" aria-hidden="true"><use href="#i-target"></use></svg></span><div><h3>Ton Score Santé sur 100</h3><p>Calculé à partir de 10 questions sur ton activité, ton énergie, ton sommeil, tes douleurs et tes habitudes.</p></div></div>
+        <div class="tile sc-ex"><span class="sc-ic"><svg class="ic" aria-hidden="true"><use href="#i-heart"></use></svg></span><div><h3>Ton âge métabolique estimé</h3><p>Une estimation à partir de ton score et de ton âge, pour situer ta forme d'un coup d'œil.</p></div></div>
+        <div class="tile sc-ex"><span class="sc-ic"><svg class="ic" aria-hidden="true"><use href="#i-spark"></use></svg></span><div><h3>Ta répartition par catégorie</h3><p>Forme physique, récupération, confort corporel et hygiène de vie, avec un conseil sur ton point le plus faible.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <Etapes eyebrow="Comment ça marche" titre="Ton Score Santé en 3 étapes." items={[
+    { t: 'Réponds à 10 questions', p: "Activité, énergie, sommeil, douleurs, habitudes : des questions simples, sur ta vie de tous les jours." },
+    { t: 'Découvre ton score', p: "Un score sur 100, ton âge métabolique estimé et ta répartition par catégorie, avec un conseil sur ton point le plus faible." },
+    { t: "Passe à l'action", p: "Reçois le détail par email, ou réserve un bilan santé avec un coach GA pour construire ton plan." },
+  ]} />
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Questions fréquentes.</h2>
+      <div class="faq-list">
+        <details class="faq-item"><summary>Le Score Santé est-il gratuit ?</summary><p>Oui, il est gratuit et sans inscription. Il prend environ 2 minutes : 10 questions rapides, puis ton âge pour l'estimation de l'âge métabolique.</p></details>
+        <details class="faq-item"><summary>Comment est calculé mon score ?</summary><p>À partir de tes réponses sur ton activité, ton énergie, ton sommeil, tes douleurs et tes habitudes. Le résultat sur 100 est réparti en 4 catégories : forme physique, récupération, confort corporel et hygiène de vie.</p></details>
+        <details class="faq-item"><summary>C'est quoi l'âge métabolique estimé ?</summary><p>Une estimation calculée à partir de ton score et de ton âge, pour situer ta forme d'un coup d'œil. Ce n'est pas une mesure clinique.</p></details>
+        <details class="faq-item"><summary>Est-ce un diagnostic médical ?</summary><p>Non. Le score repose uniquement sur tes réponses. C'est un point de départ pour faire le point, pas un avis médical. En cas de doute sur ta santé, parles-en à ton médecin.</p></details>
+        <details class="faq-item"><summary>Pourquoi faire le Score Santé avant de réserver un bilan ?</summary><p>Parce qu'il donne à ton coach une première photo de ta situation. Ton bilan va plus vite à l'essentiel : ton objectif, tes points faibles et ce qu'il faut travailler en premier.</p></details>
+        <details class="faq-item"><summary>Que mesure chacune des 4 catégories ?</summary><p>La forme physique (activité, souffle), la récupération (sommeil, énergie), le confort corporel (douleurs, temps assis) et l'hygiène de vie (alimentation, stress). Ton résultat te montre la catégorie à travailler en priorité.</p></details>
+        <details class="faq-item"><summary>Mon score est bas, est-ce grave ?</summary><p>Non, c'est justement un point de départ. Un score bas montre surtout qu'il y a de belles marges de progrès. Un coach GA t'aide à avancer étape par étape, à ton rythme.</p></details>
+        <details class="faq-item"><summary>Le Score Santé est-il utile si je veux perdre du poids ?</summary><p>Oui. Il met en lumière les habitudes qui jouent sur ta perte de poids : activité, sommeil, stress, alimentation, temps assis. C'est la base pour construire un plan réaliste avec ton coach.</p></details>
+        <details class="faq-item"><summary>Puis-je refaire le test plus tard ?</summary><p>Oui, autant de fois que tu veux. Le refaire après quelques semaines d'entraînement te permet de voir ta progression.</p></details>
+        <details class="faq-item"><summary>Que faire après mon Score Santé ?</summary><p>Tu peux recevoir le détail par email, ou réserver un bilan santé : une heure en salle avec un coach GA pour aller plus loin, avec une analyse cardio, posturale et de tes habitudes.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec band sc-disc">
+    <div class="inner"><p class="small-note">Ce score et cette estimation d'âge métabolique reposent uniquement sur tes réponses déclaratives : ce n'est ni un diagnostic médical, ni une mesure clinique. C'est un point de départ pour discuter de ta situation avec un professionnel.</p></div>
+  </section>
+
+  <SanteChiffres />
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">Prêt à trouver le coach qui te correspond ?</h2>
+      <a class="btn-final" href="/trouver-un-coach/"><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Trouver mon coach<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+</div>
+  <canvas id="confetti-canvas"></canvas>
+</BaseLayout>
+
+<!-- Formulaire statique caché, pour que Netlify détecte le formulaire au build -->
+<form name="score-sante-lead" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="prenom" />
+  <input type="email" name="email" />
+  <input type="tel" name="telephone" />
+  <input type="text" name="score" />
+  <input type="text" name="age" />
+  <input type="text" name="age_metabolique" />
+  <input type="text" name="coach" />
+  <input type="text" name="source" />
+  <input type="text" name="consentement" />
+  <input type="text" name="page" />
+  <input type="text" name="bot-field" />
+</form>
+
+
+
+<script type="application/json" id="quiz-questions-data" set:html={JSON.stringify(questions)} />
+<script type="application/json" id="quiz-coaches-data" set:html={JSON.stringify(coachesData)} />
+<script type="application/json" id="quiz-conseils-data" set:html={JSON.stringify(conseilsParCategorie)} />
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const questions = JSON.parse(document.getElementById('quiz-questions-data')!.textContent || '[]');
+    const allCoaches = JSON.parse(document.getElementById('quiz-coaches-data')!.textContent || '[]');
+    const conseilsParCategorie = JSON.parse(document.getElementById('quiz-conseils-data')!.textContent || '{}');
+    const params = new URLSearchParams(window.location.search);
+    const coachSlug = params.get('coach');
+    const coach = allCoaches.find((c: any) => c.slug === coachSlug) || null;
+    // Mode présentiel : lancé depuis l'espace coach, le client répond sur le téléphone ou la tablette du coach.
+    const presentiel = !!coach && params.get('mode') === 'presentiel';
+    // Origine du test, pour l'espace coach : présentiel, lien personnel du coach, ou site.
+    const source = presentiel ? 'presentiel' : coach ? 'lien' : 'site';
+
+    // Personnalisation : si on arrive via le lien d'un coach, on l'affiche en haut de page.
+    if (coach) {
+      const banner = document.getElementById('score-coach-banner')!;
+      const photoEl = document.getElementById('score-coach-photo') as HTMLImageElement;
+      const nameEl = document.getElementById('score-coach-name')!;
+      if (coach.photo) {
+        photoEl.src = coach.photo;
+        photoEl.alt = coach.nom;
+      } else {
+        photoEl.remove();
+      }
+      nameEl.textContent = coach.nom;
+      banner.hidden = false;
+      if (presentiel) {
+        const textEl = document.getElementById('score-coach-text')!;
+        textEl.textContent = 'Score Santé en présentiel avec ';
+        const strong = document.createElement('strong');
+        strong.textContent = coach.prenom;
+        textEl.appendChild(strong);
+        document.documentElement.classList.add('score-presentiel');
+      }
+    }
+
+    // Comptage anonyme pour l'espace coach (scans du lien, tests terminés), enregistré côté serveur
+    // sans passer par les formulaires Netlify, qui ont un quota mensuel.
+    function track(body: Record<string, unknown>) {
+      const data = JSON.stringify(body);
+      try {
+        if (navigator.sendBeacon && navigator.sendBeacon('/.netlify/functions/score-track', new Blob([data], { type: 'application/json' }))) return;
+      } catch (e) { /* on tente l'envoi classique */ }
+      fetch('/.netlify/functions/score-track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: data, keepalive: true }).catch(() => {});
+    }
+
+    // Le "scan" : une personne arrive par le lien personnel d'un coach. En présentiel, ce n'est pas un scan.
+    if (coach && !presentiel) track({ type: 'scan', coach: coach.slug, source: 'lien' });
+
+    const stepQuestions = document.getElementById('quiz-step-questions')!;
+    const stepAge = document.getElementById('quiz-step-age')!;
+    const stepResult = document.getElementById('quiz-step-result')!;
+    const questionContainer = document.getElementById('quiz-question-container')!;
+    const progressFill = document.getElementById('quiz-progress-fill') as HTMLElement;
+    const progressLabel = document.getElementById('quiz-progress-label')!;
+
+    let currentIndex = 0;
+    let totalPoints = 0;
+    let userAge = 0;
+    const pointsParCategorie: Record<string, { obtenus: number; max: number }> = {};
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      progressFill.style.width = `${((currentIndex) / questions.length) * 100}%`;
+      progressLabel.textContent = `Étape ${currentIndex + 1} / ${questions.length} · ${totalPoints} pts`;
+      questionContainer.classList.remove('score-question-enter');
+      questionContainer.innerHTML = `
+        <span class="score-question__icon">${q.icon}</span>
+        <h2 class="score-question">${q.q}</h2>
+        <div class="score-options">
+          ${q.options.map((o: any, i: number) => `<button type="button" class="score-option" data-points="${o.points}" style="animation-delay:${i * 0.05}s">${o.label}</button>`).join('')}
+        </div>
+      `;
+      // force reflow pour redémarrer l'animation d'entrée à chaque nouvelle question
+      void questionContainer.offsetWidth;
+      questionContainer.classList.add('score-question-enter');
+
+      questionContainer.querySelectorAll('.score-option').forEach((btn) => {
+        btn.addEventListener('click', (ev) => {
+          btn.classList.add('score-option--picked');
+          const points = parseInt(btn.getAttribute('data-points') || '0', 10);
+          totalPoints += points;
+
+          const cat = q.categorie;
+          if (!pointsParCategorie[cat]) pointsParCategorie[cat] = { obtenus: 0, max: 0 };
+          pointsParCategorie[cat].obtenus += points;
+          pointsParCategorie[cat].max += 10;
+
+          showReaction(points, ev.currentTarget as HTMLElement);
+
+          setTimeout(() => {
+            currentIndex++;
+            if (currentIndex < questions.length) {
+              renderQuestion();
+              showEncouragement(currentIndex);
+            } else {
+              progressFill.style.width = '100%';
+              stepQuestions.classList.add('step-fade-out');
+              setTimeout(() => {
+                stepQuestions.hidden = true;
+                stepAge.hidden = false;
+                stepAge.classList.add('step-fade-in');
+              }, 200);
+            }
+          }, 180);
+        });
+      });
+    }
+    // Première réponse donnée ailleurs sur le site (accueil, fiche coach) : on la reprend et on passe à la question 2
+    const q1 = parseInt(params.get('q1') || '', 10);
+    if (!isNaN(q1) && questions[0] && questions[0].options[q1]) {
+      const pts = questions[0].options[q1].points, cat0 = questions[0].categorie;
+      totalPoints += pts;
+      pointsParCategorie[cat0] = { obtenus: pts, max: 10 };
+      currentIndex = 1;
+    }
+    renderQuestion();
+
+    // Petite réaction animée qui s'envole depuis le bouton cliqué, pour un côté plus ludique.
+    function showReaction(points: number, btn: HTMLElement) {
+      const emoji = points >= 8 ? '🔥' : points >= 5 ? '👍' : points >= 1 ? '🙂' : '💪';
+      const el = document.createElement('span');
+      el.className = 'score-reaction';
+      el.textContent = emoji;
+      const rect = btn.getBoundingClientRect();
+      el.style.left = `${rect.right - 28}px`;
+      el.style.top = `${rect.top + rect.height / 2 - 14}px`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 900);
+    }
+
+    // Petit message d'encouragement qui apparaît brièvement à mi-parcours et vers la fin.
+    const messagesEncouragement: Record<number, string> = {
+      3: 'On continue, tu gères 💪',
+      6: 'Plus que quelques questions !',
+      9: 'Dernière ligne droite 🎯',
+    };
+    function showEncouragement(index: number) {
+      const msg = messagesEncouragement[index];
+      if (!msg) return;
+      const el = document.createElement('div');
+      el.className = 'score-encouragement';
+      el.textContent = msg;
+      questionContainer.parentElement?.insertBefore(el, questionContainer);
+      setTimeout(() => el.classList.add('score-encouragement--visible'), 10);
+      setTimeout(() => {
+        el.classList.remove('score-encouragement--visible');
+        setTimeout(() => el.remove(), 300);
+      }, 1600);
+    }
+
+    document.getElementById('quiz-age-submit')?.addEventListener('click', () => {
+      const ageInput = document.getElementById('quiz-age-input') as HTMLInputElement;
+      const age = parseInt(ageInput.value, 10);
+      if (!age || age < 14 || age > 100) {
+        ageInput.focus();
+        return;
+      }
+      userAge = age;
+      stepAge.hidden = true;
+      revealResult();
+    });
+
+    // Petit son de validation généré en JS (même esprit que le "pop" de la FAQ), sans fichier audio.
+    let audioCtx: AudioContext | null = null;
+    function playSuccessChime() {
+      try {
+        audioCtx = audioCtx || new (window.AudioContext || (window as any).webkitAudioContext)();
+        const now = audioCtx.currentTime;
+        const notes = [523.25, 659.25, 783.99]; // do-mi-sol, petit accord montant
+        notes.forEach((freq, i) => {
+          const start = now + i * 0.09;
+          const osc = audioCtx!.createOscillator();
+          const gain = audioCtx!.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, start);
+          gain.gain.setValueAtTime(0.0001, start);
+          gain.gain.exponentialRampToValueAtTime(0.05, start + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.35);
+          osc.connect(gain);
+          gain.connect(audioCtx!.destination);
+          osc.start(start);
+          osc.stop(start + 0.4);
+        });
+      } catch (e) {
+        // Web Audio indisponible : on n'affiche jamais d'erreur pour un simple son d'ambiance
+      }
+    }
+
+    // Compteur animé : fait défiler un nombre de 0 jusqu'à sa valeur finale.
+    function animateCount(el: HTMLElement, target: number, suffix = '', duration = 1100) {
+      const start = performance.now();
+      function tick(now: number) {
+        const progress = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        const value = Math.round(target * eased);
+        el.textContent = `${value}${suffix}`;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // Confettis légers en canvas natif, sans dépendance externe, déclenchés pour les bons scores.
+    function launchConfetti() {
+      const canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement;
+      if (!canvas) return;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const ctx = canvas.getContext('2d')!;
+      const colors = ['#2F6FED', '#1EA1FF', '#0B1E3D', '#FFC857', '#4CD07D'];
+      const pieces = Array.from({ length: 90 }, () => ({
+        x: Math.random() * canvas.width,
+        y: -20 - Math.random() * canvas.height * 0.3,
+        size: 5 + Math.random() * 6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speedY: 2 + Math.random() * 3,
+        speedX: -1.5 + Math.random() * 3,
+        rotation: Math.random() * 360,
+        rotationSpeed: -6 + Math.random() * 12,
+      }));
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach((p) => {
+          p.y += p.speedY;
+          p.x += p.speedX;
+          p.rotation += p.rotationSpeed;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+          ctx.restore();
+        });
+        frame++;
+        if (frame < 150) {
+          requestAnimationFrame(draw);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      draw();
+    }
+
+    // Calcul de l'âge métabolique : estimation illustrative, jamais présentée comme une mesure clinique.
+    function calculerAgeMetabolique() {
+      // Barème exigeant : il faut 75/100 pour être à son âge réel, et l'estimation ne rajeunit jamais de plus de 8 ans.
+      const ajustement = Math.round((totalPoints - 75) / 4);
+      let age = userAge - ajustement;
+      age = Math.max(16, Math.min(userAge + 15, Math.max(userAge - 8, age)));
+      return age;
+    }
+
+    function revealResult() {
+      stepResult.hidden = false;
+      stepResult.classList.add('step-fade-in');
+
+      const ageMetabolique = calculerAgeMetabolique();
+
+      if ((window as any).trackConversion) {
+        (window as any).trackConversion('score_sante_termine', {
+          score: totalPoints,
+          source,
+          coach: coach ? coach.slug : 'sans_coach',
+        });
+      }
+
+      // Test terminé : compté pour l'espace coach (score et origine, sans aucune donnée personnelle).
+      track({ type: 'test', coach: coach ? coach.slug : '', source, score: totalPoints });
+
+      // Jauge circulaire animée : le cercle se remplit progressivement jusqu'au score.
+      const circumference = 2 * Math.PI * 86;
+      const gaugeCircle = document.getElementById('gauge-fill-circle') as unknown as SVGCircleElement;
+      gaugeCircle.style.strokeDasharray = `${circumference}`;
+      gaugeCircle.style.strokeDashoffset = `${circumference}`;
+      void gaugeCircle.getBoundingClientRect();
+      requestAnimationFrame(() => {
+        gaugeCircle.style.strokeDashoffset = `${circumference * (1 - totalPoints / 100)}`;
+      });
+
+      animateCount(document.getElementById('result-score')!, totalPoints);
+      animateCount(document.getElementById('result-age')!, ageMetabolique, ' ans');
+      playSuccessChime();
+
+      // Répartition par catégorie : barres animées + identification du point le plus faible.
+      const categoriesEl = document.getElementById('score-categories')!;
+      let categoriePlusFaible = '';
+      let ratioMin = 2;
+      const categoriesHtml = Object.entries(pointsParCategorie)
+        .map(([cat, { obtenus, max }]) => {
+          const ratio = max > 0 ? obtenus / max : 0;
+          if (ratio < ratioMin) {
+            ratioMin = ratio;
+            categoriePlusFaible = cat;
+          }
+          const pct = Math.round(ratio * 100);
+          return `
+            <div class="score-cat-row">
+              <div class="score-cat-row__head">
+                <span>${cat}</span>
+                <span>${pct}%</span>
+              </div>
+              <div class="score-cat-row__bar">
+                <div class="score-cat-row__fill" data-target="${pct}" style="width:0%"></div>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+      categoriesEl.innerHTML = `<p class="score-categories__title">Ta répartition par catégorie</p>${categoriesHtml}`;
+      setTimeout(() => {
+        categoriesEl.querySelectorAll('.score-cat-row__fill').forEach((el) => {
+          (el as HTMLElement).style.width = `${el.getAttribute('data-target')}%`;
+        });
+      }, 100);
+
+      const tipEl = document.getElementById('score-tip')!;
+      if (categoriePlusFaible && conseilsParCategorie[categoriePlusFaible]) {
+        tipEl.textContent = `💡 ${conseilsParCategorie[categoriePlusFaible]}`;
+      }
+
+      let label = '';
+      let badge = '';
+      let message = '';
+      if (totalPoints >= 90) {
+        badge = '🏆 Niveau 4 · Athlète du quotidien';
+        label = 'Une très bonne forme générale';
+        message = `Tes habitudes sont solides. Un bilan santé sert ici à sécuriser ce que tu as construit et à viser un palier de plus.`;
+        setTimeout(launchConfetti, 300);
+      } else if (totalPoints >= 75) {
+        badge = '🔥 Niveau 3 · Sur la bonne voie';
+        label = 'Une bonne forme, mais pas encore optimale';
+        message = `Tes habitudes tiennent la route, mais il reste des points faibles qui te freinent. Un bilan santé permet de les identifier et de passer un vrai cap.`;
+        setTimeout(launchConfetti, 300);
+      } else if (totalPoints >= 50) {
+        badge = '⚡ Niveau 2 · En montée de puissance';
+        label = "Ta forme est en dessous de ce qu'elle devrait être";
+        message = `Plusieurs habitudes pèsent déjà sur ta forme et sur ton âge métabolique. Sans changement, ces écarts ont tendance à se creuser avec le temps. Un bilan santé permet de voir précisément quoi corriger en priorité.`;
+      } else {
+        badge = '🚀 Niveau 1 · Point de départ';
+        label = 'Ta condition physique demande une vraie prise en main';
+        message = `Ton score montre que plusieurs leviers essentiels sont à la traîne : activité, récupération ou hygiène de vie. Plus tu attends, plus il sera difficile de remonter la pente. Un accompagnement encadré par un coach diplômé est le moyen le plus sûr de reprendre le contrôle.`;
+      }
+      const ecartAge = calculerAgeMetabolique() - userAge;
+      document.getElementById('result-age-cmp')!.innerHTML = ecartAge > 0
+        ? `Soit <b>${ecartAge} an${ecartAge > 1 ? 's' : ''} de plus</b> que ton âge réel (${userAge} ans).`
+        : ecartAge < 0 ? `Soit ${-ecartAge} an${ecartAge < -1 ? 's' : ''} de moins que ton âge réel (${userAge} ans).` : `Identique à ton âge réel (${userAge} ans).`;
+      document.getElementById('result-badge')!.textContent = badge;
+      document.getElementById('result-label')!.textContent = label;
+      document.getElementById('result-message')!.textContent = message;
+
+      const cta = document.getElementById('result-cta') as HTMLAnchorElement;
+      cta.href = coach ? `/bilan/?coach=${coach.slug}` : '/bilan/';
+
+      // En présentiel : on enchaîne les tests, et la prise de contact est faite par le coach pour son client.
+      if (presentiel && coach) {
+        document.getElementById('result-actions')!.hidden = true;
+        document.getElementById('presentiel-actions')!.hidden = false;
+        (document.getElementById('presentiel-again') as HTMLAnchorElement).href = `/score-sante/?coach=${coach.slug}&mode=presentiel`;
+        document.getElementById('score-optin-title')!.textContent = '📩 Envoyer son résultat au client';
+        document.getElementById('score-optin-text')!.textContent = 'Avec son accord, note ses coordonnées : il reçoit son résultat et apparaît dans « À recontacter » de ton espace coach.';
+        document.getElementById('capture-submit')!.textContent = 'Enregistrer le contact';
+        document.getElementById('capture-note')!.textContent = 'Ses informations servent uniquement à le recontacter.';
+        document.getElementById('score-optin-sent')!.textContent = "✓ C'est noté : ce contact est dans ton espace coach.";
+        ['capture-prenom', 'capture-email', 'capture-telephone'].forEach((id) => document.getElementById(id)!.setAttribute('autocomplete', 'off'));
+        document.getElementById('capture-consent-wrap')!.hidden = false;
+        (document.getElementById('capture-consent') as HTMLInputElement).required = true;
+      }
+
+      const shareBtn = document.getElementById('btn-share-result') as HTMLButtonElement;
+      shareBtn.onclick = async () => {
+        const shareData = {
+          title: 'Mon Score Santé',
+          text: `Je viens de faire mon Score Santé sur GA Coachs : ${totalPoints}/100 ! Fais le tien :`,
+          url: window.location.origin + '/score-sante/' + (coach ? `?coach=${coach.slug}` : ''),
+        };
+        if (navigator.share) {
+          try { await navigator.share(shareData); } catch (e) {}
+        } else {
+          await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+          shareBtn.textContent = '✓ Lien copié !';
+          setTimeout(() => (shareBtn.textContent = '📤 Partager mon score'), 1800);
+        }
+      };
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Opt-in facultatif : le score est déjà visible, ce formulaire n'est qu'un bonus.
+    document.getElementById('quiz-optin-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const prenom = (document.getElementById('capture-prenom') as HTMLInputElement).value.trim();
+      const email = (document.getElementById('capture-email') as HTMLInputElement).value.trim();
+      const telephone = (document.getElementById('capture-telephone') as HTMLInputElement).value.trim();
+      const accord = document.getElementById('capture-consent') as HTMLInputElement;
+      if (!prenom || !email) return;
+      if (presentiel && !accord.checked) { accord.reportValidity(); return; }
+
+      const submitBtn = (e.target as HTMLFormElement).querySelector('button[type="submit"]') as HTMLButtonElement;
+      submitBtn.textContent = 'Envoi...';
+      submitBtn.disabled = true;
+
+      try {
+        await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            'form-name': 'score-sante-lead',
+            prenom,
+            email,
+            telephone,
+            score: String(totalPoints),
+            age: String(userAge),
+            age_metabolique: String(calculerAgeMetabolique()),
+            coach: coachSlug || '',
+            source,
+            consentement: presentiel ? 'oui, recueilli par le coach en présentiel' : 'oui, formulaire envoyé par la personne',
+            page: window.location.href,
+          }).toString(),
+        });
+        if ((window as any).trackConversion) {
+          (window as any).trackConversion('score_sante_optin', {
+            score: totalPoints,
+            source,
+            coach: coach ? coach.slug : 'sans_coach',
+          });
+        }
+      } catch (err) {
+        // silencieux
+      }
+
+      (e.target as HTMLFormElement).hidden = true;
+      document.getElementById('score-optin-sent')!.hidden = false;
+    });
+  });
+</script>
+
+<style is:global>
+  .sc-hero2 { padding-bottom: 72px; }
+  .sc-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 32px 56px; align-items: center; }
+  .sc-hero2 h1 { margin-top: 14px; }
+  .sc-demo { padding: 28px; border-radius: 28px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); }
+  .sc-demo-g { position: relative; width: 170px; height: 170px; margin: 0 auto 18px; }
+  .sc-demo-g svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .sc-demo-g .tr { fill: none; stroke: rgba(255,255,255,.14); stroke-width: 14; }
+  .sc-demo-g .fl { fill: none; stroke: #7CC4FF; stroke-width: 14; stroke-linecap: round; stroke-dasharray: 502.4; stroke-dashoffset: 140.7; }
+  .sc-demo-g span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 44px; font-weight: 700; color: #fff; }
+  .sc-demo-g small { font-size: 15px; opacity: .7; }
+  .sc-bars { display: grid; gap: 10px; }
+  .sc-bars div { display: grid; grid-template-columns: 130px 1fr; align-items: center; gap: 12px; }
+  .sc-bars b { font-size: 13.5px; color: #fff; }
+  .sc-bars i { display: block; height: 8px; border-radius: 99px; background: linear-gradient(90deg, #2F6FED, #7CC4FF); width: var(--w); }
+  .sc-demo-k { margin: 16px 0 0; text-align: center; font-size: 12px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: rgba(255,255,255,.55); }
+  .sc-quiz { padding-block: 56px; }
+  .sc-cols { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 24px; align-items: start; }
+  .sc-side { display: grid; gap: 14px; }
+  .sc-ex { display: flex; gap: 14px; align-items: flex-start; padding: 20px !important; }
+  .sc-ex h3 { font-family: var(--display); font-size: 18px; margin: 0 0 4px; }
+  .sc-ex p { font-size: 14px; color: var(--muted); }
+  .sc-ic { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; background: var(--pill); color: var(--blue); flex-shrink: 0; }
+  .sc-ic .ic { width: 20px; height: 20px; }
+  .sc-disc { padding-block: 28px; }
+  @media (max-width: 960px) { .sc-grid, .sc-cols { grid-template-columns: 1fr; } }
+  .rb .score-quiz-wrap { margin: 0; background: #fff; border: 1px solid var(--line); border-radius: 30px; padding: clamp(22px, 4vw, 40px); box-shadow: 0 40px 80px -44px rgba(11,30,61,.6); }
+  .rb .score-coach-banner { margin-bottom: 18px; background: rgba(255,255,255,.08) !important; border: 1px solid rgba(255,255,255,.18) !important; color: #fff !important; }
+  .rb .score-coach-banner__text, .rb .score-coach-banner__text strong { color: #fff !important; }
+
+  .score-hero { padding-bottom: 24px; }
+
+  /* Univers jeu : barre d'XP segmentée, boutons 3D, niveau */
+  .rb .score-progress__bar { height: 14px; border-radius: 6px; padding: 2px; background: var(--navy); }
+  .rb .score-progress__fill { border-radius: 3px; background: repeating-linear-gradient(90deg, #1D5BD8 0 calc(10% - 3px), transparent calc(10% - 3px) 10%), linear-gradient(90deg, #1D5BD8, #7CC4FF); background-blend-mode: normal; box-shadow: 0 0 12px rgba(124,196,255,.7); }
+  .rb #quiz-progress-label { font-family: var(--font-display); font-weight: 700; letter-spacing: .02em; text-transform: none; font-size: 12px; color: var(--blue); }
+  .rb .score-option { border-bottom-width: 4px; border-bottom-color: #1D5BD8; border-radius: 14px; font-weight: 700; transition: transform .12s, border-color .12s, background .12s; }
+  .rb .score-option:hover { transform: translateY(-2px); border-color: #1D5BD8; }
+  .rb .score-option:active { transform: translateY(2px); border-bottom-width: 2px; margin-top: 2px; }
+  .rb .score-result__badge { font-family: var(--font-display); text-transform: none; letter-spacing: .02em; border: 2px solid #0B1E3D; border-bottom-width: 5px; box-shadow: 0 0 0 3px rgba(124,196,255,.45); }
+  .score-presentiel .sticky-cta, .score-presentiel #bamboo-root { display: none !important; }
+  .score-result__actions[hidden] { display: none !important; }
+  .score-consent { display: flex !important; flex-direction: row !important; align-items: flex-start; gap: 10px; font-size: 13.5px; font-weight: 500; text-align: left; }
+  .score-consent[hidden] { display: none !important; }
+  .score-consent input { width: 20px; height: 20px; min-height: 0; margin-top: 2px; flex: 0 0 auto; }
+  .score-presentiel .score-coach-banner { background: var(--navy); border-color: var(--navy); }
+  .score-presentiel .score-coach-banner__text { color: #fff; }
+
+  .score-coach-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 18px 8px 8px;
+    width: fit-content;
+    margin-bottom: 18px;
+  }
+  .score-coach-banner__photo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .score-coach-banner__text { font-size: 14px; color: var(--navy); }
+
+  .score-reaction {
+    position: fixed;
+    font-size: 22px;
+    pointer-events: none;
+    z-index: 500;
+    animation: score-reaction-float 0.9s ease-out forwards;
+  }
+  @keyframes score-reaction-float {
+    0% { opacity: 0; transform: translateY(0) scale(0.6); }
+    20% { opacity: 1; transform: translateY(-10px) scale(1.1); }
+    100% { opacity: 0; transform: translateY(-50px) scale(1); }
+  }
+
+  .score-encouragement {
+    text-align: center;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity .25s ease, transform .25s ease;
+  }
+  .score-encouragement--visible { opacity: 1; transform: translateY(0); }
+
+  .score-result__badge {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 700;
+    background: rgba(47,111,237,.08);
+    color: var(--blue);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  .lead { margin-top: 16px; color: var(--text-muted); max-width: 62ch; }
+
+  .score-quiz-wrap {
+    max-width: 620px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    padding: 32px 28px;
+  }
+
+  .score-progress { margin-bottom: 24px; }
+  .score-progress__bar { height: 6px; background: var(--ice); border-radius: 999px; overflow: hidden; }
+  .score-progress__fill { height: 100%; background: var(--blue); transition: width .3s var(--ease); }
+  .score-progress__bar + span, #quiz-progress-label { display: block; margin-top: 8px; font-size: 12.5px; color: var(--text-muted); font-weight: 600; }
+
+  .score-question__icon { display: block; font-size: 34px; margin-bottom: 10px; }
+  .score-question { font-size: 19px; }
+
+  .score-question-enter { animation: score-question-fade-in .35s var(--ease); }
+  @keyframes score-question-fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .score-options { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .score-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 14px 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--navy);
+    cursor: pointer;
+    transition: border-color .2s var(--ease), background .2s var(--ease), transform .15s var(--ease), box-shadow .2s var(--ease);
+    animation: score-option-fade-in .4s var(--ease) both;
+  }
+  @keyframes score-option-fade-in {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .score-option:hover { border-color: var(--blue); background: var(--ice); transform: translateX(3px); }
+  .score-option:active { transform: scale(0.98); }
+  .score-option--picked {
+    border-color: var(--blue) !important;
+    background: var(--blue) !important;
+    color: #fff !important;
+    transform: scale(1.02) !important;
+    box-shadow: 0 8px 20px -8px rgba(47,111,237,.5);
+  }
+
+  .step-fade-in { animation: step-fade-in .4s var(--ease); }
+  @keyframes step-fade-in {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .step-fade-out { animation: step-fade-out .2s var(--ease) forwards; }
+  @keyframes step-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  .score-input {
+    margin-top: 16px;
+    width: 100%;
+    max-width: 200px;
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 16px;
+    transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .score-input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(47,111,237,.15); }
+
+  .score-reveal-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--ice);
+    color: var(--blue-dim);
+    font-size: 13px;
+    font-weight: 700;
+    animation: none;
+  }
+  @keyframes score-badge-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .score-capture-form { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .score-capture-form label { display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--navy); }
+  .score-capture-form input {
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 15px;
+    transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+  }
+  .score-capture-form input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(47,111,237,.15); }
+  .score-capture-note { font-size: 12px; color: var(--text-muted); text-align: center; }
+
+  .score-result { text-align: center; }
+  .score-gauge-wrap { position: relative; width: 200px; height: 200px; margin: 0 auto; }
+  .score-gauge { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .score-gauge__track { fill: none; stroke: var(--ice); stroke-width: 16; }
+  .score-gauge__fill {
+    fill: none;
+    stroke: url(#score-gauge-gradient);
+    stroke-width: 16;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1.4s cubic-bezier(.16,1,.3,1);
+  }
+  .score-gauge__center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .score-result__number { font-family: var(--font-display); font-size: 44px; font-weight: 700; color: var(--navy); line-height: 1; }
+  .score-result__sur100 { font-size: 14px; color: var(--text-muted); margin-top: 2px; }
+  .score-result__label { margin-top: 20px; font-size: 18px; font-weight: 700; color: var(--navy); }
+
+  .score-result__age {
+    margin-top: 24px;
+    padding: 18px;
+    background: var(--ice);
+    border-radius: var(--radius-md);
+    text-align: center;
+    animation: step-fade-in .5s var(--ease) .3s both;
+  }
+  .score-result__age-value { display: block; font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--blue-dim); }
+  .score-result__age-cmp { margin: 10px 0 0; font-size: 14.5px; color: var(--text-muted); }
+  .score-result__age-cmp b { color: var(--navy); }
+  .score-result__age-label { font-size: 13px; color: var(--text-muted); }
+
+  .score-result__disclaimer {
+    margin-top: 20px; font-size: 12.5px; font-style: italic; color: var(--text-muted);
+    animation: step-fade-in .5s var(--ease) .45s both;
+  }
+  .score-result__message {
+    margin-top: 16px; font-size: 15px; color: var(--navy); line-height: 1.5;
+    animation: step-fade-in .5s var(--ease) .55s both;
+  }
+  .score-result__cta {
+    display: block; text-align: center; width: 100%;
+    animation: step-fade-in .5s var(--ease) .7s both;
+  }
+
+  .score-categories { margin-top: 28px; text-align: left; }
+  .score-categories__title { font-weight: 700; color: var(--navy); font-size: 14px; margin-bottom: 14px; }
+  .score-cat-row { margin-bottom: 14px; }
+  .score-cat-row__head { display: flex; justify-content: space-between; font-size: 13px; color: var(--navy); font-weight: 600; margin-bottom: 5px; }
+  .score-cat-row__bar { height: 8px; background: var(--ice); border-radius: 999px; overflow: hidden; }
+  .score-cat-row__fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--sky));
+    border-radius: 999px;
+    transition: width 1s cubic-bezier(.16,1,.3,1);
+  }
+
+  .score-tip {
+    margin-top: 20px;
+    padding: 14px 16px;
+    background: var(--ice);
+    border-radius: var(--radius-md);
+    font-size: 13.5px;
+    color: var(--navy);
+    text-align: left;
+    line-height: 1.5;
+  }
+
+  .score-result__actions { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 24px; }
+
+  .score-optin {
+    margin-top: 40px;
+    padding: 24px;
+    border-top: 1px solid var(--line);
+  }
+  .score-optin__title { font-weight: 700; color: var(--navy); margin: 0 0 6px; }
+  .score-optin__text { color: var(--text-muted); font-size: 14px; margin: 0; }
+  .score-optin .score-capture-form { margin-top: 18px; }
+  .score-optin .btn--secondary {
+    background: var(--white);
+    color: var(--blue);
+    border: 1px solid var(--blue);
+  }
+  .score-optin .btn--secondary:hover { background: rgba(47,111,237,.06); }
+  .score-optin__sent { font-weight: 600; color: var(--navy); text-align: center; margin-top: 18px; }
+  .score-share-btn {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    transition: border-color .2s var(--ease), color .2s var(--ease);
+  }
+  .score-share-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+  #confetti-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  @media (max-width: 600px) {
+    .score-quiz-wrap { padding: 24px 18px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .score-question-enter, .score-option, .step-fade-in, .step-fade-out, .score-badge-pulse,
+    .score-result__age, .score-result__disclaimer, .score-result__message, .score-result__cta {
+      animation: none !important;
+    }
+    .score-gauge__fill { transition: none !important; }
+  }
+</style>

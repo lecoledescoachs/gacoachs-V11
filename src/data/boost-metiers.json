@@ -1,0 +1,18 @@
+[
+  {
+    "nom": "Bureaux",
+    "points": ["Mobilité", "Mouvement", "Renforcement", "Rupture de la sédentarité"]
+  },
+  {
+    "nom": "Industrie / Logistique",
+    "points": ["Mouvements adaptés aux contraintes du poste", "Mobilité", "Renforcement", "Échauffement lorsque pertinent"]
+  },
+  {
+    "nom": "Équipes commerciales",
+    "points": ["Activité dynamique", "Challenges", "Cohésion"]
+  },
+  {
+    "nom": "Collectivités",
+    "points": ["Programme accessible à des populations hétérogènes"]
+  }
+]

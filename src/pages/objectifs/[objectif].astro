@@ -1,0 +1,159 @@
+---
+import SanteChiffres from '../../components/SanteChiffres.astro';
+import BoostPCQ from '../../components/BoostPCQ.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import CoachCard from '../../components/CoachCard.astro';
+import '../../styles/rebrand.css';
+import objectifsData from '../../data/objectifs.json';
+import articles from '../../data/articles.json';
+import { coachesReseau as coaches } from '../../data/coaches.js';
+import salles from '../../data/salles.json';
+import villes from '../../data/villes.json';
+import expertisesData from '../../data/expertises.json';
+
+export function getStaticPaths() {
+  // Garde-fou anti contenu fin : on ne génère la page que s'il existe au moins
+  // un coach réellement rattaché à cet objectif (par tag ou spécialité).
+  return objectifsData
+    .filter((o) => coaches.some((c) => c.tags.includes(o.sousTheme) || c.specialites.includes(o.sousTheme)))
+    .map((o) => ({ params: { objectif: o.slug }, props: { objectif: o } }));
+}
+
+const { objectif } = Astro.props;
+const salleParSlug = Object.fromEntries(salles.map((s) => [s.slug, s]));
+const coachsConcernes = coaches.filter((c) => c.tags.includes(objectif.sousTheme) || c.specialites.includes(objectif.sousTheme));
+const sallesConcernees = new Set(coachsConcernes.map((c) => c.salleSlug));
+const villesConcernees = villes.filter((v) => v.salleSlugs.some((s: string) => sallesConcernees.has(s)));
+const villesHorsQ = villesConcernees.filter((v) => v.slug !== 'la-source' && v.slug !== 'saint-marceau');
+const expertiseParente = expertisesData.find((e) => e.slug === objectif.expertiseParente);
+const autres = objectifsData.filter((o) => o.slug !== objectif.slug);
+const nomsSalles = [...sallesConcernees].map((s) => salleParSlug[s as string]?.nom).filter(Boolean);
+const mot = objectif.nom.toLowerCase();
+const guides = (articles as any[]).filter((a) => new RegExp(mot.split(' ')[0] === 'perte' ? 'perte de poids|perdre du poids|maigrir' : 'remise en forme|reprendre le sport|reprise', 'i').test(a.titre)).slice(0, 3);
+const enBref = [
+  objectif.resume,
+  `${coachsConcernes.length} coachs sportifs GA accompagnent cet objectif : ${coachsConcernes.map((c) => c.prenom).join(', ')}.`,
+  nomsSalles.length ? `Salles : ${nomsSalles.join(', ')}.` : '',
+  `Zone couverte : ${villesConcernees.length} villes et quartiers autour d'Orléans.`,
+  `Point de départ : un bilan santé d'environ une heure avec le coach choisi.`,
+].filter(Boolean);
+const faqTout = [
+  ...(objectif.faq || []),
+  { q: `Où trouver un coach pour ${objectif.nom.toLowerCase().startsWith('perte') ? 'perdre du poids' : 'se remettre en forme'} à Orléans ?`, r: `${coachsConcernes.map((c) => `${c.prenom} ${c.nom}`).join(', ')} interviennent en salle Basic-Fit (${nomsSalles.join(', ')}). Chaque fiche coach détaille sa salle et sa méthode.` },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: `${objectif.nom} à Orléans`, serviceType: objectif.nom, url: `https://gacoachs.fr/objectifs/${objectif.slug}/`, provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' }, areaServed: villesHorsQ.map((v) => ({ '@type': 'City', name: v.nom })), description: objectif.resume },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqTout.map((f: any) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+const mots = objectif.nom.split(' ');
+const fin = mots.pop();
+---
+<BaseLayout title={`${objectif.nom} avec un coach sportif GA à Orléans`} description={objectif.resume} path={`/objectifs/${objectif.slug}/`} jsonLd={jsonLd}>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, ...(expertiseParente ? [{ label: expertiseParente.nom, href: `/${expertiseParente.slug}/` }] : []), { label: objectif.nom, href: `/objectifs/${objectif.slug}/` }]} />
+      <span class="eyebrow eyebrow-dark">Objectif</span>
+      <h1>{mots.join(' ')} <span class="hl-text">{fin}</span> à Orléans.</h1>
+      <p class="phero-lead">{objectif.resume}</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="/score-sante/">Réserver mon bilan santé</a>
+        <a class="btn btn-glass" href="#ob-coachs">Voir les coachs</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="facts">
+    <div class="inner">
+      <div class="facts-in">
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-users"></use></svg></span><div><b>{coachsConcernes.length}</b><span>coachs pour cet objectif</span></div></div>
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-pin"></use></svg></span><div><b>{sallesConcernees.size}</b><span>salles Basic-Fit</span></div></div>
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-home"></use></svg></span><div><b>{villesConcernees.length}</b><span>villes autour d'Orléans</span></div></div>
+        <div class="fact"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-clock"></use></svg></span><div><b>1 h</b><span>de bilan santé pour démarrer</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="sec">
+    <div class="inner vb2">
+      <div>
+        <span class="eyebrow">En bref</span>
+        <h2 class="h2">{objectif.nom} à Orléans en 30 secondes.</h2>
+      </div>
+      <ul class="vb-list">{enBref.map((t) => <li>{t}</li>)}</ul>
+    </div>
+  </section>
+
+  {objectif.etapes && (
+    <section class="sec navy">
+      <div class="lightning-bg" aria-hidden="true"></div>
+      <div class="inner">
+        <span class="eyebrow">Comment ça se passe</span>
+        <h2 class="h2">L'accompagnement, étape par étape.</h2>
+        <div class="steps3">{objectif.etapes.map((e: any, i: number) => <div class="st"><div class="st-n">{i + 1}</div><h3>{e.titre}</h3><p>{e.texte}</p></div>)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="sec band" id="ob-coachs">
+    <div class="inner">
+      <span class="eyebrow">L'équipe</span>
+      <h2 class="h2">Les coachs qui t'accompagnent.</h2>
+      <div class="ob-coachs">{coachsConcernes.map((c) => <CoachCard slug={c.slug} prenom={c.prenom} nom={c.nom} salleNom={salleParSlug[c.salleSlug]?.nom ?? ''} tags={c.tags} photo={c.photo} avisGoogle={c.avisGoogle} role={c.role} />)}</div>
+    </div>
+  </section>
+
+  <BoostPCQ id={objectif.slug} />
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Questions fréquentes.</h2>
+      <div class="faq-list">{faqTout.map((f: any) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+
+  {guides.length > 0 && (
+    <section class="sec band">
+      <div class="inner">
+        <span class="eyebrow">Nos guides</span>
+        <h2 class="h2">Pour aller plus loin.</h2>
+        <div class="guides">{guides.map((a: any) => <a class="guide" href={`/blog/${a.slug}/`}><small>Guide{a.tempsLecture ? ` · ${a.tempsLecture} min` : ''}</small><b>{a.titre}</b><p>{a.extrait}</p><em>Lire le guide →</em></a>)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="sec">
+    <div class="inner">
+      <h2 class="h2" style="font-size: 24px;">Disponible près de chez toi</h2>
+      <div class="chips-row">
+        {expertiseParente && <a class="chip-link" href={`/${expertiseParente.slug}/`}>{expertiseParente.nom} <small>Expertise</small></a>}
+        {autres.map((o) => <a class="chip-link" href={`/objectifs/${o.slug}/`}>{o.nom} <small>Objectif</small></a>)}
+        {villesHorsQ.map((v) => <a class="chip-link" href={`/coach-sportif-${v.slug}/`}>Coach sportif à {v.nom}</a>)}
+      </div>
+    </div>
+  </section>
+
+  <SanteChiffres />
+  <section class="final">
+    <div class="final-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <h2 class="h2">Prêt à démarrer ton objectif {objectif.nom.toLowerCase()} ?</h2>
+      <a class="btn-final" href="/trouver-un-coach/"><svg class="ic fill" aria-hidden="true"><use href="#i-bolt"></use></svg>Trouver mon coach<span class="shine" aria-hidden="true"></span></a>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+
+<style>
+  .rb .phero { padding-bottom: 110px; }
+  .vb2 { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 24px 48px; align-items: start; }
+  .vb-list { list-style: none; margin: 0; padding: 24px 28px; display: grid; gap: 12px; background: #fff; border: 2px solid var(--line); border-radius: 24px; }
+  .vb-list li { display: flex; gap: 10px; font-size: 15.5px; line-height: 1.5; font-weight: 600; }
+  .vb-list li::before { content: ""; width: 20px; height: 20px; margin-top: 2px; border-radius: 50%; flex-shrink: 0; background: var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.2 4.2L19 7'/%3E%3C/svg%3E") center / 12px no-repeat; }
+  .ob-coachs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin-top: 28px; }
+  @media (max-width: 960px) { .vb2 { grid-template-columns: 1fr; } .ob-coachs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
+</style>

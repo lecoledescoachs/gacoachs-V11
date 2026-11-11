@@ -1,0 +1,169 @@
+---
+import Header from '../components/Header.astro';
+import coachesNiv from '../data/coaches.js';
+import Footer from '../components/Footer.astro';
+import SEO from '../components/SEO.astro';
+import '../styles/anim.css';
+import '../styles/wow.css';
+import StickyCTA from '../components/StickyCTA.astro';
+import BambooChat from '../components/BambooChat.astro';
+import LeadMagnetPopup from '../components/LeadMagnetPopup.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import Analytics from '../components/Analytics.astro';
+import ScrollReveal from '../components/ScrollReveal.astro';
+import '../styles/global.css';
+import '../styles/mobile.css';
+import '../styles/game.css';
+import fontBaloo800 from '@fontsource/baloo-2/files/baloo-2-latin-800-normal.woff2?url';
+import fontNunito400 from '@fontsource/nunito-sans/files/nunito-sans-latin-400-normal.woff2?url';
+import fontNunito700 from '@fontsource/nunito-sans/files/nunito-sans-latin-700-normal.woff2?url';
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  jsonLd?: Record<string, any> | Record<string, any>[];
+  stickyCtaHref?: string | false;
+  stickyCtaLabel?: string;
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  noindex?: boolean;
+  manifest?: string;
+  popupScore?: boolean;
+}
+const {
+  title,
+  description,
+  path,
+  jsonLd,
+  stickyCtaHref = '/score-sante/',
+  stickyCtaLabel = 'Réserver mon bilan santé',
+  image,
+  imageWidth,
+  imageHeight,
+  noindex = false,
+  manifest = '/site.webmanifest',
+  popupScore,
+} = Astro.props;
+// Pages destinées aux structures (au vouvoiement) : pas de pop-up Score Santé, qui vise les particuliers
+const PAGES_PRO = ['/entreprises/', '/sport-sante/ehpad-maisons-de-retraite/', '/associations-de-musculation/', '/preparation-physique/clubs/', '/professionnels-de-sante/', '/services-sur-mesure/'];
+const afficherPopupScore = popupScore ?? !PAGES_PRO.some((p) => (path ?? Astro.url.pathname).startsWith(p));
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Politique de sécurité : seuls le site et les services listés ici peuvent charger du contenu -->
+    <link rel="preload" href={fontBaloo800} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fontNunito400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fontNunito700} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/images/design/eclairs.webp" as="image" type="image/webp" fetchpriority="high" media="(min-width: 761px)" />
+    <link rel="preload" href="/images/design/eclairs-m.webp" as="image" type="image/webp" fetchpriority="high" media="(max-width: 760px)" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://identity.netlify.com https://assets.calendly.com https://plausible.io; style-src 'self' 'unsafe-inline' https://assets.calendly.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://www.googletagmanager.com https://*.google-analytics.com https://i.ytimg.com https://i.scdn.co; font-src 'self' data:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://identity.netlify.com https://plausible.io; frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://calendly.com https://identity.netlify.com; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href={manifest} />
+    <meta name="theme-color" content="#0B1E3D" />
+    <SEO title={title} description={description} path={path} jsonLd={jsonLd} image={image} imageWidth={imageWidth} imageHeight={imageHeight} noindex={noindex} />
+    <script is:inline>
+      // animations au défilement : actives sauf mouvement réduit et espaces privés ;
+      // si le moteur n'a pas démarré au bout de 4 s, tout est affiché normalement
+      (function () {
+        if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (/^\/(espace-coach|admin|merci)/.test(location.pathname)) return;
+        document.documentElement.classList.add('anim-on');
+        setTimeout(function () { if (!window.__animOk) document.documentElement.classList.remove('anim-on'); }, 4000);
+      })();
+    </script>
+    <Analytics />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Aller au contenu principal</a>
+    <Header />
+    <main id="main" class={stickyCtaHref ? 'has-sticky-cta' : ''}>
+      <slot />
+    </main>
+    <Footer />
+    {stickyCtaHref && <StickyCTA href={stickyCtaHref} label={stickyCtaLabel} />}
+    <BambooChat />
+    {afficherPopupScore && <LeadMagnetPopup />}
+    <CookieBanner />
+    <script type="application/json" id="coach-niveaux" set:html={JSON.stringify(Object.fromEntries((coachesNiv as any[]).filter((c) => c.niveau).map((c) => [c.slug, Number(c.niveau)])))} />
+    <ScrollReveal />
+    <script>
+      import { initAnimHome } from '../scripts/animHome.js';
+      import { initWow } from '../scripts/wow.js';
+      initAnimHome();
+      initWow();
+      // Espace insécable avant : ; ! ? — règle typographique française, évite qu'un
+      // signe de ponctuation se retrouve seul en début de ligne.
+      function fixFrenchPunctuation(el: Element) {
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        let node: Node | null;
+        const textNodes: Text[] = [];
+        while ((node = walker.nextNode())) textNodes.push(node as Text);
+        textNodes.forEach((t) => {
+          const text = t.textContent || '';
+          const fixed = text.replace(/ ([:;!?])/g, '\u00A0$1');
+          if (fixed !== text) t.textContent = fixed;
+        });
+      }
+
+      // Colle les deux derniers mots de chaque titre/paragraphe/bouton avec une espace
+      // insécable, pour qu'aucun mot ne se retrouve seul sur la dernière ligne, quel
+      // que soit le navigateur, indépendamment du support de text-wrap: pretty en CSS.
+      function preventOrphan(el: Element) {
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        let lastTextNode: Text | null = null;
+        let node: Node | null;
+        while ((node = walker.nextNode())) lastTextNode = node as Text;
+        if (!lastTextNode) return;
+        const text = lastTextNode.textContent || '';
+        const idx = text.lastIndexOf(' ');
+        // On évite de toucher aux textes déjà courts (un seul mot) ou déjà traités
+        if (idx > 0 && idx < text.length - 1 && !text.slice(idx + 1).includes('\u00A0')) {
+          lastTextNode.textContent = text.slice(0, idx) + '\u00A0' + text.slice(idx + 1);
+        }
+      }
+
+      const orphanSelectors = [
+        'h1', 'h2', 'h3', 'h4',
+        'main p', 'main li', 'main blockquote', 'main figcaption',
+        'main .btn', 'main button', 'main .tag', 'main .eyebrow',
+        'main .lead',
+      ].join(', ');
+
+      document.querySelectorAll(orphanSelectors).forEach((el) => {
+        fixFrenchPunctuation(el);
+        preventOrphan(el);
+      });
+    </script>
+
+    <script>
+      // Révélation douce au scroll : s'applique automatiquement à toutes les sections
+      // du site, sans avoir à instrumenter chaque page individuellement.
+      const targets = document.querySelectorAll('main > section, main .section, main .cta-final, main .boost-final-cta');
+      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        targets.forEach((el) => el.classList.add('reveal'));
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('reveal--visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
+        );
+        targets.forEach((el) => observer.observe(el));
+      }
+    </script>
+    <script>import '../scripts/rails.js';</script>
+    <script>import '../scripts/game-xp.ts';import '../scripts/coach-niveaux.ts';</script>
+  </body>
+</html>

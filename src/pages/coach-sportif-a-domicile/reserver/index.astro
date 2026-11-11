@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Crumbs from '../../../components/rb/Crumbs.astro';
+import Icones from '../../../components/rb/Icones.astro';
+import '../../../styles/rebrand.css';
+import villesData from '../../../data/villes.json';
+import coaches from '../../../data/coaches.js';
+import config from '../../../data/coaches-domicile.json';
+
+const communes = [...villesData].sort((a: any, b: any) => a.nom.localeCompare(b.nom, 'fr'));
+const dispo = (config.coaches as any[]).map((d) => {
+  const c = (coaches as any[]).find((x) => x.slug === d.slug);
+  return c ? { slug: c.slug, nom: `${c.prenom} ${c.nom}`, prenom: c.prenom, photo: c.photo, zones: d.zones || ['tout'], calendlyUrl: d.calendlyUrl || '' } : null;
+}).filter(Boolean) as any[];
+---
+<BaseLayout noindex={true} title="Réserver mon Bilan Santé à domicile" description="Choisissez votre commune, votre coach et votre rendez-vous pour un Bilan Santé à domicile avec un coach sportif diplômé du réseau GA." path="/coach-sportif-a-domicile/reserver/" stickyCtaHref={false}>
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'BOOST DOMICILE', href: '/coach-sportif-a-domicile/' }, { label: 'Réserver', href: '/coach-sportif-a-domicile/reserver/' }]} />
+      <span class="eyebrow eyebrow-dark">BOOST DOMICILE</span>
+      <h1>Réservez votre <span class="hl-text">Bilan Santé</span> à domicile.</h1>
+      <p class="phero-lead">Trois étapes : votre commune, votre coach, votre rendez-vous.</p>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner rv">
+      <ol class="rv-steps" aria-hidden="true"><li class="on" id="rv-n1"><i>1</i>Commune</li><li id="rv-n2"><i>2</i>Coach</li><li id="rv-n3"><i>3</i>Rendez-vous</li></ol>
+
+      <div class="rv-card" id="rv-s1">
+        <h2 class="h2">Où habitez-vous ?</h2>
+        <label class="rv-l">Votre commune
+          <select id="rv-commune"><option value="">Choisir votre commune</option>{communes.map((v: any) => <option value={v.slug}>{v.nom}</option>)}<option value="autre">Une autre commune</option></select>
+        </label>
+        <button type="button" class="btn btn-primary" id="rv-go1" disabled>Continuer</button>
+      </div>
+
+      <div class="rv-card" id="rv-s2" hidden>
+        <h2 class="h2">Choisissez votre coach.</h2>
+        <p class="rv-p" id="rv-s2-msg"></p>
+        <div class="rv-coachs" id="rv-coachs">
+          {dispo.map((c) => (
+            <button type="button" class="rv-coach" data-slug={c.slug} data-nom={c.nom} data-zones={c.zones.join(',')} data-cal={c.calendlyUrl}>
+              <img src={c.photo} alt="" width="120" height="160" loading="lazy" />
+              <b>{c.nom}</b>
+            </button>
+          ))}
+        </div>
+        <p><button type="button" class="rv-link" id="rv-nocoach">Je laisse mes coordonnées, un coach me rappelle</button></p>
+        <p><button type="button" class="rv-link" id="rv-back1">← Changer de commune</button></p>
+      </div>
+
+      <div class="rv-card" id="rv-s3" hidden>
+        <h2 class="h2" id="rv-s3-t">Votre rendez-vous.</h2>
+        <div class="rv-prix" role="note">
+          <p><b>Bilan Santé à domicile : 10 €</b>, réglés directement à votre coach. Pendant le bilan, il vous présente sa proposition d'accompagnement (rythme, durée, tarif) selon ce que vous aurez vu ensemble. Aucune obligation de continuer.</p>
+        </div>
+        <div id="rv-cal" style="min-width:320px;height:720px;" hidden></div>
+        <form class="rv-form" id="rv-form" name="domicile-bilan" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-domicile/" aria-label="Laisser mes coordonnées pour le Bilan Santé à domicile">
+          <input type="hidden" name="form-name" value="domicile-bilan" />
+          <input type="hidden" name="coach" id="rv-f-coach" value="" />
+          <p class="visually-hidden"><label>Ne pas remplir <input name="bot-field" /></label></p>
+          <label>Commune<input name="commune" id="rv-f-commune" required /></label>
+          <label>Prénom et nom<input name="nom" required autocomplete="name" /></label>
+          <label>Téléphone<input type="tel" name="telephone" required autocomplete="tel" /></label>
+          <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+          <label>Moment préféré
+            <select name="creneau"><option>Matin</option><option>Après-midi</option><option>Soir</option><option>Samedi</option></select>
+          </label>
+          <label>Votre objectif <small>(facultatif)</small><textarea name="objectif" rows="3"></textarea></label>
+          <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+        </form>
+        <p><button type="button" class="rv-link" id="rv-back2">← Retour</button></p>
+      </div>
+    </div>
+  </section>
+</div>
+</BaseLayout>
+
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<script>
+  const $ = (id: string) => document.getElementById(id) as any;
+  const sel = $('rv-commune');
+  const show = (n: number) => { [1, 2, 3].forEach((i) => { $('rv-s' + i).hidden = i !== n; $('rv-n' + i).classList.toggle('on', i <= n); }); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+  const param = new URLSearchParams(location.search).get('commune');
+  if (param && [...sel.options].some((o: any) => o.value === param)) { sel.value = param; }
+  $('rv-go1').disabled = !sel.value;
+  sel.addEventListener('change', () => { $('rv-go1').disabled = !sel.value; });
+  let coachChoisi: any = null;
+  const nomCommune = () => (sel.value && sel.value !== 'autre' ? sel.options[sel.selectedIndex].text : '');
+  const coachs = [...document.querySelectorAll('.rv-coach')] as any[];
+  function etape2() {
+    const slug = sel.value; let n = 0;
+    coachs.forEach((b) => { const z = (b.dataset.zones || '').split(','); const ok = z.includes('tout') || z.includes(slug); b.hidden = !ok; if (ok) n++; });
+    $('rv-s2-msg').textContent = n ? 'Ces coachs peuvent venir chez vous.' : 'Nous cherchons le coach de votre commune : laissez vos coordonnées, un coach vous rappelle pour fixer le rendez-vous.';
+    $('rv-coachs').hidden = !n;
+    show(2); if (!n) etape3(null);
+  }
+  function etape3(b: any) {
+    coachChoisi = b;
+    $('rv-f-commune').value = nomCommune();
+    $('rv-f-coach').value = b ? b.dataset.nom : '';
+    const cal = $('rv-cal'); const form = $('rv-form');
+    if (b && b.dataset.cal && (window as any).Calendly) {
+      cal.hidden = false; cal.innerHTML = '';
+      (window as any).Calendly.initInlineWidget({ url: b.dataset.cal + (b.dataset.cal.includes('?') ? '&' : '?') + 'hide_gdpr_banner=1', parentElement: cal });
+    } else { cal.hidden = true; }
+    $('rv-s3-t').textContent = b ? `Votre rendez-vous avec ${b.dataset.nom}.` : 'Laissez-nous vos coordonnées.';
+    form.hidden = !!(b && b.dataset.cal && (window as any).Calendly);
+    show(3);
+  }
+  $('rv-go1').addEventListener('click', etape2);
+  coachs.forEach((b) => b.addEventListener('click', () => etape3(b)));
+  $('rv-nocoach').addEventListener('click', () => etape3(null));
+  $('rv-back1').addEventListener('click', () => show(1));
+  $('rv-back2').addEventListener('click', () => { const any = coachs.some((b) => !b.hidden); any ? show(2) : show(1); });
+</script>
+
+<style is:global>
+  .rv { max-width: 720px; }
+  .rv-steps { list-style: none; display: flex; gap: 8px; padding: 0; margin: 0 0 18px; }
+  .rv-steps li { flex: 1; display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 12px; background: #E6EEFE; color: #3E4C6B; font-weight: 700; font-size: 14px; }
+  .rv-steps li.on { background: #1D5BD8; color: #fff; }
+  .rv-steps i { font-style: normal; display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #fff; color: #1D5BD8; font-size: 13px; }
+  .rv-card { background: #fff; border: 2px solid #C3D3F6; border-bottom-width: 5px; border-radius: 20px; padding: 22px; display: grid; gap: 14px; }
+  .rv-card[hidden], .rv-form[hidden], #rv-cal[hidden], .rv-coachs[hidden], .rv-coach[hidden] { display: none; }
+  .rv-l, .rv-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; color: #0B1E3D; }
+  .rv-card select, .rv-card input, .rv-card textarea { width: 100%; box-sizing: border-box; min-height: 46px; padding: 10px 12px; border: 1px solid #B8C6E3; border-radius: 12px; font: inherit; font-size: 16px; background: #fff; }
+  .rv-form { display: grid; gap: 12px; }
+  .rv-p { margin: 0; color: #2A3756; }
+  .rv-coachs { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .rv-coach { display: grid; gap: 8px; justify-items: center; padding: 10px; border: 2px solid #C3D3F6; border-bottom-width: 4px; border-radius: 16px; background: #fff; cursor: pointer; font: inherit; color: #0B1E3D; }
+  .rv-coach img { width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover; border-radius: 12px; }
+  .rv-prix { background: #EAF1FF; border-left: 4px solid #1D5BD8; border-radius: 0 14px 14px 0; padding: 12px 16px; color: #0B1E3D; }
+  .rv-prix p { margin: 0; line-height: 1.5; }
+  .rv-link { background: none; border: 0; padding: 8px 0; color: #1D5BD8; font-weight: 700; cursor: pointer; font: inherit; text-decoration: underline; min-height: 44px; }
+</style>

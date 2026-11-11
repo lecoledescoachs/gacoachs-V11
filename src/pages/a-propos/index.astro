@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Contenu from '../../components/proto/AproposContenu.astro';
+import '../../styles/proto-pages.css';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'À propos de GA Coachs',
+  about: {
+    '@type': 'Organization',
+    name: 'GA Coachs',
+    url: 'https://gacoachs.fr/',
+    foundingDate: '2018', founder: { '@type': 'Person', name: 'Garry Babaud', jobTitle: 'Coach en chef', url: 'https://garrybabaud.com/', sameAs: ['https://garrybabaud.com/', 'https://gacoachs.fr/coachs/garry-babaud/'] },
+  },
+};
+---
+<BaseLayout
+  title="À propos de GA Coachs, réseau de coach sportif à Orléans"
+  description="GA Coachs, réseau de coachs sportifs diplômés partenaire officiel de Basic-Fit à Orléans depuis 2018, fondé par Garry Babaud, Coach en chef."
+  path="/a-propos/"
+  jsonLd={jsonLd}
+>
+<div class="proto">
+  <Contenu />
+</div>
+</BaseLayout>
+

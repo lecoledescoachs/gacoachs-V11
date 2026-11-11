@@ -1,0 +1,119 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <img src="/images/logos/ga-coachs-logo.webp" alt="GA Coachs" class="footer__logo-img" width="240" height="237" loading="lazy" />
+      <p>Réseau de coachs sportifs, partenaire officiel de Basic-Fit depuis 2018.</p>
+      <p class="footer__founder">Fondé par Garry Babaud · <a href="https://garrybabaud.com/" target="_blank" rel="noopener">garrybabaud.com</a></p>
+    </div>
+
+    <div class="footer__col">
+      <h2>Le réseau</h2>
+      <ul>
+        <li><a href="/trouver-un-coach/">Trouver un coach</a></li>
+        <li><a href="/score-sante/">Mon Score Santé</a></li>
+        <li><a href="/mon-programme/">Mon programme gratuit</a></li>
+        <li><a href="/salles/">Nos salles</a></li>
+        <li><a href="/a-propos/">À propos</a></li>
+        <li><a href="/rejoindre/">Rejoindre GA Coachs</a></li>
+        <li><a href="/offres-emploi/">Offres d'emploi</a></li>
+        <li><a href="/espace-coach/">Espace coach</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h2>Expertises</h2>
+      <ul>
+        <li><a href="/coaching-sportif/">Coaching sportif</a></li>
+        <li><a href="/preparation-physique/">Préparation physique</a></li>
+        <li><a href="/preparation-course/">Préparation course</a></li>
+        <li><a href="/preparation-concours/">Préparation concours</a></li>
+        <li><a href="/sport-sante/">Sport Santé</a></li>
+        <li><a href="/mal-de-dos/">Mal de dos</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h2>Pour les structures</h2>
+      <ul>
+        <li><a href="/entreprises/">Entreprises</a></li>
+        <li><a href="/sport-sante/ehpad-maisons-de-retraite/">EHPAD</a></li>
+        <li><a href="/associations-de-musculation/">Associations</a></li>
+        <li><a href="/preparation-physique/clubs/">Clubs sportifs</a></li>
+        <li><a href="/professionnels-de-sante/">Professionnels de santé</a></li>
+        <li><a href="/services-sur-mesure/">Services sur mesure</a></li>
+        <li><a href="/boost/">BOOST partout en France</a></li>
+        <li><a href="/conferences/">Conférences</a></li>
+        <li><a href="/medias/">Espace médias et marques</a></li>
+        <li><a href="/coach-sportif-campagne-sport-sante/">BOOST COMMUNICATION</a></li>
+        <li><a href="/services-sur-mesure/coach-sportif-preparation-scene/">BOOST SCÈNE : préparation scène</a></li>
+        <li><a href="/services-sur-mesure/coach-sportif-tournee-artistes/">BOOST TOURNÉE : coach de tournée</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h2>Contact</h2>
+      <ul>
+        <li><a href="/contact/">Nous contacter</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/boutique/">Boutique</a></li>
+        <li><a href="/carte-cadeau/">Carte cadeau</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer__bottom">
+    <p>&copy; {year} GA Coachs. Tous droits réservés.</p>
+    <div class="footer__legal">
+      <a href="/plan-du-site/">Plan du site</a>
+      <a href="/confidentialite/#cookies" data-gerer-cookies>Gérer les cookies</a>
+      <a href="/mentions-legales/">Mentions légales</a>
+      <a href="/cgv/">CGV</a>
+      <a href="/cgu/">CGU</a>
+      <a href="/confidentialite/">Confidentialité</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer__founder { margin-top: 10px; font-size: 14px; }
+  .footer__founder a { color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .site-footer {
+    background: var(--blue);
+    color: rgba(255,255,255,0.78);
+    padding: 56px 0 24px;
+  }
+  .footer__grid {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: 1fr;
+  }
+  .footer__brand p { margin-top: 10px; max-width: 32ch; color: rgba(255,255,255,0.78); }
+  .footer__logo-img { height: 36px; width: auto; }
+  .footer__col h2 { font-size: 13px; text-transform: none; letter-spacing: .02em; color: #A8D4FF; margin-bottom: 14px; font-family: var(--font-body); font-weight: 600; }
+  .footer__col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .footer__col a:hover { color: var(--white); }
+  .footer__bottom {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.78);
+  }
+  .footer__legal { display: flex; flex-wrap: wrap; gap: 12px 20px; }
+
+  @media (min-width: 640px) {
+    .footer__grid { grid-template-columns: 1fr 1fr; }
+    .footer__brand { grid-column: 1 / -1; }
+    .footer__bottom { flex-direction: row; justify-content: space-between; }
+  }
+  @media (min-width: 1024px) {
+    .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr 0.8fr; }
+    .footer__brand { grid-column: auto; }
+  }
+</style>

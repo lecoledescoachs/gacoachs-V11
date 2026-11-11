@@ -1,0 +1,120 @@
+---
+// Maquette dessinée d'un produit de la boutique (t-shirt, sweat, tasse, gourde, casquette)
+const { type, teinte = 'blue', print = '' } = Astro.props;
+const fonds: Record<string, string> = { blue: '#0037B6', navy: '#0B1E3D', white: '#FFFFFF' };
+const f = fonds[teinte] || fonds.blue;
+const ink = teinte === 'white' ? '#0037B6' : '#FFFFFF';
+const contour = teinte === 'white' ? '#C9D8F5' : 'rgba(0,0,0,.12)';
+---
+<div class="pv" aria-hidden="true">
+  <svg viewBox="0 0 240 240" role="presentation">
+    {type === 'tshirt' && (
+      <g>
+        <path d="M78 40 L104 30 Q120 44 136 30 L162 40 L204 70 L186 102 L166 92 L166 210 L74 210 L74 92 L54 102 L36 70 Z" fill={f} stroke={contour} stroke-width="2" stroke-linejoin="round" />
+        <path d="M104 30 Q120 50 136 30" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="3" />
+      </g>
+    )}
+    {type === 'polo' && (
+      <g>
+        <path d="M80 40 L104 32 L120 50 L136 32 L160 40 L204 70 L186 102 L166 92 L166 210 L74 210 L74 92 L54 102 L36 70 Z" fill={f} stroke={contour} stroke-width="2" stroke-linejoin="round" />
+        <path d="M104 32 L112 58 L120 50 L128 58 L136 32" fill={f} stroke="rgba(255,255,255,.45)" stroke-width="2" stroke-linejoin="round" />
+        <line x1="120" y1="50" x2="120" y2="84" stroke="rgba(255,255,255,.35)" stroke-width="2" />
+        <circle cx="120" cy="66" r="2.5" fill="#fff" /><circle cx="120" cy="78" r="2.5" fill="#fff" />
+      </g>
+    )}
+    {type === 'sweat' && (
+      <g>
+        <path d="M84 46 Q120 8 156 46 L200 70 L212 182 L188 186 L176 104 L170 210 L70 210 L64 104 L52 186 L28 182 L40 70 Z" fill={f} stroke={contour} stroke-width="2" stroke-linejoin="round" />
+        <path d="M96 52 Q120 74 144 52" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="3" />
+        <line x1="112" y1="64" x2="110" y2="96" stroke="rgba(255,255,255,.5)" stroke-width="2" /><line x1="128" y1="64" x2="130" y2="96" stroke="rgba(255,255,255,.5)" stroke-width="2" />
+        <rect x="88" y="160" width="64" height="30" rx="6" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="2" />
+      </g>
+    )}
+    {type === 'tasse' && (
+      <g>
+        <path d="M166 92 Q206 92 206 128 Q206 164 166 164" fill="none" stroke={contour === '#C9D8F5' ? '#0037B6' : f} stroke-width="14" />
+        <rect x="54" y="62" width="120" height="140" rx="14" fill={f} stroke={contour} stroke-width="2" />
+        <ellipse cx="114" cy="64" rx="60" ry="8" fill="#EAF1FF" stroke={contour} stroke-width="2" />
+      </g>
+    )}
+    {type === 'mug' && (
+      <g>
+        <path d="M170 92 L196 92 Q206 92 206 102 L206 168 Q206 178 196 178 L170 178" fill="none" stroke="#0037B6" stroke-width="12" stroke-linejoin="round" />
+        <path d="M66 70 L174 70 L164 214 Q163 222 155 222 L85 222 Q77 222 76 214 Z" fill={f} stroke={contour} stroke-width="2" stroke-linejoin="round" />
+        <rect x="60" y="54" width="120" height="20" rx="8" fill="#0B1E3D" />
+        <rect x="134" y="14" width="8" height="44" rx="3" fill="#0037B6" transform="rotate(12 138 36)" />
+      </g>
+    )}
+    {type === 'gourde' && (
+      <g>
+        <rect x="100" y="24" width="40" height="22" rx="6" fill="#0B1E3D" />
+        <path d="M96 46 L144 46 L150 64 L150 210 Q150 220 140 220 L100 220 Q90 220 90 210 L90 64 Z" fill={f} stroke={contour} stroke-width="2" />
+        <rect x="90" y="190" width="60" height="6" fill="rgba(255,255,255,.25)" />
+      </g>
+    )}
+    {type === 'serviette' && (
+      <g>
+        <rect x="58" y="44" width="124" height="168" rx="10" fill={f} stroke={contour} stroke-width="2" />
+        <rect x="58" y="188" width="124" height="10" fill="rgba(255,255,255,.12)" />
+        <rect x="58" y="56" width="124" height="6" fill="rgba(255,255,255,.12)" />
+        <circle cx="120" cy="34" r="10" fill="none" stroke="#1EA1FF" stroke-width="5" />
+        <rect x="114" y="40" width="12" height="10" rx="2" fill="#1EA1FF" />
+      </g>
+    )}
+    {type === 'pull' && (
+      <g>
+        <path d="M70 52 L40 66 Q30 72 28 84 L16 176 Q15 184 22 186 L40 189 Q47 190 48 183 L62 100 Z" fill={f} />
+        <path d="M170 52 L200 66 Q210 72 212 84 L224 176 Q225 184 218 186 L200 189 Q193 190 192 183 L178 100 Z" fill={f} />
+        <path d="M70 52 Q96 40 104 38 Q120 46 136 38 Q144 40 170 52 L178 100 L178 206 Q178 212 172 212 L68 212 Q62 212 62 206 L62 100 Z" fill={f} stroke={contour} stroke-width="2" />
+        <rect x="62" y="198" width="116" height="16" rx="5" fill="rgba(0,0,0,.18)" />
+        <path d="M100 37 Q120 50 140 37 L146 41 Q120 60 94 41 Z" fill="rgba(0,0,0,.2)" />
+      </g>
+    )}
+    {type === 'pack' && (
+      <g>
+        <rect x="40" y="70" width="96" height="132" rx="10" fill="#0B1E3D" stroke={contour} stroke-width="2" transform="rotate(-8 88 136)" />
+        <circle cx="76" cy="62" r="8" fill="none" stroke="#1EA1FF" stroke-width="4" transform="rotate(-8 88 136)" />
+        <rect x="150" y="38" width="34" height="18" rx="5" fill="#0B1E3D" />
+        <path d="M146 56 L188 56 L194 72 L194 206 Q194 214 186 214 L148 214 Q140 214 140 206 L140 72 Z" fill={f} stroke={contour} stroke-width="2" />
+      </g>
+    )}
+    {type === 'casquette' && (
+      <g>
+        <path d="M50 150 Q50 70 120 66 Q190 70 190 150 Z" fill={f} stroke={contour} stroke-width="2" />
+        <path d="M40 150 Q120 132 214 160 Q200 182 150 176 Q90 168 40 166 Z" fill="#0037B6" stroke={contour} stroke-width="2" />
+        <circle cx="120" cy="68" r="5" fill="#1EA1FF" />
+      </g>
+    )}
+  </svg>
+  <span class={`pv__print pv__print--${type}`} style={`color:${ink}`}>
+    <img src="/images/logos/ga-coachs-logo.webp" alt="" width="240" height="237" loading="lazy" />
+    {print && <b>{print}</b>}
+  </span>
+</div>
+<style>
+  .pv { position: relative; aspect-ratio: 1; background: linear-gradient(160deg, #EAF1FF, #D6E4FF); border-radius: var(--radius-sm); display: grid; place-items: center; overflow: hidden; }
+  .pv svg { width: 82%; height: 82%; filter: drop-shadow(0 14px 18px rgba(11,30,61,.18)); }
+  .pv__print { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 4px; font-weight: 700; letter-spacing: .02em; text-align: center; }
+  .pv__print img { width: 34px; height: auto; }
+  .pv__print b { font-size: 12px; line-height: 1.15; max-width: 9ch; }
+  .pv__print--tshirt { top: 46%; }
+  .pv__print--sweat { top: 52%; }
+  .pv__print--tasse { left: 47%; top: 55%; }
+  .pv__print--tasse img { width: 44px; }
+  .pv__print--tasse b { font-size: 10px; max-width: 10ch; }
+  .pv__print--mug { left: 50%; top: 58%; }
+  .pv__print--mug img { width: 46px; }
+  .pv__print--gourde { top: 58%; }
+  .pv__print--gourde img { width: 28px; }
+  .pv__print--gourde b { font-size: 11px; }
+  .pv__print--casquette { top: 46%; }
+  .pv__print--pack { left: 70%; top: 58%; }
+  .pv__print--pack img { width: 26px; }
+  .pv__print--serviette { top: 54%; }
+  .pv__print--serviette img { width: 40px; }
+  .pv__print--pull { left: 58%; top: 34%; }
+  .pv__print--pull img { width: 22px; }
+  .pv__print--polo { left: 58%; top: 43%; }
+  .pv__print--polo img { width: 26px; }
+  .pv__print--casquette img { width: 40px; }
+</style>

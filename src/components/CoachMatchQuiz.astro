@@ -1,0 +1,226 @@
+---
+import { coachesReseau as coaches } from '../data/coaches.js';
+import sallesData from '../data/salles.json';
+const salles = sallesData.filter((s) => s.reseauOfficiel !== false);
+
+const salleParSlug = Object.fromEntries(salles.map((s) => [s.slug, s]));
+
+// Objectifs réels dérivés des tags des coachs (aucune option inventée)
+const objectifs = Array.from(new Set(coaches.flatMap((c) => c.tags)));
+
+const dataId = 'coach-match-data';
+const payload = {
+  coaches: coaches.map((c) => ({
+    slug: c.slug,
+    prenom: c.prenom,
+    nom: c.nom,
+    salleSlug: c.salleSlug,
+    salleNom: salleParSlug[c.salleSlug]?.nom ?? '',
+    tags: c.tags,
+    photo: c.photo,
+  })),
+  salles: salles.map((s) => ({ slug: s.slug, nom: s.nom, ville: s.ville })),
+};
+---
+<div class="coach-match" id="coach-match">
+  <div class="coach-match__progress" aria-hidden="true">
+    <span class="coach-match__dot coach-match__dot--active" data-dot="1"></span>
+    <span class="coach-match__dot" data-dot="2"></span>
+    <span class="coach-match__dot" data-dot="3"></span>
+  </div>
+
+  <!-- Étape 1 : salle -->
+  <div class="coach-match__step coach-match__step--active" data-step="1">
+    <span class="eyebrow">Étape 1 sur 3</span>
+    <h3>Quelle salle tu conviendrait le mieux ?</h3>
+    <div class="coach-match__options" data-field="salle">
+      <button type="button" class="coach-match__option" data-value="">Peu importe, montre-moi tout</button>
+      {salles.map((s) => (
+        <button type="button" class="coach-match__option" data-value={s.slug}>{s.nom}</button>
+      ))}
+    </div>
+  </div>
+
+  <!-- Étape 2 : objectif -->
+  <div class="coach-match__step" data-step="2">
+    <span class="eyebrow">Étape 2 sur 3</span>
+    <h3>Quel est ton objectif principal ?</h3>
+    <div class="coach-match__options" data-field="objectif">
+      <button type="button" class="coach-match__option" data-value="">Peu importe</button>
+      {objectifs.map((o) => (
+        <button type="button" class="coach-match__option" data-value={o}>{o}</button>
+      ))}
+    </div>
+    <button type="button" class="coach-match__back" data-back>← Retour</button>
+  </div>
+
+  <!-- Étape 3 : résultat -->
+  <div class="coach-match__step" data-step="3">
+    <span class="eyebrow">Ton coach recommandé</span>
+    <h3 id="coach-match__result-title">Voici notre recommandation</h3>
+    <div id="coach-match__results" class="coach-match__results"></div>
+    <button type="button" class="coach-match__restart" data-restart>Refaire le test</button>
+  </div>
+</div>
+
+<script type="application/json" id={dataId} set:html={JSON.stringify(payload)} />
+
+<style>
+  .coach-match {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .coach-match__progress { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
+  .coach-match__dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--line);
+    transition: background .3s var(--ease), transform .3s var(--ease);
+  }
+  .coach-match__dot--active { background: var(--blue); transform: scale(1.3); }
+
+  .coach-match__step { display: none; animation: cm-fade .4s var(--ease); }
+  .coach-match__step--active { display: block; }
+  @keyframes cm-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .coach-match__step h3 { margin-top: 8px; font-size: 20px; }
+  .coach-match__options {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px;
+  }
+  .coach-match__option {
+    padding: 12px 18px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--white);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    min-height: 46px;
+    transition: border-color .25s var(--ease), background .25s var(--ease), transform .25s var(--ease);
+  }
+  .coach-match__option:hover { border-color: var(--blue); transform: translateY(-2px); }
+  .coach-match__option--selected { background: var(--blue); border-color: var(--blue); color: var(--white); }
+
+  .coach-match__back, .coach-match__restart {
+    margin-top: 24px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .coach-match__back:hover, .coach-match__restart:hover { color: var(--blue); }
+
+  .coach-match__results { display: flex; flex-direction: column; gap: 14px; margin-top: 24px; }
+  .coach-match__result-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: border-color .25s var(--ease), transform .25s var(--ease);
+  }
+  .coach-match__result-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+  .coach-match__result-photo {
+    width: 56px; height: 74px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: var(--ice);
+    flex-shrink: 0;
+  }
+  .coach-match__result-info h4 { font-size: 16px; color: var(--navy); }
+  .coach-match__result-info p { margin-top: 2px; font-size: 13px; color: var(--text-muted); }
+  .coach-match__result-cta { margin-left: auto; font-size: 13px; font-weight: 700; color: var(--blue); flex-shrink: 0; }
+
+  .coach-match__empty { color: var(--text-muted); font-size: 14px; margin-top: 24px; }
+</style>
+
+<script define:vars={{ dataId }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const root = document.getElementById('coach-match');
+    if (!root) return;
+    const data = JSON.parse(document.getElementById(dataId).textContent || '{}');
+
+    const state = { salle: null, objectif: null };
+    const steps = root.querySelectorAll('.coach-match__step');
+    const dots = root.querySelectorAll('.coach-match__dot');
+
+    function goToStep(n) {
+      steps.forEach((s) => s.classList.toggle('coach-match__step--active', s.dataset.step === String(n)));
+      dots.forEach((d) => d.classList.toggle('coach-match__dot--active', Number(d.dataset.dot) <= n));
+      if (typeof window.gtag === 'function') window.gtag('event', `coach_match_step_${n}`);
+    }
+
+    root.querySelectorAll('[data-field="salle"] .coach-match__option').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.salle = btn.dataset.value || null;
+        root.querySelectorAll('[data-field="salle"] .coach-match__option').forEach((b) => b.classList.remove('coach-match__option--selected'));
+        btn.classList.add('coach-match__option--selected');
+        setTimeout(() => goToStep(2), 200);
+      });
+    });
+
+    root.querySelectorAll('[data-field="objectif"] .coach-match__option').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.objectif = btn.dataset.value || null;
+        root.querySelectorAll('[data-field="objectif"] .coach-match__option').forEach((b) => b.classList.remove('coach-match__option--selected'));
+        btn.classList.add('coach-match__option--selected');
+        setTimeout(() => showResults(), 200);
+      });
+    });
+
+    root.querySelector('[data-back]')?.addEventListener('click', () => goToStep(1));
+    root.querySelector('[data-restart]')?.addEventListener('click', () => {
+      state.salle = null;
+      state.objectif = null;
+      root.querySelectorAll('.coach-match__option').forEach((b) => b.classList.remove('coach-match__option--selected'));
+      goToStep(1);
+    });
+
+    function showResults() {
+      let matches = data.coaches.filter((c) => {
+        const matchSalle = !state.salle || c.salleSlug === state.salle;
+        const matchObjectif = !state.objectif || c.tags.includes(state.objectif);
+        return matchSalle && matchObjectif;
+      });
+
+      // Repli progressif si aucun résultat exact : on relâche d'abord l'objectif, puis la salle
+      let fallbackNote = '';
+      if (matches.length === 0 && state.objectif) {
+        matches = data.coaches.filter((c) => !state.salle || c.salleSlug === state.salle);
+        fallbackNote = "Aucun coach ne correspond exactement à cet objectif dans cette salle : voici les coachs disponibles sur place.";
+      }
+      if (matches.length === 0) {
+        matches = data.coaches;
+        fallbackNote = 'Voici les coachs de tout le réseau, disponibles pour toi accompagner.';
+      }
+
+      const resultsEl = document.getElementById('coach-match__results');
+      const titleEl = document.getElementById('coach-match__result-title');
+      titleEl.textContent = matches.length > 1 ? `${matches.length} coachs tu correspondent` : 'Voici ton coach recommandé';
+
+      resultsEl.innerHTML =
+        (fallbackNote ? `<p class="coach-match__empty">${fallbackNote}</p>` : '') +
+        matches
+          .slice(0, 4)
+          .map(
+            (c) => `
+        <a href="/coachs/${c.slug}/" class="coach-match__result-card">
+          <img src="${c.photo}" alt="${c.prenom} ${c.nom}" class="coach-match__result-photo" width="600" height="800" loading="lazy" />
+          <div class="coach-match__result-info">
+            <h4>${c.prenom} ${c.nom}</h4>
+            <p>${c.salleNom}</p>
+          </div>
+          <span class="coach-match__result-cta">Voir le profil →</span>
+        </a>`
+          )
+          .join('');
+
+      goToStep(3);
+      if (typeof window.gtag === 'function') window.gtag('event', 'coach_match_completed');
+    }
+  });
+</script>

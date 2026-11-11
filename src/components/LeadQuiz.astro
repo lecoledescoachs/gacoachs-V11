@@ -1,0 +1,151 @@
+---
+// Quiz de qualification en 4 questions (EHPAD, associations de musculation...) :
+// les réponses donnent un profil de programme, puis un court formulaire Netlify envoie la demande.
+interface Props {
+  quiz: any;
+  formName: string;
+  action: string;
+  delai: string;
+  prefix: string;
+  ariaLabel: string;
+}
+const { quiz: q, formName, action, delai, prefix, ariaLabel } = Astro.props;
+const total = q.questions.length;
+---
+<div class="eq" id={`${prefix}-quiz`} data-total={total}>
+  <div class="eq__head">
+    <span class="eyebrow">{q.eyebrow}</span>
+    <h2>{q.titre}</h2>
+    <p class="eq__intro">{q.intro}</p>
+  </div>
+
+  <div class="eq__card">
+    <div class="eq__bar" aria-hidden="true"><i data-eq-bar></i></div>
+
+    {q.questions.map((qu: any, i: number) => (
+      <fieldset class="eq__step" data-step={i} hidden={i !== 0}>
+        <legend><span class="eq__count">Question {i + 1} sur {total}</span>{qu.q}</legend>
+        <div class="eq__opts">
+          {qu.options.map((o: any, j: number) => (
+            <button type="button" class="eq__opt" data-q={qu.id} data-v={o.v}>
+              <span class="eq__letter">{String.fromCharCode(65 + j)}</span>
+              <span class="eq__txt"><b>{o.l}</b><small>{o.d}</small></span>
+            </button>
+          ))}
+        </div>
+        {i > 0 && <button type="button" class="eq__back" data-back>← Retour</button>}
+      </fieldset>
+    ))}
+
+    <div class="eq__result" data-eq-result hidden>
+      <span class="eq__badge">Votre profil</span>
+      <h3 data-eq-nom></h3>
+      <p class="eq__lead" data-eq-texte></p>
+      <ul class="eq__list">
+        <li data-eq-format></li>
+        <li data-eq-rythme></li>
+        <li>{q.bilan}</li>
+      </ul>
+      <div class="eq__formwrap">
+        <h4>{q.formTitre}</h4>
+        <p>{q.formTexte}</p>
+        <form name={formName} method="POST" data-netlify="true" netlify-honeypot="bot-field" action={action} class="eq__form" aria-label={ariaLabel}>
+          <input type="hidden" name="form-name" value={formName} />
+          <p hidden><label>Ne pas remplir <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+          <input type="hidden" name="profil" data-eq-in="profil" />
+          <input type="hidden" name="simulation" />
+          {q.questions.map((qu: any) => <input type="hidden" name={qu.id} data-eq-in={qu.id} />)}
+          <label>Prénom<input type="text" name="prenom" required autocomplete="given-name" /></label>
+          <label>Nom<input type="text" name="nom" required autocomplete="family-name" /></label>
+          <label>{q.structure || 'Établissement'}<input type="text" name="structure" required autocomplete="organization" /></label>
+          <label>Ville<input type="text" name="ville" required autocomplete="address-level2" /></label>
+          <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+          <label>Téléphone (facultatif)<input type="tel" name="telephone" autocomplete="tel" /></label>
+          <button type="submit" class="btn btn--primary eq__submit">Recevoir ma proposition</button>
+          <p class="eq__note">{delai} Vos informations servent uniquement à répondre à votre demande (<a href="/confidentialite/">confidentialité</a>).</p>
+        </form>
+        <button type="button" class="eq__back" data-redo>↺ Refaire le quiz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ quiz: q, rootId: `${prefix}-quiz` }}>
+  (function () {
+    var root = document.getElementById(rootId); if (!root) return;
+    var steps = [].slice.call(root.querySelectorAll('.eq__step'));
+    var bar = root.querySelector('[data-eq-bar]');
+    var res = root.querySelector('[data-eq-result]');
+    var cles = quiz.cles || { profil: 'priorite', format: 'autonomie', rythme: 'rythme' };
+    var ans = {}, cur = 0;
+    function show(i) {
+      cur = i;
+      steps.forEach(function (s, k) { s.hidden = k !== i; });
+      res.hidden = true;
+      bar.style.width = (i / steps.length * 100) + '%';
+    }
+    function finish() {
+      steps.forEach(function (s) { s.hidden = true; });
+      bar.style.width = '100%';
+      var p = quiz.profils[ans[cles.profil]] || { nom: '', texte: '' };
+      root.querySelector('[data-eq-nom]').textContent = p.nom;
+      root.querySelector('[data-eq-texte]').textContent = p.texte;
+      root.querySelector('[data-eq-format]').textContent = quiz.formats[ans[cles.format]] || '';
+      root.querySelector('[data-eq-rythme]').textContent = quiz.rythmes[ans[cles.rythme]] || '';
+      root.querySelector('[data-eq-in="profil"]').value = p.nom;
+      Object.keys(ans).forEach(function (k) { var inp = root.querySelector('[data-eq-in="' + k + '"]'); if (inp) inp.value = ans[k]; });
+      res.hidden = false;
+      var t = res.querySelector('h3'); if (t && t.scrollIntoView) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    root.addEventListener('click', function (e) {
+      var o = e.target.closest('.eq__opt');
+      if (o) {
+        o.classList.add('is-on');
+        ans[o.dataset.q] = o.dataset.v;
+        setTimeout(function () { o.classList.remove('is-on'); cur + 1 < steps.length ? show(cur + 1) : finish(); }, 240);
+        return;
+      }
+      if (e.target.closest('[data-back]')) { show(cur - 1); return; }
+      if (e.target.closest('[data-redo]')) { ans = {}; show(0); }
+    });
+  })();
+</script>
+
+<style>
+  .eq { max-width: 760px; margin: 0 auto; }
+  .eq__head { text-align: center; }
+  .eq__intro { color: var(--text-muted); margin-top: 10px; }
+  .eq__card { margin-top: 26px; padding: 28px 24px; border-radius: 24px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 30px 60px -40px rgba(47, 111, 237, .5); }
+  .eq__bar { height: 8px; border-radius: 8px; background: #E4EEFF; overflow: hidden; margin-bottom: 22px; }
+  .eq__bar i { display: block; height: 100%; width: 0; border-radius: 8px; background: linear-gradient(90deg, #2F6FED, #1EA1FF); transition: width .35s ease; }
+  .eq__step { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .eq__step legend { padding: 0; font-size: clamp(20px, 2vw + 14px, 26px); font-weight: 700; line-height: 1.25; margin-bottom: 18px; }
+  .eq__count { display: block; font-size: 13px; font-weight: 700; text-transform: none; letter-spacing: .02em; color: #2F6FED; margin-bottom: 6px; }
+  .eq__opts { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  .eq__opt { display: flex; align-items: center; gap: 14px; width: 100%; padding: 14px 16px; text-align: left; font: inherit; color: inherit; background: #F4F8FF; border: 2px solid #D5E5FF; border-radius: 18px; cursor: pointer; min-height: 64px; transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+  .eq__opt:hover, .eq__opt:focus-visible { transform: translateY(-2px); border-color: #2F6FED; background: #EAF2FF; outline: none; }
+  .eq__opt.is-on { transform: scale(.98); border-color: #2F6FED; background: #2F6FED; color: #fff; }
+  .eq__opt.is-on small { color: #DCEAFF; }
+  .eq__letter { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 12px; background: #2F6FED; color: #fff; font-weight: 700; }
+  .eq__txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .eq__txt b { font-size: 16.5px; }
+  .eq__txt small { font-size: 13.5px; color: var(--text-muted); }
+  .eq__back { margin-top: 16px; background: none; border: 0; font: inherit; font-weight: 700; color: #2F6FED; cursor: pointer; padding: 8px 0; }
+  .eq__result { animation: eqpop .45s ease both; }
+  @keyframes eqpop { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
+  .eq__badge { display: inline-block; padding: 6px 12px; border-radius: 99px; background: #E4EEFF; color: #2F6FED; font-size: 13px; font-weight: 700; text-transform: none; letter-spacing: .02em; }
+  .eq__result h3 { font-size: clamp(26px, 3vw + 14px, 36px); margin: 12px 0 8px; color: #2F6FED; }
+  .eq__lead { color: var(--text-muted); font-size: 17px; margin: 0; }
+  .eq__list { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .eq__list li { padding: 12px 14px 12px 40px; border-radius: 14px; background: #F4F8FF; position: relative; font-weight: 600; }
+  .eq__list li::before { content: '✓'; position: absolute; left: 14px; top: 11px; color: #2F6FED; font-weight: 700; }
+  .eq__formwrap { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .eq__formwrap h4 { font-size: 22px; margin: 0 0 6px; }
+  .eq__formwrap p { color: var(--text-muted); margin: 0 0 16px; }
+  .eq__form { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  .eq__form label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; }
+  .eq__form input:not([type=hidden]) { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; font: inherit; min-height: 48px; background: var(--white); }
+  .eq__submit, .eq__note { grid-column: 1 / -1; }
+  .eq__note { font-size: 12px; margin: 0; }
+  @media (min-width: 700px) { .eq__form { grid-template-columns: repeat(2, 1fr); } .eq__opts { grid-template-columns: repeat(2, 1fr); } .eq__card { padding: 34px; } }
+</style>

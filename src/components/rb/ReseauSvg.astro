@@ -1,0 +1,59 @@
+---
+// Carte du réseau dessinée en SVG (aucun service externe) : les 5 salles, les villes desservies
+// et les liaisons salle → villes de son bassin. `focus` met une salle en avant.
+import villes from '../../data/villes.json';
+import salles from '../../data/salles.json';
+import villesCoords from '../../data/villes-coordonnees.json';
+import sallesCoords from '../../data/salles-coordonnees.json';
+interface Props { focus?: string; id?: string; labels?: boolean; villeLabels?: boolean; cls?: string }
+const { focus, id = 'reseau-svg', labels = true, villeLabels = false, cls = '' } = Astro.props;
+const S = (salles as any[]).filter((s) => s.reseauOfficiel !== false && (sallesCoords as any)[s.slug]);
+const V = (villes as any[]).filter((v) => (villesCoords as any)[v.slug] && v.slug !== 'la-source' && v.slug !== 'saint-marceau');
+const pts = [...S.map((s) => (sallesCoords as any)[s.slug]), ...V.map((v) => (villesCoords as any)[v.slug])];
+const lat0 = pts.reduce((a, p) => a + p.lat, 0) / pts.length, k = Math.cos((lat0 * Math.PI) / 180);
+const xs = pts.map((p) => p.lng * k), ys = pts.map((p) => -p.lat);
+const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+const W = 1000, H = Math.round(W * (maxY - minY) / (maxX - minX)), pad = 40;
+const P = (p: { lat: number; lng: number }) => [pad + ((p.lng * k - minX) / (maxX - minX)) * (W - 2 * pad), pad + ((-p.lat - minY) / (maxY - minY)) * (H - 2 * pad)];
+const loire = [[47.775, 1.633], [47.83, 1.70], [47.855, 1.79], [47.88, 1.86], [47.895, 1.905], [47.9, 1.96], [47.89, 2.03], [47.875, 2.1], [47.865, 2.17], [47.86, 2.23]].map(([lat, lng]) => P({ lat, lng }));
+const loirePath = 'M' + loire.map((p) => p.map((n) => n.toFixed(1)).join(' ')).join(' L');
+const links = S.flatMap((s) => V.filter((v) => v.salleSlugs.includes(s.slug)).map((v) => ({ s: s.slug, v: v.slug, a: P((sallesCoords as any)[s.slug]), b: P((villesCoords as any)[v.slug]) })));
+---
+<svg class={`rsvg ${cls}`} id={id} viewBox={`0 0 ${W} ${H + 2 * pad}`} role="group" aria-label={focus ? `Carte du bassin de ${S.find((s) => s.slug === focus)?.nom}` : `Carte du réseau GA Coachs : ${S.length} salles et ${V.length} villes desservies autour d'Orléans`}>
+  <path d={loirePath} class="rs-loire" />
+  <text x={loire[1][0]} y={loire[1][1] + 26} class="rs-loire-t">La Loire</text>
+  {links.map((l) => <line x1={l.a[0]} y1={l.a[1]} x2={l.b[0]} y2={l.b[1]} class={`rs-l${focus && focus !== l.s ? ' is-dim' : ''}`} data-s={l.s} />)}
+  {V.map((v) => { const [x, y] = P((villesCoords as any)[v.slug]); const on = !focus || v.salleSlugs.includes(focus); return (
+    <a href={`/coach-sportif-${v.slug}/`} class={`rs-v${on ? '' : ' is-dim'}`} data-s={v.salleSlugs.join(' ')} data-v={v.slug} data-nom={v.nom}>
+      <title>{`Coach sportif à ${v.nom}`}</title>
+      <circle cx={x} cy={y} r="5" />
+      {villeLabels && on && <text x={x + 9} y={y + 4}>{v.nom}</text>}
+    </a>
+  ); })}
+  {S.map((s) => { const [x, y] = P((sallesCoords as any)[s.slug]); const on = !focus || focus === s.slug; return (
+    <a href={`/salles/${s.slug}/`} class={`rs-s${on ? '' : ' is-dim'}${focus === s.slug ? ' is-focus' : ''}`} data-s={s.slug}>
+      <title>{s.nom}</title>
+      <circle cx={x} cy={y} r="17" class="rs-halo" />
+      <circle cx={x} cy={y} r="10" class="rs-dot" />
+      {labels && <text x={x + 18} y={y + 6} class="rs-t">{s.nom.replace('Basic-Fit ', '')}</text>}
+    </a>
+  ); })}
+</svg>
+<style>
+  .rsvg { width: 100%; height: auto; display: block; overflow: visible; }
+  .rs-loire { fill: none; stroke: #2F6FED; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; opacity: .55; }
+  .rs-loire-t { fill: #7CC4FF; font: italic 700 20px 'Nunito Sans', system-ui, sans-serif; opacity: .8; }
+  .rs-l { stroke: rgba(124,196,255,.38); stroke-width: 1.4; transition: opacity .3s ease, stroke .3s ease; }
+  .rs-l.is-dim { opacity: .08; }
+  .rs-l.is-on { stroke: #9FD6FF; stroke-width: 2.4; opacity: 1; }
+  .rs-v circle { fill: #fff; stroke: rgba(124,196,255,.6); stroke-width: 2; transition: r .2s ease, fill .2s ease; }
+  .rs-v:hover circle, .rs-v.is-hit circle { r: 9; fill: #7CC4FF; }
+  .rs-v.is-dim { opacity: .25; }
+  .rs-v text { fill: rgba(255,255,255,.75); font: 600 15px 'Nunito Sans', system-ui, sans-serif; }
+  .rs-s .rs-halo { fill: rgba(47,111,237,.25); stroke: rgba(159,214,255,.8); stroke-width: 2; }
+  .rs-s .rs-dot { fill: #2F6FED; stroke: #fff; stroke-width: 3; }
+  .rs-s.is-focus .rs-halo { fill: rgba(124,196,255,.35); r: 24; }
+  .rs-s.is-dim { opacity: .4; }
+  .rs-t { fill: #fff; font: 800 20px 'Nunito Sans', system-ui, sans-serif; paint-order: stroke; stroke: #0B1E3D; stroke-width: 5px; }
+  @media (prefers-reduced-motion: reduce) { .rs-l, .rs-v circle { transition: none; } }
+</style>

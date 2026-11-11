@@ -1,0 +1,198 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Ce fichier définit l'espace admin (/admin/) où chaque coach peut modifier
+# sa propre fiche, sans toucher au code du site. Pour l'activer :
+# 1. Dans Netlify → Site configuration → Identity → Enable Identity
+# 2. Dans Identity → Registration → passer sur "Invite only"
+# 3. Dans Identity → Services → activer "Git Gateway"
+# 4. Inviter chaque coach par email depuis l'onglet Identity de Netlify
+# Une fois ça fait, chaque coach se connecte sur https://gacoachs.fr/admin/
+
+site_url: https://gacoachs.fr
+display_url: https://gacoachs.fr
+logo_url: /images/logos/ga-coachs-logo.png
+
+# photos ajoutées depuis l'admin (photos en action des coachs)
+media_folder: "public/images/coachs/action"
+public_folder: "/images/coachs/action"
+
+collections:
+  - name: "coachs"
+    label: "Fiches coachs"
+    label_singular: "Coach"
+    folder: "src/data/coaches"
+    extension: "json"
+    format: "json"
+    create: false
+    delete: false
+    slug: "{{slug}}"
+    identifier_field: "prenom"
+    summary: "{{prenom}} {{nom}} — {{salleSlug}}"
+    description: >
+      Avant de modifier ta fiche : écris toujours en tutoiement (« tu », pas « vous »),
+      n'utilise jamais de tiret cadratin (—), et n'indique un chiffre dans « Chiffres clés »
+      que s'il est réel et vérifiable. La photo de profil n'est pas modifiable depuis cet
+      espace : pour en changer, contacte directement Garry. Une fois publié, le changement
+      est visible sur le site en quelques minutes.
+    fields:
+      - { label: "Identifiant (ne pas modifier)", name: "slug", widget: "string", hint: "Utilisé dans l'adresse de la page. Ne pas changer sans en parler à Garry." }
+      - { name: "email", widget: "hidden" }
+      - { label: "Prénom", name: "prenom", widget: "string" }
+      - { label: "Nom", name: "nom", widget: "string" }
+      - { label: "Niveau du coach (1 à 5)", name: "niveau", widget: "number", min: 1, max: 5, required: false, hint: "Usage interne, non affiché sur le site. À partir du niveau 4, le coach peut faire des conférences." }
+      - { label: "Conférencier", name: "conferencier", widget: "boolean", required: false, default: false, hint: "Coche pour l'afficher sur la page Conférences (coachs de niveau 4 ou 5)." }
+      - { label: "Expérience médias", name: "medias", widget: "list", required: false, hint: "Ex. : Déjà intervenu à la radio, A tourné une publicité. Affiché sur la page Conférences." }
+      - { label: "Code boutique", name: "codeBoutique", widget: "string", required: false, hint: "Laisse vide pour un nouveau coach : le code est créé automatiquement (son prénom). Ne le change plus une fois communiqué au coach." }
+      - label: "Salle Basic Fit"
+        name: "salleSlug"
+        widget: "select"
+        options:
+          - { label: "Basic Fit Olivet", value: "basic-fit-olivet" }
+          - { label: "Basic Fit Orléans Sud", value: "basic-fit-orleans-sud" }
+          - { label: "Basic Fit Orléans Libération", value: "basic-fit-orleans-liberation" }
+          - { label: "Basic Fit Saran", value: "basic-fit-saran" }
+          - { label: "Basic Fit Fleury-les-Aubrais", value: "basic-fit-fleury-les-aubrais" }
+      - { label: "Rôle affiché", name: "role", widget: "string", required: false }
+      - label: "Instagram"
+        name: "reseauSocial"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Type", name: "type", widget: "hidden", default: "instagram" }
+          - { label: "Lien du compte Instagram", name: "url", widget: "string", required: false, hint: "Ex. : https://www.instagram.com/toncoach_yanis/" }
+      - { name: "photo", widget: "hidden" }
+      - label: "Badges affichés sur la fiche (3 maximum conseillé)"
+        name: "tags"
+        widget: "list"
+        hint: "3 badges maximum pour rester lisible sur la fiche. Des mots courts (2-3 mots), pas des phrases."
+        field: { label: "Badge", name: "tag", widget: "string" }
+      - label: "Titre personnalisé (facultatif, remplace le titre standard)"
+        name: "titrePersonnalise"
+        widget: "string"
+        required: false
+        hint: "Laisser vide pour garder le titre automatique « Prénom Nom, Coach Sportif à Ville »."
+      - label: "Présentation (texte d'intro)"
+        name: "presentation"
+        widget: "text"
+        hint: "Entre 150 et 350 caractères environ. Écris comme si tu parlais directement à la personne (tutoiement), pas à la 3e personne."
+      - label: "Ta méthode"
+        name: "methode"
+        widget: "text"
+        hint: "Entre 150 et 300 caractères environ. Ce qui te différencie concrètement dans ta façon de coacher."
+      - label: "Résultats / ce que recherchent tes clients"
+        name: "resultats"
+        widget: "text"
+        hint: "Entre 150 et 250 caractères environ. Reste honnête, sans promesse de résultat garanti."
+      - label: "Public cible"
+        name: "publicCible"
+        widget: "text"
+        hint: "1 à 2 phrases. À qui t'adresses-tu en priorité ?"
+      - label: "Spécialités (coche celles qui te correspondent, 5 maximum)"
+        name: "specialites"
+        widget: "select"
+        multiple: true
+        min: 1
+        max: 5
+        hint: >
+          5 maximum. Ce sont ces mots exacts qui te font apparaître sur les bonnes pages du site
+          (par exemple la page « Perte de poids »). N'ajoute rien en dehors de cette liste, sinon
+          tu risques de disparaître silencieusement de ces pages sans t'en rendre compte.
+        options:
+          - "Perte de Poids"
+          - "Prise de muscle"
+          - "Remise en Forme"
+          - "Renforcement Musculaire"
+          - "Sculpter & Tonifier"
+          - "Condition physique"
+          - "Reprise d'activité"
+          - "Reprise du sport"
+          - "Retour au mouvement"
+          - "Renforcement progressif"
+          - "Mobilité"
+          - "Prévention"
+          - "Sédentarité"
+          - "Sportifs"
+          - "Jeunes"
+          - "Parents"
+          - "Équipes"
+          - "Clubs"
+          - "BPJEPS"
+          - "CQP IF"
+          - "Police"
+          - "Gendarmerie"
+          - "Armée"
+          - "Pompiers"
+      - label: "Diplômes"
+        name: "diplomes"
+        widget: "list"
+        field: { label: "Diplôme", name: "diplome", widget: "string" }
+      - label: "Formations complémentaires"
+        name: "formations"
+        widget: "list"
+        required: false
+        field: { label: "Formation", name: "formation", widget: "string" }
+      - { label: "Durée de séance affichée (facultatif, ex. « 1h30 »)", name: "dureeSeance", widget: "string", required: false }
+      - label: "Chiffres clés (résultats mesurables)"
+        name: "stats"
+        widget: "list"
+        required: false
+        hint: "Chiffres réels uniquement, jamais inventés. Un disclaimer s'affiche automatiquement en dessous sur le site."
+        field:
+          - { label: "Valeur (nombre uniquement)", name: "value", widget: "number" }
+          - { label: "Suffixe (ex. +, %, k)", name: "suffix", widget: "string", required: false }
+          - { label: "Légende (ex. « clients accompagnés »)", name: "label", widget: "string" }
+      - label: "Avis Google"
+        name: "avisGoogle"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Note sur 5", name: "note", widget: "number" }
+          - { label: "Nombre d'avis", name: "nombreAvis", widget: "number" }
+          - { label: "Lien vers la fiche Google", name: "url", widget: "string" }
+      - label: "Assurance RC Pro (ne pas modifier sans vérification)"
+        name: "rcPro"
+        widget: "string"
+        required: false
+      - label: "Carte professionnelle (ne pas modifier sans vérification)"
+        name: "cartePro"
+        widget: "string"
+        required: false
+      - { label: "Note interne sur la source des infos vérifiées", name: "sourceNote", widget: "text", required: false }
+      # ---------- Contenus qui rendent la fiche unique (s'affichent seulement s'ils sont remplis) ----------
+      - { label: "Vidéo de présentation (lien YouTube, 30 à 45 secondes)", name: "videoPresentation", widget: "string", required: false, hint: "Face caméra, dans ta salle, en polo bleu : qui tu es, qui tu accompagnes." }
+      - label: "Signature (ta méthode ou ton public)"
+        name: "signature"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Nom de la signature", name: "nom", widget: "string", hint: "Ex. « Le coach de la perte de gras après 40 ans »" }
+          - { label: "Phrase d'accroche", name: "phrase", widget: "string", required: false }
+      - label: "Interview (5 questions)"
+        name: "interview"
+        widget: "list"
+        required: false
+        hint: "Pourquoi ce métier ? Ton pire souvenir de sport ? Ce que tu ne feras jamais faire à un client ? Ton entraînement à toi ? Ta phrase de motivation ?"
+        fields:
+          - { label: "Question", name: "q", widget: "string" }
+          - { label: "Ta réponse, avec tes mots", name: "r", widget: "text" }
+      - label: "Témoignages écrits de clients"
+        name: "temoignagesEcrits"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Prénom du client", name: "prenom", widget: "string" }
+          - { label: "Son témoignage", name: "texte", widget: "text" }
+          - { label: "Résultat ou objectif atteint (facultatif)", name: "resultat", widget: "string", required: false }
+          - { label: "Accord écrit du client obtenu", name: "accord", widget: "boolean", default: false, hint: "Le témoignage ne s'affiche que si cette case est cochée." }
+      - label: "Photos en action (3 maximum)"
+        name: "photosAction"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Photo", name: "src", widget: "image" }
+          - { label: "Description de la photo", name: "alt", widget: "string", required: false }
+      - { label: "Numéro WhatsApp (facultatif)", name: "whatsapp", widget: "string", required: false }
+      - { label: "Lien Calendly pour réserver le bilan", name: "calendlyUrl", widget: "string", required: false }
+      - { label: "Phrase d'engagement sous le bouton (validée par le coach)", name: "engagement", widget: "string", required: false, hint: "Ex. « Le bilan ne t'engage à rien »" }

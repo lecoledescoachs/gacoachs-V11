@@ -1,0 +1,60 @@
+---
+interface Props {
+  chiffre: string;
+  description: string;
+  source: string;
+  url: string;
+}
+const { chiffre, description, source, url } = Astro.props;
+---
+<div class="stat-card card">
+  <span class="stat-card__chiffre" data-animate>{chiffre}</span>
+  <p class="stat-card__desc">{description}</p>
+  <a href={url} target="_blank" rel="noopener noreferrer" class="stat-card__source">Source : {source}</a>
+</div>
+
+<style>
+  .stat-card {
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .stat-card__chiffre {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(30px, 8vw, 44px);
+    color: var(--blue);
+    letter-spacing: -0.02em;
+    word-break: break-word;
+  }
+  .stat-card__desc { color: var(--navy); font-size: 14px; line-height: 1.5; }
+  .stat-card__source { font-size: 12px; color: var(--text-muted); text-decoration: underline; }
+</style>
+
+<script>
+  const els = document.querySelectorAll('[data-animate]');
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    els.forEach((el) => obs.observe(el));
+  }
+</script>
+
+<style is:global>
+  [data-animate] {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .5s var(--ease), transform .5s var(--ease);
+  }
+  [data-animate].animate-in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    [data-animate] { opacity: 1; transform: none; }
+  }
+</style>

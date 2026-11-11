@@ -1,0 +1,102 @@
+---
+---
+<form class="boost-form" aria-label="Réserver mon BOOST 30 offert" name="boost-lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-track-event="boost_form_completed" action="/merci-boost/">
+  <input type="hidden" name="form-name" value="boost-lead" />
+  <p hidden><label>Ne pas remplir <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+  <div class="boost-form__grid">
+    <label>
+      Entreprise
+      <input type="text" name="entreprise" required autocomplete="organization" />
+    </label>
+    <label>
+      Nom
+      <input type="text" name="nom" required autocomplete="family-name" />
+    </label>
+    <label>
+      Prénom
+      <input type="text" name="prenom" required autocomplete="given-name" />
+    </label>
+    <label>
+      Email professionnel
+      <input type="email" name="email" required autocomplete="email" />
+    </label>
+    <label>
+      Téléphone (facultatif)
+      <input type="tel" name="telephone" autocomplete="tel" />
+    </label>
+    <label>
+      Ville
+      <input type="text" name="ville" autocomplete="address-level2" />
+    </label>
+    <label>
+      Nombre approximatif de salariés
+      <input type="text" name="salaries" placeholder="ex. 45" />
+    </label>
+    <label>
+      Nombre approximatif de participants attendus
+      <input type="text" name="participants_attendus" placeholder="ex. 8 à 12" />
+    </label>
+    <label>
+      Créneau souhaité
+      <input type="text" name="creneau" placeholder="ex. mardi midi, jeudi matin..." />
+    </label>
+  </div>
+
+  <label class="boost-form__message">
+    Objectif
+    <input type="text" name="objectif" placeholder="ex. cohésion d'équipe, prévention santé, sédentarité..." />
+  </label>
+
+  <label class="boost-form__message">
+    Message (facultatif)
+    <textarea name="message" rows="4"></textarea>
+  </label>
+
+  <button type="submit" class="btn btn--primary" data-track-click="boost_30_form_start">Je réserve mon BOOST 30</button>
+  <p class="boost-form__offert">Offert · sans engagement · sous réserve de disponibilité locale</p>
+  <p class="boost-form__note">Réponse sous 48h ouvrées. Vos informations servent uniquement à répondre à votre demande (<a href="/confidentialite/">confidentialité</a>).</p>
+</form>
+
+<style>
+  .boost-form { display: flex; flex-direction: column; gap: 20px; max-width: 720px; }
+  .boost-form__grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  .boost-form label {
+    display: flex; flex-direction: column; gap: 6px;
+    font-size: 14px; font-weight: 600;
+  }
+  .boost-form input, .boost-form textarea {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    min-height: 48px;
+    background: var(--white);
+  }
+  .boost-form textarea { min-height: 100px; resize: vertical; }
+  .boost-form__besoin { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+  .boost-form__besoin legend { font-weight: 600; font-size: 13px; padding: 0 4px; }
+  .boost-form__besoin label { display: flex; align-items: center; gap: 8px; font-weight: 400; font-size: 14px; min-height: 40px; }
+  .boost-form__note { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+  .boost-form__offert { font-size: 13px; color: var(--blue-dim); font-weight: 700; }
+
+  @media (min-width: 700px) {
+    .boost-form__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<script>
+  const form = document.querySelector('.boost-form') as HTMLFormElement;
+  let started = false;
+  form?.addEventListener('input', () => {
+    if (!started && typeof window.gtag === 'function') {
+      window.gtag('event', 'boost_30_form_start');
+      started = true;
+    }
+  });
+  form?.addEventListener('submit', () => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'boost_30_form_complete');
+    }
+  });
+</script>

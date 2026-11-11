@@ -1,0 +1,86 @@
+---
+---
+<form class="lead-form" aria-label="Demande de programme entreprise" name="entreprise-lead" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/merci-entreprise/">
+  <input type="hidden" name="form-name" value="entreprise-lead" />
+  <p hidden><label>Ne pas remplir <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+  <div class="lead-form__grid">
+    <label>
+      Prénom
+      <input type="text" name="prenom" required autocomplete="given-name" />
+    </label>
+    <label>
+      Nom
+      <input type="text" name="nom" required autocomplete="family-name" />
+    </label>
+    <label>
+      Entreprise
+      <input type="text" name="entreprise" required autocomplete="organization" />
+    </label>
+    <label>
+      Fonction
+      <input type="text" name="fonction" placeholder="RH, direction, CSE…" />
+    </label>
+    <label>
+      Email
+      <input type="email" name="email" required autocomplete="email" />
+    </label>
+    <label>
+      Téléphone
+      <input type="tel" name="telephone" autocomplete="tel" />
+    </label>
+    <label>
+      Nombre de salariés
+      <input type="text" name="salaries" placeholder="ex. 45" />
+    </label>
+    <label>
+      Objectif principal
+      <select name="objectif">
+        <option value="mouvement">Remettre les équipes en mouvement</option>
+        <option value="cohesion">Renforcer la cohésion</option>
+        <option value="prevention">Prévenir les douleurs / TMS</option>
+        <option value="evenement">Marquer un temps fort</option>
+      </select>
+    </label>
+    <label>
+      Ville
+      <input type="text" name="ville" autocomplete="address-level2" />
+    </label>
+  </div>
+  <label class="lead-form__message">
+    Message (optionnel)
+    <textarea name="message" rows="4"></textarea>
+  </label>
+  <button type="submit" class="btn btn--primary">Créer mon programme entreprise</button>
+  <p class="lead-form__note">Réponse sous 48h ouvrées. Vos informations servent uniquement à répondre à votre demande (<a href="/confidentialite/">confidentialité</a>).</p>
+</form>
+
+<style>
+  .lead-form { display: flex; flex-direction: column; gap: 18px; max-width: 720px; }
+  .lead-form__grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+  }
+  .lead-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .lead-form input, .lead-form select, .lead-form textarea {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    min-height: 48px;
+    background: var(--white);
+  }
+  .lead-form textarea { min-height: 100px; resize: vertical; }
+  .lead-form__note { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+
+  @media (min-width: 700px) {
+    .lead-form__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

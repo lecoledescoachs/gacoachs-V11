@@ -1,0 +1,95 @@
+---
+// Configurateur sans prix : le visiteur choisit, le brief est recopié dans le formulaire de la page (ou de la page cible).
+// Sans JavaScript la section reste cachée et le formulaire fonctionne seul.
+import data from '../../data/configurateurs.json';
+interface Props { cle: string; cible?: string }
+const { cle, cible } = Astro.props;
+const c = (data as any)[cle];
+const uid = `cf-${cle}`;
+---
+{c && (
+<section class="sec band cf" id={uid} data-cf data-cle={cle} data-cible={cible || ''} hidden>
+  <div class="inner">
+    <span class="eyebrow">{c.k}</span>
+    <h2 class="h2">{c.titre}</h2>
+    <p class="cf-intro">{c.intro}</p>
+    <div class="cf-steps">
+      {c.etapes.map((e: any, i: number) => (
+        <fieldset class="cf-step" data-id={e.id} data-q={e.q} data-l={e.l}>
+          <legend><span class="cf-n" aria-hidden="true">{i + 1}</span>{e.q}</legend>
+          <div class="cf-opts">
+            {e.o.map((o: string, k: number) => (
+              <label class="cf-opt"><input type="radio" name={`${uid}-${e.id}`} value={o} /><span>{o}</span></label>
+            ))}
+          </div>
+        </fieldset>
+      ))}
+    </div>
+    <div class="cf-out">
+      <p class="cf-recap" role="status" aria-live="polite" data-recap>Faites vos choix : votre brief s'écrit ici.</p>
+      <button type="button" class="btn btn-primary" data-send disabled>{c.cta}</button>
+    </div>
+  </div>
+</section>
+)}
+
+<style is:global>
+  .proto .cf .h2 { max-width: 26ch; }
+  .proto .cf-intro { margin: 10px 0 0; max-width: 62ch; color: #33466E; line-height: 1.55; }
+  .proto .cf-steps { display: grid; gap: 14px; margin-top: 22px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .proto .cf-step { border: 1px solid #DCE6FB; background: #fff; border-radius: 18px; padding: 16px; min-width: 0; margin: 0; }
+  .proto .cf-step legend { display: flex; gap: 10px; align-items: center; padding: 0 4px; font-weight: 700; color: #0B1E3D; font-size: 16px; line-height: 1.3; }
+  .proto .cf-n { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #1D5BD8; color: #fff; font-size: 13px; flex: none; }
+  .proto .cf-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .proto .cf-opt { position: relative; }
+  .proto .cf-opt input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .proto .cf-opt span { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 14px; border-radius: 999px; border: 1.5px solid #B8C6E3; background: #fff; color: #0B1E3D; font-weight: 700; font-size: 14.5px; line-height: 1.25; transition: background .2s, border-color .2s, color .2s; }
+  .proto .cf-opt input:hover + span { border-color: #1D5BD8; }
+  .proto .cf-opt input:checked + span { background: #1D5BD8; border-color: #1D5BD8; color: #fff; }
+  .proto .cf-opt input:focus-visible + span { outline: 3px solid #0B1E3D; outline-offset: 2px; }
+  .proto .cf-out { margin-top: 20px; display: grid; gap: 14px; justify-items: start; background: #0B1E3D; border-radius: 20px; padding: 18px 20px; }
+  .proto .cf-recap { margin: 0; color: #fff; line-height: 1.55; font-size: 15.5px; }
+  .proto .cf-out .btn[disabled] { opacity: .55; cursor: not-allowed; }
+  @media (max-width: 760px) { .proto .cf-steps { grid-template-columns: minmax(0, 1fr); } .proto .cf-out .btn { width: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .proto .cf-opt span { transition: none; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-cf]').forEach((root) => {
+    root.hidden = false;
+    const steps = Array.from(root.querySelectorAll<HTMLElement>('.cf-step'));
+    const recap = root.querySelector<HTMLElement>('[data-recap]')!;
+    const btn = root.querySelector<HTMLButtonElement>('[data-send]')!;
+    const k = root.querySelector('.eyebrow')?.textContent || '';
+    const lire = () => steps.map((s) => {
+      const v = s.querySelector<HTMLInputElement>('input:checked')?.value;
+      return v ? { q: s.dataset.l || '', v } : null;
+    });
+    const texte = () => {
+      const l = lire().filter(Boolean) as { q: string; v: string }[];
+      return l.length ? `Brief ${k} : ` + l.map((x) => `${x.q} : ${x.v}`).join(' ; ') + '.' : '';
+    };
+    const maj = () => {
+      const t = texte(); const n = lire().filter(Boolean).length;
+      recap.textContent = t || "Faites vos choix : votre brief s'écrit ici.";
+      btn.disabled = n === 0;
+    };
+    root.addEventListener('change', maj);
+    btn.addEventListener('click', () => {
+      const t = texte(); if (!t) return;
+      const cible = root.dataset.cible;
+      if (cible) { const [u, h] = cible.split('#'); location.href = u + (u.includes('?') ? '&' : '?') + 'brief=' + encodeURIComponent(t) + (h ? '#' + h : ''); return; }
+      const ta = document.querySelector<HTMLTextAreaElement>('form[data-netlify] textarea[name="message"]');
+      if (ta) {
+        ta.value = t + (ta.value && !ta.value.startsWith('Brief ') ? '\n' + ta.value : '');
+        ta.closest('form')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+        ta.focus({ preventScroll: true });
+      }
+    });
+    maj();
+  });
+  // arrivée depuis un configurateur d'une autre page : le brief est recopié dans le message
+  const bf = new URLSearchParams(location.search).get('brief');
+  const ta0 = document.querySelector<HTMLTextAreaElement>('form[data-netlify]:not([data-sm]) textarea[name="message"]');
+  if (bf && ta0 && !ta0.value) ta0.value = bf.slice(0, 900);
+</script>

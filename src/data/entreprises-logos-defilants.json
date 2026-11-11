@@ -1,0 +1,8 @@
+[
+  { "nom": "Basic-Fit", "href": "https://www.basic-fit.com/fr-fr/", "logo": "/images/logos/basic-fit.webp" },
+  { "nom": "L'École des Coachs", "href": "https://lecoledescoachs.fr", "logo": "/images/logos/ecole-des-coachs.webp" },
+  { "nom": "Sport Santé France", "logo": "/images/logos/sport-sante-france.webp" },
+  { "nom": "La Tournée des Coachs", "logo": "/images/logos/tournee-des-coachs.webp" },
+  { "nom": "IKEA", "logo": "/images/logos/ikea.webp" },
+  { "nom": "Reliance Centre", "logo": "/images/logos/reliance-centre.webp" }
+]

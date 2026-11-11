@@ -1,0 +1,102 @@
+---
+import BoostPCQ from '../../components/BoostPCQ.astro';
+// Hub « coach sportif invité » : tous les marchés où un coach du réseau GA peut intervenir (podcasts, esport, médias, salons...).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import Configurateur from '../../components/proto/Configurateur.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import '../../styles/rebrand.css';
+import '../../styles/marches.css';
+import marches from '../../data/boost-marches.json';
+
+const path = '/coach-sportif-invite/';
+const M = marches as any[];
+const deja = [
+  { emoji: '▶️', nom: 'Vidéos YouTube et lives Twitch', quoi: 'Le coach est invité de vos vidéos concept YouTube et de vos lives Twitch : défi, interview, séance avec le chat, série.', href: '/coach-sportif-campagne-sport-sante/#offres' },
+  { emoji: '📱', nom: 'Vidéos UGC et visage de marque', quoi: 'Des vidéos tournées par un vrai coach pour tous vos réseaux, ou un coach comme figure de proue de votre marque.', href: '/coach-sportif-campagne-sport-sante/' },
+];
+const faq = [
+  { q: 'Qu\'est-ce qu\'un coach sportif invité ?', r: 'C\'est un coach sportif diplômé du réseau GA Coachs qui intervient comme invité ou comme expert dans un projet qui n\'est pas le sien : podcast, live Twitch, vidéo YouTube, émission, magazine, salon, webinaire, tournage ou lancement de produit.' },
+  { q: 'Dans quels domaines un coach sportif peut-il intervenir ?', r: 'Dans tout ce qui touche au sport et à la santé : sport, musculation, remise en forme, perte de poids, nutrition, mobilité, prévention, énergie et bien-être.' },
+  { q: 'Quels marchés couvrez-vous ?', r: 'Podcasts, esport et streamers, défis de créateurs, applications fitness et santé, chroniques radio et télé, presse et magazines, cinéma et séries, émissions d\'aventure, salons et festivals, lancements de produits, webinaires pour mutuelles et CSE, et mariages.' },
+  { q: 'Tous les coachs peuvent-ils intervenir ?', r: 'Tous les coachs du réseau GA sont éligibles et présentés à égalité. Nous choisissons avec vous celui qui correspond à votre public, votre ton et votre région. Seules les conférences sont réservées aux coachs de niveau 4 et 5.' },
+  { q: 'Avez-vous déjà une expérience des médias ?', r: 'Oui. Garry Babaud, Coach en chef de GA Coachs, est déjà intervenu sur RCF Loiret et Réunion La 1ère. Des coachs du réseau sont déjà passés à la télévision, sur France 3. Fabien a tourné une publicité et a été sollicité pour Good Moves, un programme européen de sport-santé dont les vidéos totalisent 704 397 vues.' },
+  { q: 'Combien coûte l\'intervention d\'un coach ?', r: 'Le tarif est établi sur devis, selon la durée, le nombre d\'interventions, les déplacements et l\'usage des contenus. Un échange de 30 minutes permet de chiffrer précisément.' },
+  { q: 'Où le coach peut-il intervenir ?', r: 'En France et en Europe selon le projet, ou à distance en visio quand le format s\'y prête.' },
+  { q: 'Quel est le délai pour obtenir une proposition ?', r: 'Nous revenons vers vous sous 48 h ouvrées après votre demande, avec une proposition et le coach adapté.' },
+  { q: 'Qui détient les droits des contenus ?', r: 'Les droits d\'utilisation (durée, canaux, usage publicitaire, exclusivité) sont définis dans le devis avant le début du projet. Rien n\'est publié sans votre validation.' },
+  { q: 'Mon marché n\'est pas dans la liste, que faire ?', r: 'Écrivez-nous via le formulaire de BOOST COMMUNICATION en décrivant votre projet. Si un coach du réseau peut l\'accompagner de façon utile et sûre, nous vous le dirons franchement.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Coach sportif invité : tous les marchés', description: 'Podcasts, esport, médias, salons, applications, webinaires, mariages : où un coach sportif diplômé du réseau GA peut intervenir.', url: 'https://gacoachs.fr' + path,
+    mainEntity: { '@type': 'ItemList', itemListElement: M.map((x, i) => ({ '@type': 'ListItem', position: i + 1, name: x.title, url: `https://gacoachs.fr/coach-sportif-invite/${x.slug}/` })) },
+    publisher: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr' } },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout title="COACH INVITÉ : coach sportif pour podcasts, esport, médias" description="Un coach sportif diplômé invité de votre podcast, live, émission, magazine, salon ou webinaire. Sport, musculation, nutrition, santé. Sur devis, France et Europe." path={path} jsonLd={jsonLd} stickyCtaHref="#cf-invite" stickyCtaLabel="Décrire mon projet">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Coach sportif invité', href: path }]} />
+      <span class="eyebrow eyebrow-dark">Coach sportif invité</span>
+      <h1>Un vrai coach sportif <span class="hl-text">invité de vos projets</span> : podcasts, lives, médias, salons</h1>
+      <p class="phero-lead">Un coach sportif diplômé du réseau GA Coachs intervient dans vos contenus et vos événements : podcast, live Twitch, vidéo YouTube, émission, magazine, salon, webinaire, tournage ou lancement. Sport, musculation, nutrition, perte de poids, santé et bien-être.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#marches">Voir tous les marchés</a>
+        <a class="btn btn-glass" href="#cf-invite">Décrire mon projet</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec mk-bref-sec">
+    <div class="inner">
+      <div class="mk-bref">
+        <p class="mk-bref-k">En bref</p>
+        <ul>
+          <li><b>Quoi :</b> un coach sportif diplômé invité ou expert de votre projet.</li>
+          <li><b>Où :</b> podcasts, esport et streaming, défis de créateurs, applications, radio et télé, presse, cinéma, émissions, salons, produits, webinaires, mariages.</li>
+          <li><b>Comment :</b> un formulaire, une réponse sous 48 h ouvrées, un devis clair et le coach adapté.</li>
+          <li><b>La preuve :</b> RCF Loiret et Réunion La 1ère pour Garry, France 3 pour des coachs du réseau, Good Moves : 704 397 vues.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="marches">
+    <div class="inner">
+      <span class="eyebrow">Tous les marchés</span>
+      <h2 class="h2">Où un coach sportif peut intervenir.</h2>
+      <ul class="mk-cards">
+        {deja.map((x) => <li><a href={x.href}><span class="mk-e" aria-hidden="true">{x.emoji}</span><b>{x.nom}</b><span>{x.quoi}</span><em>Découvrir</em></a></li>)}
+        {M.map((x) => <li><a href={`/coach-sportif-invite/${x.slug}/`}><span class="mk-e" aria-hidden="true">{x.emoji}</span><b>{x.nom}</b><span>{x.bref.quoi.charAt(0).toUpperCase() + x.bref.quoi.slice(1)}.</span><em>Découvrir</em></a></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <Configurateur cle="invite" cible="/coach-sportif-campagne-sport-sante/#contact" />
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Pourquoi un coach diplômé</span>
+      <h2 class="h2">La crédibilité d'un professionnel, l'aisance d'un créateur.</h2>
+      <p class="mk-lead">Sur le sport et la santé, le public repère vite les conseils approximatifs. Un coach diplômé donne des exercices justes, des repères fiables et un discours honnête, sans promesse miracle. Tous les coachs du réseau GA sont éligibles et présentés à égalité.</p>
+      <div class="mk-cta"><a class="btn btn-primary" href="#cf-invite">Décrire mon projet</a><a class="btn btn-out" href="/medias/">Espace médias</a><a class="btn btn-out" href="/conferences/">Conférences</a></div>
+    </div>
+  </section>
+
+  <BoostPCQ id="invite" />
+  <section class="sec" id="faq">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Vos questions.</h2>
+      <div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title="Coach sportif invité : podcasts, esport, médias, salons" label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>

@@ -1,0 +1,11 @@
+[
+  { "nom": "Basic-Fit", "href": "https://www.basic-fit.com/fr-fr/", "logo": "/images/logos/basic-fit.webp" },
+  { "nom": "L'École des Coachs", "href": "https://lecoledescoachs.fr", "logo": "/images/logos/ecole-des-coachs.webp" },
+  { "nom": "Coach Obésité", "href": "https://coach-obesite.fr", "logo": "/images/logos/coach-obesite.webp" },
+  { "nom": "Orus", "href": "https://www.orus.eu", "logo": "/images/logos/orus.webp" },
+  { "nom": "Indy", "href": "https://www.indy.fr", "logo": "/images/logos/indy.webp" },
+  { "nom": "BOOST Entreprise", "href": "/entreprises/", "logo": "/images/logos/boost-entreprise.webp" },
+  { "nom": "Marche & Mieux", "logo": "/images/logos/marche-et-mieux.webp" },
+  { "nom": "Sport Santé France", "logo": "/images/logos/sport-sante-france.webp" },
+  { "nom": "La Tournée des Coachs", "logo": "/images/logos/tournee-des-coachs.webp" }
+]

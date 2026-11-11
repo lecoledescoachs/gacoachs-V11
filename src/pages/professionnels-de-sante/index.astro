@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Contenu from '../../components/proto/SanteContenu.astro';
+import '../../styles/proto-structures.css';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CTAFinal from '../../components/CTAFinal.astro';
+import sante from '../../data/professionnels-sante.json';
+
+const siteUrl = 'https://gacoachs.fr';
+const { hero, pourquoi, collaboration, limites, etapes, faq, form, seo, charte } = sante;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: seo.title,
+    description: seo.description,
+    url: siteUrl + sante.path,
+    publisher: { '@type': 'Organization', name: 'GA Coachs', url: siteUrl + '/' },
+    audience: { '@type': 'Audience', audienceType: 'Professionnels de santé' },
+  },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' }, { '@type': 'ListItem', position: 2, name: 'Professionnels de santé', item: siteUrl + sante.path }] },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+];
+---
+<BaseLayout image="/images/og-boost-sante.jpg" title={seo.title} description={seo.description} path={sante.path} jsonLd={jsonLd} stickyCtaHref="#sa-contact" stickyCtaLabel="Nous contacter">
+<div class="proto">
+  <Contenu />
+</div>
+</BaseLayout>
+
+<script>
+  import '../../scripts/proto-struct.ts';
+</script>

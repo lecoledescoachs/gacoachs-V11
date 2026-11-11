@@ -1,0 +1,34 @@
+[
+  {
+    "nom": "BOOST ESSENTIEL",
+    "frequence": "1 séance / semaine",
+    "duree": "30 minutes",
+    "prix": "299 € / mois",
+    "coutSeance": "≈ 69 € / séance",
+    "description": "Pour commencer simplement.",
+    "cta": "Découvrir BOOST",
+    "highlight": false
+  },
+  {
+    "nom": "BOOST PERFORMANCE",
+    "badge": "RECOMMANDÉ",
+    "frequence": "2 séances / semaine",
+    "duree": "30 minutes",
+    "prix": "499 € / mois",
+    "coutSeance": "≈ 58 € / séance",
+    "description": "Pour installer une véritable régularité.",
+    "cta": "Mettre en place BOOST",
+    "highlight": true
+  },
+  {
+    "nom": "BOOST 5/7",
+    "badge": "L'EXPÉRIENCE COMPLÈTE",
+    "frequence": "5 séances / semaine",
+    "duree": "30 minutes",
+    "prix": "999 € / mois",
+    "coutSeance": "≈ 46 € / séance",
+    "description": "30 minutes d'activité physique chaque jour ouvré.",
+    "cta": "Découvrir BOOST 5/7",
+    "premium": true
+  }
+]

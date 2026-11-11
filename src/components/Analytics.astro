@@ -1,0 +1,75 @@
+---
+// Charge Google Analytics 4 et/ou Plausible, uniquement si un identifiant réel est configuré
+// dans src/config/analytics.js. Fournit aussi window.trackConversion(nom, details), une fonction
+// unique à appeler partout sur le site pour suivre un événement de conversion : elle l'envoie
+// automatiquement à tous les outils actifs (GA4, Plausible), sans dupliquer le code d'intégration
+// à chaque endroit du site qui a besoin de suivre une conversion.
+import { GA4_MEASUREMENT_ID, PLAUSIBLE_DOMAIN } from '../config/analytics.js';
+---
+
+{GA4_MEASUREMENT_ID && (
+  <script define:vars={{ GA4_MEASUREMENT_ID }}>
+    // Google Analytics n'est chargé qu'après l'accord du visiteur (recommandations CNIL).
+    // Avant l'accord, gtag() ne fait que mettre les événements en file d'attente dans la page :
+    // rien n'est envoyé à Google et aucun cookie n'est déposé.
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    var CLE = 'ga_consentement';
+    var MOIS = 30 * 24 * 3600 * 1000;
+    function lire() {
+      try {
+        var v = JSON.parse(localStorage.getItem(CLE) || 'null');
+        if (!v || !v.choix || !v.date) return null;
+        // Un accord vaut 13 mois, un refus 6 mois : ensuite on redemande.
+        var duree = v.choix === 'oui' ? 13 * MOIS : 6 * MOIS;
+        return Date.now() - v.date < duree ? v.choix : null;
+      } catch (e) { return null; }
+    }
+    var charge = false;
+    function chargerGA() {
+      if (charge) return;
+      charge = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_MEASUREMENT_ID;
+      document.head.appendChild(s);
+      window.gtag('js', new Date());
+      // Durée de vie des cookies limitée à 13 mois (395 jours), plafond fixé par la CNIL.
+      window.gtag('config', GA4_MEASUREMENT_ID, { cookie_expires: 395 * 24 * 3600 });
+    }
+    window.gaConsentement = {
+      choix: lire,
+      enregistrer: function (choix) {
+        try { localStorage.setItem(CLE, JSON.stringify({ choix: choix, date: Date.now() })); } catch (e) {}
+        if (choix === 'oui') chargerGA();
+        else if (charge) location.reload();
+      },
+    };
+    if (lire() === 'oui') chargerGA();
+  </script>
+)}
+
+{PLAUSIBLE_DOMAIN && (
+  <Fragment>
+    <script define:vars={{ PLAUSIBLE_DOMAIN }}>
+      window.plausible = window.plausible || function () {
+        (window.plausible.q = window.plausible.q || []).push(arguments);
+      };
+    </script>
+    <script defer data-domain={PLAUSIBLE_DOMAIN} src="https://plausible.io/js/script.js"></script>
+  </Fragment>
+)}
+
+<script define:vars={{ hasGA4: !!GA4_MEASUREMENT_ID, hasPlausible: !!PLAUSIBLE_DOMAIN }}>
+  // Fonction unique à appeler depuis n'importe quelle page ou composant du site pour suivre
+  // une conversion (réservation de bilan, Score Santé terminé, demande BOOST Entreprise, clic
+  // téléphone...). Envoie automatiquement à tous les outils réellement configurés.
+  window.trackConversion = function (nom, details) {
+    if (hasGA4 && window.gtag) {
+      window.gtag('event', nom, details || {});
+    }
+    if (hasPlausible && window.plausible) {
+      window.plausible(nom, details ? { props: details } : undefined);
+    }
+  };
+</script>

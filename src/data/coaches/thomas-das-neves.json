@@ -1,0 +1,70 @@
+{
+  "slug": "thomas-das-neves",
+  "prenom": "Thomas",
+  "codeBoutique": "THOMAS",
+  "niveau": 3,
+  "nom": "Das Neves",
+  "salleSlug": "basic-fit-fleury-les-aubrais",
+  "role": "Coach sportif",
+  "tags": [
+    "Perte de Poids",
+    "Suivi Personnalisé",
+    "Objectifs Sur Mesure",
+    "Renforcement Musculaire"
+  ],
+  "photo": "/images/coachs/thomas-das-neves.webp",
+  "presentation": "J'accompagne principalement les personnes qui reprennent le sport et qui ne se sentent plus aussi en forme qu'avant : prise de poids, moins d'énergie, moins de force, et un corps qui ne suit plus toujours comme tu le voudrais.",
+  "publicCible": "Adultes qui reprennent le sport après une longue pause, avec quelques kilos en trop, moins d'énergie ou moins de force qu'avant, et qui veulent retrouver une vraie condition physique sans se blesser.",
+  "specialites": [
+    "Sculpter & Tonifier",
+    "Remise en Forme",
+    "Perte de Poids"
+  ],
+  "diplomes": [
+    "BPJEPS AF"
+  ],
+  "formations": [],
+  "methode": "On avance étape par étape, à ton rythme, pour construire un corps plus fort, plus athlétique et plus fonctionnel. Chaque séance s'appuie sur ce qui a fonctionné, ou pas, la fois précédente : le programme évolue avec toi, pas l'inverse.",
+  "resultats": "Mon objectif : t'aider à perdre du poids, retrouver tes capacités et construire un corps qui répond de nouveau présent. Retrouver une vraie condition physique, te sentir capable au quotidien, et que ça dure sur le long terme, pas juste le temps d'un pic de motivation.",
+  "temoignages": [],
+  "rcPro": "10099976906",
+  "cartePro": "04523ED0111",
+  "sourceNote": "Spécialités, diplôme, assurance RC Pro et carte professionnelle vérifiés sur la fiche officielle Basic-Fit (basic-fit.com/fr-fr/fitness/personal-trainer/thomas-das-neves).",
+  "avisGoogle": {
+    "note": 5.0,
+    "nombreAvis": 30,
+    "url": "https://www.google.com/maps/search/?api=1&query=Thomas%20Das%20Neves%20coach%20sportif%20Orl%C3%A9ans"
+  },
+  "stats": [
+    {
+      "value": 50,
+      "suffix": "+",
+      "label": "clients accompagnés"
+    },
+    {
+      "value": 140,
+      "suffix": "+",
+      "label": "kg perdus au total"
+    },
+    {
+      "value": 200,
+      "suffix": "%",
+      "label": "de gain de force maximum"
+    },
+    {
+      "value": 300,
+      "suffix": "%",
+      "label": "de gain d'endurance maximum"
+    }
+  ],
+  "email": "dasnevespro@outlook.fr",
+  "guides": [
+    "reprendre-le-sport-apres-plusieurs-annees-d-arret",
+    "pourquoi-je-ne-vois-pas-de-resultats",
+    "combien-de-temps-pour-voir-des-resultats"
+  ],
+  "reseauSocial": {
+    "type": "instagram",
+    "url": "https://www.instagram.com/coaching_tommy/"
+  }
+}

@@ -1,0 +1,214 @@
+---
+import SanteChiffres from '../../components/SanteChiffres.astro';
+import BoostPCQ from '../../components/BoostPCQ.astro';
+// BOOST DOMICILE : un coach sportif diplômé chez vous, toujours le même, avec bilan, programme et suivi.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PartageReseaux from '../../components/PartageReseaux.astro';
+import Crumbs from '../../components/rb/Crumbs.astro';
+import Icones from '../../components/rb/Icones.astro';
+import villesData from '../../data/villes.json';
+const communes = [...villesData].sort((a: any, b: any) => a.nom.localeCompare(b.nom, 'fr'));
+import '../../styles/rebrand.css';
+
+const path = '/coach-sportif-a-domicile/';
+const profils = [
+  { i: '🛋️', t: 'Vous n\'osez pas pousser la porte d\'une salle', d: 'Le regard des autres, les machines, la peur de mal faire : on commence chez vous, à votre rythme, sans public.' },
+  { i: '⏱️', t: 'Vous manquez de temps', d: 'Pas de trajet, pas de vestiaire. Le coach vient, la séance dure le temps prévu et votre journée continue.' },
+  { i: '🧓', t: 'Vous avez 60 ans et plus', d: 'Équilibre, force des jambes, autonomie : des exercices adaptés à votre forme du jour, avec un coach qui prend le temps.' },
+  { i: '🔁', t: 'Vous reprenez après une pause', d: 'Après un arrêt long, une période chargée ou un coup de mou : un coach qui reprend en douceur et vous fait progresser pas à pas.' },
+  { i: '👨‍👩‍👧', t: 'Vous êtes parent ou aidant', d: 'Difficile de partir une heure. À la maison, la séance se glisse entre deux obligations.' },
+  { i: '🌾', t: 'Vous êtes loin d\'une salle', d: 'En périphérie ou à la campagne, un coach du réseau se déplace chez vous, dans le Loiret et autour d\'Orléans.' },
+];
+const difference = [
+  { t: 'Toujours le même coach', d: 'Pas une personne différente à chaque séance : un coach qui vous connaît, retient vos limites et suit votre progression.' },
+  { t: 'Un bilan, puis un programme', d: 'Chaque accompagnement commence par un Bilan Santé, puis un programme construit pour vous, pas une heure de sport au hasard.' },
+  { t: 'Un abonnement, pas une séance à l\'unité', d: 'Un engagement sur 3 mois ou 1 an, avec un rythme fixé à l\'avance. C\'est ce qui fait les résultats, et ce qui évite d\'annuler une séance sur deux.' },
+  { t: 'Un coach diplômé, assuré, du réseau GA', d: 'Carte professionnelle, assurance responsabilité civile professionnelle, formation au coaching à domicile par GA Coachs.' },
+];
+const offres = [
+  { k: 'ESSAI', t: 'Essai de 3 mois (12 semaines)', d: 'Un bilan de départ, un programme, un rythme régulier à domicile et un bilan de fin. Pour tester la méthode sur un objectif précis.' },
+  { k: 'ANNUEL', t: 'Offre annuelle (1 an)', d: 'Un suivi toute l\'année, un bilan chaque trimestre et un programme qui évolue avec vous. Pour installer le sport pour de bon.' },
+];
+const methode = [
+  { m: 'Pour commencer', t: 'Le Bilan Santé à domicile', d: 'Votre forme actuelle, vos douleurs éventuelles, votre logement, votre matériel et ce que vous voulez changer. Le coach vous remet un mini plan écrit, que vous décidiez de continuer ou non.' },
+  { m: 'Semaines 2 à 10', t: 'Le programme', d: 'Des séances individuelles chez vous, avec le matériel que vous avez ou celui que le coach apporte, et un programme à faire entre deux séances.' },
+  { m: 'Semaine 12', t: 'Le bilan de fin', d: 'On mesure ce qui a changé, on ajuste l\'objectif et on choisit la suite : continuer à domicile ou compléter en salle.' },
+  { m: 'Ensuite', t: 'L\'année', d: 'Si vous continuez, le même coach vous suit, avec un bilan chaque trimestre et un programme qui évolue.' },
+];
+const limites = [
+  { t: 'Pas de séance à l\'unité vendue au hasard', d: 'Nous ne faisons pas de marché de coachs interchangeables. Un coach, un programme, un rythme.' },
+  { t: 'Pas de promesse de résultat chiffrée', d: 'Les résultats dépendent de chacun. Le bilan sert à fixer un objectif réaliste, jamais à vous vendre un chiffre.' },
+  { t: 'Pas de conseil médical', d: 'En cas de douleur, de maladie ou de doute, le coach adapte ou arrête, et vous invite à voir votre médecin.' },
+  { t: 'Pas de prix caché', d: 'Le coach vous présente sa proposition pendant le bilan : rythme, durée, tarif. Vous savez ce que vous payez avant de vous engager.' },
+];
+const faq = [
+  { q: 'Qu\'est-ce que BOOST DOMICILE ?', r: 'C\'est l\'offre de GA Coachs qui envoie un coach sportif diplômé du réseau chez vous, pour un accompagnement individuel et régulier : un bilan, un programme et un suivi, sur 3 mois ou 1 an.' },
+  { q: 'Quelle différence avec un coach à domicile trouvé sur une plateforme ?', r: 'Sur une plateforme, vous réservez le plus souvent une séance à la fois, avec le coach disponible. Ici, vous avez un coach dédié, un bilan, un programme et un engagement sur la durée, ce qui permet de suivre vraiment vos progrès.' },
+  { q: 'Où intervenez-vous ?', r: 'À Orléans, dans le Loiret et autour des salles Basic-Fit du réseau. Indiquez votre commune dans le formulaire : nous vérifions qu\'un coach du réseau peut se déplacer chez vous.' },
+  { q: 'Faut-il du matériel ?', r: 'Non. Le coach s\'adapte à ce que vous avez (chaises, bandes, haltères légers) et peut apporter du petit matériel. Un espace de 2 mètres sur 2 suffit en général.' },
+  { q: 'Les deux offres, c\'est quoi ?', r: 'Un Essai de 3 mois (12 semaines) pour démarrer avec un objectif précis, et une Offre annuelle (1 an) pour un suivi continu avec un bilan chaque trimestre.' },
+  { q: 'Combien coûte le Bilan Santé à domicile ?', r: 'Le tarif vous est indiqué au moment de la réservation, avant de confirmer. Il est réglé directement à votre coach, qui vous remet un mini plan écrit à la fin du bilan.' },
+  { q: 'Combien coûte ensuite le coaching ?', r: 'Le coach vous présente sa proposition pendant le bilan, selon ce que vous aurez vu ensemble : rythme (nombre de séances par semaine), durée (3 mois ou 1 an) et distance. Vous décidez ensuite, sans obligation.' },
+  { q: 'Peut-on bénéficier d\'un crédit d\'impôt ?', r: 'Cela dépend de la situation du coach (déclaration en service à la personne) et du type de séances (individuelles, à domicile). Nous ne le promettons pas d\'avance : nous vous indiquons ce qui s\'applique au moment du devis, et vous pouvez vérifier auprès de l\'administration fiscale.' },
+  { q: 'Puis-je compléter par des séances en salle ?', r: 'Selon le coach et sa salle de rattachement, oui. Au bilan de fin, vous choisissez de continuer à domicile ou de passer en partie en salle Basic-Fit, avec un coach du réseau.' },
+  { q: 'Les coachs sont-ils diplômés et assurés ?', r: 'Oui. Ils sont titulaires de leur carte professionnelle et couverts par une assurance responsabilité civile professionnelle. Ils sont aussi formés par GA Coachs au coaching à domicile.' },
+  { q: 'Que se passe-t-il si j\'annule une séance ?', r: 'Les règles d\'annulation vous sont présentées par le coach avant de commencer. Un coach dédié permet généralement de déplacer une séance plutôt que de la perdre.' },
+  { q: 'Je suis âgé ou je reprends après une pause : est-ce adapté ?', r: 'Oui. Le bilan tient compte de votre forme, de vos limites et de vos antécédents. En cas de doute ou de pathologie, le coach vous demande l\'avis de votre médecin avant de commencer.' },
+  { q: 'Comment démarrer ?', r: 'Réservez votre Bilan Santé : vous choisissez votre commune, votre coach et un créneau. Si aucun coach n\'est encore disponible dans votre commune, vous laissez vos coordonnées et un coach vous rappelle.' },
+];
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Bilan Santé à domicile', serviceType: 'Bilan de forme à domicile par un coach sportif diplômé', provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' }, areaServed: ['Orléans', 'Loiret'] },
+  { '@context': 'https://schema.org', '@type': 'Service', name: 'Coach sportif à domicile à Orléans et dans le Loiret', serviceType: 'Coaching sportif individuel à domicile par un coach diplômé', provider: { '@type': 'Organization', name: 'GA Coachs', url: 'https://gacoachs.fr/' }, areaServed: ['Orléans', 'Loiret', 'Centre-Val de Loire'], description: 'Un coach sportif diplômé du réseau GA vient chez vous : bilan, programme et suivi sur 3 mois ou 1 an.' },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://gacoachs.fr/' }, { '@type': 'ListItem', position: 2, name: 'BOOST', item: 'https://gacoachs.fr/boost/' }, { '@type': 'ListItem', position: 3, name: 'BOOST DOMICILE', item: 'https://gacoachs.fr/coach-sportif-a-domicile/' }] },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+];
+---
+<BaseLayout title="Coach sportif à domicile à Orléans : BOOST DOMICILE" description="Un Bilan Santé à domicile, puis un coach sportif diplômé chez vous à Orléans et dans le Loiret : toujours le même, avec programme et suivi. Essai de 3 mois ou offre annuelle." path={path} jsonLd={[jsonLd].flat().filter((x) => x?.['@type'] !== 'BreadcrumbList')} stickyCtaHref="/coach-sportif-a-domicile/reserver/" stickyCtaLabel="Réserver mon bilan santé">
+<div class="rb rb-legacy">
+  <Icones />
+  <section class="phero">
+    <div class="lightning-bg" aria-hidden="true"></div>
+    <div class="inner">
+      <Crumbs items={[{ label: 'Accueil', href: '/' }, { label: 'BOOST', href: '/boost/' }, { label: 'BOOST DOMICILE', href: path }]} />
+      <span class="eyebrow eyebrow-dark">BOOST DOMICILE</span>
+      <h1>Un <span class="hl-text">coach sportif à domicile</span>, toujours le même, avec un vrai programme.</h1>
+      <p class="phero-lead">Un coach diplômé du réseau GA vient chez vous à Orléans et dans le Loiret. On commence par un Bilan Santé à domicile, puis un programme et un suivi : pas une séance au hasard, un accompagnement sur 3 mois ou 1 an.</p>
+      <ul class="facts-dark"><li>Bilan Santé à domicile</li><li>Toujours le même coach</li><li>Essai de 3 mois ou offre annuelle</li></ul>
+      <div class="ctas">
+        <a class="btn btn-primary" href="/coach-sportif-a-domicile/reserver/">Réserver mon bilan santé</a>
+        <a class="btn btn-glass" href="#offres">Les deux offres</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec ec-bref-sec">
+    <div class="inner">
+      <div class="ec-bref">
+        <p class="ec-bref-k">En bref</p>
+        <ul>
+          <li><b>Quoi :</b> un coach sportif diplômé du réseau GA vient chez vous pour des séances individuelles régulières.</li>
+          <li><b>Où :</b> Orléans, le Loiret et autour des salles Basic-Fit du réseau.</li>
+          <li><b>Pour qui :</b> ceux qui n'osent pas la salle, manquent de temps, reprennent après une pause, ont 60 ans et plus ou vivent loin d'une salle.</li>
+          <li><b>Pour commencer :</b> un Bilan Santé à domicile, avec un mini plan écrit remis à la fin. Le tarif vous est indiqué à la réservation.</li>
+          <li><b>Deux offres ensuite :</b> un Essai de 3 mois (12 semaines) ou une Offre annuelle (1 an).</li>
+          <li><b>Comment :</b> vous choisissez votre commune, votre coach et votre rendez-vous. Le coach vous présente sa proposition pendant le bilan.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Pour qui</span>
+      <h2 class="h2">Le sport chez vous, quand la salle ne vous convient pas.</h2>
+      <div class="ec-grid">{profils.map((c) => <div class="tile ec-t"><span class="ec-i" aria-hidden="true">{c.i}</span><h3>{c.t}</h3><p>{c.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">Ce qui change</span>
+      <h2 class="h2">Pas une séance à l'unité : un accompagnement.</h2>
+      <div class="ec-grid ec-grid4">{difference.map((p) => <div class="tile ec-t"><h3>{p.t}</h3><p>{p.d}</p></div>)}</div>
+      <p class="ec-n">GA Coachs, c'est 686 personnes accompagnées à Basic-Fit Olivet, avec des résultats affichés en salle. <a href="/salles/basic-fit-olivet/#resultats-olivet">Voir le tableau</a>.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="bilan">
+    <div class="inner">
+      <span class="eyebrow">Pour commencer</span>
+      <h2 class="h2">Le Bilan Santé à domicile.</h2>
+      <div class="ec-grid ec-grid3b">
+        <div class="tile ec-t"><h3>Chez vous, sans engagement</h3><p>Un coach diplômé du réseau vient chez vous. Vous faites le point sur votre forme, vos envies et votre rythme, sans promesse à tenir.</p></div>
+        <div class="tile ec-t"><h3>Un vrai point de départ</h3><p>Questionnaire, quelques tests simples (équilibre, mobilité, force), un objectif réaliste et un mini plan écrit remis à la fin.</p></div>
+        <div class="tile ec-t"><h3>La même méthode qu'en salle</h3><p>C'est le bilan qui a fait le succès de GA Coachs dans les salles Basic-Fit, avec 686 personnes accompagnées à Olivet. Nous le proposons maintenant chez vous.</p></div>
+      </div>
+      <div class="ctas" style="margin-top:20px;"><a class="btn btn-primary" href="/coach-sportif-a-domicile/reserver/">Réserver mon bilan santé</a></div>
+    </div>
+  </section>
+
+  <section class="sec" id="offres">
+    <div class="inner">
+      <span class="eyebrow">Les deux offres</span>
+      <h2 class="h2">Un Essai de 3 mois ou une Offre annuelle.</h2>
+      <div class="ec-grid ec-grid2">{offres.map((o) => <div class="tile ec-t"><p class="ec-k">{o.k}</p><h3>{o.t}</h3><p>{o.d}</p></div>)}</div>
+      <p class="ec-n">Le coach vous présente sa proposition pendant le bilan : rythme, durée et tarif, selon ce que vous aurez vu ensemble. Vous savez ce que vous payez avant de vous engager.</p>
+    </div>
+  </section>
+
+  <section class="sec band" id="methode">
+    <div class="inner">
+      <span class="eyebrow">La méthode</span>
+      <h2 class="h2">Du bilan à l'année.</h2>
+      <ol class="ec-tl">{methode.map((d) => <li><span class="ec-m">{d.m}</span><div><b>{d.t}</b><p>{d.d}</p></div></li>)}</ol>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="inner">
+      <span class="eyebrow">Notre cadre</span>
+      <h2 class="h2">Ce que nous ne faisons pas.</h2>
+      <div class="ec-grid ec-grid4">{limites.map((l) => <div class="tile ec-t"><h3>{l.t}</h3><p>{l.d}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec band" id="reserver">
+    <div class="inner ec-cta">
+      <span class="eyebrow">C'est parti</span>
+      <h2 class="h2">Réservez votre Bilan Santé à domicile.</h2>
+      <p>Choisissez votre commune, votre coach et votre rendez-vous en trois étapes. Vos informations servent uniquement à organiser le rendez-vous (<a href="/confidentialite/">confidentialité</a>).</p>
+      <div class="ctas"><a class="btn btn-primary" href="/coach-sportif-a-domicile/reserver/">Réserver mon bilan santé</a></div>
+      <p class="ec-n">Vous êtes coach et voulez proposer ce service ? Voir <a href="/coach-sportif-a-domicile/devenir-coach/">comment devenir coach à domicile GA</a>.</p>
+    </div>
+  </section>
+
+  <SanteChiffres />
+  <BoostPCQ id="domicile" />
+  <section class="sec band">
+    <div class="inner">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h2">Vos questions sur BOOST DOMICILE.</h2>
+      <div class="faq-list">{faq.map((f) => <details class="faq-item"><summary>{f.q}</summary><p>{f.r}</p></details>)}</div>
+    </div>
+  </section>
+<section class="sec gsh-sec"><div class="inner"><PartageReseaux url={path} title="BOOST DOMICILE : un coach sportif à domicile à Orléans" label="Partager cette page" /></div></section>
+</div>
+</BaseLayout>
+
+<style>
+  .ec-bref-sec { padding-top: 28px; padding-bottom: 8px; }
+  .ec-bref { border-left: 4px solid #1D5BD8; background: #fff; border-radius: 0 18px 18px 0; padding: 18px 22px; box-shadow: 0 12px 30px -24px rgba(11,30,61,.5); }
+  .ec-bref-k { margin: 0 0 8px; font-weight: 700; text-transform: none; letter-spacing: .02em; font-size: 12px; color: #1D5BD8; }
+  .ec-bref ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: #0B1E3D; line-height: 1.5; }
+  .ec-num { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #1D5BD8; color: #fff; font-weight: 700; }
+  .ec-grid { display: grid; gap: 16px; margin-top: 20px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ec-t h3 { margin: 6px 0 8px; }
+  .ec-t p { margin: 0; line-height: 1.55; color: #2A3756; }
+  .ec-i { font-size: 30px; }
+  .ec-tl { list-style: none; padding: 0; margin: 22px 0 0; display: grid; border-left: 3px solid #1D5BD8; }
+  .ec-tl li { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 14px; padding: 14px 0 14px 18px; border-bottom: 1px solid #DCE6FB; }
+  .ec-m { font-weight: 700; color: #1D5BD8; }
+  .ec-tl b { color: #0B1E3D; }
+  .ec-tl p { margin: 4px 0 0; color: #2A3756; line-height: 1.5; }
+  .ec-n { color: #2A3756; margin-top: 14px; }
+  .ec-two { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 900px) { .ec-two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; } }
+  .ec-form { display: grid; gap: 12px; background: #fff; border: 1px solid #DCE6FB; border-radius: 20px; padding: 22px; min-width: 0; }
+  .ec-form label { display: grid; gap: 6px; font-weight: 600; font-size: 14px; color: #0B1E3D; min-width: 0; }
+  .ec-form input, .ec-form select, .ec-form textarea { width: 100%; box-sizing: border-box; min-height: 46px; padding: 10px 12px; border: 1px solid #B8C6E3; border-radius: 12px; font: inherit; font-size: 16px; background: #fff; }
+  .ec-guides { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; }
+  .ec-guides a { display: block; padding: 12px 14px; border: 1px solid #DCE6FB; border-radius: 14px; background: #fff; color: #0B1E3D; font-weight: 600; line-height: 1.35; text-decoration: none; }
+  .ec-grid.ec-grid4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1100px) { .ec-grid.ec-grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px) { .ec-grid, .ec-grid.ec-grid4, .ec-guides { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 767px) { .ec-tl li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+  .ec-grid.ec-grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ec-k { margin: 0; font-weight: 700; font-size: 12px; letter-spacing: .02em; color: #1D5BD8; }
+  @media (max-width: 900px) { .ec-grid.ec-grid2 { grid-template-columns: minmax(0, 1fr); } }
+  .ec-communes { list-style: none; padding: 0; margin: 18px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 16px; }
+  .ec-communes a { display: block; padding: 10px 12px; border: 1px solid #DCE6FB; border-radius: 12px; background: #fff; color: #0B1E3D; font-weight: 600; text-decoration: none; }
+  @media (max-width: 900px) { .ec-communes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .ec-grid.ec-grid3b { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 900px) { .ec-grid.ec-grid3b { grid-template-columns: minmax(0, 1fr); } }
+  .ec-cta { max-width: 720px; }
+</style>

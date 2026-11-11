@@ -1,0 +1,126 @@
+---
+// Accueil : tous les programmes BOOST, avec un sélecteur « Je suis… » qui montre ceux qui vous concernent.
+// Tous les liens sont dans le HTML (utile à Google et aux IA) : le filtre ne fait que masquer, sans JS tout reste visible.
+import gamme from '../../data/boost-gamme.json';
+
+const G = (id: string) => (gamme as any[]).find((x) => x.id === id);
+type P = { id: string; e: string; k: string; t: string; p: string; href: string; profils: string[]; nouveau?: boolean };
+const programmes: P[] = [
+  { id: 'prive', e: '👑', k: G('prive').k, t: 'Le coach attitré des personnalités', p: 'Sportifs pros, acteurs, élus, dirigeants : à domicile, avec confidentialité écrite.', href: G('prive').href, profils: ['perso'], nouveau: true },
+  { id: 'scene', e: '🎤', k: 'BOOST SCÈNE', t: 'Préparer les artistes avant le concert', p: 'Bilan offert, préparation physique et filage physique avant la date.', href: '/services-sur-mesure/coach-sportif-preparation-scene/', profils: ['perso'], nouveau: true },
+  { id: 'tournee', e: '🚌', k: 'BOOST TOURNÉE', t: 'Un coach dédié sur la route', p: 'Un coach qui suit l\'artiste et son équipe pendant toute la tournée.', href: '/services-sur-mesure/coach-sportif-tournee-artistes/', profils: ['perso'], nouveau: true },
+  { id: 'communication', e: '📣', k: G('communication').k, t: 'Un vrai coach pour vos contenus', p: 'Vidéos UGC, visage de marque, invité YouTube et Twitch, campagnes sport-santé.', href: G('communication').href, profils: ['marque', 'entreprise'], nouveau: true },
+  { id: 'invite', e: '🎬', k: 'COACH INVITÉ', t: 'Podcasts, presse, esport, salons', p: 'Un coach diplômé comme expert invité : 12 formats, de la chronique radio au webinaire.', href: '/coach-sportif-invite/', profils: ['marque', 'perso'], nouveau: true },
+  { id: 'domicile', e: '🏠', k: 'BOOST DOMICILE', t: 'Un coach chez vous, toujours le même', p: 'Un Bilan Santé à domicile, puis programme et suivi, à Orléans et dans le Loiret. Essai de 3 mois ou offre annuelle.', href: '/coach-sportif-a-domicile/', profils: ['perso'], nouveau: true },
+  { id: 'mannequin', e: '📸', k: 'BOOST MANNEQUIN', t: 'Un coach avant le shooting ou le défilé', p: 'Posture, endurance et mobilité pour les mannequins, sans régime. Essai de 3 mois ou offre annuelle.', href: '/coach-sportif-mannequins/', profils: ['perso', 'marque'], nouveau: true },
+  { id: 'course', e: '🏁', k: 'ÉCHAUFFEMENT DE COURSES', t: 'Un coach sur le podium', p: 'Marches, trails, semi-marathons : l\'échauffement collectif au départ.', href: '/coach-sportif-echauffement-course/', profils: ['course'], nouveau: true },
+  { id: 'entreprise', e: '🏢', k: G('entreprise').k, t: G('entreprise').t, p: G('entreprise').p, href: G('entreprise').href, profils: ['entreprise'] },
+  { id: 'club', e: '🏋️', k: G('club').k, t: G('club').t, p: G('club').p, href: G('club').href, profils: ['sport'] },
+  { id: 'senior', e: '🧓', k: G('senior').k, t: G('senior').t, p: G('senior').p, href: G('senior').href, profils: ['sante'] },
+  { id: 'asso', e: '🤝', k: G('asso').k, t: G('asso').t, p: G('asso').p, href: G('asso').href, profils: ['sport'] },
+  { id: 'sante', e: '🩺', k: G('sante').k, t: G('sante').t, p: G('sante').p, href: G('sante').href, profils: ['sante'] },
+  { id: 'tourisme', e: '🏨', k: G('tourisme').k, t: G('tourisme').t, p: G('tourisme').p, href: G('tourisme').href, profils: ['tourisme'] },
+  { id: 'event', e: '🎉', k: G('event').k, t: G('event').t, p: G('event').p, href: G('event').href, profils: ['tourisme', 'course'] },
+  { id: 'conferences', e: '🎙️', k: 'CONFÉRENCES', t: 'Un coach au micro', p: 'Conférences et ateliers pratiques pour entreprises, salons et événements.', href: '/conferences/', profils: ['entreprise', 'marque'] },
+  { id: 'medias', e: '📰', k: 'ESPACE MÉDIAS', t: 'Un expert pour la TV, la radio et la presse', p: 'Interviews, plateaux, magazines, publicités, égéries.', href: '/medias/', profils: ['marque', 'perso'] },
+];
+const profils = [
+  { id: 'perso', l: 'Artiste ou personnalité' },
+  { id: 'entreprise', l: 'Entreprise ou collectivité' },
+  { id: 'marque', l: 'Marque, agence ou média' },
+  { id: 'sante', l: 'Santé ou seniors' },
+  { id: 'sport', l: 'Club ou association' },
+  { id: 'tourisme', l: 'Hôtel, bar ou événement' },
+  { id: 'course', l: 'Organisateur de course' },
+];
+---
+<section class="sec navy hb" id="boost">
+  <div class="lightning-bg" aria-hidden="true"></div>
+  <div class="inner">
+    <span class="eyebrow">Pour les professionnels</span>
+    <h2 class="h2">BOOST : un coach diplômé pour chaque projet.</h2>
+    <p class="hb-lead">{programmes.length} programmes, un même réseau de coachs diplômés. Dites-nous qui vous êtes, nous vous montrons ceux qui vous concernent.</p>
+
+    <div class="hb-pick" data-hb-bar hidden>
+      <p class="hb-who" id="hb-who">Je suis…</p>
+      <div class="hb-chips" role="group" aria-labelledby="hb-who">
+        <button type="button" class="hb-chip" data-p="all" aria-pressed="true">Tous <span>{programmes.length}</span></button>
+        {profils.map((x) => <button type="button" class="hb-chip" data-p={x.id} aria-pressed="false">{x.l} <span>{programmes.filter((c) => c.profils.includes(x.id)).length}</span></button>)}
+      </div>
+      <p class="hb-count" role="status" aria-live="polite" data-hb-count></p>
+    </div>
+
+    <ul class="hb-grid" data-hb-grid>
+      {programmes.map((c) => (
+        <li class="hb-li" data-profils={c.profils.join(' ')}>
+          <a class="hb-c" href={c.href}>
+            <span class="hb-e" aria-hidden="true">{c.e}</span>
+            <span class="hb-k">{c.k}{c.nouveau && <span class="hb-new">Nouveau</span>}</span>
+            <b class="hb-t">{c.t}</b>
+            <span class="hb-p">{c.p}</span>
+            <span class="hb-go">Découvrir →</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="hb-more">Votre projet n'entre dans aucune case ? <a href="/services-sur-mesure/#sm-contact">Parlons-en, c'est du sur-mesure →</a> · <a href="/boost/">Tous les BOOST, région par région →</a></p>
+  </div>
+</section>
+
+<style is:global>
+  .proto .hb .h2 { max-width: 24ch; }
+  .proto .hb-lead { color: rgba(255,255,255,.8); max-width: 60ch; margin: 12px 0 0; line-height: 1.55; }
+  .proto .hb-pick { margin-top: 24px; }
+  .proto .hb-pick[hidden] { display: none; }
+  .proto .hb-who { margin: 0 0 8px; font-weight: 700; color: #BFE2FF; font-size: 14px; letter-spacing: .04em; text-transform: none; }
+  .proto .hb-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .proto .hb-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 14px; border-radius: 999px; border: 1.5px solid rgba(124,196,255,.4); background: rgba(255,255,255,.06); color: #fff; font: 700 14.5px/1.2 var(--body, inherit); cursor: pointer; transition: background .2s, border-color .2s; }
+  .proto .hb-chip span { font-size: 12px; font-weight: 700; background: rgba(255,255,255,.14); border-radius: 999px; padding: 2px 8px; }
+  .proto .hb-chip:hover { border-color: #7CC4FF; }
+  .proto .hb-chip:focus-visible { outline: 3px solid #7CC4FF; outline-offset: 2px; }
+  .proto .hb-chip[aria-pressed="true"] { background: #fff; color: #0B1E3D; border-color: #fff; }
+  .proto .hb-chip[aria-pressed="true"] span { background: #DCE6FB; color: #0B1E3D; }
+  .proto .hb-count { margin: 12px 0 0; min-height: 22px; color: rgba(255,255,255,.8); font-size: 14.5px; }
+  .proto .hb-grid { list-style: none; padding: 0; margin: 18px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .proto .hb-li[hidden] { display: none; }
+  .proto .hb-c { height: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; row-gap: 4px; align-content: start; padding: 18px; border-radius: 20px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); color: #fff; text-decoration: none; transition: transform .25s, border-color .25s, background .25s; }
+  .proto .hb-c:hover { transform: translateY(-3px); border-color: rgba(124,196,255,.6); background: rgba(255,255,255,.09); }
+  .proto .hb-c:focus-visible { outline: 3px solid #7CC4FF; outline-offset: 2px; }
+  .proto .hb-e { grid-row: span 4; font-size: 28px; line-height: 1; padding-top: 2px; }
+  .proto .hb-k { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 11.5px; font-weight: 700; letter-spacing: .02em; text-transform: none; color: #7CC4FF; }
+  .proto .hb-new { background: #1D5BD8; color: #fff; border-radius: 999px; padding: 2px 8px; font-size: 10.5px; letter-spacing: .02em; }
+  .proto .hb-t { font-family: var(--display); font-size: 18px; line-height: 1.25; color: #fff; }
+  .proto .hb-p { font-size: 14.5px; line-height: 1.5; color: rgba(255,255,255,.8); }
+  .proto .hb-go { margin-top: 4px; font-size: 14px; font-weight: 700; color: #BFE2FF; }
+  .proto .hb-more { margin-top: 24px; font-size: 15px; color: rgba(255,255,255,.8); }
+  .proto .hb-more a { color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 1000px) { .proto .hb-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) {
+    .proto .hb-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    .proto .hb-c { padding: 15px; }
+    .proto .hb-chip { font-size: 14px; padding: 8px 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .proto .hb-c, .proto .hb-chip { transition: none; } .proto .hb-c:hover { transform: none; } }
+</style>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-hb-bar]');
+  const grid = document.querySelector<HTMLElement>('[data-hb-grid]');
+  const count = document.querySelector<HTMLElement>('[data-hb-count]');
+  if (bar && grid && count) {
+    bar.hidden = false;
+    const items = Array.from(grid.querySelectorAll<HTMLElement>('.hb-li'));
+    const chips = Array.from(bar.querySelectorAll<HTMLButtonElement>('.hb-chip'));
+    const apply = (p: string) => {
+      let n = 0;
+      items.forEach((li, i) => {
+        const ok = p === 'all' ? i < 6 : (li.dataset.profils || '').split(' ').includes(p);
+        li.hidden = !ok; if (ok) n++;
+      });
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.p === p)));
+      count.textContent = p === 'all' ? 'Un aperçu de ' + n + ' programmes sur ' + items.length + ' : choisis ton profil pour voir ceux qui te concernent.' : n + (n > 1 ? ' programmes pour vous' : ' programme pour vous');
+    };
+    chips.forEach((c) => c.addEventListener('click', () => apply(c.dataset.p || 'all')));
+    apply('all');
+  }
+</script>

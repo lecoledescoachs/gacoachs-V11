@@ -1,0 +1,174 @@
+[
+  {
+    "id": "entreprise",
+    "k": "BOOST ENTREPRISE™",
+    "t": "Entreprises et organismes publics",
+    "p": "30 minutes pour faire bouger vos équipes, sur site. Testez avec BOOST 30, une séance découverte offerte.",
+    "img": "/images/design/img-boost-entreprise.webp",
+    "href": "/entreprises/",
+    "cta": "Découvrir BOOST ENTREPRISE™",
+    "sub": "coaching sportif en entreprise",
+    "publics": [
+      "Entreprises",
+      "Gestes et postures",
+      "Mairies et administrations"
+    ]
+  },
+  {
+    "id": "club",
+    "k": "BOOST CLUB",
+    "t": "Clubs sportifs",
+    "p": "La préparation physique externalisée de votre équipe, adaptée à votre discipline et à votre saison. Diagnostic offert.",
+    "img": "",
+    "href": "/preparation-physique/clubs/",
+    "cta": "Découvrir BOOST CLUB",
+    "sub": "préparation physique tous niveaux",
+    "publics": [
+      "Clubs",
+      "Équipes",
+      "Jeunes sportifs"
+    ]
+  },
+  {
+    "id": "senior",
+    "k": "BOOST SENIOR",
+    "t": "EHPAD et maisons de retraite",
+    "p": "L'activité physique adaptée pour vos résidents : équilibre, autonomie, prévention des chutes, avec votre équipe soignante.",
+    "img": "",
+    "href": "/sport-sante/ehpad-maisons-de-retraite/",
+    "cta": "Découvrir BOOST SENIOR",
+    "sub": "activité physique adaptée en EHPAD",
+    "publics": [
+      "EHPAD",
+      "Maisons de retraite",
+      "Résidences autonomie"
+    ]
+  },
+  {
+    "id": "asso",
+    "k": "BOOST ASSO",
+    "t": "Associations de musculation",
+    "p": "Un coach diplômé pour encadrer vos créneaux, accueillir les nouveaux adhérents et appuyer vos bénévoles.",
+    "img": "",
+    "href": "/associations-de-musculation/",
+    "cta": "Découvrir BOOST ASSO",
+    "sub": "un coach diplômé pour votre association",
+    "publics": [
+      "Associations de musculation"
+    ]
+  },
+  {
+    "id": "sante",
+    "k": "BOOST SANTÉ",
+    "t": "Professionnels de santé",
+    "p": "Médecins, kinés, maisons de santé, cliniques : un coach diplômé prend le relais pour la reprise d'activité de vos patients.",
+    "img": "",
+    "href": "/professionnels-de-sante/",
+    "cta": "Découvrir BOOST SANTÉ",
+    "sub": "le relais sport des professionnels de santé",
+    "publics": [
+      "Professionnels de santé",
+      "Maisons de santé",
+      "Cliniques"
+    ]
+  },
+  {
+    "id": "tourisme",
+    "k": "BOOST TOURISME",
+    "t": "Hôtels et campings",
+    "p": "Des séances encadrées pour vos clients, sans recrutement à gérer : un vrai service en plus pendant leur séjour.",
+    "img": "",
+    "href": "/services-sur-mesure/coach-sportif-hotel/",
+    "cta": "Découvrir BOOST TOURISME",
+    "sub": "des séjours plus actifs pour vos clients",
+    "publics": [
+      "Hôtels",
+      "Campings"
+    ]
+  },
+  {
+    "id": "event",
+    "k": "BOOST EVENT",
+    "t": "Bars, restaurants, EVJF, EVG et courses",
+    "p": "Un run club, une séance avant le brunch, un défi entre amis ou l'échauffement d'une course : le sport qui rassemble, avant la fête comme avant le départ.",
+    "img": "",
+    "href": "/services-sur-mesure/coach-sportif-evenement-bar/",
+    "cta": "Découvrir BOOST EVENT",
+    "sub": "le sport qui rassemble, avant la fête",
+    "publics": [
+      "Bars",
+      "Restaurants",
+      "EVJF et EVG",
+      "Organisateurs de courses"
+    ]
+  },
+  {
+    "id": "prive",
+    "k": "BOOST PRIVÉ",
+    "t": "VIP et personnalités",
+    "p": "Un coach privé, discret et disponible, qui s'organise autour de votre agenda et de vos projets, et, pour les artistes, BOOST SCÈNE et BOOST TOURNÉE.",
+    "img": "",
+    "href": "/services-sur-mesure/coach-sportif-vip/",
+    "cta": "Découvrir BOOST PRIVÉ",
+    "sub": "un coach privé à votre agenda",
+    "publics": [
+      "Personnalités",
+      "Élus",
+      "Sportifs de haut niveau",
+      "Artistes",
+      "Dirigeants"
+    ]
+  },
+  {
+    "id": "communication",
+    "k": "BOOST COMMUNICATION",
+    "t": "Vidéos UGC et coach visage de marque",
+    "p": "Un vrai coach diplômé pour vos vidéos sur tous les réseaux, ou comme visage de votre marque : sport, musculation, nutrition, santé. 704 397 vues avec Good Moves.",
+    "img": "",
+    "href": "/coach-sportif-campagne-sport-sante/",
+    "cta": "Découvrir BOOST COMMUNICATION",
+    "sub": "un coach pour vos campagnes",
+    "publics": [
+      "Marques",
+      "Agences",
+      "Programmes européens",
+      "Institutions",
+      "Mairies",
+      "Fédérations",
+      "Mutuelles"
+    ]
+  },
+  {
+    "id": "mannequin",
+    "k": "BOOST MANNEQUIN",
+    "t": "Un coach pour les mannequins",
+    "p": "Shootings, défilés, galas : posture, endurance et mobilité, sans régime ni objectif de poids. Essai de 3 mois ou offre annuelle.",
+    "img": "",
+    "href": "/coach-sportif-mannequins/",
+    "cta": "Découvrir BOOST MANNEQUIN",
+    "sub": "un coach avant le shooting ou le défilé",
+    "publics": [
+      "Mannequins",
+      "Agences",
+      "Organisateurs de défilés",
+      "Marques",
+      "Photographes"
+    ]
+  },
+  {
+    "id": "domicile",
+    "k": "BOOST DOMICILE",
+    "t": "Un coach sportif chez vous",
+    "p": "Un Bilan Santé à domicile, puis un coach diplômé chez vous, toujours le même. Essai de 3 mois ou offre annuelle.",
+    "img": "",
+    "href": "/coach-sportif-a-domicile/",
+    "cta": "Découvrir BOOST DOMICILE",
+    "sub": "un coach à domicile avec un vrai programme",
+    "publics": [
+      "Seniors",
+      "Débutants",
+      "Personnes loin d'une salle",
+      "Parents et aidants"
+    ]
+  }
+]

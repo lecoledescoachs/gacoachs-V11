@@ -1,0 +1,49 @@
+{
+  "slug": "nathan-sapin",
+  "prenom": "Nathan",
+  "codeBoutique": "NATHAN",
+  "niveau": 3,
+  "nom": "Sapin",
+  "salleSlug": "basic-fit-olivet",
+  "role": "Coach sportif",
+  "tags": [
+    "Perte de Poids",
+    "Remise en Forme",
+    "Renforcement Musculaire",
+    "Coaching Flexible"
+  ],
+  "photo": "/images/coachs/nathan-sapin.webp",
+  "presentation": "Ton quotidien est déjà bien rempli. Entre le travail, la famille et les responsabilités, prendre soin de toi passe souvent au second plan. Pourtant, tu sais qu'un corps en forme est essentiel pour continuer à profiter pleinement de ta vie.",
+  "publicCible": "Les personnes au quotidien bien rempli (travail, famille) qui reprennent le sport et cherchent un accompagnement flexible, sans avoir à réfléchir elles-mêmes à leur programme.",
+  "specialites": [
+    "Remise en Forme",
+    "Sculpter & Tonifier",
+    "Perte de Poids",
+    "Renforcement Musculaire"
+  ],
+  "diplomes": [
+    "Licence STAPS"
+  ],
+  "formations": [],
+  "methode": "Mon rôle est de t'aider à reprendre le sport intelligemment, avec un accompagnement entièrement adapté à ton niveau et à ton rythme. Ici, pas besoin de réfléchir à ton entraînement ni de te demander quoi faire : je m'occupe de tout.",
+  "resultats": "Chaque séance est pensée pour te permettre de retrouver un corps plus solide, plus mobile et plus énergique, tout en faisant du sport une véritable parenthèse dans ta semaine plutôt qu'une contrainte de plus.",
+  "temoignages": [],
+  "rcPro": "145138329 J",
+  "cartePro": "04522ED0059",
+  "sourceNote": "Spécialités, diplôme, assurance RC Pro et carte professionnelle vérifiés sur la fiche officielle Basic-Fit (basic-fit.com/fr-fr/fitness/personal-trainer/nathan-sapin).",
+  "avisGoogle": {
+    "note": 5.0,
+    "nombreAvis": 51,
+    "url": "https://www.google.com/maps/search/?api=1&query=Nathan%20Sapin%20coach%20sportif%20Orl%C3%A9ans"
+  },
+  "email": "sapinnathan@gmail.com",
+  "guides": [
+    "reprendre-le-sport-apres-une-pause-erreurs-a-eviter",
+    "combien-de-seances-par-semaine",
+    "teletravail-comment-rester-actif-malgre-tout"
+  ],
+  "reseauSocial": {
+    "type": "instagram",
+    "url": "https://www.instagram.com/coach_sapin/"
+  }
+}

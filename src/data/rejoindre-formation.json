@@ -1,0 +1,29 @@
+{
+  "eyebrow": "La formation initiale",
+  "titre": "Ce que contient ta formation initiale.",
+  "intro": "Tu démarres avec un cadre clair, puis un suivi rapproché pendant tes 8 premières semaines.",
+  "semaines": [
+    { "sem": "Semaine 1", "titre": "Le cadre", "texte": "Le business model du réseau, le contrat coach/client, la mise en place." },
+    { "sem": "Semaine 2", "titre": "Ta vitrine", "texte": "Ta fiche coach sur le site, ta présentation et ton lien Score Santé personnalisé." },
+    { "sem": "Semaine 3", "titre": "Les premiers contacts", "texte": "Utiliser le Score Santé en salle et sur tes réseaux, suivre les personnes à recontacter." },
+    { "sem": "Semaine 4", "titre": "Le premier échange", "texte": "Mener un bilan santé et poser le cadre d'une collaboration." },
+    { "sem": "Semaine 5", "titre": "Ton offre", "texte": "Construire ton programme et fixer ton tarif, que tu factures toi-même." },
+    { "sem": "Semaine 6", "titre": "Le suivi client", "texte": "Organiser tes séances et garder la régularité de tes clients." },
+    { "sem": "Semaine 7", "titre": "Le bouche-à-oreille", "texte": "Fidéliser et obtenir des recommandations." },
+    { "sem": "Semaine 8", "titre": "Le bilan", "texte": "Faire le point sur tes 8 semaines et préparer la suite avec le coaching business en groupe." }
+  ],
+  "droits": {
+    "eyebrow": "Les droits d'entrée",
+    "titre": "Ce que contiennent tes droits d'entrée.",
+    "montant": "Présentés lors de l'appel",
+    "montantTexte": "avant toute signature",
+    "items": [
+      "La formation initiale : business model, contrat coach/client, méthode",
+      "Le suivi rapproché de tes 8 premières semaines",
+      "Un contrat coach/client prêt à l'emploi et la mise en relation",
+      "Ta fiche coach visible sur le site du réseau",
+      "Ton lien Score Santé personnalisé, avec un tableau de bord en temps réel"
+    ],
+    "note": "Ensuite, la cotisation au réseau est progressive sur les premiers mois."
+  }
+}

@@ -1,0 +1,46 @@
+---
+interface CoachAvatar { slug: string; prenom: string; photo: string; }
+interface Props {
+  slug: string;
+  nom: string;
+  ville: string;
+  nbCoachs: number;
+  coachsAvatars?: CoachAvatar[];
+}
+const { slug, nom, ville, nbCoachs, coachsAvatars = [] } = Astro.props;
+---
+<div class="salle-card card">
+  <div class="salle-card__body">
+    <span class="eyebrow">{ville}</span>
+    <h2>{nom}</h2>
+    <p>{nbCoachs} coach{nbCoachs > 1 ? 's' : ''} du réseau présent{nbCoachs > 1 ? 's' : ''} dans cette salle.</p>
+    <div class="salle-card__footer">
+      <a href={`/salles/${slug}/`} class="btn btn--ghost salle-card__cta">Voir les coachs</a>
+      {coachsAvatars.length > 0 && (
+        <div class="salle-card__avatars" aria-hidden="true">
+          {coachsAvatars.slice(0, 4).map((c) => (
+            <img src={c.photo} alt={c.prenom} class="salle-card__avatar" width="600" height="800" loading="lazy" />
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
+<style>
+  .salle-card__body { padding: 22px; display: flex; flex-direction: column; gap: 8px; }
+  .salle-card__body h2 { font-size: 19px; }
+  .salle-card__body p { color: var(--text-muted); font-size: 14px; }
+  .salle-card__footer { display: flex; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .salle-card__cta { align-self: flex-start; margin-top: 0; }
+  .salle-card__avatars { display: flex; }
+  .salle-card__avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--white);
+    margin-left: -10px;
+    background: var(--ice);
+  }
+  .salle-card__avatar:first-child { margin-left: 0; }
+</style>

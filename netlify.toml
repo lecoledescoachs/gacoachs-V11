@@ -1,0 +1,180 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Rapport hebdomadaire de l'espace coach : chaque lundi à 6 h UTC (8 h à Paris en été, 7 h en hiver)
+[functions."rapport-hebdo"]
+  schedule = "0 6 * * 1"
+
+[[redirects]]
+  from = "http://gacoachs.fr/*"
+  to = "https://gacoachs.fr/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.gacoachs.fr/*"
+  to = "https://gacoachs.fr/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.gacoachs.fr/*"
+  to = "https://gacoachs.fr/:splat"
+  status = 301
+  force = true
+
+# Alexis Baudu et Basic Fit Parthenay ne font plus partie du réseau : anciennes pages redirigées
+[[redirects]]
+  from = "/coachs/alexis-parthenay/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/salles/basic-fit-parthenay/"
+  to = "/salles/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-bressuire/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-thouars/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-mauleon/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-saint-maixent-l-ecole/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-chauray/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-la-creche/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-nueil-les-aubiers/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-aiffres/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-chatillon-sur-thouet/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-pompaire/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-le-tallud/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-viennay/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-la-chapelle-bertrand/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-adilly/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-peyratte/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-beaulieu-sous-parthenay/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-saint-aubin-le-cloud/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/coach-sportif-parthenay-azay-sur-thouet/"
+  to = "/trouver-un-coach/"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+    Cross-Origin-Opener-Policy = "same-origin-allow-popups"
+    X-Permitted-Cross-Domain-Policies = "none"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://plausible.io https://assets.calendly.com https://identity.netlify.com https://www.youtube.com https://www.youtube-nocookie.com; style-src 'self' 'unsafe-inline' https://assets.calendly.com; img-src 'self' data: blob: https:; font-src 'self' data: https://assets.calendly.com; connect-src 'self' https://*.netlify.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://plausible.io https://calendly.com; frame-src https://calendly.com https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com https://open.spotify.com https://www.openstreetmap.org; media-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com; frame-ancestors 'none'; upgrade-insecure-requests"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Cache-Control = "no-store"
+    X-Content-Type-Options = "nosniff"
